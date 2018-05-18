@@ -1,0 +1,29 @@
+{
+    "name": "sigma-react",
+    "version": "0.1.0",
+    "homepage": "/sigma-react",
+    "private": true,
+    "dependencies": {
+        "axios": "^0.15.3",
+        "babel-polyfill": "^6.26.0",
+        "chart.js": "^2.4.0",
+        "classnames": "^2.2.5",
+        "fullcalendar": "^3.1.0",
+        "font-awesome": "^4.7.0",
+        "jquery": "^3.1.1",
+        "moment": "^2.17.1",
+        "quill": "^1.3.1",
+        "react": "^16.3.2",
+        "react-dom": "^16.3.2",
+        "react-scripts": "1.1.4",
+        "primereact": "1.5.2",
+        "react-transition-group": "^2.2.1",
+        "react-router-dom": "^4.2.2"
+    },
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test --env=jsdom",
+        "eject": "react-scripts eject"
+    }
+}

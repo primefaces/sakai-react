@@ -1,0 +1,43 @@
+/*
+Error: Invalid property: "Backtrace:" (no value).
+        on line 4 of src/assets
+
+1: /*
+2: Errno::ENOENT: No such file or directory @ rb_sysopen - src/assets
+3: 
+4: Backtrace:
+5: /usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/plugin/compiler.rb:454:in `read'
+6: /usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/plugin/compiler.rb:454:in `update_stylesheet'
+7: /usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
+8: /usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/plugin/compiler.rb:209:in `each'
+9: /usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'
+
+Backtrace:
+src/assets:4
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/engine.rb:759:in `parse_property'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/engine.rb:708:in `parse_property_or_rule'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/engine.rb:667:in `parse_line'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/engine.rb:540:in `build_tree'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/engine.rb:559:in `block in append_children'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/engine.rb:558:in `each'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/engine.rb:558:in `append_children'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/engine.rb:417:in `_to_tree'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/engine.rb:290:in `render'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/plugin/compiler.rb:464:in `update_stylesheet'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/plugin/compiler.rb:209:in `each'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/plugin/compiler.rb:294:in `watch'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/plugin.rb:109:in `method_missing'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/exec/sass_scss.rb:360:in `watch_or_update'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/exec/sass_scss.rb:51:in `process_result'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/exec/base.rb:52:in `parse'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/exec/base.rb:19:in `parse!'
+/usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/bin/sass:13:in `<top (required)>'
+/usr/local/bin/sass:22:in `load'
+/usr/local/bin/sass:22:in `<main>'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Error: Invalid property: \"Backtrace:\" (no value).\A         on line 4 of src/assets\A \A 1: /*\A 2: Errno::ENOENT: No such file or directory @ rb_sysopen - src/assets\A 3: \A 4: Backtrace:\A 5: /usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/plugin/compiler.rb:454:in `read'\A 6: /usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/plugin/compiler.rb:454:in `update_stylesheet'\A 7: /usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/plugin/compiler.rb:215:in `block in update_stylesheets'\A 8: /usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/plugin/compiler.rb:209:in `each'\A 9: /usr/local/lib/ruby/gems/2.4.0/gems/sass-3.5.1/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'"; }

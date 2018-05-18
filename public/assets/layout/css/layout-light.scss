@@ -1,0 +1,17 @@
+/* General */
+$fontSize: 14px;
+
+/* Menu */
+$submenuFontSize: 13px;
+$menuBgColorFirst: #f3f4f9;
+$menuBgColorLast: #d7dbe8;
+$menuitemColor: #232428;
+$menuitemHoverColor: #0388e5;
+$menuitemActiveColor: #0388e5;
+$menuitemActiveBgColor: #ffffff;
+$menuitemBorderColor: rgba(207, 211, 224, 0.6);
+$menuitemBadgeBgColor: #007be5;
+$menuitemBadgeColor: #ffffff;
+$backgroundImage: url(../images/logo.svg) top left no-repeat;
+
+@import '../sass/_layout';

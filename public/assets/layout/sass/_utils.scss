@@ -1,0 +1,43 @@
+/* Typography */
+h1 {
+    font-weight: normal;
+    margin: 0;
+    font-size: 24px;
+}
+
+h2 {
+    font-size: 20px;
+    font-weight: normal;
+    margin: 0;
+}
+
+/* Utils */
+.clearfix:after {
+    content:" ";
+    display:block;
+    clear:both;
+}
+
+.card {
+    background-color: #ffffff;
+    padding: 1em;
+    margin-top: 16px;
+
+    &.card-w-title {
+        padding-bottom: 32px;
+    }
+
+    h1 {
+        margin: .5em 0 .5em 0;
+        border-bottom: 1px solid #d5d5d5;
+        padding: .1em;
+        font-size: 24px;
+
+        &:first-child {
+            margin: 0 0 .5em 0;
+        }
+    }
+}
+.ui-g {
+  -ms-flex-wrap: wrap;
+}

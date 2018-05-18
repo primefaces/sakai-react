@@ -1,0 +1,17 @@
+.splash-screen {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    @include linear-gradient(#4e5159, #1f2023);
+
+    .splash-wrapper {
+        text-align: center;
+        width: 200px;
+        margin: 0 auto;
+        padding-top: 150px;
+
+        .splash-loading {
+            margin-top: 20px;
+        }
+    }
+}
