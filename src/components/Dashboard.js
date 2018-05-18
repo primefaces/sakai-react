@@ -18,7 +18,24 @@ export class Dashboard extends Component {
         this.state = {
             tasks: [],
             city: null,
-            selectedCar: null
+            selectedCar: null,
+            lineData: {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                datasets: [
+                    {
+                        label: 'First Dataset',
+                        data: [65, 59, 80, 81, 56, 55, 40],
+                        fill: false,
+                        borderColor: '#007be5'
+                    },
+                    {
+                        label: 'Second Dataset',
+                        data: [28, 48, 40, 19, 86, 27, 90],
+                        fill: false,
+                        borderColor: '#20d077'
+                    }
+                ]
+            }
         };
         this.onTaskChange = this.onTaskChange.bind(this);
         this.onCityChange = this.onCityChange.bind(this);
@@ -123,26 +140,8 @@ export class Dashboard extends Component {
 				"url": "http://google.com/",
 				"start": "2017-02-28"
 			}
-		];
-
-        let lineData = {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-            datasets: [
-                {
-                    label: 'First Dataset',
-                    data: [65, 59, 80, 81, 56, 55, 40],
-                    fill: false,
-                    borderColor: '#007be5'
-                },
-                {
-                    label: 'Second Dataset',
-                    data: [28, 48, 40, 19, 86, 27, 90],
-                    fill: false,
-                    borderColor: '#20d077'
-                }
-            ]
-        };
-
+        ];
+        
         return <div className="ui-g ui-fluid dashboard">
             <div className="ui-g-12 ui-md-4">
                 <div className="card clearfix summary">
@@ -312,7 +311,7 @@ export class Dashboard extends Component {
             </div>
             <div className="ui-g-12 ui-md-8">
                 <div className="card">
-                    <Chart type="line" data={lineData}/>
+                    <Chart type="line" data={this.state.lineData}/>
                 </div>
             </div>
             <div className="ui-g-12 ui-md-8">
