@@ -178,6 +178,7 @@ a {
         }
 
         .profile {
+            position: relative;
             display: block;
             text-decoration: none;
             text-align: center;
@@ -196,7 +197,7 @@ a {
             > a {
 
                 position: absolute;
-                top: 70px;
+                top: 40px;
                 left: 80px;
                 color: $menuitemColor;
                 text-decoration: none;
@@ -248,18 +249,6 @@ a {
             }
         }
 
-        .sidebar-scroll-content {
-            display: block;
-            height: 100%;
-            position: relative;
-
-            .menu {
-                .layout-main-menu {
-                    padding-bottom: 80px;
-                }
-            }
-        }
-
         ul {
             list-style-type: none;
             margin: 0;
@@ -291,7 +280,7 @@ a {
                         @include border-radius(50%);
                     }
 
-                    .fa:last-child {
+                    .menuitem-toggle-icon {
                         float: right;
                         font-size: 16px;
                     }
@@ -311,7 +300,7 @@ a {
                         background-color: $menuitemActiveBgColor;
                         color: $menuitemActiveColor;
 
-                        .fa:last-child {
+                        .menuitem-toggle-icon {
                             @include icon-override("\f106");
                             font-size: 16px;
                         }
@@ -397,6 +386,72 @@ a {
                 font-weight: 700;
                 line-height: 16px;
                 @include border-radius(50%);
+            }
+        }
+
+        &.dark-sidebar {
+            @include linear-gradient($menuDarkBgColorFirst, $menuDarkBgColorLast);
+
+            .logo {
+                background: $backgroundDarkImage;
+            }
+            .profile {
+
+                > a {
+                    color: $menuitemDarkColor;
+
+                    &:hover {
+                        color: $menuitemDarkHoverColor;
+                    }
+                }
+
+                > ul {
+                    background-color: $menuitemDarkActiveBgColor;
+                }
+            }
+
+            ul {
+
+                li {
+                    a {
+                        color: $menuitemDarkColor;
+                        border-top: 1px solid $menuitemDarkBorderColor;
+
+                        &:hover {
+                            color: $menuitemDarkHoverColor;
+
+                            .menu-badge {
+                                color:#ffffff;
+                            }
+                        }
+                    }
+
+                    &.active-menuitem {
+                        > a {
+                            border-bottom: 0 none;
+                            background-color: $menuitemDarkActiveBgColor;
+                            color: $menuitemDarkActiveColor;
+                        }
+
+                        ul {
+                            li {
+                                a {
+                                    border: none;
+                                }
+                            }
+                        }
+                    }
+
+                    ul {
+                        background-color: $menuitemDarkActiveBgColor;
+                    }
+
+                    &:last-child {
+                        > a {
+                            border-bottom: 1px solid $menuitemDarkBorderColor;
+                        }
+                    }
+                }
             }
         }
     }

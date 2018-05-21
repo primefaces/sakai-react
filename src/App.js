@@ -31,6 +31,7 @@ class App extends Component {
         super();
         this.state = {
             layoutMode: 'static',
+            layoutColorMode: 'light',
             staticMenuDesktopInactive: false,
             overlayMenuActive: false,
             staticMenuMobileActive: false,
@@ -44,7 +45,6 @@ class App extends Component {
         this.onSidebarClick = this.onSidebarClick.bind(this);
         this.onRootMenuItemClick = this.onRootMenuItemClick.bind(this);
         this.onMenuItemClick = this.onMenuItemClick.bind(this);
-        this.changeLayout = this.changeLayout.bind(this);
         this.createMenu();
     }
 
@@ -129,8 +129,8 @@ class App extends Component {
             {
                 label: 'Layout Options', icon: 'fa fa-fw fa-diamond',
                 items: [
-                    {label: 'Dark', icon: 'fa fa-fw fa-bars',  command: () => this.changeLayout('dark') },
-                    {label: 'Light', icon: 'fa fa-fw fa-bars',  command: () => this.changeLayout('light') }
+                    {label: 'Dark', icon: 'fa fa-fw fa-bars',  command: () => this.setState({layoutColorMode: 'dark'}) },
+                    {label: 'Light', icon: 'fa fa-fw fa-bars',  command: () => this.setState({layoutColorMode: 'light'}) }
                 ]
             },
             {
@@ -206,21 +206,6 @@ class App extends Component {
         ];
     }
 
-    changeLayout(mode){
-        let element = document.getElementById('layout-css');
-        let urlTokens = element.getAttribute('href').split('/');
-
-        if(mode === 'dark') {
-            urlTokens[urlTokens.length - 1] = 'layout-dark.css';
-        }
-        else {
-            urlTokens[urlTokens.length - 1] = 'layout-light.css';
-        }
-        let newURL = urlTokens.join('/');
-        console.log(newURL)
-        element.setAttribute('href', newURL);
-    }
-
     isMobile() {
         return window.innerWidth <= 640;
     }
@@ -242,7 +227,7 @@ class App extends Component {
             'sidebar-active-m': this.state.staticMenuMobileActive && this.state.layoutMode === 'static',
             'layout-menu-overlay-active': this.state.overlayMenuActive && this.state.layoutMode === 'overlay'
         });
-        let sidebarClassName = classNames("sidebar");
+        let sidebarClassName = classNames("sidebar",{'dark-sidebar': this.state.layoutColorMode === 'dark'});
 
         return (
             <div className={wrapperClass} onClick={this.onWrapperClick}>

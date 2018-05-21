@@ -1,5 +1,30 @@
-
+/* General */
+$fontSize: 14px;
 $dividerColor: #e3e3e3;
+$submenuFontSize: 13px;
+$menuitemBadgeBgColor: #007be5;
+$menuitemBadgeColor: #ffffff;
+
+/* Menu Dark*/
+$menuDarkBgColorFirst: #4d505b;
+$menuDarkBgColorLast: #3b3e47;
+$menuitemDarkColor: #ffffff;
+$menuitemDarkHoverColor: #0388e5;
+$menuitemDarkActiveColor: #0388e5;
+$menuitemDarkActiveBgColor: #2e3035;
+$menuitemDarkBorderColor:  rgba(52, 56, 65, 0.6);
+$backgroundDarkImage: url(../images/logo-white.svg) top left no-repeat;
+
+/* Menu Light*/
+$menuBgColorFirst: #f3f4f9;
+$menuBgColorLast: #d7dbe8;
+$menuitemColor: #232428;
+$menuitemHoverColor: #0388e5;
+$menuitemActiveColor: #0388e5;
+$menuitemActiveBgColor: #ffffff;
+$menuitemBorderColor: rgba(207, 211, 224, 0.6);
+$backgroundImage: url(../images/logo.svg) top left no-repeat;
+
 /* Topbar */
 $topbarItemBadgeColor: #ef6262;
 $topbarItemColor: #ffffff;
@@ -54,3 +79,5 @@ $navyButton: #1f3b59;
 $navyButtonBorder: #21374f;
 $navyButtonHover: #3C6592;
 $navyButtonActive: #21374f;
+
+@import "../sass/_layout";
