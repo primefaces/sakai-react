@@ -1,8 +1,13 @@
 {
     "name": "sigma-react",
-    "version": "0.1.0",
+    "version": "1.0.0-SNAPSHOT",
     "homepage": "/sigma-react",
-    "private": true,
+    "private": false,
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/primefaces/sigma.git"
+    },
+    "license": "MIT",
     "dependencies": {
         "axios": "^0.15.3",
         "babel-polyfill": "^6.26.0",
@@ -16,7 +21,7 @@
         "react": "^16.3.2",
         "react-dom": "^16.3.2",
         "react-scripts": "1.1.4",
-        "primereact": "1.5.2",
+        "primereact": "1.6.0-rc.1",
         "react-transition-group": "^2.2.1",
         "react-router-dom": "^4.2.2"
     },

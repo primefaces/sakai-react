@@ -1,0 +1,154 @@
+body {
+    /*Green Button*/
+    .ui-button {
+        &.ui-state-default {
+            &.green-button {
+                background-color: $greenButton;
+                border-color: $greenButtonBorder;
+
+                &:enabled:hover {
+                    background-color: $greenButtonHover;
+                }
+
+                &:enabled:active {
+                    background-color: $greenButtonActive;
+                }
+            }
+        }
+    }
+
+    /*Yellow Button*/
+    .ui-button {
+        &.ui-state-default {
+            &.yellow-button {
+                background-color: $yellowButton;
+                border-color: $yellowButtonBorder;
+
+                &:enabled:hover {
+                    background-color: $yellowButtonHover;
+                }
+
+                &:enabled:active {
+                    background-color: $yellowButtonActive;
+                }
+            }
+        }
+    }
+
+    /*Red Button*/
+    .ui-button {
+        &.ui-state-default {
+            &.red-button {
+                background-color: $redButton;
+                border-color: $redButtonBorder;
+
+                &:enabled:hover {
+                    background-color: $redButtonHover;
+                }
+
+                &:enabled:active {
+                    background-color: $redButtonActive;
+                }
+            }
+        }
+    }
+
+    /*Aqua Button*/
+    .ui-button {
+        &.ui-state-default {
+            &.aqua-button {
+                background-color: $aquaButton;
+                border-color: $aquaButtonBorder;
+
+                &:enabled:hover {
+                    background-color: $aquaButtonHover;
+                }
+
+                &:enabled:active {
+                    background-color: $aquaButtonActive;
+                }
+            }
+        }
+    }
+
+    /*Navy Button*/
+    .ui-button {
+        &.ui-state-default {
+            &.navy-button {
+                background-color: $navyButton;
+                border-color: $navyButtonBorder;
+
+                &:enabled:hover {
+                    background-color: $navyButtonHover;
+                }
+
+                &:enabled:active {
+                    background-color: $navyButtonActive;
+                }
+            }
+        }
+    }
+
+    /*Black Button*/
+    .ui-button {
+        &.ui-state-default {
+            &.black-button {
+                background-color: $blackButton;
+                border-color: $blackButtonBorder;
+
+                &:enabled:hover {
+                    background-color: $blackButtonHover;
+                }
+
+                &:enabled:active {
+                    background-color: $blackButtonActive;
+                }
+            }
+        }
+    }
+
+    /*Grey Button*/
+    .ui-button {
+        &.ui-state-default {
+            &.gray-button {
+                background-color: $greyButton;
+                border-color: $greyButtonBorder;
+
+                &.ui-button {
+                    span.ui-button-text {
+                        color: $greyButtonText;
+                    }
+                }
+
+                &:enabled:hover {
+                    background-color: $greyButtonHover;
+                }
+
+                &:enabled:active {
+                    background-color: $greyButtonActive;
+                }
+            }
+        }
+    }
+
+    .ui-datepicker {
+        width: auto;
+    }
+
+    .ui-splitbutton.ui-buttonset .ui-menu {
+      min-width: 100%;
+    }
+
+    .ui-megamenu .ui-megamenu-panel {
+        background-color: #f6f7f9;
+    }
+
+    .ui-fluid {
+        .ui-button-icon-only {
+            width: auto;
+        }
+        .ui-spinner .ui-spinner-button .fa {
+            left: inherit;
+        }
+    }
+}

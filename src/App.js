@@ -3,11 +3,7 @@ import classNames from 'classnames';
 import { AppTopbar } from './AppTopbar';
 import { AppFooter } from './AppFooter';
 import { AppMenu } from './AppMenu';
-import {AppInlineProfile} from './AppInlineProfile';
-import 'primereact/resources/primereact.min.css';
-import 'primereact/resources/themes/omega/theme.css';
-import 'fullcalendar/dist/fullcalendar.css';
-import 'font-awesome/css/font-awesome.css';
+import { AppInlineProfile } from './AppInlineProfile';
 import { Route } from 'react-router-dom';
 import { Dashboard } from './components/Dashboard';
 import { FormsDemo } from './components/FormsDemo';
@@ -23,7 +19,12 @@ import { EmptyPage } from './components/EmptyPage';
 import { UtilsDemo } from './components/UtilsDemo';
 import { Documentation } from "./components/Documentation";
 import { ScrollPanel } from 'primereact/components/scrollpanel/ScrollPanel';
+import 'primereact/resources/primereact.min.css';
+import 'primereact/resources/themes/omega/theme.css';
+import 'fullcalendar/dist/fullcalendar.css';
+import 'font-awesome/css/font-awesome.css';
 import './App.css';
+import './layout/layout.scss';
 
 class App extends Component {
 
