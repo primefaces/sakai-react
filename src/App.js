@@ -24,7 +24,7 @@ import 'primereact/resources/themes/omega/theme.css';
 import 'fullcalendar/dist/fullcalendar.css';
 import 'font-awesome/css/font-awesome.css';
 import './App.css';
-import './layout/layout.scss';
+import './layout/layout.css';
 
 class App extends Component {
 
