@@ -8,7 +8,6 @@ class AppSubmenu extends Component {
         className: null,
         items: null,
         onMenuItemClick: null,
-        onRootItemClick: null,
         root: false
     }
 
@@ -16,7 +15,6 @@ class AppSubmenu extends Component {
         className: PropTypes.string,
         items: PropTypes.array,
         onMenuItemClick: PropTypes.func,
-        onRootItemClick: PropTypes.func,
         root: PropTypes.bool
     }
     
@@ -30,13 +28,6 @@ class AppSubmenu extends Component {
         if(item.disabled) {
             event.preventDefault();
             return true;
-        }
-        
-        if(this.props.root && this.props.onRootItemClick) {
-            this.props.onRootItemClick({
-                originalEvent: event,
-                item: item
-            });
         }
                         
         //execute command
@@ -89,18 +80,15 @@ export class AppMenu extends Component {
 
     static defaultProps = {
         model: null,
-        onMenuItemClick: null,
-        onRootMenuItemClick: null,
+        onMenuItemClick: null
     }
 
     static propTypes = {
         model: PropTypes.array,
-        onMenuItemClick: PropTypes.func,
-        onRootMenuItemClick: PropTypes.func,
+        onMenuItemClick: PropTypes.func
     }
 
     render() {
-        return <div className="menu"><AppSubmenu items={this.props.model} className="layout-main-menu" onRootItemClick={this.props.onRootMenuItemClick}
-                onMenuItemClick={this.props.onMenuItemClick} root={true}/></div>
+        return <div className="menu"><AppSubmenu items={this.props.model} className="layout-main-menu" onMenuItemClick={this.props.onMenuItemClick} root={true}/></div>
     }
 }

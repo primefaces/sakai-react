@@ -96,8 +96,7 @@ export class Documentation extends Component {
                         <ScrollPanel ref={(el) => this.layoutMenuScroller = el} style={{height: '100%'}}>
                             <div className="menu-scroll-content">
                                 {(this.state.profileMode === 'inline' && this.state.layoutMode !== 'horizontal') && <AppInlineProfile />}
-                                <AppMenu model={this.menu} onMenuItemClick={this.onMenuItemClick} onRootMenuItemClick={this.onRootMenuItemClick}
-                                        layoutMode={this.state.layoutMode} active={this.state.menuActive} />
+                                <AppMenu model={this.menu} onMenuItemClick={this.onMenuItemClick}/>
                             </div>
                         </ScrollPanel>
                     </div>

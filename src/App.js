@@ -36,15 +36,13 @@ class App extends Component {
             staticMenuDesktopInactive: false,
             overlayMenuActive: false,
             staticMenuMobileActive: false,
-            topbarMenuActive: false,
-            menuActive: false
+            topbarMenuActive: false
         };
 
         this.onTopbarMobileMenuButtonClick = this.onTopbarMobileMenuButtonClick.bind(this);
         this.onWrapperClick = this.onWrapperClick.bind(this);
         this.onToggleMenu = this.onToggleMenu.bind(this);
         this.onSidebarClick = this.onSidebarClick.bind(this);
-        this.onRootMenuItemClick = this.onRootMenuItemClick.bind(this);
         this.onMenuItemClick = this.onMenuItemClick.bind(this);
         this.createMenu();
     }
@@ -59,7 +57,6 @@ class App extends Component {
         if(!this.menuClick) {
             this.setState({
                 overlayMenuActive: false,
-                menuActive: false,
                 staticMenuMobileActive: false
             })
         }
@@ -98,14 +95,6 @@ class App extends Component {
     onSidebarClick(event) {
         this.menuClick = true;
         setTimeout(() => {this.layoutMenuScroller.moveBar(); }, 500);
-    }
-
-    onRootMenuItemClick(event) {
-        this.setState({
-            menuActive: !this.state.menuActive
-        });
-
-        event.originalEvent.preventDefault();
     }
 
     onMenuItemClick(event) {
@@ -241,8 +230,7 @@ class App extends Component {
                         <div className="sidebar-scroll-content" >
                             <div className="logo"></div>
                             <AppInlineProfile />
-                            <AppMenu model={this.menu} onMenuItemClick={this.onMenuItemClick} onRootMenuItemClick={this.onRootMenuItemClick} layoutMode={this.state.layoutMode}
-                                     active={this.state.menuActive} />
+                            <AppMenu model={this.menu} onMenuItemClick={this.onMenuItemClick} />
                         </div>
                     </ScrollPanel>
                 </div>
