@@ -9,9 +9,7 @@ class AppSubmenu extends Component {
         items: null,
         onMenuItemClick: null,
         onRootItemClick: null,
-        root: false,
-        layoutMode: null,
-        menuActive: false
+        root: false
     }
 
     static propTypes = {
@@ -19,9 +17,7 @@ class AppSubmenu extends Component {
         items: PropTypes.array,
         onMenuItemClick: PropTypes.func,
         onRootItemClick: PropTypes.func,
-        root: PropTypes.bool,
-        layoutMode: PropTypes.string,
-        menuActive: PropTypes.bool
+        root: PropTypes.bool
     }
     
     constructor(props) {
@@ -66,22 +62,6 @@ class AppSubmenu extends Component {
         }
     } 
     
-    onMenuItemMouseEnter(index) {
-        if(this.props.root && this.props.menuActive && this.isHorizontalOrSlim()) {
-            this.setState({activeIndex: index});
-        }
-    }
-    
-    componentWillReceiveProps(nextProps, nextState) {
-        if(this.isHorizontalOrSlim() && this.props.menuActive && !nextProps.menuActive) {
-            this.setState({activeIndex: null});
-        }
-    }
-    
-    isHorizontalOrSlim() {
-        return (this.props.layoutMode === 'horizontal' || this.props.layoutMode === 'slim');
-    }
-    
     render() {
         var items = this.props.items && this.props.items.map((item, i) => {
             let active = this.state.activeIndex === i;
@@ -91,15 +71,13 @@ class AppSubmenu extends Component {
 
             return <li className={styleClass} key={i}>
                         {item.items && this.props.root===true && <div className='arrow'></div>}
-                        <a href={item.url} onClick={(e) => this.onMenuItemClick(e, item, i)} target={item.target}
-                            onMouseEnter={(e) => this.onMenuItemMouseEnter(i)}>
+                        <a href={item.url} onClick={(e) => this.onMenuItemClick(e, item, i)} target={item.target}>
                             <i className={item.icon}></i>
                             <span>{item.label}</span>
                             {submenuIcon}
                             {badge}
                         </a>
-                        <AppSubmenu items={item.items} onMenuItemClick={this.props.onMenuItemClick} layoutMode={this.props.layoutMode} 
-                                    menuActive={this.props.menuActive} />
+                        <AppSubmenu items={item.items} onMenuItemClick={this.props.onMenuItemClick}/>
                     </li>
         });
         
@@ -113,21 +91,16 @@ export class AppMenu extends Component {
         model: null,
         onMenuItemClick: null,
         onRootMenuItemClick: null,
-        layoutMode: null,
-        active: false
     }
 
     static propTypes = {
         model: PropTypes.array,
-        layoutMode: PropTypes.string,
         onMenuItemClick: PropTypes.func,
         onRootMenuItemClick: PropTypes.func,
-        active: PropTypes.bool
     }
 
     render() {
-        return <div className="menu"><AppSubmenu items={this.props.model} className="layout-main-menu"
-                menuActive={this.props.active} onRootItemClick={this.props.onRootMenuItemClick}
-                onMenuItemClick={this.props.onMenuItemClick} root={true} layoutMode={this.props.layoutMode}/></div>
+        return <div className="menu"><AppSubmenu items={this.props.model} className="layout-main-menu" onRootItemClick={this.props.onRootMenuItemClick}
+                onMenuItemClick={this.props.onMenuItemClick} root={true}/></div>
     }
 }

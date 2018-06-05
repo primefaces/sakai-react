@@ -32,7 +32,9 @@ export class MiscDemo extends Component {
     }
 
     componentWillUnmount(){
-        clearInterval(this.interval);
+        if(this.interval) {
+            clearInterval(this.interval);
+        }
     }
 
     render() {
