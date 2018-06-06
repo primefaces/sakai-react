@@ -28,7 +28,8 @@ export class DataDemo extends Component {
             picklistSourceCars: [],
             picklistTargetCars: [],
             orderlistCars: [],
-            scheduleEvents: []
+            scheduleEvents: [],
+            organizationSelect: null
         };
         this.carService = new CarService();
         this.nodeService = new NodeService();

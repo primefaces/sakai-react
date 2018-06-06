@@ -30,7 +30,8 @@ export class FormsDemo extends Component {
             countriesData: [],
             carOptions: [],
             checkboxValue: [],
-            sliderValue: [20,80]
+            sliderValue: [20,80],
+            text1:''
         };
         this.countryService = new CountryService();
         this.onMultiSelectCarChange = this.onMultiSelectCarChange.bind(this);
@@ -401,7 +402,7 @@ export class FormsDemo extends Component {
             <div className="ui-g-12">
                 <div className="card card-w-title">
                     <h1>Editor</h1>
-                    <Editor style={{height:'320px'}} />
+                    <Editor style={{height:'320px'}} value={this.state.text1} onTextChange={(e)=>this.setState({text1:e.htmlValue})}/>
                 </div>
             </div>
 
