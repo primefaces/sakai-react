@@ -28,7 +28,7 @@ a {
         right: 0;
         left: 250px;
         height: 50px;
-        background-color: #0388e5;
+        @include linear-gradient-left(#07BDF4,#0388E5);
         padding: .7em 1.5em 0em 1.5em;
         box-sizing: border-box;
         color: #ffffff;
