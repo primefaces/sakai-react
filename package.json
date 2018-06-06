@@ -28,8 +28,8 @@
         "react-transition-group": "^2.2.1"
     },
     "scripts": {
-        "build-css": "node-sass-chokidar src/layout/ -o src/layout/",
-        "watch-css": "npm run build-css && node-sass-chokidar src/layout/ -o src/layout/ --watch --recursive",
+        "build-css": "node-sass-chokidar src/layout/ -o src/layout/ | node-sass-chokidar public/assets/layout/ -o public/assets/layout/",
+        "watch-css": "npm run build-css && node-sass-chokidar src/layout/ -o src/layout/ --watch --recursive | node-sass-chokidar public/assets/layout/ -o public/assets/layout/ --watch --recursive",
         "start-js": "react-scripts start",
         "start": "npm-run-all -p watch-css start-js",
         "build-js": "react-scripts build",
