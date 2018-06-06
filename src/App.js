@@ -197,7 +197,7 @@ class App extends Component {
                     }
                 ]
             },
-            {label: 'Docs', icon: 'fa fa-fw fa-book', command: () => { window.location = "#/documentation"}}
+            {label: 'Documentation', icon: 'fa fa-fw fa-book', command: () => { window.location = "#/documentation"}}
         ];
     }
 
@@ -218,11 +218,11 @@ class App extends Component {
         let wrapperClass = classNames('wrapper', {
             'menu-layout-overlay': this.state.layoutMode === 'overlay',
             'menu-layout-static': this.state.layoutMode === 'static',
-            'sidebar-inactive-l': this.state.staticMenuDesktopInactive,
-            'sidebar-active-m': this.state.staticMenuMobileActive && this.state.layoutMode === 'static',
+            'layout-sidebar-inactive-l': this.state.staticMenuDesktopInactive,
+            'layout-sidebar-active-m': this.state.staticMenuMobileActive && this.state.layoutMode === 'static',
             'layout-menu-overlay-active': this.state.overlayMenuActive && this.state.layoutMode === 'overlay'
         });
-        let sidebarClassName = classNames("sidebar",{'dark-sidebar': this.state.layoutColorMode === 'dark'});
+        let sidebarClassName = classNames("layout-sidebar", {'layout-sidebar-dark': this.state.layoutColorMode === 'dark'});
 
         return (
             <div className={wrapperClass} onClick={this.onWrapperClick}>
@@ -232,7 +232,7 @@ class App extends Component {
                 <div ref={(el) => this.sidebar = el} className={sidebarClassName} onClick={this.onSidebarClick}>
 
                     <ScrollPanel ref={(el) => this.layoutMenuScroller = el} style={{height:'100%'}}>
-                        <div className="sidebar-scroll-content" >
+                        <div className="layout-sidebar-scroll-content" >
                             <div className="logo"></div>
                             <AppInlineProfile />
                             <AppMenu model={this.menu} onMenuItemClick={this.onMenuItemClick} />
