@@ -502,7 +502,7 @@ $inputInvalidBgColor:#ffffff;
                         <pre>
 {
 `
-$fontFamily:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+$fontFamily:-apple-system,BlinkMacSystemFont,"Segoe UI",Lato,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
 $fontSize:14px;
 $textColor:#292B2C;
 $textSecondaryColor:#777777;
