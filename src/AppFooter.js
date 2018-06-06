@@ -5,8 +5,9 @@ export class AppFooter extends Component {
     render() {
         return  (
             <div className="footer">
-                <img src="assets/layout/images/logo.svg" alt="" width="32"/>
-                <span className="footer-text">PrimeReact Sigma Theme and Layout</span>
+                <span className="footer-text" style={{'marginRight': '5px'}}>PrimeReact</span>
+                <img src="assets/layout/images/logo.svg" alt="" width="80"/>
+                <span className="footer-text" style={{'marginLeft': '5px'}}>Theme and Layout</span>
             </div>
         );
     }

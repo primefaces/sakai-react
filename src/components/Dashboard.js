@@ -297,7 +297,7 @@ export class Dashboard extends Component {
                     </ul>
                 </Panel>
             </div>
-            <div className="ui-g-12 ui-md-4">
+            <div className="ui-g-12 ui-md-6">
                 <div className="card">
                     <h1 style={{fontSize:'16px'}}>Recent Sales</h1>
                     <DataTable value={this.state.cars}  style={{marginBottom: '20px'}} responsive={true}
@@ -309,7 +309,7 @@ export class Dashboard extends Component {
                     </DataTable>
                 </div>
             </div>
-            <div className="ui-g-12 ui-md-8">
+            <div className="ui-g-12 ui-md-6">
                 <div className="card">
                     <Chart type="line" data={this.state.lineData}/>
                 </div>
