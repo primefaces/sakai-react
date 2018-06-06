@@ -46,7 +46,7 @@ class App extends Component {
     }
 
     onWrapperClick(event) {
-        if(!this.menuClick) {
+        if (!this.menuClick) {
             this.setState({
                 overlayMenuActive: false,
                 mobileMenuActive: false,
@@ -57,7 +57,6 @@ class App extends Component {
     }
 
     onToggleMenu(event) {
-        console.log('x');
         this.menuClick = true;
 
         if (this.isDesktop()) {
@@ -73,9 +72,15 @@ class App extends Component {
             }
         }
         else {
+            const mobileMenuActive = this.state.mobileMenuActive;
             this.setState({
-                mobileMenuActive: !this.state.mobileMenuActive
+                mobileMenuActive: !mobileMenuActive
             });
+
+            if (mobileMenuActive)
+                this.removeClass(document.body, 'body-overflow-hidden');
+            else
+                this.addClass(document.body, 'body-overflow-hidden');
         }
        
         event.preventDefault();
@@ -185,13 +190,18 @@ class App extends Component {
         ];
     }
 
-    isMobile() {
-        return window.innerWidth <= 640;
+    addClass(element, className) {
+        if (element.classList)
+            element.classList.add(className);
+        else
+            element.className += ' ' + className;
     }
 
-    isTablet() {
-        let width = window.innerWidth;
-        return width <= 1024 && width > 640;
+    removeClass(element, className) {
+        if (element.classList)
+            element.classList.remove(className);
+        else
+            element.className = element.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
     }
 
     isDesktop() {
