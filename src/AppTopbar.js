@@ -17,11 +17,6 @@ export class AppTopbar extends Component {
         onTopbarMobileMenuButtonClick: PropTypes.func.isRequired
     }
 
-    constructor() {
-        super();
-        this.state = {};
-    }
-
     render() {
         let topbarClass = classNames('animated',{'topbar-icons-visible flipInX':this.props.topbarMenuActive, 'flipOutX':!this.props.topbarMenuActive})
 
@@ -39,20 +34,20 @@ export class AppTopbar extends Component {
                         <InputText type="text" placeholder="Search" />
                         <span className="topbar-search-icon fa fa-search"/>
                     </span>
-                <a>
-                    <span className="topbar-item-text">Messages</span>
-                    <span className="topbar-icon fa fa-envelope-o animated swing"/>
-                    <span className="topbar-badge animated rubberBand">5</span>
-                </a>
-                <a>
-                    <span className="topbar-item-text">Settings</span>
-                    <span className="topbar-icon fa fa-gear"/>
-                </a>
-                <a>
-                    <span className="topbar-item-text">User</span>
-                    <span className="topbar-icon fa fa-user"/>
-                </a>
-            </div>
+                    <a>
+                        <span className="topbar-item-text">Messages</span>
+                        <span className="topbar-icon fa fa-envelope-o animated swing"/>
+                        <span className="topbar-badge animated rubberBand">5</span>
+                    </a>
+                    <a>
+                        <span className="topbar-item-text">Settings</span>
+                        <span className="topbar-icon fa fa-gear"/>
+                    </a>
+                    <a>
+                        <span className="topbar-item-text">User</span>
+                        <span className="topbar-icon fa fa-user"/>
+                    </a>
+                </div>
             </div>
         );
     }

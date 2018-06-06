@@ -20,7 +20,7 @@ class AppSubmenu extends Component {
     
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {activeIndex: null};
     }
     
     onMenuItemClick(event, item, index) {
