@@ -8,13 +8,15 @@ export class AppTopbar extends Component {
     static defaultProps = {
         topbarMenuActive: null,
         onToggleMenu: null,
-        onTopbarMobileMenuButtonClick: null
+        onTopbarMobileMenuButtonClick: null,
+        onTopbarItemClick: null
     }
 
     static propTypes = {
         topbarMenuActive: PropTypes.bool,
         onToggleMenu: PropTypes.func.isRequired,
-        onTopbarMobileMenuButtonClick: PropTypes.func.isRequired
+        onTopbarMobileMenuButtonClick: PropTypes.func.isRequired,
+        onTopbarItemClick: PropTypes.func.isRequired
     }
 
     render() {
@@ -22,7 +24,7 @@ export class AppTopbar extends Component {
 
         return (
             <div className="topbar clearfix">
-                <a id="omega-menu-button" onClick={this.props.onToggleMenu}>
+                <a id="sigma-menu-button" onClick={this.props.onToggleMenu}>
                     <span className="fa fa-bars"/>
                 </a>
                 <span className="topbar-title"/>
@@ -30,7 +32,7 @@ export class AppTopbar extends Component {
                     <span className="fa fa-ellipsis-h"/>
                 </a>
                 <div id="topbar-icons" className={topbarClass}>
-                    <span className="topbar-search">
+                    <span className="topbar-search" onClick={(e) => this.props.onTopbarItemClick(e)}>
                         <InputText type="text" placeholder="Search" />
                         <span className="topbar-search-icon fa fa-search"/>
                     </span>

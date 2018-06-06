@@ -44,11 +44,12 @@ class App extends Component {
         this.onToggleMenu = this.onToggleMenu.bind(this);
         this.onSidebarClick = this.onSidebarClick.bind(this);
         this.onMenuItemClick = this.onMenuItemClick.bind(this);
+        this.onTopbarItemClick = this.onTopbarItemClick.bind(this);
         this.createMenu();
     }
 
     onWrapperClick(event) {
-        if (!this.topbarMenuClick && !this.topbarMenuButtonClick ) {
+        if (!this.topbarItemClick) {
             this.setState({
                 topbarMenuActive: false
             });
@@ -62,13 +63,17 @@ class App extends Component {
         }
 
         this.menuClick = false;
-        this.topbarMenuClick = false;
-        this.topbarMenuButtonClick = false;
+        this.topbarItemClick = false;
     }
 
     onTopbarMobileMenuButtonClick(event) {
-        this.topbarMenuButtonClick = true;
+        this.topbarItemClick = true;
         this.setState({topbarMenuActive: !this.state.topbarMenuActive});
+        event.preventDefault();
+    }
+
+    onTopbarItemClick(event) {
+        this.topbarItemClick = true;
         event.preventDefault();
     }
 
@@ -222,7 +227,7 @@ class App extends Component {
         return (
             <div className={wrapperClass} onClick={this.onWrapperClick}>
                 <AppTopbar onToggleMenu={this.onToggleMenu} onTopbarMobileMenuButtonClick={this.onTopbarMobileMenuButtonClick}
-                           topbarMenuActive={this.state.topbarMenuActive}/>
+                           topbarMenuActive={this.state.topbarMenuActive} onTopbarItemClick={this.onTopbarItemClick}/>
 
                 <div ref={(el) => this.sidebar = el} className={sidebarClassName} onClick={this.onSidebarClick}>
 

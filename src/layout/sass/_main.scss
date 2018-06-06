@@ -96,6 +96,8 @@ a {
                     background: transparent;
                     border-bottom: 2px solid #ffffff;
                     outline: 0 none;
+                    -webkit-box-shadow: none;
+                    box-shadow: none;
                     color: #ffffff;
                     width: 100px;
                     padding: 1px 20px 1px 1px;
@@ -131,7 +133,7 @@ a {
             }
         }
 
-        #omega-menu-button {
+        #sigma-menu-button {
             cursor: pointer;
             display: inline-block;
             font-size: 28px;
@@ -156,6 +158,10 @@ a {
             &:hover {
                 color: $topbarItemHoverColor;
             }
+        }
+
+        a {
+            cursor: pointer;
         }
     }
 
