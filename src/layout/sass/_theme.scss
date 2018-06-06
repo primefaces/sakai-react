@@ -8,10 +8,12 @@ body {
 
                 &:enabled:hover {
                     background-color: $greenButtonHover;
+                    border-color: $greenButtonBorder;
                 }
 
                 &:enabled:active {
                     background-color: $greenButtonActive;
+                    border-color: $greenButtonBorder;
                 }
             }
         }
@@ -26,10 +28,12 @@ body {
 
                 &:enabled:hover {
                     background-color: $yellowButtonHover;
+                    border-color: $yellowButtonBorder;
                 }
 
                 &:enabled:active {
                     background-color: $yellowButtonActive;
+                    border-color: $yellowButtonBorder;
                 }
             }
         }
@@ -44,10 +48,12 @@ body {
 
                 &:enabled:hover {
                     background-color: $redButtonHover;
+                    border-color: $redButtonBorder;
                 }
 
                 &:enabled:active {
                     background-color: $redButtonActive;
+                    border-color: $redButtonBorder;
                 }
             }
         }
@@ -62,10 +68,12 @@ body {
 
                 &:enabled:hover {
                     background-color: $aquaButtonHover;
+                    border-color: $aquaButtonBorder;
                 }
 
                 &:enabled:active {
                     background-color: $aquaButtonActive;
+                    border-color: $aquaButtonBorder;
                 }
             }
         }
@@ -80,10 +88,12 @@ body {
 
                 &:enabled:hover {
                     background-color: $navyButtonHover;
+                    border-color: $navyButtonBorder;
                 }
 
                 &:enabled:active {
                     background-color: $navyButtonActive;
+                    border-color: $navyButtonBorder;
                 }
             }
         }
@@ -98,10 +108,12 @@ body {
 
                 &:enabled:hover {
                     background-color: $blackButtonHover;
+                    border-color: $blackButtonBorder;
                 }
 
                 &:enabled:active {
                     background-color: $blackButtonActive;
+                    border-color: $blackButtonBorder;
                 }
             }
         }
@@ -122,10 +134,12 @@ body {
 
                 &:enabled:hover {
                     background-color: $greyButtonHover;
+                    border-color: $greyButtonBorder;
                 }
 
                 &:enabled:active {
                     background-color: $greyButtonActive;
+                    border-color: $greyButtonBorder;
                 }
             }
         }

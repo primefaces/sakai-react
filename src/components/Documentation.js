@@ -74,19 +74,18 @@ export class Documentation extends Component {
                         <pre>
 {
 `render() {
-    let wrapperClass = classNames('wrapper', {
-        'menu-layout-overlay': this.state.layoutMode === 'overlay',
-        'menu-layout-static': this.state.layoutMode === 'static',
-        'layout-sidebar-static-inactive': this.state.staticMenuDesktopInactive && this.state.layoutMode === 'static',
-        'layout-sidebar-overlay-active': this.state.overlayMenuActive && this.state.layoutMode === 'overlay',
+    let wrapperClass = classNames('layout-wrapper', {
+        'layout-overlay': this.state.layoutMode === 'overlay',
+        'layout-static': this.state.layoutMode === 'static',
+        'layout-static-sidebar-inactive': this.state.staticMenuInactive && this.state.layoutMode === 'static',
+        'layout-overlay-sidebar-active': this.state.overlayMenuActive && this.state.layoutMode === 'overlay',
         'layout-mobile-sidebar-active': this.state.mobileMenuActive
     });
     let sidebarClassName = classNames("layout-sidebar", {'layout-sidebar-dark': this.state.layoutColorMode === 'dark'});
 
     return (
         <div className={wrapperClass} onClick={this.onWrapperClick}>
-            <AppTopbar onToggleMenu={this.onToggleMenu} onTopbarMobileMenuButtonClick={this.onTopbarMobileMenuButtonClick}
-                       topbarMenuActive={this.state.topbarMenuActive} onTopbarItemClick={this.onTopbarItemClick}/>
+            <AppTopbar onToggleMenu={this.onToggleMenu}/>
 
             <div ref={(el) => this.sidebar = el} className={sidebarClassName} onClick={this.onSidebarClick}>
 
@@ -99,7 +98,7 @@ export class Documentation extends Component {
                 </ScrollPanel>
             </div>
 
-            <div className="main">
+            <div className="layout-main">
                 <Route path="/" exact component={Dashboard} />
                 <Route path="/forms" component={FormsDemo} />
                 <Route path="/sample" component={SampleDemo} />
@@ -116,6 +115,8 @@ export class Documentation extends Component {
             </div>
 
             <AppFooter />
+
+            <div class="layout-mask"></div>
         </div>
     );
 }
