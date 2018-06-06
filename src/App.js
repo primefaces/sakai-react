@@ -240,6 +240,8 @@ class App extends Component {
                 </div>
 
                 <AppFooter />
+
+                <div class="layout-mask"></div>
             </div>
         );
     }

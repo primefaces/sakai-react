@@ -157,13 +157,33 @@ a {
         background: transparent;
         border-radius: 0;
         border: none;
+
+        .ui-scrollpanel-content {
+            overflow-x: hidden;
+        }
+
+        .ui-scrollpanel-bar {
+            background: #aaaaaa;
+            opacity: 0.3;
+            filter: alpha(opacity=30);
+        }
+
+        .ui-scrollpanel-hidden {
+            display: block;
+            visibility: hidden;
+        }
+
+        .layout-sidebar-scroll-content {
+            width: 268px;
+            padding-bottom: 120px;
+        }
     }
 
     .layout-sidebar {
         position: fixed;
         width: 250px;
     	height: 100%;
-        z-index: 102;
+        z-index: 999;
         box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.16);
         @include transition(left .3s);
         @include linear-gradient($menuBgColorFirst, $menuBgColorLast);
@@ -499,7 +519,6 @@ a {
     
             &.layout-overlay-sidebar-active {
                 .layout-sidebar {
-                    z-index: 999;
                     left: 0;
                 }
     
@@ -536,28 +555,6 @@ a {
                 }
             }
         }
-
-        .ui-scrollpanel {    
-            .ui-scrollpanel-content {
-                overflow-x: hidden;
-            }
-    
-            .ui-scrollpanel-bar {
-                background: #aaaaaa;
-                opacity: 0.3;
-                filter: alpha(opacity=30);
-            }
-
-            .ui-scrollpanel-hidden {
-                display: block;
-                visibility: hidden;
-            }
-    
-            .layout-sidebar-scroll-content {
-                width: 268px;
-                padding-bottom: 120px;
-            }
-        }
     }
 }
 
@@ -572,13 +569,28 @@ a {
         }
 
         .layout-sidebar {
-            display: none;
-            width: 100%;
+            left: -250px;
             margin-top: 50px;
+        }
+
+        .layout-mask {
+            display: none;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 50px;
+            left: 0;
+            z-index: 998;
+            background-color: #424242;
+            @include opacity(0.7);
         }
 
         &.layout-mobile-sidebar-active {
             .layout-sidebar {
+                left: -0;
+            }
+
+            .layout-mask {
                 display: block;
             }
         }
