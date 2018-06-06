@@ -238,7 +238,7 @@ a {
                 @include transition-timing-function(cubic-bezier(0.86, 0, 0.07, 1));
 
                 &.profile-expanded {
-                    max-height: 1000px;
+                    max-height: 500px;
                 }
 
                 li {
@@ -318,7 +318,7 @@ a {
                     }
 
                     > ul {
-                        max-height: 1000px;
+                        max-height: 500px;
                     }
                 }
 
