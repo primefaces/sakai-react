@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 html {
     height: 100%;
 }
@@ -16,32 +20,30 @@ a {
 }
 
 .ui-state-disabled {
-  cursor: default !important;
+    cursor: default !important;
 }
 
-.wrapper {
+.layout-wrapper {
     padding: 0;
 
-    .topbar {
-        @include transition(left .3s);
+    .layout-topbar {
         position: fixed;
-        right: 0;
-        left: 250px;
         height: 50px;
-        @include linear-gradient-left($topbarLeftBgColor,$topbarRightBgColor);
         padding: .7em 1.5em 0em 1.5em;
-        box-sizing: border-box;
         color: #ffffff;
-        z-index: 101;
+        z-index: 999;
+        right: 0;
+        @include linear-gradient-left($topbarLeftBgColor,$topbarRightBgColor);
+        @include transition(left .3s);
 
-        .topbar-title {
+        .layout-topbar-title {
             display: inline-block;
             font-size: 20px;
             margin: 5px 0 0 15px;
             vertical-align: top;
         }
 
-        #topbar-icons {
+        .layout-topbar-icons {
             float: right;
             display: block;
             -moz-animation-duration: .5s;
@@ -61,16 +63,16 @@ a {
                 }
 
                 span {
-                    &.topbar-icon {
+                    &.layout-topbar-icon {
                         font-size: 28px;
                     }
 
-                    &.topbar-item-text {
+                    &.layout-topbar-item-text {
                         font-size: 20px;
                         display: none;
                     }
 
-                    &.topbar-badge {
+                    &.layout-topbar-badge {
                         position: absolute;
                         font-size: 10px;
                         right: -5px;
@@ -83,7 +85,7 @@ a {
                 }
             }
 
-            .topbar-search {
+            .layout-topbar-search {
                 padding: 0;
                 position: relative;
                 display: inline-block;
@@ -110,7 +112,7 @@ a {
                     &:-ms-input-placeholder { color:#ffffff; opacity: .7; @include transition(opacity .3s);}
                 }
 
-                .topbar-search-icon {
+                .layout-topbar-search-icon {
                     font-size: 18px;
                     position: absolute;
                     top: -1px;
@@ -126,31 +128,17 @@ a {
                         &:-ms-input-placeholder {opacity: 1}
                     }
 
-                    .topbar-search-icon {
+                    .layout-topbar-search-icon {
                         color: $topbarItemHoverColor;
                     }
                 }
             }
         }
 
-        #sigma-menu-button {
+        .layout-menu-button {
             cursor: pointer;
             display: inline-block;
             font-size: 28px;
-            float: left;
-            text-decoration: none;
-            color: #ffffff;
-            @include transition(color .3s);
-
-            &:hover {
-                color: $topbarItemHoverColor;
-            }
-        }
-
-        #options-menu-button {
-            display: none;
-            font-size: 28px;
-            float: right;
             text-decoration: none;
             color: #ffffff;
             @include transition(color .3s);
@@ -165,14 +153,20 @@ a {
         }
     }
 
+    .ui-scrollpanel {
+        background: transparent;
+        border-radius: 0;
+        border: none;
+    }
+
     .layout-sidebar {
         position: fixed;
         width: 250px;
     	height: 100%;
         z-index: 102;
-        @include transition(margin-left .3s);
-        @include linear-gradient($menuBgColorFirst, $menuBgColorLast);
         box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.16);
+        @include transition(left .3s);
+        @include linear-gradient($menuBgColorFirst, $menuBgColorLast);
 
         .logo {
             margin-top: 25px;
@@ -201,7 +195,6 @@ a {
             }
 
             > a {
-
                 position: absolute;
                 top: 40px;
                 left: 80px;
@@ -467,38 +460,13 @@ a {
         }
     }
 
-    &.menu-layout-overlay {
-        .layout-sidebar {
-            margin-left: -250px;
-        }
-        .topbar {
-            left: 0;
-        }
-
-        .main, .footer {
-            margin-left: 0px;
-        }
-
-        &.layout-menu-overlay-active {
-            .layout-sidebar {
-                z-index: 999999999;
-                margin-left: 0px;
-            }
-            .topbar {
-                left: 250px;
-            }
-        }
-    }
-
-    .main {
+    .layout-main {
         @include transition(margin-left .3s);
-        margin-left: 250px;
         padding: 50px 16px 16px 16px;
     }
 
-    .footer {
+    .layout-footer {
         @include transition(margin-left .3s);
-        margin-left: 250px;
         height: 40px;
         background-color: #ffffff;
         padding: .7em 1.5em 0em 1.5em;
@@ -511,165 +479,107 @@ a {
             vertical-align: middle;
         }
     }
-
-    .ui-scrollpanel {
-        background: transparent;
-        border-radius: 0;
-        border: none;
-
-        .ui-scrollpanel-content {
-            overflow-x: hidden;
-        }
-
-        .ui-scrollpanel-bar {
-            background: #aaaaaa;
-            opacity: 0.3;
-            filter: alpha(opacity=30);
-        }
-        .ui-scrollpanel-hidden {
-            display: block;
-            visibility: hidden;
-        }
-
-        .layout-sidebar-scroll-content {
-            width: 268px;
-            padding-bottom: 120px;
-        }
-    }
 }
 
 /* Responsive */
 @media (min-width: 1025px) {
-    .wrapper {
-        &.layout-sidebar-inactive-l {
-            .topbar {
+    .layout-wrapper {
+        &.layout-overlay {
+            .layout-sidebar {
+                left: -250px;
+            }
+            
+            .layout-topbar {
                 left: 0;
             }
-
-            .main {
+    
+            .layout-main, .layout-footer {
                 margin-left: 0;
             }
+    
+            &.layout-overlay-sidebar-active {
+                .layout-sidebar {
+                    z-index: 999;
+                    left: 0;
+                }
+    
+                .layout-topbar  {
+                    left: 250px;
+                }
+            }
+        }
 
+        &.layout-static {
             .layout-sidebar {
-                margin-left: -250px;
+                left: 0;
+            }
+            
+            .layout-topbar {
+                left: 250px;
+            }
+    
+            .layout-main, .layout-footer {
+                margin-left: 250px;
+            }
+    
+            &.layout-static-sidebar-inactive {
+                .layout-sidebar {
+                    left: -250px;
+                }
+    
+                .layout-topbar  {
+                    left: 0;
+                }
+
+                .layout-main, .layout-footer {
+                    margin-left: 0;
+                }
+            }
+        }
+
+        .ui-scrollpanel {    
+            .ui-scrollpanel-content {
+                overflow-x: hidden;
+            }
+    
+            .ui-scrollpanel-bar {
+                background: #aaaaaa;
+                opacity: 0.3;
+                filter: alpha(opacity=30);
             }
 
-            .footer {
-                margin-left: 0;
+            .ui-scrollpanel-hidden {
+                display: block;
+                visibility: hidden;
+            }
+    
+            .layout-sidebar-scroll-content {
+                width: 268px;
+                padding-bottom: 120px;
             }
         }
     }
 }
 
 @media (max-width: 1024px) {
-    .wrapper {
-        .topbar {
+    .layout-wrapper {
+        .layout-topbar {
             left: 0;
         }
 
-        .main {
+        .layout-main, .layout-footer {
             margin-left: 0;
-        }
-
-        &.menu-layout-overlay {
-            .layout-sidebar {
-                margin-top: 0px;
-            }
         }
 
         .layout-sidebar {
-            margin-left: -250px;
+            display: none;
+            width: 100%;
             margin-top: 50px;
-            width: 250px;
         }
 
-        .footer {
-            margin-left: 0;
-        }
-
-        &.layout-sidebar-active-m {
+        &.layout-mobile-sidebar-active {
             .layout-sidebar {
-                margin-left: 0;
-            }
-        }
-    }
-}
-
-@media (max-width: 640px) {
-    .wrapper {
-        .topbar {
-            text-align: center;
-
-            #options-menu-button {
-                display: inline-block;
-            }
-
-            #topbar-icons {
-                display: none;
-                position: absolute;
-                right: 10px;
-                top: 50px;
-                padding-bottom: 5px;
-                text-align: left;
-                @include linear-gradient(#4e5159, #1f2023);
-                @include border-radius-bottom(3px);
-
-                a {
-                    display: block;
-                    padding: 10px;
-                    margin-left: 0;
-
-                    &:first-child {
-                        height: 18px;
-                    }
-
-                    &:hover {
-                        color: #007be5;
-                    }
-
-                    span {
-                        &.topbar-item-text {
-                            display: inline;
-                            font-size: 16px;
-                        }
-
-                        &.topbar-icon {
-                            font-size: 18px;
-                            float: left;
-                            margin: 0px 5px 0px 5px;
-                            width: 20px;
-                        }
-
-                        &.topbar-badge {
-                            font-size: 12px;
-                            top: 10px;
-                            right: 10px;
-                        }
-                    }
-                }
-
-                &.topbar-icons-visible {
-                    display: block;
-                }
-
-                .topbar-search {
-
-                    top: 0px;
-                    padding: 10px;
-
-                    input {
-                        width: 100%;
-                        box-sizing: border-box;
-                        border-bottom-width: 1px;
-                        border-bottom-color: #cccccc;
-                    }
-
-                    .topbar-search-icon {
-                        top: 9px;
-                        right: 10px;
-                        color: #cccccc;
-                    }
-                }
+                display: block;
             }
         }
     }

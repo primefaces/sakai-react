@@ -33,67 +33,51 @@ class App extends Component {
         this.state = {
             layoutMode: 'static',
             layoutColorMode: 'light',
-            staticMenuDesktopInactive: false,
+            staticMenuInactive: false,
             overlayMenuActive: false,
-            staticMenuMobileActive: false,
-            topbarMenuActive: false
+            mobileMenuActive: false
         };
 
-        this.onTopbarMobileMenuButtonClick = this.onTopbarMobileMenuButtonClick.bind(this);
         this.onWrapperClick = this.onWrapperClick.bind(this);
         this.onToggleMenu = this.onToggleMenu.bind(this);
         this.onSidebarClick = this.onSidebarClick.bind(this);
         this.onMenuItemClick = this.onMenuItemClick.bind(this);
-        this.onTopbarItemClick = this.onTopbarItemClick.bind(this);
         this.createMenu();
     }
 
     onWrapperClick(event) {
-        if (!this.topbarItemClick) {
-            this.setState({
-                topbarMenuActive: false
-            });
-        }
-
         if(!this.menuClick) {
             this.setState({
                 overlayMenuActive: false,
-                staticMenuMobileActive: false
+                mobileMenuActive: false,
             })
         }
 
         this.menuClick = false;
-        this.topbarItemClick = false;
-    }
-
-    onTopbarMobileMenuButtonClick(event) {
-        this.topbarItemClick = true;
-        this.setState({topbarMenuActive: !this.state.topbarMenuActive});
-        event.preventDefault();
-    }
-
-    onTopbarItemClick(event) {
-        this.topbarItemClick = true;
-        event.preventDefault();
     }
 
     onToggleMenu(event) {
+        console.log('x');
         this.menuClick = true;
 
-        if(this.state.layoutMode === 'overlay') {
-            this.setState({
-                overlayMenuActive: !this.state.overlayMenuActive
-            });
+        if (this.isDesktop()) {
+            if (this.state.layoutMode === 'overlay') {
+                this.setState({
+                    overlayMenuActive: !this.state.overlayMenuActive
+                });
+            }
+            else if (this.state.layoutMode === 'static') {
+                this.setState({
+                    staticMenuInactive: !this.state.staticMenuInactive
+                });
+            }
         }
         else {
-            if (this.isMobile()) {
-                this.setState({staticMenuMobileActive: !this.state.staticMenuMobileActive});
-            }
-            if (this.isDesktop()) {
-                this.setState({staticMenuDesktopInactive: !this.state.staticMenuDesktopInactive});
-            }
+            this.setState({
+                mobileMenuActive: !this.state.mobileMenuActive
+            });
         }
-
+       
         event.preventDefault();
     }
 
@@ -106,7 +90,7 @@ class App extends Component {
         if(!event.item.items) {
             this.setState({
                 overlayMenuActive: false,
-                staticMenuMobileActive: false
+                mobileMenuActive: false
             })
         }
     }
@@ -215,19 +199,18 @@ class App extends Component {
     }
 
     render() {
-        let wrapperClass = classNames('wrapper', {
-            'menu-layout-overlay': this.state.layoutMode === 'overlay',
-            'menu-layout-static': this.state.layoutMode === 'static',
-            'layout-sidebar-inactive-l': this.state.staticMenuDesktopInactive,
-            'layout-sidebar-active-m': this.state.staticMenuMobileActive && this.state.layoutMode === 'static',
-            'layout-menu-overlay-active': this.state.overlayMenuActive && this.state.layoutMode === 'overlay'
+        let wrapperClass = classNames('layout-wrapper', {
+            'layout-overlay': this.state.layoutMode === 'overlay',
+            'layout-static': this.state.layoutMode === 'static',
+            'layout-static-sidebar-inactive': this.state.staticMenuInactive && this.state.layoutMode === 'static',
+            'layout-overlay-sidebar-active': this.state.overlayMenuActive && this.state.layoutMode === 'overlay',
+            'layout-mobile-sidebar-active': this.state.mobileMenuActive
         });
         let sidebarClassName = classNames("layout-sidebar", {'layout-sidebar-dark': this.state.layoutColorMode === 'dark'});
 
         return (
             <div className={wrapperClass} onClick={this.onWrapperClick}>
-                <AppTopbar onToggleMenu={this.onToggleMenu} onTopbarMobileMenuButtonClick={this.onTopbarMobileMenuButtonClick}
-                           topbarMenuActive={this.state.topbarMenuActive} onTopbarItemClick={this.onTopbarItemClick}/>
+                <AppTopbar onToggleMenu={this.onToggleMenu}/>
 
                 <div ref={(el) => this.sidebar = el} className={sidebarClassName} onClick={this.onSidebarClick}>
 
@@ -240,7 +223,7 @@ class App extends Component {
                     </ScrollPanel>
                 </div>
 
-                <div className="main">
+                <div className="layout-main">
                     <Route path="/" exact component={Dashboard} />
                     <Route path="/forms" component={FormsDemo} />
                     <Route path="/sample" component={SampleDemo} />
