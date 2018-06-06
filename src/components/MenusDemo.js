@@ -371,7 +371,7 @@ export class MenusDemo extends Component {
         
                     <div className="card">
                         <h1>SlideMenu</h1>
-                        <SlideMenu model={items} style={{width:'260px'}} menuWidth={260}/>
+                        <SlideMenu model={items} style={{width:'270px'}} menuWidth={260}/>
                     </div>
 
                     <div className="card">
