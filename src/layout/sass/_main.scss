@@ -34,14 +34,7 @@ a {
         z-index: 999;
         right: 0;
         @include linear-gradient-left($topbarLeftBgColor,$topbarRightBgColor);
-        @include transition(left .3s);
-
-        .layout-topbar-title {
-            display: inline-block;
-            font-size: 20px;
-            margin: 5px 0 0 15px;
-            vertical-align: top;
-        }
+        @include transition(left $transitionDuration);
 
         .layout-topbar-icons {
             float: right;
@@ -56,7 +49,7 @@ a {
                 margin-left: 20px;
                 display: inline-block;
                 text-decoration: none;
-                @include transition(color .3s);
+                @include transition(color $transitionDuration);
 
                 &:hover {
                     color: $topbarItemHoverColor;
@@ -106,10 +99,10 @@ a {
                     margin: 0px;
                     @include border-radius(2px);
 
-                    &::-webkit-input-placeholder { color:#ffffff; opacity: .7; @include transition(opacity .3s);}
-                    &:-moz-placeholder { color:#ffffff; opacity: .7; @include transition(opacity .3s);}
-                    &::-moz-placeholder { color:#ffffff; opacity: .7; @include transition(opacity .3s);}
-                    &:-ms-input-placeholder { color:#ffffff; opacity: .7; @include transition(opacity .3s);}
+                    &::-webkit-input-placeholder { color:#ffffff; opacity: .7; @include transition(opacity $transitionDuration);}
+                    &:-moz-placeholder { color:#ffffff; opacity: .7; @include transition(opacity $transitionDuration);}
+                    &::-moz-placeholder { color:#ffffff; opacity: .7; @include transition(opacity $transitionDuration);}
+                    &:-ms-input-placeholder { color:#ffffff; opacity: .7; @include transition(opacity $transitionDuration);}
                 }
 
                 .layout-topbar-search-icon {
@@ -141,7 +134,7 @@ a {
             font-size: 28px;
             text-decoration: none;
             color: #ffffff;
-            @include transition(color .3s);
+            @include transition(color $transitionDuration);
 
             &:hover {
                 color: $topbarItemHoverColor;
@@ -185,7 +178,7 @@ a {
     	height: 100%;
         z-index: 999;
         box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.16);
-        @include transition(left .3s);
+        @include transition(left $transitionDuration);
         @include linear-gradient($menuBgColorFirst, $menuBgColorLast);
 
         .logo {
@@ -198,29 +191,21 @@ a {
         }
 
         .profile {
-            position: relative;
-            display: block;
-            text-decoration: none;
             text-align: center;
             padding: 20px 0;
 
-            #profile-button {
-                cursor: pointer;
-            }
-
             img {
-                display: block;
                 width: 56px;
                 margin: 10px;
             }
 
             > a {
-                position: absolute;
-                top: 40px;
-                left: 80px;
+                display: inline-block;
+                cursor: pointer;
                 color: $menuitemColor;
                 text-decoration: none;
-                @include transition(color .3s);
+                margin-bottom: 10px;
+                @include transition(color $transitionDuration);
 
                 .username {
                     display: inline-block;
@@ -247,7 +232,7 @@ a {
                 text-align: left;
                 overflow: hidden;
                 max-height: 0;
-                @include transition-duration(0.4s);
+                @include transition-duration($transitionDuration);
                 @include transition-timing-function(cubic-bezier(0.86, 0, 0.07, 1));
 
                 &.profile-expanded {
@@ -481,12 +466,12 @@ a {
     }
 
     .layout-main {
-        @include transition(margin-left .3s);
+        @include transition(margin-left $transitionDuration);
         padding: 50px 16px 16px 16px;
     }
 
     .layout-footer {
-        @include transition(margin-left .3s);
+        @include transition(margin-left $transitionDuration);
         height: 40px;
         background-color: #ffffff;
         padding: .7em 1.5em 0em 1.5em;

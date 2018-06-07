@@ -252,6 +252,7 @@ $dividerColor: #e3e3e3;
 $submenuFontSize: 13px;
 $menuitemBadgeBgColor: #007be5;
 $menuitemBadgeColor: #ffffff;
+$transitionDuration:.3s;
 
 /* Menu Dark*/
 $menuDarkBgColorFirst: #4d505b;

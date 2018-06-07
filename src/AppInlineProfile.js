@@ -19,9 +19,11 @@ export class AppInlineProfile extends Component {
     render() {
         return  (
             <div className="profile">
-                <img src="assets/layout/images/profile.png" alt="" />
-                <a id="profile-button" onClick={this.onClick}>
-                    <span className="username">Peggy Olson</span>
+                <div>
+                    <img src="assets/layout/images/profile.png" alt="" />
+                </div>
+                <a class="profile-link" onClick={this.onClick}>
+                    <span className="username">Claire Williams</span>
                     <i className="fa fa-fw fa-cog"/>
                 </a>
                 <ul className={classNames({'profile-expanded': this.state.expanded})}>

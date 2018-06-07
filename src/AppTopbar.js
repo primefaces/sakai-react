@@ -18,7 +18,6 @@ export class AppTopbar extends Component {
                 <a className="layout-menu-button" onClick={this.props.onToggleMenu}>
                     <span className="fa fa-bars"/>
                 </a>
-                <span className="layout-topbar-title"/>
                 <div className="layout-topbar-icons">
                     <span className="layout-topbar-search">
                         <InputText type="text" placeholder="Search" />
