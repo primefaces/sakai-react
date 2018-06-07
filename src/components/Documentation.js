@@ -116,7 +116,7 @@ export class Documentation extends Component {
 
             <AppFooter />
 
-            <div class="layout-mask"></div>
+            <div className="layout-mask"></div>
         </div>
     );
 }
