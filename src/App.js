@@ -1,24 +1,24 @@
-import React, {Component}from 'react';
+import React, {Component} from 'react';
 import classNames from 'classnames';
-import {AppTopbar}from './AppTopbar';
-import {AppFooter}from './AppFooter';
-import {AppMenu}from './AppMenu';
-import {AppInlineProfile}from './AppInlineProfile';
-import {Route}from 'react-router-dom';
-import {Dashboard}from './components/Dashboard';
-import {FormsDemo}from './components/FormsDemo';
-import {SampleDemo}from './components/SampleDemo';
-import {DataDemo}from './components/DataDemo';
-import {PanelsDemo}from './components/PanelsDemo';
-import {OverlaysDemo}from './components/OverlaysDemo';
-import {MenusDemo}from './components/MenusDemo';
-import {MessagesDemo}from './components/MessagesDemo';
-import {ChartsDemo}from './components/ChartsDemo';
-import {MiscDemo}from './components/MiscDemo';
-import {EmptyPage}from './components/EmptyPage';
-import {UtilsDemo}from './components/UtilsDemo';
-import {Documentation}from "./components/Documentation";
-import {ScrollPanel}from 'primereact/components/scrollpanel/ScrollPanel';
+import {AppTopbar} from './AppTopbar';
+import {AppFooter} from './AppFooter';
+import {AppMenu} from './AppMenu';
+import {AppInlineProfile} from './AppInlineProfile';
+import {Route} from 'react-router-dom';
+import {Dashboard} from './components/Dashboard';
+import {FormsDemo} from './components/FormsDemo';
+import {SampleDemo} from './components/SampleDemo';
+import {DataDemo} from './components/DataDemo';
+import {PanelsDemo} from './components/PanelsDemo';
+import {OverlaysDemo} from './components/OverlaysDemo';
+import {MenusDemo} from './components/MenusDemo';
+import {MessagesDemo} from './components/MessagesDemo';
+import {ChartsDemo} from './components/ChartsDemo';
+import {MiscDemo} from './components/MiscDemo';
+import {EmptyPage} from './components/EmptyPage';
+import {UtilsDemo} from './components/UtilsDemo';
+import {Documentation} from "./components/Documentation";
+import {ScrollPanel} from 'primereact/components/scrollpanel/ScrollPanel';
 import 'primereact/resources/themes/nova-light/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
@@ -101,91 +101,91 @@ class App extends Component {
 
     createMenu() {
         this.menu = [
-            {label: 'Dashboard', icon: 'fa fa-fw fa-home', command: () => {window.location = '#/'}},
+            {label: 'Dashboard', icon: 'pi pi-fw pi-home', command: () => {window.location = '#/'}},
             {
-                label: 'Menu Modes', icon: 'fa fa-fw fa-cog',
+                label: 'Menu Modes', icon: 'pi pi-fw pi-cog',
                 items: [
-                    {label: 'Static Menu', icon: 'fa fa-fw fa-bars',  command: () => this.setState({layoutMode: 'static'}) },
-                    {label: 'Overlay Menu', icon: 'fa fa-fw fa-bars',  command: () => this.setState({layoutMode: 'overlay'}) }
+                    {label: 'Static Menu', icon: 'pi pi-fw pi-bars',  command: () => this.setState({layoutMode: 'static'}) },
+                    {label: 'Overlay Menu', icon: 'pi pi-fw pi-bars',  command: () => this.setState({layoutMode: 'overlay'}) }
                 ]
             },
             {
-                label: 'Layout Options', icon: 'fa fa-fw fa-diamond',
+                label: 'Layout Options', icon: 'pi pi-fw pi-align-left',
                 items: [
-                    {label: 'Dark', icon: 'fa fa-fw fa-bars',  command: () => this.setState({layoutColorMode: 'dark'}) },
-                    {label: 'Light', icon: 'fa fa-fw fa-bars',  command: () => this.setState({layoutColorMode: 'light'}) }
+                    {label: 'Dark', icon: 'pi pi-fw pi-bars',  command: () => this.setState({layoutColorMode: 'dark'}) },
+                    {label: 'Light', icon: 'pi pi-fw pi-bars',  command: () => this.setState({layoutColorMode: 'light'}) }
                 ]
             },
             {
-                label: 'Components', icon: 'fa fa-fw fa-bars', badge: '2', badgeStyleClass: 'teal-badge',
+                label: 'Components', icon: 'pi pi-fw pi-globe', badge: '2', badgeStyleClass: 'teal-badge',
                 items: [
-                    {label: 'Sample Page', icon: 'fa fa-fw fa-columns', command: () => {window.location = '#/sample'}},
-                    {label: 'Forms', icon: 'fa fa-fw fa-code', command: () => {window.location = '#/forms'}},
-                    {label: 'Data', icon: 'fa fa-fw fa-table', command: () => {window.location = "#/data"}},
-                    {label: 'Panels', icon: 'fa fa-fw fa-list-alt', command: () => {window.location = "#/panels"}},
-                    {label: 'Overlays', icon: 'fa fa-fw fa-square', command: () => {window.location = "#/overlays"}},
-                    {label: 'Menus', icon: 'fa fa-fw fa-minus-square-o', command: () => {window.location = "#/menus"}},
-                    {label: 'Messages', icon: 'fa fa-fw fa-circle-o-notch', command: () => {window.location = "#/messages"}},
-                    {label: 'Charts', icon: 'fa fa-fw fa-area-chart', command: () => {window.location = "#/charts"}},
-                    {label: 'Misc', icon: 'fa fa-fw fa-user-secret', command: () => {window.location = "#/misc"}}
+                    {label: 'Sample Page', icon: 'pi pi-fw pi-star-o', command: () => {window.location = '#/sample'}},
+                    {label: 'Forms', icon: 'pi pi-fw pi-calendar', command: () => {window.location = '#/forms'}},
+                    {label: 'Data', icon: 'pi pi-fw pi-align-justify', command: () => {window.location = "#/data"}},
+                    {label: 'Panels', icon: 'pi pi-fw pi-th-large', command: () => {window.location = "#/panels"}},
+                    {label: 'Overlays', icon: 'pi pi-fw pi-clone', command: () => {window.location = "#/overlays"}},
+                    {label: 'Menus', icon: 'pi pi-fw pi-bars', command: () => {window.location = "#/menus"}},
+                    {label: 'Messages', icon: 'pi pi-fw pi-info-circle', command: () => {window.location = "#/messages"}},
+                    {label: 'Charts', icon: 'pi pi-fw pi-clock', command: () => {window.location = "#/charts"}},
+                    {label: 'Misc', icon: 'pi pi-fw pi-filter', command: () => {window.location = "#/misc"}}
                 ]
             },
             {
-                label: 'Template Pages', icon: 'fa fa-fw fa-life-saver',
+                label: 'Template Pages', icon: 'pi pi-fw pi-file',
                 items: [
-                    {label: 'Empty Page', icon: 'fa fa-fw fa-square-o', command: () => {window.location = "#/empty"}},
-                    {label: 'Login', icon: 'fa fa-fw fa-sign-in', url: 'assets/pages/login.html', target: '_blank'},
-                    {label: 'Error', icon: 'fa fa-fw fa-exclamation-circle', url: 'assets/pages/error.html', target: '_blank'},
-                    {label: '404 Page', icon: 'fa fa-fw fa-times', url: 'assets/pages/404.html', target: '_blank'},
-                    {label: 'Access Denied', icon: 'fa fa-fw fa-exclamation-triangle', url: 'assets/pages/access.html', target: '_blank'}
+                    {label: 'Empty Page', icon: 'pi pi-fw pi-circle-off', command: () => {window.location = "#/empty"}},
+                    {label: 'Login', icon: 'pi pi-fw pi-user-plus', url: 'assets/pages/login.html', target: '_blank'},
+                    {label: 'Error', icon: 'pi pi-fw pi-exclamation-triangle', url: 'assets/pages/error.html', target: '_blank'},
+                    {label: '404 Page', icon: 'pi pi-fw pi-times', url: 'assets/pages/404.html', target: '_blank'},
+                    {label: 'Access Denied', icon: 'pi pi-fw pi-ban', url: 'assets/pages/access.html', target: '_blank'}
                 ]
             },
             {
-                label: 'Menu Hierarchy', icon: 'fa fa-fw fa-sitemap',
+                label: 'Menu Hierarchy', icon: 'pi pi-fw pi-search',
                 items: [
                     {
-                        label: 'Submenu 1', icon: 'fa fa-fw fa-sign-in',
+                        label: 'Submenu 1', icon: 'pi pi-fw pi-bookmark',
                         items: [
                             {
-                                label: 'Submenu 1.1', icon: 'fa fa-fw fa-sign-in',
+                                label: 'Submenu 1.1', icon: 'pi pi-fw pi-bookmark',
                                 items: [
-                                    {label: 'Submenu 1.1.1', icon: 'fa fa-fw fa-sign-in'},
-                                    {label: 'Submenu 1.1.2', icon: 'fa fa-fw fa-sign-in'},
-                                    {label: 'Submenu 1.1.3', icon: 'fa fa-fw fa-sign-in'},
+                                    {label: 'Submenu 1.1.1', icon: 'pi pi-fw pi-bookmark'},
+                                    {label: 'Submenu 1.1.2', icon: 'pi pi-fw pi-bookmark'},
+                                    {label: 'Submenu 1.1.3', icon: 'pi pi-fw pi-bookmark'},
                                 ]
                             },
                             {
-                                label: 'Submenu 1.2', icon: 'fa fa-fw fa-sign-in',
+                                label: 'Submenu 1.2', icon: 'pi pi-fw pi-bookmark',
                                 items: [
-                                    {label: 'Submenu 1.2.1', icon: 'fa fa-fw fa-sign-in'},
-                                    {label: 'Submenu 1.2.2', icon: 'fa fa-fw fa-sign-in'}
+                                    {label: 'Submenu 1.2.1', icon: 'pi pi-fw pi-bookmark'},
+                                    {label: 'Submenu 1.2.2', icon: 'pi pi-fw pi-bookmark'}
                                 ]
                             },
                         ]
                     },
                     {
-                        label: 'Submenu 2', icon: 'fa fa-fw fa-sign-in',
+                        label: 'Submenu 2', icon: 'pi pi-fw pi-bookmark',
                         items: [
                             {
-                                label: 'Submenu 2.1', icon: 'fa fa-fw fa-sign-in',
+                                label: 'Submenu 2.1', icon: 'pi pi-fw pi-bookmark',
                                 items: [
-                                    {label: 'Submenu 2.1.1', icon: 'fa fa-fw fa-sign-in'},
-                                    {label: 'Submenu 2.1.2', icon: 'fa fa-fw fa-sign-in'},
-                                    {label: 'Submenu 2.1.3', icon: 'fa fa-fw fa-sign-in'},
+                                    {label: 'Submenu 2.1.1', icon: 'pi pi-fw pi-bookmark'},
+                                    {label: 'Submenu 2.1.2', icon: 'pi pi-fw pi-bookmark'},
+                                    {label: 'Submenu 2.1.3', icon: 'pi pi-fw pi-bookmark'},
                                 ]
                             },
                             {
-                                label: 'Submenu 2.2', icon: 'fa fa-fw fa-sign-in',
+                                label: 'Submenu 2.2', icon: 'pi pi-fw pi-bookmark',
                                 items: [
-                                    {label: 'Submenu 2.2.1', icon: 'fa fa-fw fa-sign-in'},
-                                    {label: 'Submenu 2.2.2', icon: 'fa fa-fw fa-sign-in'}
+                                    {label: 'Submenu 2.2.1', icon: 'pi pi-fw pi-bookmark'},
+                                    {label: 'Submenu 2.2.2', icon: 'pi pi-fw pi-bookmark'}
                                 ]
                             },
                         ]
                     }
                 ]
             },
-            {label: 'Documentation', icon: 'fa fa-fw fa-book', command: () => {window.location = "#/documentation"}}
+            {label: 'Documentation', icon: 'pi pi-fw pi-question', command: () => {window.location = "#/documentation"}}
         ];
     }
 

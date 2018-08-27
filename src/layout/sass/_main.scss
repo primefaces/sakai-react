@@ -7,7 +7,7 @@ html {
 }
 
 body {
-    font-family: "Roboto", "Trebuchet MS", Arial, Helvetica, sans-serif;
+    font-family: "Open Sans", "Helvetica Neue", sans-serif;
     font-size: $fontSize;
     margin: 0;
     padding: 0;
@@ -57,7 +57,7 @@ a {
 
                 span {
                     &.layout-topbar-icon {
-                        font-size: 28px;
+                        font-size: 2em;
                     }
 
                     &.layout-topbar-item-text {
@@ -131,10 +131,13 @@ a {
         .layout-menu-button {
             cursor: pointer;
             display: inline-block;
-            font-size: 28px;
             text-decoration: none;
             color: #ffffff;
             @include transition(color $transitionDuration);
+
+            span {
+                font-size: 2em;
+            }
 
             &:hover {
                 color: $topbarItemHoverColor;
@@ -146,22 +149,22 @@ a {
         }
     }
 
-    .ui-scrollpanel {
+    .p-scrollpanel {
         background: transparent;
         border-radius: 0;
         border: none;
 
-        .ui-scrollpanel-content {
+        .p-scrollpanel-content {
             overflow-x: hidden;
         }
 
-        .ui-scrollpanel-bar {
+        .p-scrollpanel-bar {
             background: #aaaaaa;
             opacity: 0.3;
             filter: alpha(opacity=30);
         }
 
-        .ui-scrollpanel-hidden {
+        .p-scrollpanel-hidden {
             display: block;
             visibility: hidden;
         }
@@ -262,7 +265,6 @@ a {
             list-style-type: none;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
 
             li {
                 a {
@@ -277,8 +279,14 @@ a {
                     box-sizing: border-box;
                     border-top: 1px solid $menuitemBorderColor;
 
+                    i {
+                        font-size: 18px;
+                        vertical-align: middle;
+                    }
+
                     span {
-                        margin-left: .3em;
+                        margin-left: .25em;
+                        vertical-align: middle;
                     }
 
                     .menu-badge {
@@ -291,7 +299,6 @@ a {
 
                     .menuitem-toggle-icon {
                         float: right;
-                        font-size: 16px;
                     }
 
                     &:hover {
@@ -310,8 +317,7 @@ a {
                         color: $menuitemActiveColor;
 
                         .menuitem-toggle-icon {
-                            @include icon-override("\f106");
-                            font-size: 16px;
+                            @include icon-override("\e933");
                         }
                     }
 

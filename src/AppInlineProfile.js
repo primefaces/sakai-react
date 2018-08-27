@@ -24,12 +24,12 @@ export class AppInlineProfile extends Component {
                 </div>
                 <a class="profile-link" onClick={this.onClick}>
                     <span className="username">Claire Williams</span>
-                    <i className="fa fa-fw fa-cog"/>
+                    <i className="pi pi-fw pi-cog"/>
                 </a>
                 <ul className={classNames({'profile-expanded': this.state.expanded})}>
-                    <li><a><i className="fa fa-fw fa-sliders"/><span>Account</span></a></li>
-                    <li><a><i className="fa fa-fw fa-bell"/><span>Notifications</span><span className="menu-badge">2</span></a></li>
-                    <li><a><i className="fa fa-fw fa-sign-out"/><span>Logout</span></a></li>
+                    <li><a><i className="pi pi-fw pi-user"/><span>Account</span></a></li>
+                    <li><a><i className="pi pi-fw pi-inbox"/><span>Notifications</span><span className="menu-badge">2</span></a></li>
+                    <li><a><i className="pi pi-fw pi-power-off"/><span>Logout</span></a></li>
                 </ul>
             </div>
         );

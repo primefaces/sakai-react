@@ -1,15 +1,5 @@
 // Icon Override Mixin
 @mixin icon-override($icon) {
-    background: none !important;
-    display: inline-block;
-    font: normal normal normal 14px/1 FontAwesome;
-    font-size: inherit;
-    text-rendering: auto;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-indent: 0px !important;
-    text-align: center;
-    
     &:before {
         content: $icon;
     }
