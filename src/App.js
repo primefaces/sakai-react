@@ -16,7 +16,6 @@ import {MessagesDemo} from './components/MessagesDemo';
 import {ChartsDemo} from './components/ChartsDemo';
 import {MiscDemo} from './components/MiscDemo';
 import {EmptyPage} from './components/EmptyPage';
-import {UtilsDemo} from './components/UtilsDemo';
 import {Documentation} from "./components/Documentation";
 import {ScrollPanel} from 'primereact/components/scrollpanel/ScrollPanel';
 import 'primereact/resources/themes/nova-light/theme.css';
@@ -117,7 +116,7 @@ class App extends Component {
                 ]
             },
             {
-                label: 'Components', icon: 'pi pi-fw pi-globe', badge: '2', badgeStyleClass: 'teal-badge',
+                label: 'Components', icon: 'pi pi-fw pi-globe', badge: '9',
                 items: [
                     {label: 'Sample Page', icon: 'pi pi-fw pi-star-o', command: () => {window.location = '#/sample'}},
                     {label: 'Forms', icon: 'pi pi-fw pi-calendar', command: () => {window.location = '#/forms'}},
@@ -244,7 +243,6 @@ class App extends Component {
                     <Route path="/charts" component={ChartsDemo} />
                     <Route path="/misc" component={MiscDemo} />
                     <Route path="/empty" component={EmptyPage} />
-                    <Route path="/utils" component={UtilsDemo} />
                     <Route path="/documentation" component={Documentation} />
                 </div>
 

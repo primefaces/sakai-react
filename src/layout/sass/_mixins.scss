@@ -104,3 +104,11 @@
     $opacity-ie: $opacity * 100;
     filter: alpha(opacity=$opacity-ie);
 }
+
+@mixin clearfix {
+    &:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+}

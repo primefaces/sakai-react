@@ -145,63 +145,63 @@ export class Dashboard extends Component {
         
         return (
             <div className="p-g p-fluid dashboard">
-                <div className="p-g-12 p-md-4">
-                    <div className="card clearfix summary">
+                <div className="p-g-12 p-lg-4">
+                    <div className="card summary">
                         <span className="title">Users</span>
                         <span className="detail">Number of visitors</span>
                         <span className="count visitors">12</span>
                     </div>
                 </div>
-                <div className="p-g-12 p-md-4">
-                    <div className="card clearfix summary">
+                <div className="p-g-12 p-lg-4">
+                    <div className="card summary">
                         <span className="title">Sales</span>
                         <span className="detail">Number of purchases</span>
                         <span className="count purchases">534</span>
                     </div>
                 </div>
-                <div className="p-g-12 p-md-4">
-                    <div className="card clearfix summary">
+                <div className="p-g-12 p-lg-4">
+                    <div className="card summary">
                         <span className="title">Revenue</span>
                         <span className="detail">Income for today</span>
                         <span className="count revenue">$3,200</span>
                     </div>
                 </div>
 
-                <div className="p-g-12 p-md-6 p-lg-3">
+                <div className="p-g-12 p-md-6 p-xl-3">
                     <div className="highlight-box">
-                        <div className="initials" style={{backgroundColor:'#007be5',color:'#00448f'}}>TV</div>
-                        <div className="card">
-                            <span className="fa fa-eye"/>
-                            <span>Total Views</span>
+                        <div className="initials" style={{backgroundColor:'#007be5',color:'#00448f'}}><span>TV</span></div>
+                        <div className="highlight-details ">
+                            <i className="pi pi-search"/>
+                            <span>Total Queries</span>
                             <span className="count">523</span>
                         </div>
                     </div>
                 </div>
-                <div className="p-g-12 p-md-6 p-lg-3">
+                <div className="p-g-12 p-md-6 p-xl-3">
                     <div className="highlight-box">
-                        <div className="initials" style={{backgroundColor:'#ef6262',color:'#a83d3b'}}>TI</div>
-                        <div className="card">
-                            <span className="fa fa-question-circle"/>
+                        <div className="initials" style={{backgroundColor:'#ef6262',color:'#a83d3b'}}><span>TI</span></div>
+                        <div className="highlight-details ">
+                            <i className="pi pi-question-circle"/>
                             <span>Total Issues</span>
                             <span className="count">81</span>
                         </div>
                     </div>
                 </div>
-                <div className="p-g-12 p-md-6 p-lg-3">
+                <div className="p-g-12 p-md-6 p-xl-3">
                     <div className="highlight-box">
-                        <div className="initials" style={{backgroundColor:'#20d077',color:'#038d4a'}}>OI</div>
-                        <div className="card">
-                            <span className="fa fa-question-circle-o"/>
+                        <div className="initials" style={{backgroundColor:'#20d077',color:'#038d4a'}}><span>OI</span></div>
+                        <div className="highlight-details ">
+                            <i className="pi pi-filter"/>
                             <span>Open Issues</span>
                             <span className="count">21</span>
                         </div>
                     </div>
                 </div>
-                <div className="p-g-12 p-md-6 p-lg-3">
+                <div className="p-g-12 p-md-6 p-xl-3">
                     <div className="highlight-box">
-                        <div className="initials" style={{backgroundColor:'#f9c851',color:'#b58c2b'}}>CI</div>
-                        <div className="card">
-                            <span className="fa fa-check"/>
+                        <div className="initials" style={{backgroundColor:'#f9c851',color:'#b58c2b'}}><span>CI</span></div>
+                        <div className="highlight-details ">
+                            <i className="pi pi-check"/>
                             <span>Closed Issues</span>
                             <span className="count">60</span>
                         </div>
@@ -213,38 +213,38 @@ export class Dashboard extends Component {
                             <li>
                                 <Checkbox value="task1" onChange={this.onTaskChange} checked={this.state.tasks.indexOf('task1')>-1?true:false}></Checkbox>
                                 <span className="task-name">Sales Reports</span>
-                                <Button icon="fa-check"/>
+                                <Button icon="pi pi-check"/>
                             </li>
                             <li>
                                 <Checkbox value="task2" onChange={this.onTaskChange} checked={this.state.tasks.indexOf('task2')>-1?true:false}></Checkbox>
                                 <span className="task-name">Pay Invoices</span>
-                                <Button icon="fa-check"/>
+                                <Button icon="pi pi-check"/>
                             </li>
                             <li>
                                 <Checkbox value="task3" onChange={this.onTaskChange} checked={this.state.tasks.indexOf('task3')>-1?true:false}></Checkbox>
                                 <span className="task-name">Dinner with Tony</span>
-                                <Button icon="fa-check"/>
+                                <Button icon="pi pi-check"/>
                             </li>
                             <li>
                                 <Checkbox value="task4" onChange={this.onTaskChange} checked={this.state.tasks.indexOf('task4')>-1?true:false}></Checkbox>
                                 <span className="task-name">Client Meeting</span>
-                                <Button icon="fa-check"/>
+                                <Button icon="pi pi-check"/>
                             </li>
                             <li>
                                 <Checkbox value="task5" onChange={this.onTaskChange} checked={this.state.tasks.indexOf('task5')>-1?true:false}></Checkbox>
                                 <span className="task-name">New Theme</span>
-                                <Button icon="fa-check"/>
+                                <Button icon="pi pi-check"/>
                             </li>
                             <li>
                                 <Checkbox value="task6" onChange={this.onTaskChange} checked={this.state.tasks.indexOf('task6')>-1?true:false}></Checkbox>
                                 <span className="task-name">Flight Ticket</span>
-                                <Button icon="fa-check"/>
+                                <Button icon="pi pi-check"/>
                             </li>
                         </ul>
                     </Panel>
                 </div>
                 <div className="p-g-12 p-md-6 p-lg-4 p-fluid contact-form">
-                    <Panel header="Contact Us" style={{height: '100%'}}>
+                    <Panel header="Contact Us">
                         <div className="p-g">
                             <div className="p-g-12">
                                 <Dropdown value={this.state.city} options={cities} placeholder="Select a City" onChange={this.onCityChange} autoWidth={false} />
@@ -265,9 +265,9 @@ export class Dashboard extends Component {
                     </Panel>
                 </div>
 
-                <div className="p-g-12 p-lg-4">
+                <div className="p-g-12 p-lg-4 contacts">
                     <Panel header="Contacts">
-                        <ul className="contacts">
+                        <ul>
                             <li>
                                 <a>
                                     <img src="assets/layout/images/avatar_1.png" width="35" alt="avatar1"/>
@@ -299,7 +299,7 @@ export class Dashboard extends Component {
                         </ul>
                     </Panel>
                 </div>
-                <div className="p-g-12 p-md-6">
+                <div className="p-g-12 p-lg-6">
                     <div className="card">
                         <h1 style={{fontSize:'16px'}}>Recent Sales</h1>
                         <DataTable value={this.state.cars}  style={{marginBottom: '20px'}} responsive={true}
@@ -311,18 +311,18 @@ export class Dashboard extends Component {
                         </DataTable>
                     </div>
                 </div>
-                <div className="p-g-12 p-md-6">
+                <div className="p-g-12 p-lg-6">
                     <div className="card">
                         <Chart type="line" data={this.state.lineData}/>
                     </div>
                 </div>
-                <div className="p-g-12 p-md-8">
+                <div className="p-g-12 p-lg-8">
                     <Panel header="Calendar" style={{height: '100%'}}> 
                         <Schedule events={events} header={scheduleHeader} defaultDate="2017-02-01" eventLimit={4}></Schedule>
                     </Panel>
                 </div>
 
-                <div className="p-g-12 p-md-4">
+                <div className="p-g-12 p-lg-4">
                     <Panel header="Activity" style={{height:'100%'}}>
                         <div className="activity-header">
                             <div className="p-g">
@@ -331,10 +331,11 @@ export class Dashboard extends Component {
                                     <p>Updated 1 minute ago</p>
                                 </div>
                                 <div className="p-g-6" style={{textAlign:'right'}}>
-                                    <Button label="Refresh" icon="fa-refresh" />
+                                    <Button label="Refresh" icon="pi pi-refresh" />
                                 </div>
                             </div>
                         </div>
+
                         <ul className="activity-list">
                             <li>
                                 <div className="count">$900</div>

@@ -9,6 +9,7 @@ html {
 body {
     font-family: "Open Sans", "Helvetica Neue", sans-serif;
     font-size: $fontSize;
+    color: $textColor;
     margin: 0;
     padding: 0;
     background-color: #edf0f5;
@@ -181,6 +182,9 @@ a {
     	height: 100%;
         z-index: 999;
         box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.16);
+        user-select: none;
+        -moz-user-select: none;
+        -webkit-user-select: none;
         @include transition(left $transitionDuration);
         @include linear-gradient($menuBgColorFirst, $menuBgColorLast);
 
@@ -473,14 +477,14 @@ a {
 
     .layout-main {
         @include transition(margin-left $transitionDuration);
-        padding: 74px 24px 24px 24px;
+        padding: 66px 16px 16px 16px;
     }
 
     .layout-footer {
         @include transition(margin-left $transitionDuration);
         height: 40px;
         background-color: #ffffff;
-        padding: .7em 1.5em 0em 1.5em;
+        padding: 7px 24px 0 24px;
 
         img {
             vertical-align: middle;

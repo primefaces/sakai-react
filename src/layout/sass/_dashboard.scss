@@ -2,7 +2,6 @@
 .dashboard {
     
     .summary {
-        height: 75px;
         position: relative;
         
         .title {
@@ -10,7 +9,7 @@
         }
         
         .detail {
-            color: #a4a4a4;
+            color: $textSecondaryColor;
             display: block;
             margin-top: 10px;
         }
@@ -21,8 +20,8 @@
             top: 10px;
             right: 10px;
             font-size: 24px;
-            padding: 5px;
-            @include border-radius(4px);
+            padding: 7px 14px;
+            @include border-radius($borderRadius);
             
             &.visitors {
                 background-color: #20d077;
@@ -37,6 +36,43 @@
             }
         }
     }
+
+    .highlight-box {
+        height: 100px;
+        @include clearfix();
+        
+        .initials {
+            height: 100%;
+            float: left;
+            width: 50%;
+            text-align: center;
+            padding: 1em;
+
+            > span {
+                font-size: 48px;
+            }
+        }
+        
+        .highlight-details {
+            height: 100%;
+            background-color: #ffffff;
+            float: left;
+            width: 50%;
+            padding: 1em;
+
+            i {
+                font-size: 24px;
+                vertical-align: middle;
+                margin-right: .25em;
+            }
+            
+            .count {
+                color: $textSecondaryColor;
+                font-size: 36px;
+                display: block;
+            }
+        }
+    }
     
     .task-list {
         list-style-type: none;
@@ -44,54 +80,92 @@
         padding: 0;
         
         li {
-            padding: 8px 4px;
+            padding: .5em .25em;
             border-bottom: 1px solid $dividerColor;
+            @include clearfix();
         }
         
-        .ui-chkbox {
+        .p-checkbox {
             vertical-align: middle;
-            margin-right: 5px;
+            margin-right: .5em;
         }
         
         .task-name {
             vertical-align: middle;
         }
         
-        .ui-button {
-            width: 50px;
+        .p-button {
             float: right;
-            padding: .1em;
-        }
-    }
-    
-    .highlight-box {
-        height: 100px;
-        
-        .initials {
-            float: left;
-            width: 50%;
-            box-sizing: border-box;
-            height: 100%;
-            font-size: 54px;
-            padding-top: 20px;
-            text-align: center;
-        }
-        
-        .card {
-            color: #a4a4a4;
-            float: left;
-            width: 50%;
-            box-sizing: border-box; 
-            height: 100%; 
-            
-            .count {
-                font-size: 36px;
-                display: block;
-                margin-top: 15px;
+            width: auto;
+
+            .p-button-text {
+                padding: .125em;
             }
         }
+
+        .p-panel-content {
+            min-height: 256px;
+        }
     }
-    
+
+    .contact-form {
+        .p-panel-content {
+            min-height: 256px;
+        }
+    }
+
+    .contacts {
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+
+            li {
+                border-bottom: 1px solid $dividerColor;
+                
+                a {
+                    padding: 9px;
+                    width: 100%;
+                    box-sizing: border-box;
+                    text-decoration: none;
+                    position: relative;
+                    display: block;
+                    @include border-radius(2px);
+                    @include transition(background-color .2s);
+                    
+                    .name {
+                        position: absolute;
+                        right: 10px;
+                        top: 10px;
+                        font-size: 18px;
+                    }
+                    
+                    .email {
+                        position: absolute;
+                        right: 10px;
+                        top: 30px;
+                        font-size: 14px;
+                        color: $textSecondaryColor;
+                    }
+                    
+                    &:hover {
+                        cursor: pointer;
+                        background-color: #eeeeee;
+                    }
+                }
+                
+                &:last-child {
+                    border: 0;
+                }
+            }
+        }
+ 
+        .p-panel-content {
+            min-height: 256px;
+        }
+    }
+        
     .activity-list {
         list-style-type: none;
         padding: 0;
@@ -99,79 +173,34 @@
         
         li {
             border-bottom: 1px solid $dividerColor;
-            padding: 15px 0 9px 9px;
+            padding: 16px 8px;
             
             .count {
                 font-size: 24px;
                 color: #ffffff;
                 background-color: #007be5;
-                font-weight: bold;
-                width: 60px;
-                padding: 5px;
-                @include border-radius(2px);
+                font-weight: 700;
+                display: inline-block;
+                padding: .25em .5em;
+                @include border-radius($borderRadius);
             }
             
             &:first-child {
-                border-top: 1px solid #d9d9d9;
+                border-top: 1px solid $dividerColor;
             }
             
             &:last-child {
                 border: 0;
             }
 
-            .ui-g-6:first-child {
+            .p-g-6:first-child {
                 font-size: 18px;
                 padding-left: 0;
             }
             
-            .ui-g-6:last-child {
+            .p-g-6:last-child {
                 text-align: right;
-                color: #a4a4a4;
-            }
-        }
-    }
-    
-    .contacts {
-        list-style-type: none;
-        padding: 0;
-        margin: 0;
-        
-        li {
-            border-bottom: 1px solid $dividerColor;
-            
-            a {
-                padding: 9px;
-                width: 100%;
-                box-sizing: border-box;
-                text-decoration: none;
-                position: relative;
-                display: block;
-                @include border-radius(2px);
-                @include transition(background-color .2s);
-                
-                .name {
-                    position: absolute;
-                    right: 10px;
-                    top: 10px;
-                    font-size: 18px;
-                }
-                
-                .email {
-                    position: absolute;
-                    right: 10px;
-                    top: 30px;
-                    font-size: 14px;
-                    color: #a4a4a4;
-                }
-                
-                &:hover {
-                    cursor: pointer;
-                    background-color: #eeeeee;
-                }
-            }
-            
-            &:last-child {
-                border: 0;
+                color: $textSecondaryColor;
             }
         }
     }

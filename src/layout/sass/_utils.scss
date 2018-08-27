@@ -11,17 +11,11 @@ h2 {
     margin: 0;
 }
 
-/* Utils */
-.clearfix:after {
-    content:" ";
-    display:block;
-    clear:both;
-}
-
 .card {
     background-color: #ffffff;
     padding: 1em;
     margin-bottom: 16px;
+    @include border-radius($borderRadius);
 
     &.card-w-title {
         padding-bottom: 2em;
@@ -38,6 +32,7 @@ h2 {
         }
     }
 }
-.ui-g {
-  -ms-flex-wrap: wrap;
+
+.p-g {
+    -ms-flex-wrap: wrap;
 }
