@@ -10,8 +10,8 @@ export class UtilsDemo extends Component {
 
     render() {
         return(
-            <div className="ui-g">
-                <div className="ui-g-12">
+            <div className="p-g">
+                <div className="p-g-12">
                     <div className="card">
                         <h1>Card</h1>
                         <p>Card is a section to group content and layout provides a built-in css for it. Apply .card style class to your container to use it. If the
@@ -30,47 +30,47 @@ export class UtilsDemo extends Component {
 </pre>
 
                     <h1>Shadows</h1>
-                    <p>5 levels of shadows are provided varying from ui-shadow-1 to ui-shadow-5 to define the level of depth.</p>
+                    <p>5 levels of shadows are provided varying from p-shadow-1 to p-shadow-5 to define the level of depth.</p>
 
-                    <div className="ui-g">
-                        <div className="ui-g-12 ui-md-2">
+                    <div className="p-g">
+                        <div className="p-g-12 p-md-2">
                             <div className="shadow-box"></div>
                         </div>
-                        <div className="ui-g-12 ui-md-2">
-                            <div className="shadow-box ui-shadow-1"></div>
+                        <div className="p-g-12 p-md-2">
+                            <div className="shadow-box p-shadow-1"></div>
                         </div>
-                        <div className="ui-g-12 ui-md-2">
-                            <div className="shadow-box ui-shadow-2"></div>
+                        <div className="p-g-12 p-md-2">
+                            <div className="shadow-box p-shadow-2"></div>
                         </div>
-                        <div className="ui-g-12 ui-md-2">
-                            <div className="shadow-box ui-shadow-3"></div>
+                        <div className="p-g-12 p-md-2">
+                            <div className="shadow-box p-shadow-3"></div>
                         </div>
-                        <div className="ui-g-12 ui-md-2">
-                            <div className="shadow-box ui-shadow-4"></div>
+                        <div className="p-g-12 p-md-2">
+                            <div className="shadow-box p-shadow-4"></div>
                         </div>
-                        <div className="ui-g-12 ui-md-2">
-                            <div className="shadow-box ui-shadow-5"></div>
+                        <div className="p-g-12 p-md-2">
+                            <div className="shadow-box p-shadow-5"></div>
                         </div>
                     </div>
                     <pre>
-&lt;div className="ui-g"&gt;<br/>
-&emsp;&lt;div className="ui-g-12 ui-md-2"&gt;<br/>
+&lt;div className="p-g"&gt;<br/>
+&emsp;&lt;div className="p-g-12 p-md-2"&gt;<br/>
 &emsp;&emsp;&lt;div className="shadow-box"&gt;&lt;/div&gt;<br/>
 &emsp;&lt;/div&gt;<br/>
-&emsp;&lt;div className="ui-g-12 ui-md-2"&gt;<br/>
-&emsp;&emsp;&lt;div className="shadow-box ui-shadow-1"&gt;&lt;/div&gt;<br/>
+&emsp;&lt;div className="p-g-12 p-md-2"&gt;<br/>
+&emsp;&emsp;&lt;div className="shadow-box p-shadow-1"&gt;&lt;/div&gt;<br/>
 &emsp;&lt;/div&gt;<br/>
-&emsp;&lt;div className="ui-g-12 ui-md-2"&gt;<br/>
-&emsp;&emsp;&lt;div className="shadow-box ui-shadow-2"&gt;&lt;/div&gt;<br/>
+&emsp;&lt;div className="p-g-12 p-md-2"&gt;<br/>
+&emsp;&emsp;&lt;div className="shadow-box p-shadow-2"&gt;&lt;/div&gt;<br/>
 &emsp;&lt;/div&gt;<br/>
-&emsp;&lt;div className="ui-g-12 ui-md-2"&gt;<br/>
-&emsp;&emsp;&lt;div className="shadow-box ui-shadow-3"&gt;&lt;/div&gt;<br/>
+&emsp;&lt;div className="p-g-12 p-md-2"&gt;<br/>
+&emsp;&emsp;&lt;div className="shadow-box p-shadow-3"&gt;&lt;/div&gt;<br/>
 &emsp;&lt;/div&gt;<br/>
-&emsp;&lt;div className="ui-g-12 ui-md-2"&gt;<br/>
-&emsp;&emsp;&lt;div className="shadow-box ui-shadow-4"&gt;&lt;/div&gt;<br/>
+&emsp;&lt;div className="p-g-12 p-md-2"&gt;<br/>
+&emsp;&emsp;&lt;div className="shadow-box p-shadow-4"&gt;&lt;/div&gt;<br/>
 &emsp;&lt;/div&gt;<br/>
-&emsp;&lt;div className="ui-g-12 ui-md-2"&gt;<br/>
-&emsp;&emsp;&lt;div className="shadow-box ui-shadow-5"&gt;&lt;/div&gt;<br/>
+&emsp;&lt;div className="p-g-12 p-md-2"&gt;<br/>
+&emsp;&emsp;&lt;div className="shadow-box p-shadow-5"&gt;&lt;/div&gt;<br/>
 &emsp;&lt;/div&gt;<br/>
 &lt;/div&gt;
 </pre>

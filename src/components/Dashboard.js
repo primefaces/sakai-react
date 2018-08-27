@@ -144,22 +144,22 @@ export class Dashboard extends Component {
         ];
         
         return (
-            <div className="ui-g ui-fluid dashboard">
-                <div className="ui-g-12 ui-md-4">
+            <div className="p-g p-fluid dashboard">
+                <div className="p-g-12 p-md-4">
                     <div className="card clearfix summary">
                         <span className="title">Users</span>
                         <span className="detail">Number of visitors</span>
                         <span className="count visitors">12</span>
                     </div>
                 </div>
-                <div className="ui-g-12 ui-md-4">
+                <div className="p-g-12 p-md-4">
                     <div className="card clearfix summary">
                         <span className="title">Sales</span>
                         <span className="detail">Number of purchases</span>
                         <span className="count purchases">534</span>
                     </div>
                 </div>
-                <div className="ui-g-12 ui-md-4">
+                <div className="p-g-12 p-md-4">
                     <div className="card clearfix summary">
                         <span className="title">Revenue</span>
                         <span className="detail">Income for today</span>
@@ -167,7 +167,7 @@ export class Dashboard extends Component {
                     </div>
                 </div>
 
-                <div className="ui-g-12 ui-md-6 ui-lg-3">
+                <div className="p-g-12 p-md-6 p-lg-3">
                     <div className="highlight-box">
                         <div className="initials" style={{backgroundColor:'#007be5',color:'#00448f'}}>TV</div>
                         <div className="card">
@@ -177,7 +177,7 @@ export class Dashboard extends Component {
                         </div>
                     </div>
                 </div>
-                <div className="ui-g-12 ui-md-6 ui-lg-3">
+                <div className="p-g-12 p-md-6 p-lg-3">
                     <div className="highlight-box">
                         <div className="initials" style={{backgroundColor:'#ef6262',color:'#a83d3b'}}>TI</div>
                         <div className="card">
@@ -187,7 +187,7 @@ export class Dashboard extends Component {
                         </div>
                     </div>
                 </div>
-                <div className="ui-g-12 ui-md-6 ui-lg-3">
+                <div className="p-g-12 p-md-6 p-lg-3">
                     <div className="highlight-box">
                         <div className="initials" style={{backgroundColor:'#20d077',color:'#038d4a'}}>OI</div>
                         <div className="card">
@@ -197,7 +197,7 @@ export class Dashboard extends Component {
                         </div>
                     </div>
                 </div>
-                <div className="ui-g-12 ui-md-6 ui-lg-3">
+                <div className="p-g-12 p-md-6 p-lg-3">
                     <div className="highlight-box">
                         <div className="initials" style={{backgroundColor:'#f9c851',color:'#b58c2b'}}>CI</div>
                         <div className="card">
@@ -207,7 +207,7 @@ export class Dashboard extends Component {
                         </div>
                     </div>
                 </div>
-                <div className="ui-g-12 ui-md-6 ui-lg-4">
+                <div className="p-g-12 p-md-6 p-lg-4">
                     <Panel header="Tasks" style={{height: '100%'}}>
                         <ul className='task-list'>
                             <li>
@@ -243,29 +243,29 @@ export class Dashboard extends Component {
                         </ul>
                     </Panel>
                 </div>
-                <div className="ui-g-12 ui-md-6 ui-lg-4 ui-fluid contact-form">
+                <div className="p-g-12 p-md-6 p-lg-4 p-fluid contact-form">
                     <Panel header="Contact Us" style={{height: '100%'}}>
-                        <div className="ui-g">
-                            <div className="ui-g-12">
+                        <div className="p-g">
+                            <div className="p-g-12">
                                 <Dropdown value={this.state.city} options={cities} placeholder="Select a City" onChange={this.onCityChange} autoWidth={false} />
                             </div>
-                            <div className="ui-g-12">
+                            <div className="p-g-12">
                                 <InputText type="text" placeholder="Name" />
                             </div>
-                            <div className="ui-g-12">
+                            <div className="p-g-12">
                                 <InputText type="text" placeholder="Age" />
                             </div>
-                            <div className="ui-g-12">
+                            <div className="p-g-12">
                                 <InputText type="text" placeholder="Message" />
                             </div>
-                            <div className="ui-g-12">
+                            <div className="p-g-12">
                                 <Button type="button" label="Send" icon="fa-send"/>
                             </div>
                         </div>
                     </Panel>
                 </div>
 
-                <div className="ui-g-12 ui-lg-4">
+                <div className="p-g-12 p-lg-4">
                     <Panel header="Contacts">
                         <ul className="contacts">
                             <li>
@@ -299,7 +299,7 @@ export class Dashboard extends Component {
                         </ul>
                     </Panel>
                 </div>
-                <div className="ui-g-12 ui-md-6">
+                <div className="p-g-12 p-md-6">
                     <div className="card">
                         <h1 style={{fontSize:'16px'}}>Recent Sales</h1>
                         <DataTable value={this.state.cars}  style={{marginBottom: '20px'}} responsive={true}
@@ -311,26 +311,26 @@ export class Dashboard extends Component {
                         </DataTable>
                     </div>
                 </div>
-                <div className="ui-g-12 ui-md-6">
+                <div className="p-g-12 p-md-6">
                     <div className="card">
                         <Chart type="line" data={this.state.lineData}/>
                     </div>
                 </div>
-                <div className="ui-g-12 ui-md-8">
+                <div className="p-g-12 p-md-8">
                     <Panel header="Calendar" style={{height: '100%'}}> 
                         <Schedule events={events} header={scheduleHeader} defaultDate="2017-02-01" eventLimit={4}></Schedule>
                     </Panel>
                 </div>
 
-                <div className="ui-g-12 ui-md-4">
+                <div className="p-g-12 p-md-4">
                     <Panel header="Activity" style={{height:'100%'}}>
                         <div className="activity-header">
-                            <div className="ui-g">
-                                <div className="ui-g-6">
+                            <div className="p-g">
+                                <div className="p-g-6">
                                     <span style={{fontWeight:'bold'}}>Last Activity</span>
                                     <p>Updated 1 minute ago</p>
                                 </div>
-                                <div className="ui-g-6" style={{textAlign:'right'}}>
+                                <div className="p-g-6" style={{textAlign:'right'}}>
                                     <Button label="Refresh" icon="fa-refresh" />
                                 </div>
                             </div>
@@ -338,44 +338,44 @@ export class Dashboard extends Component {
                         <ul className="activity-list">
                             <li>
                                 <div className="count">$900</div>
-                                <div className="ui-g">
-                                    <div className="ui-g-6">Income</div>
-                                    <div className="ui-g-6">95%</div>
+                                <div className="p-g">
+                                    <div className="p-g-6">Income</div>
+                                    <div className="p-g-6">95%</div>
                                 </div>
                             </li>
                             <li>
                                 <div className="count" style={{backgroundColor:'#f9c851'}}>$250</div>
-                                <div className="ui-g">
-                                    <div className="ui-g-6">Tax</div>
-                                    <div className="ui-g-6">24%</div>
+                                <div className="p-g">
+                                    <div className="p-g-6">Tax</div>
+                                    <div className="p-g-6">24%</div>
                                 </div>
                             </li>
                             <li>
                                 <div className="count" style={{backgroundColor:'#20d077'}}>$125</div>
-                                <div className="ui-g">
-                                    <div className="ui-g-6">Invoices</div>
-                                    <div className="ui-g-6">55%</div>
+                                <div className="p-g">
+                                    <div className="p-g-6">Invoices</div>
+                                    <div className="p-g-6">55%</div>
                                 </div>
                             </li>
                             <li>
                                 <div className="count" style={{backgroundColor:'#f9c851'}}>$250</div>
-                                <div className="ui-g">
-                                    <div className="ui-g-6">Expenses</div>
-                                    <div className="ui-g-6">15%</div>
+                                <div className="p-g">
+                                    <div className="p-g-6">Expenses</div>
+                                    <div className="p-g-6">15%</div>
                                 </div>
                             </li>
                             <li>
                                 <div className="count" style={{backgroundColor:'#007be5'}}>$350</div>
-                                <div className="ui-g">
-                                    <div className="ui-g-6">Bonus</div>
-                                    <div className="ui-g-6">5%</div>
+                                <div className="p-g">
+                                    <div className="p-g-6">Bonus</div>
+                                    <div className="p-g-6">5%</div>
                                 </div>
                             </li>
                             <li>
                                 <div className="count" style={{backgroundColor:'#ef6262'}}>$500</div>
-                                <div className="ui-g">
-                                    <div className="ui-g-6">Revenue</div>
-                                    <div className="ui-g-6">25%</div>
+                                <div className="p-g">
+                                    <div className="p-g-6">Revenue</div>
+                                    <div className="p-g-6">25%</div>
                                 </div>
                             </li>
                         </ul>
