@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
-import {Messages} from 'primereact/components/messages/Messages';
-import {Growl} from 'primereact/components/growl/Growl';
-import {InputText} from 'primereact/components/inputtext/InputText';
-import {Button} from 'primereact/components/button/Button';
+import React, {Component} from 'react';
+import {Messages} from 'primereact/messages';
+import {Growl} from 'primereact/growl';
+import {Button} from 'primereact/button';
+import {Message} from 'primereact/message';
+import {InputText} from 'primereact/inputtext';
 
 export class MessagesDemo extends Component {
 
@@ -16,55 +17,70 @@ export class MessagesDemo extends Component {
     }
 
     showSuccess() {
-        let msg = { severity: 'success', summary: 'Success Message', detail: 'Order submitted' };
+        let msg = {severity: 'success', summary: 'Success Message', detail: 'Order submitted'};
         this.growl.show(msg);
         this.messages.show(msg);
     }
 
     showInfo() {
-        let msg = { severity: 'info', summary: 'Info Message', detail: 'PrimeReact rocks' };
+        let msg = {severity: 'info', summary: 'Info Message', detail: 'PrimeReact rocks'};
         this.growl.show(msg);
         this.messages.show(msg);
     }
 
     showWarn() {
-        let msg = { severity: 'warn', summary: 'Warn Message', detail: 'There are unsaved changes' };
+        let msg = {severity: 'warn', summary: 'Warn Message', detail: 'There are unsaved changes'};
         this.growl.show(msg);
         this.messages.show(msg);
     }
 
     showError() {
-        let msg = { severity: 'error', summary: 'Error Message', detail: 'Validation failed' };
+        let msg = {severity: 'error', summary: 'Error Message', detail: 'Validation failed'};
         this.growl.show(msg);
         this.messages.show(msg);
     }
-
+    
     render() {
-        return(
-            <div className="ui-g">
-                <div className="ui-g-12">
+        return (
+            <div className="p-g">
+                <div className="p-g-12">
                     <div className="card">
                         <h1>Messages and Growl</h1>
                         <Messages ref={(el) => this.messages = el} />
-                        <Growl ref={(el) => this.growl = el} />
+                        <Growl ref={(el) => this.growl = el} style={{marginTop: '75px'}} />
             
-                        <Button onClick={this.showInfo} label="Info" style={{width:'100px'}} className="info-btn"/>
-                        <Button onClick={this.showSuccess} label="Success" style={{width:'100px'}} className="green-button" />
-                        <Button onClick={this.showWarn} label="Warn" className="yellow-button" style={{width:'100px'}}/>
-                        <Button onClick={this.showError} label="Error" className="red-button" style={{width:'100px'}}/>
-                    </div>
-
-                    <div className="card">
-                        <h1>Invalid Field</h1>
-                        <span className="md-inputfield">
-                            <InputText className="ui-state-error" placeholder="Invalid"/>
-                            <div className="ui-message ui-messages-error ui-corner-all">
-                                This field is required
+                        <Button onClick={this.showInfo} label="Info" className="p-button-info" style={{width:'10em', marginRight:'.25em'}} />
+                        <Button onClick={this.showSuccess} label="Success" className="p-button-success" style={{width:'10em', marginRight:'.25em'}} />
+                        <Button onClick={this.showWarn} label="Warn" className="p-button-warning" style={{width:'10em', marginRight:'.25em'}} />
+                        <Button onClick={this.showError} label="Error" className="p-button-danger"  style={{width:'10em', marginRight:'.25em'}} />
+                    
+                        <h1>Inline Message</h1>
+                        <div className="p-g">
+                            <div className="p-g-12 p-md-3">
+                                <Message severity="info" text="PrimeReact Rocks" />
                             </div>
-                        </span>
+                            <div className="p-g-12 p-md-3">
+                                <Message severity="success" text="Record Saved" />
+                            </div>
+                            <div className="p-g-12 p-md-3">
+                                <Message severity="warn" text="Are you sure?" />
+                            </div>
+                            <div className="p-g-12 p-md-3">
+                                <Message severity="error" text="Field is required" />
+                            </div>
+                        </div>
+
+                        <div style={{ marginTop: '30px', paddingLeft: '.5em' }}>
+                            <InputText placeholder="Username" className="p-error" style={{marginRight: '.25em'}} />
+                            <Message severity="error" text="Field is required" />
+                        </div>
+                        <div style={{ marginTop: '30px', paddingLeft: '.5em' }}>
+                            <InputText placeholder="Email" className="p-error" style={{marginRight: '.25em'}} />
+                            <Message severity="error" />
+                        </div>
                     </div>
                 </div>
             </div>
-        )
+        );
     }
 }

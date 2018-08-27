@@ -1,29 +1,28 @@
-import React, { Component } from 'react';
+import React, {Component}from 'react';
 import classNames from 'classnames';
-import { AppTopbar } from './AppTopbar';
-import { AppFooter } from './AppFooter';
-import { AppMenu } from './AppMenu';
-import { AppInlineProfile } from './AppInlineProfile';
-import { Route } from 'react-router-dom';
-import { Dashboard } from './components/Dashboard';
-import { FormsDemo } from './components/FormsDemo';
-import { SampleDemo } from './components/SampleDemo';
-import { DataDemo } from './components/DataDemo';
-import { PanelsDemo } from './components/PanelsDemo';
-import { OverlaysDemo } from './components/OverlaysDemo';
-import { MenusDemo } from './components/MenusDemo';
-import { MessagesDemo } from './components/MessagesDemo';
-import { ChartsDemo } from './components/ChartsDemo';
-import { MiscDemo } from './components/MiscDemo';
-import { EmptyPage } from './components/EmptyPage';
-import { UtilsDemo } from './components/UtilsDemo';
-import { Documentation } from "./components/Documentation";
-import { ScrollPanel } from 'primereact/components/scrollpanel/ScrollPanel';
-import 'primereact/resources/themes/omega/theme.css';
+import {AppTopbar}from './AppTopbar';
+import {AppFooter}from './AppFooter';
+import {AppMenu}from './AppMenu';
+import {AppInlineProfile}from './AppInlineProfile';
+import {Route}from 'react-router-dom';
+import {Dashboard}from './components/Dashboard';
+import {FormsDemo}from './components/FormsDemo';
+import {SampleDemo}from './components/SampleDemo';
+import {DataDemo}from './components/DataDemo';
+import {PanelsDemo}from './components/PanelsDemo';
+import {OverlaysDemo}from './components/OverlaysDemo';
+import {MenusDemo}from './components/MenusDemo';
+import {MessagesDemo}from './components/MessagesDemo';
+import {ChartsDemo}from './components/ChartsDemo';
+import {MiscDemo}from './components/MiscDemo';
+import {EmptyPage}from './components/EmptyPage';
+import {UtilsDemo}from './components/UtilsDemo';
+import {Documentation}from "./components/Documentation";
+import {ScrollPanel}from 'primereact/components/scrollpanel/ScrollPanel';
+import 'primereact/resources/themes/nova-light/theme.css';
 import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css';
 import 'fullcalendar/dist/fullcalendar.css';
-import 'font-awesome/css/font-awesome.css';
-import './App.css';
 import './layout/layout.css';
 
 class App extends Component {
@@ -102,7 +101,7 @@ class App extends Component {
 
     createMenu() {
         this.menu = [
-            {label: 'Dashboard', icon: 'fa fa-fw fa-home', command: () => { window.location = '#/'}},
+            {label: 'Dashboard', icon: 'fa fa-fw fa-home', command: () => {window.location = '#/'}},
             {
                 label: 'Menu Modes', icon: 'fa fa-fw fa-cog',
                 items: [
@@ -120,21 +119,21 @@ class App extends Component {
             {
                 label: 'Components', icon: 'fa fa-fw fa-bars', badge: '2', badgeStyleClass: 'teal-badge',
                 items: [
-                    {label: 'Sample Page', icon: 'fa fa-fw fa-columns', command: () => { window.location = '#/sample'}},
-                    {label: 'Forms', icon: 'fa fa-fw fa-code', command: () => { window.location = '#/forms'}},
-                    {label: 'Data', icon: 'fa fa-fw fa-table', command: () => { window.location = "#/data"}},
-                    {label: 'Panels', icon: 'fa fa-fw fa-list-alt', command: () => { window.location = "#/panels"}},
-                    {label: 'Overlays', icon: 'fa fa-fw fa-square', command: () => { window.location = "#/overlays"}},
-                    {label: 'Menus', icon: 'fa fa-fw fa-minus-square-o', command: () => { window.location = "#/menus"}},
-                    {label: 'Messages', icon: 'fa fa-fw fa-circle-o-notch', command: () => { window.location = "#/messages"}},
-                    {label: 'Charts', icon: 'fa fa-fw fa-area-chart', command: () => { window.location = "#/charts"}},
-                    {label: 'Misc', icon: 'fa fa-fw fa-user-secret', command: () => { window.location = "#/misc"}}
+                    {label: 'Sample Page', icon: 'fa fa-fw fa-columns', command: () => {window.location = '#/sample'}},
+                    {label: 'Forms', icon: 'fa fa-fw fa-code', command: () => {window.location = '#/forms'}},
+                    {label: 'Data', icon: 'fa fa-fw fa-table', command: () => {window.location = "#/data"}},
+                    {label: 'Panels', icon: 'fa fa-fw fa-list-alt', command: () => {window.location = "#/panels"}},
+                    {label: 'Overlays', icon: 'fa fa-fw fa-square', command: () => {window.location = "#/overlays"}},
+                    {label: 'Menus', icon: 'fa fa-fw fa-minus-square-o', command: () => {window.location = "#/menus"}},
+                    {label: 'Messages', icon: 'fa fa-fw fa-circle-o-notch', command: () => {window.location = "#/messages"}},
+                    {label: 'Charts', icon: 'fa fa-fw fa-area-chart', command: () => {window.location = "#/charts"}},
+                    {label: 'Misc', icon: 'fa fa-fw fa-user-secret', command: () => {window.location = "#/misc"}}
                 ]
             },
             {
                 label: 'Template Pages', icon: 'fa fa-fw fa-life-saver',
                 items: [
-                    {label: 'Empty Page', icon: 'fa fa-fw fa-square-o', command: () => { window.location = "#/empty"}},
+                    {label: 'Empty Page', icon: 'fa fa-fw fa-square-o', command: () => {window.location = "#/empty"}},
                     {label: 'Login', icon: 'fa fa-fw fa-sign-in', url: 'assets/pages/login.html', target: '_blank'},
                     {label: 'Error', icon: 'fa fa-fw fa-exclamation-circle', url: 'assets/pages/error.html', target: '_blank'},
                     {label: '404 Page', icon: 'fa fa-fw fa-times', url: 'assets/pages/404.html', target: '_blank'},
@@ -186,7 +185,7 @@ class App extends Component {
                     }
                 ]
             },
-            {label: 'Documentation', icon: 'fa fa-fw fa-book', command: () => { window.location = "#/documentation"}}
+            {label: 'Documentation', icon: 'fa fa-fw fa-book', command: () => {window.location = "#/documentation"}}
         ];
     }
 

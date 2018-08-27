@@ -1,144 +1,107 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {CarService} from '../service/CarService';
 import {NodeService} from '../service/NodeService';
 import {EventService} from '../service/EventService';
-import {OrganizationChart} from 'primereact/components/organizationchart/OrganizationChart';
-import {DataTable} from 'primereact/components/datatable/DataTable';
-import {DataView, DataViewLayoutOptions} from 'primereact/components/dataview/DataView';
-import {Tree} from 'primereact/components/tree/Tree';
-import {TreeTable} from 'primereact/components/treetable/TreeTable';
-import {Column} from 'primereact/components/column/Column'
-import {PickList} from 'primereact/components/picklist/PickList';
-import {OrderList} from 'primereact/components/orderlist/OrderList';
-import {Schedule} from 'primereact/components/schedule/Schedule';
-import {Panel} from 'primereact/components/panel/Panel';
-import {Button} from 'primereact/components/button/Button';
-import {InputText} from 'primereact/components/inputtext/InputText';
-import {Dropdown} from 'primereact/components/dropdown/Dropdown';
+import {OrganizationChart} from 'primereact/organizationchart';
+import {DataTable} from 'primereact/datatable';
+import {Tree} from 'primereact/tree';
+import {TreeTable} from 'primereact/treetable';
+import {Column} from 'primereact/column'
+import {PickList} from 'primereact/picklist';
+import {OrderList} from 'primereact/orderlist';
+import {Schedule} from 'primereact/schedule';
+import {Panel} from 'primereact/panel';
+import {InputText} from 'primereact/inputtext';
+import {Button} from 'primereact/button';
+import {Dropdown} from 'primereact/dropdown';
+import {DataView, DataViewLayoutOptions} from 'primereact/dataview';
 
 export class DataDemo extends Component {
 
     constructor() {
         super();
         this.state = {
-            dataTableValue: [],
-            treeData: [],
-            treeTableData: [],
-            picklistSourceCars: [],
-            picklistTargetCars: [],
-            orderlistCars: [],
-            scheduleEvents: [],
-            organizationSelect: null
+            dataTableValue:[],
+            dataViewValue:[],
+            picklistSourceCars:[],
+            picklistTargetCars:[],
+            orderlistCars:[],
+            treeData1:[],
+            treeData2:[],
+            treeData3:[],
+            selectedFile1:null,
+            selectedFile2:null,
+            selectedFiles1:null,
+            documents:[],
+            documentsSelection:[],
+            scheduleEvents:[],
+            layout: 'list',
+            sortOptions: [
+                {label: 'Newest First', value: '!year'},
+                {label: 'Oldest First', value: 'year'},
+                {label: 'Brand', value: 'brand'}
+            ],
+            organizationChartValue: [{
+                label: 'F.C Barcelona',
+                expanded: true,
+                children: [
+                    {
+                        label: 'F.C Barcelona',
+                        expanded: true,
+                        children: [
+                            {
+                                label: 'Chelsea FC'
+                            },
+                            {
+                                label: 'F.C. Barcelona'
+                            }
+                        ]
+                    },
+                    {
+                        label: 'Real Madrid',
+                        expanded: true,
+                        children: [
+                            {
+                                label: 'Bayern Munich'
+                            },
+                            {
+                                label: 'Real Madrid'
+                            }
+                        ]
+                    }
+                ]
+            }]
         };
+
         this.carService = new CarService();
         this.nodeService = new NodeService();
         this.eventService = new EventService();
+
+        this.dataViewItemTemplate = this.dataViewItemTemplate.bind(this);
         this.pickListTemplate = this.pickListTemplate.bind(this);
         this.orderListTemplate = this.orderListTemplate.bind(this);
-        this.onOrganizationChange = this.onOrganizationChange.bind(this);
-        this.onTreeTableChange = this.onTreeTableChange.bind(this);
-        this.dataViewItemTemplate = this.dataViewItemTemplate.bind(this);
-        this.dataViewHeaderTemplate = this.dataViewHeaderTemplate.bind(this);
         this.onSortChange = this.onSortChange.bind(this);
     }
 
     componentDidMount() {
         this.carService.getCarsMedium().then(data => this.setState({dataTableValue: data}));
-        this.nodeService.getFiles(this).then(files => this.setState({treeData: files}));
-        this.nodeService.getFilesystem(this).then(files => this.setState({treeTableData: files}));
+        this.nodeService.getFiles(this).then(files => this.setState({treeData1: files}));
+        this.nodeService.getFiles(this).then(files => this.setState({treeData2: files}));
+        this.nodeService.getFiles(this).then(files => this.setState({treeData3: files}));
+        this.carService.getCarsLarge().then(data => this.setState({dataViewValue: data}));
+        this.nodeService.getFilesystem(this).then(files => this.setState({documents: files}));
         this.carService.getCarsMedium().then(data => this.setState({picklistSourceCars: data}));
         this.carService.getCarsSmall().then(data => this.setState({orderlistCars: data}));
         this.eventService.getEvents().then(events => this.setState({scheduleEvents: events}));
-    }
-
-    onSortChange(event) {
-        let value = event.value;
-
-        if (value.indexOf('!') === 0) {
-            this.setState({sortOrder: -1, sortField:value.substring(1, value.length), sortKey: value});
-        }
-        else {
-            this.setState({sortOrder: 1, sortField:value, sortKey: value});
-        }
-    }
-
-    dataViewItemTemplate(car,layout) {
-        if(!car) {
-            return;
-        }
-
-        let src = "assets/demo/images/car/" + car.brand + ".png";
-
-        if(layout === 'list') {
-            return (
-                <div className="ui-g" style={{padding: '0.5em', borderBottom: '1px solid #d9d9d9'}}>
-                    <div className="ui-g-12 ui-md-3">
-                        <img src={src} alt={car.brand}/>
-                    </div>
-                    <div className="ui-g-12 ui-md-8 car-details">
-                        <div className="ui-g">
-                            <div className="ui-g-2 ui-sm-6">Vin:</div>
-                            <div className="ui-g-10 ui-sm-6">{car.vin}</div>
-
-                            <div className="ui-g-2 ui-sm-6">Year:</div>
-                            <div className="ui-g-10 ui-sm-6">{car.year}</div>
-
-                            <div className="ui-g-2 ui-sm-6">Brand:</div>
-                            <div className="ui-g-10 ui-sm-6">{car.brand}</div>
-
-                            <div className="ui-g-2 ui-sm-6">Color:</div>
-                            <div className="ui-g-10 ui-sm-6">{car.color}</div>
-                        </div>
-                    </div>
-
-                    <div className="ui-g-12 ui-md-1 search-icon" style={{marginTop:'40px'}}>
-                        <Button icon="fa-search" onClick={(e) => this.setState({ selectedCar: car, visible: true })}></Button>
-                    </div>
-                </div>
-            );
-        }
-        if(layout === 'grid') {
-            return (
-                <div style={{ padding: '.5em' }} className="ui-g-12 ui-md-4">
-                    <Panel header={car.vin} style={{ textAlign: 'center' }}>
-                        <img src={`assets/demo/images/car/${car.brand}.png`} alt={car.brand} />
-                        <div className="car-detail">{car.year} - {car.color}</div>
-                        <hr className="ui-widget-content" style={{ borderTop: 0 }} />
-                        <Button icon="fa-search"></Button>
-                    </Panel>
-                </div>
-            );
-        }
-    }
-
-    dataViewHeaderTemplate() {
-        let sortOptions = [
-            {label: 'Newest First', value: '!year'},
-            {label: 'Oldest First', value: 'year'},
-            {label: 'Brand', value: 'brand'}
-        ];
-
-        return <div className="ui-g">
-                    <div className="ui-g-12 ui-md-4">
-                        <Dropdown options={sortOptions} value={this.state.sortKey} placeholder="Sort By" onChange={this.onSortChange} autoWidth={false} style={{minWidth:'15em'}}/>
-                    </div>
-                    <div className="ui-g-6 ui-md-4 filter-container">
-                        <div style={{position:'relative'}}>
-                            <InputText placeholder="Search by brand" onKeyUp={e=>this.dv.filter(e.target.value)}/>
-                        </div>
-                    </div>
-                    <div className="ui-g-6 ui-md-4" style={{textAlign: 'right'}}>
-                        <DataViewLayoutOptions onClick={(e)=>this.dv.changeLayout(e.originalEvent,e.layout)}/>
-                    </div>
-                </div>;
     }
 
     pickListTemplate(car){
         if (!car) {
             return;
         }
-        return <div className="ui-helper-clearfix">
-            <img src={`assets/demo/images/car/${car.brand}.png`} alt={car.brand} style={{display:'inline-block', margin:'2px 0 2px 2px', width: '50px'}}/>
+        
+        return <div className="p-clearfix">
+            <img src={`assets/layout/images/car/${car.brand}.png`} alt={car.brand} style={{display:'inline-block', margin:'2px 0 2px 2px', width: '50px'}}/>
             <div style={{fontSize:'16px', float:'right', margin:'15px 5px 0 0'}}>{car.brand}</div>
         </div>
     }
@@ -149,69 +112,99 @@ export class DataDemo extends Component {
         }
 
         return (
-            <div className="ui-helper-clearfix">
-                <img src={`assets/demo/images/car/${car.brand}.png`} alt={car.brand} style={{display:'inline-block',margin:'2px 0 2px 2px', width: '50px'}}/>
+            <div className="p-clearfix">
+                <img src={`assets/layout/images/car/${car.brand}.png`} alt={car.brand} style={{display:'inline-block',margin:'2px 0 2px 2px', width: '50px'}}/>
                 <div style={{fontSize:14,float:'right',margin:'15px 5px 0 0'}}>{car.year} - {car.color}</div>
             </div>
         );
     }
 
-    onOrganizationChange(select){
-        this.setState({organizationSelect: select});
+    dataViewItemTemplate(car,layout) {
+        if (!car) {
+            return;
+        }
+
+        let src = "assets/layout/images/car/" + car.brand + ".png";
+
+        if (layout === 'list') {
+            return (
+                <div className="p-g" style={{padding: '2em', borderBottom: '1px solid #d9d9d9'}}>
+                    <div className="p-g-12 p-md-3">
+                        <img src={src} alt={car.brand}/>
+                    </div>
+                    <div className="p-g-12 p-md-8 car-details">
+                        <div className="p-g">
+                            <div className="p-g-2 p-sm-6">Vin:</div>
+                            <div className="p-g-10 p-sm-6">{car.vin}</div>
+
+                            <div className="p-g-2 p-sm-6">Year:</div>
+                            <div className="p-g-10 p-sm-6">{car.year}</div>
+
+                            <div className="p-g-2 p-sm-6">Brand:</div>
+                            <div className="p-g-10 p-sm-6">{car.brand}</div>
+
+                            <div className="p-g-2 p-sm-6">Color:</div>
+                            <div className="p-g-10 p-sm-6">{car.color}</div>
+                        </div>
+                    </div>
+
+                    <div className="p-g-12 p-md-1 search-icon" style={{marginTop:'40px'}}>
+                        <Button icon="pi pi-search"></Button>
+                    </div>
+                </div>
+            );
+        }
+
+        if (layout === 'grid') {
+            return (
+                <div style={{ padding: '.5em' }} className="p-g-12 p-md-3">
+                    <Panel header={car.vin} style={{ textAlign: 'center' }}>
+                        <img src={`assets/layout/images/car/${car.brand}.png`} alt={car.brand} />
+                        <div className="car-detail">{car.year} - {car.color}</div>
+                        <Button icon="pi pi-search"></Button>
+                    </Panel>
+                </div>
+            );
+        }
     }
 
-    onTreeTableChange(event){
-        this.setState({treeTableSelect: event.selection});
+    onSortChange(event) {
+        let value = event.value;
+
+        if (value.indexOf('!') === 0)
+            this.setState({sortOrder: -1, sortField:value.substring(1, value.length), sortKey: value});
+        else
+            this.setState({sortOrder: 1, sortField:value, sortKey: value});
     }
 
-    render(){
-
-        let organizationValue = [{
-            label: 'F.C Barcelona',
-            expanded: true,
-            children: [
-                {
-                    label: 'F.C Barcelona',
-                    expanded: true,
-                    children: [
-                        {
-                            label: 'Chelsea FC'
-                        },
-                        {
-                            label: 'F.C. Barcelona'
-                        }
-                    ]
-                },
-                {
-                    label: 'Real Madrid',
-                    expanded: true,
-                    children: [
-                        {
-                            label: 'Bayern Munich'
-                        },
-                        {
-                            label: 'Real Madrid'
-                        }
-                    ]
-                }
-            ]
-        }];
-
-        let scheduleHeader = {
+    render() {
+        const scheduleHeader = {
             left: 'prev,next today',
             center: 'title',
             right: 'month,agendaWeek,agendaDay'
         };
 
-        let dataViewHeader = this.dataViewHeaderTemplate();
+        const header = (
+            <div className="p-g">
+                <div className="p-g-12 p-md-4" style={{textAlign:'left'}}>
+                    <Dropdown options={this.state.sortOptions} value={this.state.sortKey} placeholder="Sort By" onChange={this.onSortChange} />
+                </div>
+                <div className="p-g-6 p-md-4">
+                    <InputText placeholder="Search by brand" onKeyUp={event => this.dv.filter(event.target.value)} />
+                </div>
+                <div className="p-g-6 p-md-4" style={{textAlign: 'right'}}>
+                    <DataViewLayoutOptions layout={this.state.layout} onChange={event => this.setState({layout: event.value})} />
+                </div>
+            </div>
+        );
 
         return (
-            <div className="ui-g">
-                <div className="ui-g-12">
+            <div className="p-g">
+                <div className="p-g-12">
                     <div className="card card-w-title">
                         <h1>DataTable</h1>
-                        <DataTable value={this.state.dataTableValue} selectionMode="single" header="List of Cars" paginator={true} rows={10}
-                        responsive={true} selection={this.state.dataTableSelectValue} onSelectionChange={(e) => this.setState({dataTableSelectValue: e.data})}>
+                        <DataTable value={this.state.dataTableValue} paginatorPosition="both" selectionMode="single" header="List of Cars" paginator={true} rows={10}
+                            responsive={true} selection={this.state.dataTableSelection} onSelectionChange={event => this.setState({dataTableSelection: event.data})}>
                             <Column field="vin" header="Vin" sortable={true}/>
                             <Column field="year" header="Year" sortable={true}/>
                             <Column field="brand" header="Brand" sortable={true}/>
@@ -220,50 +213,68 @@ export class DataDemo extends Component {
                     </div>
                 </div>
 
-                <div className="ui-g-12">
-                    {/*  Left Side  */}
+                <div className="p-g-12">
                     <div className="card card-w-title">
                         <h1>DataView</h1>
-                        <DataView ref={(el) => { this.dv = el; }} value={this.state.dataTableValue} filterBy={"brand"} itemTemplate={this.dataViewItemTemplate}
-                              paginatorPosition={'both'} paginator={true} rows={9} header={dataViewHeader} sortOrder={this.state.sortOrder} sortField={this.state.sortField}/>
+                        <DataView ref={el => this.dv = el} value={this.state.dataViewValue} filterBy="brand" itemTemplate={this.dataViewItemTemplate} layout={this.state.layout}
+                                  paginatorPosition={'both'} paginator={true} rows={10} header={header} sortOrder={this.state.sortOrder} sortField={this.state.sortField}/>
                     </div>
                 </div>
 
-                <div className="ui-g-12 ui-md-8">
+                <div className="p-g-12 p-md-8">
                     <div className="card card-w-title">
                         <h1>PickList</h1>
                         <PickList source={this.state.picklistSourceCars} target={this.state.picklistTargetCars} sourceHeader="Available" targetHeader="Selected"
                                         responsive={true} itemTemplate={this.pickListTemplate} sourceStyle={{height:250}} targetStyle={{height:250}}
-                                        onChange={(e) => this.setState({picklistSourceCars: e.source, picklistTargetCars: e.target})} />
+                                        onChange={event => this.setState({picklistSourceCars: event.source, picklistTargetCars: event.target})} />
                     </div>
                 </div>
 
-                <div className="ui-g-12 ui-md-4">
+                <div className="p-g-12 p-md-4">
                     <div className="card card-w-title">
                         <h1>OrderList</h1>
-                        <OrderList  value={this.state.orderlistCars} responsive={true} header="OrderList" listStyle={{height:250}}
-                                    itemTemplate={this.orderListTemplate} onChange={(e) => this.setState({orderlistCars: e.value})}/>
+                        <OrderList value={this.state.orderlistCars} responsive={true} header="OrderList" listStyle={{height:250}}
+                                itemTemplate={this.orderListTemplate} onChange={event => this.setState({orderlistCars: event.value})}/>
                     </div>
                 </div>
 
-                <div className="ui-g-12">
+                <div className="p-g-12">
+                    <div className="card card-w-title">
+                        <div className="p-g">
+                            <div className="p-g-12 p-md-6">
+                                <h1>Tree</h1>
+                                <Tree value={this.state.treeData1} selectionMode="single" selection={this.state.selectedFile1}
+                                      selectionChange={event => this.setState({selectedFile1: event.selection})}/>
+                            </div>
+                            <div className="p-g-12 p-md-6">
+                                <h1>Checkbox Tree</h1>
+                                <Tree value={this.state.treeData2} selectionMode="checkbox" selection={this.state.selectedFiles1}
+                                      selectionChange={event => this.setState({selectedFiles1: event.selection})}/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="p-g-12">
+                    <div className="card card-w-title">
+                        <h1>Horizontal Tree</h1>
+                        <Tree value={this.state.treeData3} layout="horizontal" selectionMode="single" selection={this.state.selectedFile2}
+                              selectionChange={event => this.setState({selectedFile2: event.selection})}/>
+                    </div>
+                </div>
+
+                <div className="p-g-12">
                     <div className="card card-w-title">
                         <h1>Organization Chart</h1>
-                        <OrganizationChart value={organizationValue} selectionMode="single" selectionChange={this.onOrganizationChange}/>
-                    </div>
-                </div>
-                
-                <div className="ui-g-12">
-                    <div className="card card-w-title">
-                        <h1>Tree</h1>
-                        <Tree value={this.state.treeData}/>
+                        <OrganizationChart value={this.state.organizationChartValue} />
                     </div>
                 </div>
 
-                <div className="ui-g-12">
+                <div className="p-g-12">
                     <div className="card card-w-title">
                         <h1>TreeTable</h1>
-                        <TreeTable value={this.state.treeTableData} header="Basic" selectionMode="single"  selectionChange={this.onTreeTableChange}>
+                        <TreeTable value={this.state.documents} header="Documents" selectionMode="multiple" 
+                            selection={this.state.documents} selectionChange={event => this.setState({documents: event.value})}>
                             <Column field="name" header="Name"></Column>
                             <Column field="size" header="Size"></Column>
                             <Column field="type" header="Type"></Column>
@@ -271,7 +282,7 @@ export class DataDemo extends Component {
                     </div>
                 </div>
 
-                <div className="ui-g-12">
+                <div className="p-g-12">
                     <div className="card card-w-title">
                         <h1>Schedule</h1>
                         <Schedule header={scheduleHeader} events={this.state.scheduleEvents} defaultDate="2016-01-12"/>

@@ -1,145 +1,275 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {CountryService} from '../service/CountryService';
 import {CarService} from '../service/CarService';
 import {NodeService} from '../service/NodeService';
-import {InputText} from 'primereact/components/inputtext/InputText';
-import {InputTextarea} from 'primereact/components/inputtextarea/InputTextarea';
-import {AutoComplete} from 'primereact/components/autocomplete/AutoComplete';
-import {MultiSelect} from 'primereact/components/multiselect/MultiSelect';
-import {Calendar} from 'primereact/components/calendar/Calendar';
-import {DataTable} from 'primereact/components/datatable/DataTable';
-import {DataGrid} from 'primereact/components/datagrid/DataGrid';
-import {Tree} from 'primereact/components/tree/Tree';
-import {Checkbox} from 'primereact/components/checkbox/Checkbox';
-import {Menu} from 'primereact/components/menu/Menu';
-import {PanelMenu} from 'primereact/components/panelmenu/PanelMenu';
-import {InputMask} from 'primereact/components/inputmask/InputMask';
-import {Dropdown} from 'primereact/components/dropdown/Dropdown';
-import {Password} from 'primereact/components/password/Password';
-import {Spinner} from 'primereact/components/spinner/Spinner';
-import {Slider} from 'primereact/components/slider/Slider';
-import {ListBox} from 'primereact/components/listbox/ListBox';
-import {RadioButton} from 'primereact/components/radiobutton/RadioButton';
-import {PickList} from 'primereact/components/picklist/PickList';
-import {OrderList} from 'primereact/components/orderlist/OrderList';
-import {ToggleButton} from 'primereact/components/togglebutton/ToggleButton';
-import {SelectButton} from 'primereact/components/selectbutton/SelectButton';
-import {Button} from 'primereact/components/button/Button';
-import {SplitButton} from 'primereact/components/splitbutton/SplitButton';
-import {Accordion,AccordionTab} from 'primereact/components/accordion/Accordion';
-import {Panel} from 'primereact/components/panel/Panel';
-import {ProgressBar} from 'primereact/components/progressbar/ProgressBar';
-import {Dialog} from 'primereact/components/dialog/Dialog';
-import {Column} from 'primereact/components/column/Column';
+import {InputText} from 'primereact/inputtext';
+import {InputTextarea} from 'primereact/inputtextarea';
+import {AutoComplete} from 'primereact/autocomplete';
+import {MultiSelect} from 'primereact/multiselect';
+import {Calendar} from 'primereact/calendar';
+import {DataTable} from 'primereact/datatable';
+import {DataView, DataViewLayoutOptions} from 'primereact/dataview';
+import {Tree} from 'primereact/tree';
+import {Checkbox} from 'primereact/checkbox';
+import {Menu} from 'primereact/menu';
+import {PanelMenu} from 'primereact/panelmenu';
+import {InputMask} from 'primereact/inputmask';
+import {Dropdown} from 'primereact/dropdown';
+import {Password} from 'primereact/password';
+import {Spinner} from 'primereact/spinner';
+import {Slider} from 'primereact/slider';
+import {ListBox} from 'primereact/listbox';
+import {RadioButton} from 'primereact/radiobutton';
+import {PickList} from 'primereact/picklist';
+import {OrderList} from 'primereact/orderlist';
+import {ToggleButton} from 'primereact/togglebutton';
+import {SelectButton} from 'primereact/selectbutton';
+import {Button} from 'primereact/button';
+import {SplitButton} from 'primereact/splitbutton';
+import {Accordion,AccordionTab} from 'primereact/accordion';
+import {Panel} from 'primereact/panel';
+import {TabView, TabPanel} from 'primereact/tabview';
+import {ProgressBar} from 'primereact/progressbar';
+import {Dialog} from 'primereact/dialog';
+import {Column} from 'primereact/column';
 
 export class SampleDemo extends Component {
 
     constructor() {
         super();
         this.state = {
+            date: null,
+            country: null,
+            filteredCountries: null,
             countriesData: [],
-            carOptions: [],
+            dropdownCity: null,
+            cities: [
+                {label: 'Select City', value: null},
+                {label: 'New York', value: 'New York'},
+                {label: 'Rome', value: 'Rome'},
+                {label: 'London', value: 'London'},
+                {label: 'Istanbul', value: 'Istanbul'},
+                {label: 'Paris', value: 'Paris'},
+            ],
+            spinnerValue: null,
             checkboxValue: [],
-            dialogValue: false,
+            radioValue: null,
+            sliderValue: null,
+            toggleButtonValue: null,
+            dialogVisible: false,
             dataTableValue: [],
-            dataGridValue: [],
+            dataTableSelection: null,
+            dataViewValue: [],
             treeData: [],
             picklistSourceCars: [],
             picklistTargetCars: [],
-            orderlistCars: []
+            orderlistCars: [],
+            layout: 'list',
+            selectedCars: [],
+            carOptions: [
+                {label: 'Audi', value: 'Audi'},
+                {label: 'BMW', value: 'BMW'},
+                {label: 'Fiat', value: 'Fiat'},
+                {label: 'Honda', value: 'Honda'},
+                {label: 'Jaguar', value: 'Jaguar'},
+                {label: 'Mercedes', value: 'Mercedes'},
+                {label: 'Renault', value: 'Renault'},
+                {label: 'VW', value: 'VW'},
+                {label: 'Volvo', value: 'Volvo'}
+            ],
+            listBoxCity: null,
+            listBoxCities: [
+                {label: 'Madrid', value: 'Madrid'},
+                {label: 'Geneva', value: 'Geneva'},
+                {label: 'Los Angeles', value: 'Los Angeles'},
+                {label: 'Monaco', value: 'Monaco'},
+                {label: 'Berlin', value: 'Berlin'}
+            ],
+            selectedType: null,
+            types: [
+                {label: 'Apartment', value: 'Apartment'},
+                {label: 'House', value: 'House'},
+                {label: 'Studio', value: 'Studio'}
+            ],    
+            splitButtonItems: [
+                {label: 'Update', icon: 'pi pi-refresh'},
+                {label: 'Delete', icon: 'pi pi-times'},
+                {label: 'Home', icon: 'pi pi-home', url: 'http://www.primefaces.org/primereact'}
+            ],
+            menuItems: [
+                {
+                    label: 'Options',
+                    items: [{label: 'New', icon: 'pi pi-fw pi-plus',command:() => window.location.hash="/fileupload"},
+                            {label: 'Delete', icon: 'pi pi-fw pi-trash', url: 'http://primetek.com.tr'}]
+                }, 
+                {
+                    label: 'Account',
+                    items: [{label: 'Options', icon: 'pi pi-fw pi-cog',command:() => window.location.hash="/"},
+                            {label: 'Sign Out', icon: 'pi pi-fw pi-power-off'} ]
+                }
+            ],
+            panelMenuItems: [
+                {
+                    label:'Documents',
+                    icon:'pi pi-fw pi-file',
+                    items:[
+                       {
+                          label:'New',
+                          icon:'pi pi-fw pi-plus',
+                          items:[
+                             {
+                                label:'Bookmark',
+                                icon:'pi pi-fw pi-bookmark'
+                             },
+                             {
+                                label:'Video',
+                                icon:'pi pi-fw pi-video'
+                             },
+              
+                          ]
+                       },
+                       {
+                          label:'Delete',
+                          icon:'pi pi-fw pi-trash'
+                       },
+                       {
+                          separator:true
+                       },
+                       {
+                          label:'Export',
+                          icon:'pi pi-fw pi-external-link'
+                       }
+                    ]
+                 },
+                 {
+                    label:'Manage',
+                    icon:'pi pi-fw pi-pencil',
+                    items:[
+                       {
+                          label:'Left',
+                          icon:'pi pi-fw pi-align-left'
+                       },
+                       {
+                          label:'Right',
+                          icon:'pi pi-fw pi-align-right'
+                       },
+                       {
+                          label:'Center',
+                          icon:'pi pi-fw pi-align-center'
+                       },
+                       {
+                          label:'Justify',
+                          icon:'pi pi-fw pi-align-justify'
+                       },
+              
+                    ]
+                 },
+                 {
+                    label:'Accounts',
+                    icon:'pi pi-fw pi-user',
+                    items:[
+                       {
+                          label:'New',
+                          icon:'pi pi-fw pi-user-plus',
+              
+                       },
+                       {
+                          label:'Delete',
+                          icon:'pi pi-fw pi-user-minus',
+              
+                       },
+                       {
+                          label:'Search',
+                          icon:'pi pi-fw pi-users',
+                          items:[
+                             {
+                                label:'Filter',
+                                icon:'pi pi-fw pi-filter',
+                                items:[
+                                   {
+                                      label:'Print',
+                                      icon:'pi pi-fw pi-print'
+                                   }
+                                ]
+                             },
+                             {
+                                icon:'pi pi-fw pi-bars',
+                                label:'List'
+                             }
+                          ]
+                       }
+                    ]
+                 },
+                 {
+                    label:'Calendar',
+                    icon:'pi pi-fw pi-calendar',
+                    items:[
+                       {
+                          label:'Edit',
+                          icon:'pi pi-fw pi-pencil',
+                          items:[
+                             {
+                                label:'Save',
+                                icon:'pi pi-fw pi-calendar-plus'
+                             },
+                             {
+                                label:'Delete',
+                                icon:'pi pi-fw pi-calendar-minus'
+                             }
+                          ]
+                       },
+                       {
+                          label:'Archieve',
+                          icon:'pi pi-fw pi-calendar-times',
+                          items:[
+                             {
+                                label:'Remove',
+                                icon:'pi pi-fw pi-calendar-minus'
+                             }
+                          ]
+                       }
+                    ]
+                 }
+            ]
         };
+
         this.countryService = new CountryService();
         this.carService = new CarService();
         this.nodeService = new NodeService();
-        this.onDropdownChange = this.onDropdownChange.bind(this);
-        this.onSpinnerChange = this.onSpinnerChange.bind(this);
+
         this.onCheckboxChange = this.onCheckboxChange.bind(this);
-        this.onRadioChange = this.onRadioChange.bind(this);
-        this.onMultiSelectCarChange = this.onMultiSelectCarChange.bind(this);
-        this.onToggleChange = this.onToggleChange.bind(this);
-        this.onSelectButtonChange = this.onSelectButtonChange.bind(this);
-        this.onListBoxChange = this.onListBoxChange.bind(this);
-        this.dataGridTemplate = this.dataGridTemplate.bind(this);
+        this.filterCountry = this.filterCountry.bind(this);
+        
+        this.dataViewItemTemplate = this.dataViewItemTemplate.bind(this);
         this.orderListTemplate = this.orderListTemplate.bind(this);
-        this.onSliderChange = this.onSliderChange.bind(this);
     }
 
     componentDidMount(){
         this.setState({countriesData: this.countryService.getCountries(this)});
         this.carService.getCarsSmall().then(data => this.setState({dataTableValue: data}));
-        this.carService.getCarsLarge().then(data => this.setState({dataGridValue: data}));
+        this.carService.getCarsLarge().then(data => this.setState({dataViewValue: data}));
         this.nodeService.getFiles(this).then(files => this.setState({treeData: files}));
         this.carService.getCarsSmall().then(data => this.setState({picklistSourceCars: data}));
         this.carService.getCarsSmall().then(data => this.setState({orderlistCars: data}));
     }
 
-    onCountryValueChange(e) {
-        this.setState({ country: e.value, filteredCountries: null });
-    }
-
     filterCountry(event) {
-        let results = this.state.countriesData.filter((country) => {
+        const results = this.state.countriesData.filter((country) => {
             return country.name.toLowerCase().startsWith(event.query.toLowerCase());
         });
-        this.setState({ filteredCountries: results });
-    }
 
-    onDropdownChange(event){
-        this.setState({dropdownCity: event.value})
-    }
-
-    onSpinnerChange(event){
-        this.setState({spinnerValue: event.value})
+        this.setState({filteredCountries: results});
     }
 
     onCheckboxChange(event){
-        var selected = [...this.state.checkboxValue];
+        let selected = [...this.state.checkboxValue];
+
         if(event.checked)
             selected.push(event.value);
         else
             selected.splice(selected.indexOf(event.value), 1);
 
         this.setState({checkboxValue: selected});
-
-    }
-
-    onRadioChange(event){
-        this.setState({radioValue: event.value})
-    }
-
-    onSliderChange(event){
-        this.setState({sliderValue:event.value})
-    }
-
-    onMultiSelectCarChange(e) {
-        this.setState({carOptions: e.value});
-    }
-
-    onToggleChange(event){
-        this.setState({toggleButtonValue: event.value})
-    }
-
-    onSelectButtonChange(event){
-        this.setState({types: event.value})
-    }
-
-    onListBoxChange(e) {
-        this.setState({listBoxCity: e.value});
-    }
-
-    dataGridTemplate(car) {
-        if (!car) {
-            return;
-        }
-
-        return (
-            <div style={{padding: '3px'}} className="ui-g-12 ui-md-4">
-                <Panel header={car.vin} style={{ textAlign: 'center' }}>
-                    <img src={`assets/demo/images/car/${car.brand}.png`} alt={car.brand} style={{width: '75%'}}/>
-                    <div className="car-detail">{car.year} - {car.color}</div>
-                </Panel>
-            </div>
-        );
     }
 
     orderListTemplate(car){
@@ -148,400 +278,355 @@ export class SampleDemo extends Component {
         }
 
         return (
-            <div className="ui-helper-clearfix">
-                <img src={`assets/demo/images/car/${car.brand}.png`} alt={car.brand} style={{display:'inline-block',margin:'2px 0 2px 2px', width: '50px'}}/>
+            <div className="p-clearfix">
+                <img src={`assets/layout/images/car/${car.brand}.png`} alt={car.brand} style={{display:'inline-block',margin:'2px 0 2px 2px', width: '50px'}} />
                 <div style={{fontSize:14,float:'right',margin:'15px 5px 0 0'}}>{car.brand} - {car.year} - {car.color}</div>
             </div>
         );
     }
 
-    render(){
+    dataViewItemTemplate(car,layout) {
+        if (!car) {
+            return;
+        }
 
-        let carOptions=[
-            {label: 'Audi', value: 'Audi'},
-            {label: 'BMW', value: 'BMW'},
-            {label: 'Fiat', value: 'Fiat'},
-            {label: 'Honda', value: 'Honda'},
-            {label: 'Jaguar', value: 'Jaguar'},
-            {label: 'Mercedes', value: 'Mercedes'},
-            {label: 'Renault', value: 'Renault'},
-            {label: 'VW', value: 'VW'},
-            {label: 'Volvo', value: 'Volvo'}
-        ];
+        let src = "assets/layout/images/car/" + car.brand + ".png";
 
-        let cities = [
-            {label: 'Select City', value: null},
-            {label: 'New York', value: 'New York'},
-            {label: 'Rome', value: 'Rome'},
-            {label: 'London', value: 'London'},
-            {label: 'Istanbul', value: 'Istanbul'},
-            {label: 'Paris', value: 'Paris'},
-        ];
+        if (layout === 'list') {
+            return (
+                <div className="p-g" style={{padding: '2em', borderBottom: '1px solid #d9d9d9'}}>
+                    <div className="p-g-12 p-md-3">
+                        <img src={src} alt={car.brand} />
+                    </div>
+                    <div className="p-g-12 p-md-8 car-details">
+                        <div className="p-g">
+                            <div className="p-g-2 p-sm-6">Vin:</div>
+                            <div className="p-g-10 p-sm-6">{car.vin}</div>
 
-        let listBoxCities = cities.slice(1,6);
+                            <div className="p-g-2 p-sm-6">Year:</div>
+                            <div className="p-g-10 p-sm-6">{car.year}</div>
 
-        let types = [
-            {label: 'Apartment', value: 'Apartment'},
-            {label: 'House', value: 'House'},
-            {label: 'Studio', value: 'Studio'}
-        ];
+                            <div className="p-g-2 p-sm-6">Brand:</div>
+                            <div className="p-g-10 p-sm-6">{car.brand}</div>
 
-        let splitButtonItems = [
-            {label: 'Update', icon: 'fa-refresh'},
-            {label: 'Delete', icon: 'fa-close'},
-            {label: 'Home', icon: 'fa-home', url: 'http://www.primefaces.org/primereact'}
-        ];
+                            <div className="p-g-2 p-sm-6">Color:</div>
+                            <div className="p-g-10 p-sm-6">{car.color}</div>
+                        </div>
+                    </div>
 
-        let dialogFooter= <div className="ui-dialog-buttonpane ui-helper-clearfix">
-                    <Button label="Login" icon="fa-user" onClick={()=>this.setState({dialogValue:false})}/>
-                </div>;
+                    <div className="p-g-12 p-md-1 search-icon" style={{marginTop:'40px'}}>
+                        <Button icon="pi pi-search"></Button>
+                    </div>
+                </div>
+            );
+        }
 
-        let menuItems = [
-            {
-                label: 'File',
-                items: [
-                    {label: 'New', icon: 'fa-plus'},
-                    {label: 'Open', icon: 'fa-external-link-square'}
-                ]
-            },
-            {
-                label: 'Edit',
-                items: [
-                    {label: 'Undo', icon: 'fa-undo'},
-                    {label: 'Redo', icon: 'fa-repeat'}
-                ]
-            }
-        ];
+        if (layout === 'grid') {
+            return (
+                <div style={{ padding: '.5em' }} className="p-g-12 p-md-3">
+                    <Panel header={car.vin} style={{ textAlign: 'center' }}>
+                        <img src={`assets/layout/images/car/${car.brand}.png`} alt={car.brand} />
+                        <div className="car-detail">{car.year} - {car.color}</div>
+                        <i className="pi pi-search" style={{ cursor: 'pointer' }}></i>
+                    </Panel>
+                </div>
+            );
+        }
+    }
 
-        let panelMenuItems = [
-            {
-                label: 'File',
-                icon: 'fa-file-o',
-                items: [{
-                        label: 'New', 
-                        icon: 'fa-plus',
-                        items: [
-                            {label: 'Project'},
-                            {label: 'Other'},
-                        ]
-                    },
-                    {label: 'Open'},
-                    {label: 'Quit'}
-                ]
-            },
-            {
-                label: 'Edit',
-                icon: 'fa-edit',
-                items: [
-                    {label: 'Undo', icon: 'fa-mail-forward'},
-                    {label: 'Redo', icon: 'fa-mail-reply'}
-                ]
-            },
-            {
-                label: 'Help',
-                icon: 'fa-question',
-                items: [
-                    {
-                        label: 'Contents'
-                    },
-                    {
-                        label: 'Search', 
-                        icon: 'fa-search', 
-                        items: [
-                            {
-                                label: 'Text', 
-                                items: [
-                                    {
-                                        label: 'Workspace'
-                                    }
-                                ]
-                            },
-                            {
-                                label: 'File'
-                            }
-                    ]}
-                ]
-            },
-            {
-                label: 'Actions',
-                icon: 'fa-gear',
-                items: [
-                    {
-                        label: 'Edit',
-                        icon: 'fa-refresh',
-                        items: [
-                            {label: 'Save', icon: 'fa-save'},
-                            {label: 'Update', icon: 'fa-save'},
-                        ]
-                    },
-                    {
-                        label: 'Other',
-                        icon: 'fa-phone',
-                        items: [
-                            {label: 'Delete', icon: 'fa-minus'}
-                        ]
-                    }
-                ]
-            }
-        ];
+    render() {
+        const dialogFooter = (
+            <Button label="Login" icon="pi pi-user" onClick={() => this.setState({dialogValue:false})} />
+        );
+        
+        const dataViewHeader = (
+            <div className="p-g">
+                <div className="p-g-6 p-md-8 filter-container">
+                    <div style={{position:'relative'}}>
+                        <InputText placeholder="Search by brand" onKeyUp={e => this.dv.filter(e.target.value)} />
+                    </div>
+                </div>
+                <div className="p-g-6 p-md-4" style={{textAlign: 'right'}}>
+                    <DataViewLayoutOptions layout={this.state.layout} onChange={(e) => this.setState({layout: e.value})} />
+                </div>
+            </div>
+        );
 
-        return <div className="ui-fluid">
-            <div className="ui-g">
-                <div className="ui-g-12">
-                    <div className="card card-w-title">
-                        <h1>Form Elements</h1>
-                        <div className="ui-g form-group">
-                            <div className="ui-g-12 ui-md-2">
-                                <label htmlFor="input">Input</label>
-                            </div>
-                            <div className="ui-g-12 ui-md-4">
-                                <InputText id="input" />
-                            </div>
-                            <div className="ui-g-12 ui-md-2">
-                                <label htmlFor="textarea">Textarea</label>
-                            </div>
-                            <div className="ui-g-12 ui-md-4">
-                                <InputTextarea id="textarea" rows={3} cols={30} autoResize={true}></InputTextarea>
-                            </div>
-                            <div className="ui-g-12 ui-md-2">
-                                <label htmlFor="calendar">Calendar</label>
-                            </div>
-                            <div className="ui-g-12 ui-md-4">
-                                <Calendar id="calendar"></Calendar>
-                            </div>
-                            <div className="ui-g-12 ui-md-2">
-                                <label htmlFor="autocomplete">AutoComplete</label>
-                            </div>
-                            <div className="ui-g-12 ui-md-4">
-                                <AutoComplete minLength={1} placeholder="Countries" id="autocomplete" field="name" suggestions={this.state.filteredCountries}
-                                              completeMethod={this.filterCountry.bind(this)} value={this.state.country}
-                                              onChange={this.onCountryValueChange.bind(this)}
-                                />
-                            </div>
-                            <div className="ui-g-12 ui-md-2">
-                                <label htmlFor="dropdown">Dropdown</label>
-                            </div>
-                            <div className="ui-g-12 ui-md-4">
-                                <Dropdown options={cities} value={this.state.dropdownCity} onChange={this.onDropdownChange} autoWidth={false}/>
-                            </div>
-                            <div className="ui-g-12 ui-md-2">
-                                <label htmlFor="password">Password</label>
-                            </div>
-                            <div className="ui-g-12 ui-md-4">
-                                <Password id="password" />
-                            </div>
-                            <div className="ui-g-12 ui-md-2">
-                                <label htmlFor="mask">Mask</label>
-                            </div>
-                            <div className="ui-g-12 ui-md-4">
-                                <InputMask id="mask" mask="99/99/9999" slotChar="dd/mm/yyyy" placeholder="Date" />
-                            </div>
-                            <div className="ui-g-12 ui-md-2">
-                                <label htmlFor="spinner">Spinner</label>
-                            </div>
-                            <div className="ui-g-12 ui-md-4">
-                                <Spinner value={this.state.spinnerValue} onChange={this.onSpinnerChange}/>
-                            </div>
-
-                            <div className="ui-g-12 ui-md-2">
-                                Checkbox
-                            </div>
-                            <div className="ui-g-12 ui-md-4">
-                                <div className="ui-g">
-                                    <div className="ui-g-12">
-                                        <Checkbox value="Ultima" inputId="cb1" onChange={this.onCheckboxChange} checked={this.state.checkboxValue.indexOf('Ultima')>-1?true:false}/>
-                                        <label htmlFor="cb1">Ultima</label>
-                                    </div>
-                                    <div className="ui-g-12">
-                                        <Checkbox value="Icarus" inputId="cb2" onChange={this.onCheckboxChange} checked={this.state.checkboxValue.indexOf('Icarus')>-1?true:false}/>
-                                        <label htmlFor="cb2">Icarus</label>
-                                    </div>
-                                    <div className="ui-g-12">
-                                        <Checkbox value="Omega" inputId="cb3" onChange={this.onCheckboxChange} checked={this.state.checkboxValue.indexOf('Omega')>-1?true:false}/>
-                                        <label htmlFor="cb3">Omega</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="ui-g-12 ui-md-2">
-                                RadioButton
-                            </div>
-                            <div className="ui-g-12 ui-md-4">
-                                <div className="ui-g">
-                                    <div className="ui-g-12">
-                                        <RadioButton value="Ultima" inputId="rb1" onChange={this.onRadioChange} checked={this.state.radioValue === "Ultima"}/>
-                                        <label htmlFor="rb1">Ultima</label>
-                                    </div>
-                                    <div className="ui-g-12">
-                                        <RadioButton value="Icarus" inputId="rb2" onChange={this.onRadioChange} checked={this.state.radioValue === "Icarus"}/>
-                                        <label htmlFor="rb2">Icarus</label>
-                                    </div>
-                                    <div className="ui-g-12">
-                                        <RadioButton value="Omega" inputId="rb3" onChange={this.onRadioChange} checked={this.state.radioValue === "Omega"}/>
-                                        <label htmlFor="rb3">Omega</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="ui-g-12 ui-md-2">
-                                <label htmlFor="slider">Slider</label>
-                            </div>
-                            <div className="ui-g-12 ui-md-4">
-                                <Slider id="slider" onChange={this.onSliderChange}/>
-                            </div>
-                            <div className="ui-g-12 ui-md-2">
-                                Button
-                            </div>
-                            <div className="ui-g-12 ui-md-4">
-                                <Button label="Edit" icon="fa-pencil" />
-                            </div>
-                            <div className="ui-g-12 ui-md-2">
-                                SplitButton
-                            </div>
-                            <div className="ui-g-12 ui-md-4">
-                                <SplitButton label="Save" icon="fa-check" model={splitButtonItems}/>
-                            </div>
-                            <div className="ui-g-12 ui-md-2">
-                                <label htmlFor="multiselect">MultiSelect</label>
-                            </div>
-                            <div className="ui-g-12 ui-md-4">
-                                <MultiSelect id="multiselect" value={this.state.carOptions} options={carOptions} onChange={this.onMultiSelectCarChange}/>
-                            </div>
-                            <div className="ui-g-12 ui-md-2">
-                                ToggleButton
-                            </div>
-                            <div className="ui-g-12 ui-md-4">
-                                <ToggleButton checked={this.state.toggleButtonValue} onChange={this.onToggleChange}/>
-                            </div>
-                            <div className="ui-g-12 ui-md-2">
-                                SelectButton
-                            </div>
-                            <div className="ui-g-12 ui-md-4">
-                                <SelectButton value={this.state.types} options={types} onChange={this.onSelectButtonChange}/>
-                            </div>
-                            <div className="ui-g-12 ui-md-2">
-                                <label htmlFor="listbox">ListBox</label>
-                            </div>
-                            <div className="ui-g-12 ui-md-4">
-                                <ListBox value={this.state.listBoxCity} options={listBoxCities} onChange={this.onListBoxChange} filter={true} />
-                            </div>
-                            <div className="ui-g-12 ui-md-2">
-                                Dialog
-                            </div>
-                            <div className="ui-g-12 ui-md-4">
-                                <Button label="Login" icon="fa-external-link" onClick={()=>this.setState({dialogValue:true})}/>
+        return (
+            <div className="p-fluid">
+                <div className="p-g">
+                    <div className="p-g-12">
+                        <div className="p-messages p-component p-messages-success" style={{margin: '0 0 1em 0', display: 'block'}}>
+                            <div className="p-messages-wrapper">
+                                <span className="p-messages-icon pi pi-fw pi-2x pi-check"></span>
+                                <ul>
+                                    <li>
+                                        <span class="p-messages-detail">Designer API is a theme engine for the complete PrimeReact UI Suite and includes this demo application 
+                                        to test the commonly used components while designing your theme.
+                                        </span>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
 
-                        <Dialog header="Login" visible={this.state.dialogValue} footer={dialogFooter} onHide={()=>this.setState({dialogValue:false})}>
-                            <div className="ui-g form-group" style={{marginBottom: 16}}>
-                                <div className="ui-g-12">
-                                    <InputText placeholder="Username" />
+                        <div className="card card-w-title">
+                            <h1>Form Elements</h1>
+                            <div className="p-g form-group">
+                                <div className="p-g-12 p-md-2">
+                                    <label htmlFor="input">Input</label>
                                 </div>
-                                <div className="ui-g-12">
-                                    <InputText placeholder="Password" />
+                                <div className="p-g-12 p-md-4">
+                                    <InputText id="input" />
+                                </div>
+                                <div className="p-g-12 p-md-2">
+                                    <label htmlFor="textarea">Textarea</label>
+                                </div>
+                                <div className="p-g-12 p-md-4">
+                                    <InputTextarea id="textarea" rows={3} cols={30} autoResize={true}></InputTextarea>
+                                </div>
+                                <div className="p-g-12 p-md-2">
+                                    <label htmlFor="calendar">Calendar</label>
+                                </div>
+                                <div className="p-g-12 p-md-4">
+                                    <Calendar id="calendar" value={this.state.date} onChange={event => this.setState({date: event.value})}></Calendar>
+                                </div>
+                                <div className="p-g-12 p-md-2">
+                                    <label htmlFor="autocomplete">AutoComplete</label>
+                                </div>
+                                <div className="p-g-12 p-md-4">
+                                    <AutoComplete minLength={1} placeholder="Countries" id="autocomplete" field="name" suggestions={this.state.filteredCountries}
+                                                completeMethod={this.filterCountry} value={this.state.country}
+                                                onChange={event => this.setState({country: event.value, filteredCountries: null})}
+                                    />
+                                </div>
+                                <div className="p-g-12 p-md-2">
+                                    <label htmlFor="dropdown">Dropdown</label>
+                                </div>
+                                <div className="p-g-12 p-md-4">
+                                    <Dropdown options={this.state.cities} value={this.state.dropdownCity} onChange={event => this.setState({dropdownCity: event.value})} autoWidth={false} />
+                                </div>
+                                <div className="p-g-12 p-md-2">
+                                    <label htmlFor="password">Password</label>
+                                </div>
+                                <div className="p-g-12 p-md-4">
+                                    <Password id="password" />
+                                </div>
+                                <div className="p-g-12 p-md-2">
+                                    <label htmlFor="mask">Mask</label>
+                                </div>
+                                <div className="p-g-12 p-md-4">
+                                    <InputMask id="mask" mask="99/99/9999" slotChar="dd/mm/yyyy" placeholder="Date" />
+                                </div>
+                                <div className="p-g-12 p-md-2">
+                                    <label htmlFor="spinner">Spinner</label>
+                                </div>
+                                <div className="p-g-12 p-md-4">
+                                    <Spinner value={this.state.spinnerValue} onChange={event => this.setState({spinnerValue: event.value})} />
+                                </div>
+
+                                <div className="p-g-12 p-md-2">
+                                    Checkbox
+                                </div>
+                                <div className="p-g-12 p-md-4">
+                                    <div className="p-g">
+                                        <div className="p-g-12">
+                                            <Checkbox value="Ultima" inputId="cb1" onChange={this.onCheckboxChange} checked={this.state.checkboxValue.indexOf('Ultima') > -1} />
+                                            <label htmlFor="cb1" className="p-checkbox-label">Ultima</label>
+                                        </div>
+                                        <div className="p-g-12">
+                                            <Checkbox value="Avalon" inputId="cb2" onChange={this.onCheckboxChange} checked={this.state.checkboxValue.indexOf('Avalon') > -1} />
+                                            <label htmlFor="cb2" className="p-checkbox-label">Avalon</label>
+                                        </div>
+                                        <div className="p-g-12">
+                                            <Checkbox value="Serenity" inputId="cb3" onChange={this.onCheckboxChange} checked={this.state.checkboxValue.indexOf('Serenity') > -1} />
+                                            <label htmlFor="cb3" className="p-checkbox-label">Serenity</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="p-g-12 p-md-2">
+                                    RadioButton
+                                </div>
+                                <div className="p-g-12 p-md-4">
+                                    <div className="p-g">
+                                        <div className="p-g-12">
+                                            <RadioButton value="Ultima" inputId="rb1" onChange={event => this.setState({radioValue: event.value})} checked={this.state.radioValue === "Ultima"} />
+                                            <label htmlFor="rb1" className="p-radiobutton-label">Ultima</label>
+                                        </div>
+                                        <div className="p-g-12">
+                                            <RadioButton value="Icarus" inputId="rb2" onChange={event => this.setState({radioValue: event.value})} checked={this.state.radioValue === "Avalon"} />
+                                            <label htmlFor="rb2" className="p-radiobutton-label">Avalon</label>
+                                        </div>
+                                        <div className="p-g-12">
+                                            <RadioButton value="Serenity" inputId="rb3" onChange={event => this.setState({radioValue: event.value})} checked={this.state.radioValue === "Serenity"} />
+                                            <label htmlFor="rb3" className="p-radiobutton-label">Serenity</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="p-g-12 p-md-2">
+                                    <label htmlFor="slider">Slider</label>
+                                </div>
+                                <div className="p-g-12 p-md-4">
+                                    <Slider id="slider" value={this.state.sliderValue} onChange={event => this.setState({sliderValue: event.value})} />
+                                </div>
+                                <div className="p-g-12 p-md-2">
+                                    Button
+                                </div>
+                                <div className="p-g-12 p-md-4">
+                                    <Button label="Edit" icon="pi pi-pencil" />
+                                </div>
+                                <div className="p-g-12 p-md-2">
+                                    SplitButton
+                                </div>
+                                <div className="p-g-12 p-md-4">
+                                    <SplitButton label="Save" icon="pi pi-plus" model={this.state.splitButtonItems} />
+                                </div>
+                                <div className="p-g-12 p-md-2">
+                                    <label htmlFor="multiselect">MultiSelect</label>
+                                </div>
+                                <div className="p-g-12 p-md-4">
+                                    <MultiSelect id="multiselect" value={this.state.selectedCars} options={this.state.carOptions} onChange={event => this.setState({selectedCars: event.value})} />
+                                </div>
+                                <div className="p-g-12 p-md-2">
+                                    ToggleButton
+                                </div>
+                                <div className="p-g-12 p-md-4">
+                                    <ToggleButton checked={this.state.toggleButtonValue} onChange={event => this.setState({toggleButtonValue: event.value})} />
+                                </div>
+                                <div className="p-g-12 p-md-2">
+                                    SelectButton
+                                </div>
+                                <div className="p-g-12 p-md-4">
+                                    <SelectButton value={this.state.selectedType} options={this.state.types} onChange={event => this.setState({selectedType: event.value})} />
+                                </div>
+                                <div className="p-g-12 p-md-2">
+                                    <label htmlFor="listbox">ListBox</label>
+                                </div>
+                                <div className="p-g-12 p-md-4">
+                                    <ListBox value={this.state.listBoxCity} options={this.state.listBoxCities} onChange={event => this.setState({listBoxCity: event.value})} filter={true} />
+                                </div>
+                                <div className="p-g-12 p-md-2">
+                                    Dialog
+                                </div>
+                                <div className="p-g-12 p-md-4">
+                                    <Button label="Login" icon="pi pi-external-link" onClick={() => this.setState({dialogVisible:true})} />
                                 </div>
                             </div>
-                        </Dialog>
+
+                            <Dialog header="Login" visible={this.state.dialogVisible} footer={dialogFooter} onHide={() => this.setState({dialogVisible:false})}>
+                                <div className="p-g">
+                                    <div className="p-g-12">
+                                        <InputText placeholder="Username" />
+                                    </div>
+                                    <div className="p-g-12">
+                                        <InputText placeholder="Password" />
+                                    </div>
+                                </div>
+                            </Dialog>
+                        </div>
+
+                        <div className="card card-w-title">
+                            <h1>DataTable</h1>
+                            <DataTable value={this.state.dataTableValue} selectionMode="single" header="DataTable" selection={this.state.dataTableSelection}
+                                    onSelectionChange={event => this.setState({dataTableSelection: event.data})}>
+                                <Column field="vin" header="Vin" sortable={true} />
+                                <Column field="year" header="Year" sortable={true} />
+                                <Column field="brand" header="Brand" sortable={true} />
+                                <Column field="color" header="Color" sortable={true} />
+                            </DataTable>
+                        </div>
                     </div>
-
-                    <div className="card card-w-title">
-                        <h1>DataTable</h1>
-                        <DataTable value={this.state.dataTableValue} selectionMode="single" header="DataTable" selection={this.state.dataTableSelectValue}
-                                   onSelectionChange={(e) => this.setState({dataTableSelectValue: e.data})}>
-                            <Column field="vin" header="Vin" sortable={true}/>
-                            <Column field="year" header="Year" sortable={true}/>
-                            <Column field="brand" header="Brand" sortable={true}/>
-                            <Column field="color" header="Color" sortable={true}/>
-                        </DataTable>
+                    <div className="p-g-12">
+                        <div className="card card-w-title">
+                            <h1>DataView</h1>
+                            <DataView ref={el => this.dv = el} value={this.state.dataViewValue} filterBy="brand" itemTemplate={this.dataViewItemTemplate}
+                                    paginatorPosition="both" paginator={true} rows={10} header={dataViewHeader} layout={this.state.layout} />
+                        </div>
                     </div>
-                </div>
-                <div className="ui-g-12 ui-lg-6">
-                    <div className="card card-w-title">
-                        <h1>DataGrid</h1>
-                        <DataGrid value={this.state.dataGridValue} itemTemplate={this.dataGridTemplate} paginator={true} rows={18} header='List of Cars' />
+                    <div className="p-g-12 p-lg-6">
+                        <div className="card card-w-title">
+                            <h1>PickList</h1>
+                            <PickList source={this.state.picklistSourceCars} target={this.state.picklistTargetCars} sourceHeader="Available" targetHeader="Selected"
+                                    responsive={true} itemTemplate={(car) => <span>{car.brand}</span>} 
+                                    onChange={event => this.setState({picklistSourceCars: event.source, picklistTargetCars: event.target})} />
+                        </div>
+
+                        <div className="card card-w-title">
+                            <h1>OrderList</h1>
+                            <OrderList value={this.state.orderlistCars} responsive={true} header="OrderList" listStyle={{height:250}}
+                                    itemTemplate={this.orderListTemplate} onChange={event => this.setState({orderlistCars: event.value})} />
+                        </div>
+
+                        <div className="card card-w-title">
+                            <h1>ProgressBar</h1>
+                            <ProgressBar value={50} />
+                        </div>
+
+                        <div className="card card-w-title">
+                            <h1>PanelMenu</h1>
+                            <PanelMenu model={this.state.panelMenuItems} />
+                        </div>
                     </div>
+                    <div className="p-g-12 p-lg-6">
+                        <div className="card card-w-title">
+                            <h1>Accordion Panel</h1>
+                            <Accordion>
+                                <AccordionTab header="Godfather I">
+                                    The story begins as Don Vito Corleone, the head of a New York Mafia family, oversees his daughters wedding.
+                                    His beloved son Michael has just come home from the war, but does not intend to become part of his fathers business.
+                                    Through Michaels life the nature of the family business becomes clear. The business of the family is just like the head
+                                    of the family, kind and benevolent to those who give respect,
+                                    but given to ruthless violence whenever anything stands against the good of the family.
+                                </AccordionTab>
+                                <AccordionTab header="Godfather II">
+                                    Francis Ford Coppolas legendary continuation and sequel to his landmark 1972 film, The_Godfather parallels the young
+                                    Vito Corleone's rise with his son Michael's spiritual fall, deepening The_Godfathers depiction of the dark side of
+                                    the American dream. In the early 1900s, the child Vito flees his Sicilian village for America after the local Mafia kills his family.
+                                    Vito struggles to make a living, legally or illegally, for his wife and growing brood in Little Italy, killing the local Black Hand
+                                    Fanucci after he demands his customary cut of the tyro's business. With Fanucci gone, Vito's communal stature grows.
+                                </AccordionTab>
+                                <AccordionTab header="Godfather III">
+                                    After a break of more than 15 years, director Francis Ford Coppola and writer Mario Puzo returned to the well for this
+                                    third and final story of the fictional Corleone crime family. Two decades have passed, and crime kingpin Michael Corleone,
+                                    now divorced from his wife Kay has nearly succeeded in keeping his promise that his family would one day be completely legitimate.
+                                </AccordionTab>
+                            </Accordion>
 
-                    <div className="card card-w-title">
-                        <h1>Tree</h1>
-                        <Tree value={this.state.treeData}/>
-                    </div>
+                            <h1>TabView</h1>
+                            <TabView>
+                                <TabPanel header="Godfather I" leftIcon="pi pi-check">
+                                    The story begins as Don Vito Corleone, the head of a New York Mafia family, overseeshis daughter's wedding. His beloved son ichael has just come home from the war, but does not intend to become part of his father's business. Through Michael's life the nature of the family business becomes clear. The business of the family is just like the head of the family, kind and benevolent to those who give respect, but given to ruthless violence whenever anything stands against the good of the family.
+                                </TabPanel>
+                                <TabPanel header="Godfather II" leftIcon="pi pi-user">
+                                    Francis Ford Coppola's legendary continuation and sequel to his landmark 1972 film, The_Godfather parallels the young Vito Corleone's rise with his son Michael's spiritual fall, deepening The_Godfather's depiction of the dark side of the American dream. In the early 1900s, the child Vito flees his Sicilian village for America after the local Mafia kills his family. Vito struggles to make a living, legally or illegally, for his wife and growing brood in Little Italy.
+                                </TabPanel>
+                                <TabPanel header="Godfather III">
+                                    The Godfather Part III is set in 1979 and 1980. Michael has moved back to New York and taken great strides to remove the family from crime. He turns over his New York criminal interests to longtime enforcer Joey Zasa. He uses his wealth in an attempt to rehabilitate his reputation through numerous philanthropic acts, administered by a foundation named after his father. A decade earlier, he gave custody of his two children to Kay, who has since remarried.
+                                </TabPanel>
+                            </TabView>
+                        </div>
 
-                    <div className="card card-w-title">
-                        <h1>Menu</h1>
-                        <Menu model={menuItems}/>
-                    </div>
+                        <div className="card card-w-title">
+                            <h1>Panel</h1>
+                            <Panel header="Godfather I" toggleable={true}>
+                                The story begins as Don Vito Corleone, the head of a New York Mafia family, oversees his daughter's wedding.
+                                His beloved son Michael has just come home from the war, but does not intend to become part of his father's business.
+                                Through Michael's life the nature of the family business becomes clear. The business of the family is just like the head of the family,
+                                kind and benevolent to those who give respect, but given to ruthless violence whenever anything stands against the good of the family.
+                            </Panel>
+                        </div>
 
-                    <div className="card card-w-title">
-                        <h1>PanelMenu</h1>
-                        <PanelMenu model={panelMenuItems}/>
-                    </div>
+                        <div className="card card-w-title">
+                            <h1>Tree</h1>
+                            <Tree value={this.state.treeData} />
+                        </div>
 
-                    <div className="card card-w-title">
-                        <h1>Heading 1</h1>
-
-                        <h2>Heading 2</h2>
-
-                        <h3>Heading 3</h3>
-
-                        <h4>Heading 4</h4>
-                    </div>
-                </div>
-                <div className="ui-g-12 ui-lg-6">
-                    {/* Right Side */}
-                    <div className="card card-w-title">
-                        <h1>PickList</h1>
-                        <PickList source={this.state.picklistSourceCars} target={this.state.picklistTargetCars} sourceHeader="Available" targetHeader="Selected"
-                                  responsive={true} itemTemplate={(car)=><span>{car.brand}</span>} 
-                                  onChange={(e) => this.setState({picklistSourceCars: e.source, picklistTargetCars: e.target})}/>
-                    </div>
-
-                    <div className="card card-w-title">
-                        <h1>OrderList</h1>
-                        <OrderList value={this.state.orderlistCars} responsive={true} header="OrderList" listStyle={{height:250}}
-                                   itemTemplate={this.orderListTemplate}
-                                   onChange={(e) => this.setState({orderlistCars: e.value})}/>
-                    </div>
-
-                    <div className="card card-w-title">
-                        <h1>Accordion Panel</h1>
-                        <Accordion>
-                            <AccordionTab header="Godfather I">
-                                The story begins as Don Vito Corleone, the head of a New York Mafia family, oversees his daughters wedding.
-                                His beloved son Michael has just come home from the war, but does not intend to become part of his fathers business.
-                                Through Michaels life the nature of the family business becomes clear. The business of the family is just like the head
-                                of the family, kind and benevolent to those who give respect,
-                                but given to ruthless violence whenever anything stands against the good of the family.
-                            </AccordionTab>
-                            <AccordionTab header="Godfather II">
-                                Francis Ford Coppolas legendary continuation and sequel to his landmark 1972 film, The_Godfather parallels the young
-                                Vito Corleone's rise with his son Michael's spiritual fall, deepening The_Godfathers depiction of the dark side of
-                                the American dream. In the early 1900s, the child Vito flees his Sicilian village for America after the local Mafia kills his family.
-                                Vito struggles to make a living, legally or illegally, for his wife and growing brood in Little Italy, killing the local Black Hand
-                                Fanucci after he demands his customary cut of the tyro's business. With Fanucci gone, Vito's communal stature grows.
-                            </AccordionTab>
-                            <AccordionTab header="Godfather III">
-                                After a break of more than 15 years, director Francis Ford Coppola and writer Mario Puzo returned to the well for this
-                                third and final story of the fictional Corleone crime family. Two decades have passed, and crime kingpin Michael Corleone,
-                                now divorced from his wife Kay has nearly succeeded in keeping his promise that his family would one day be completely legitimate.
-                            </AccordionTab>
-                        </Accordion>
-                    </div>
-
-                    <div className="card card-w-title">
-                        <h1>Panel</h1>
-                        <Panel header="Godfather I" toggleable={true}>
-                            The story begins as Don Vito Corleone, the head of a New York Mafia family, oversees his daughter's wedding.
-                            His beloved son Michael has just come home from the war, but does not intend to become part of his father's business.
-                            Through Michael's life the nature of the family business becomes clear. The business of the family is just like the head of the family,
-                            kind and benevolent to those who give respect, but given to ruthless violence whenever anything stands against the good of the family.
-                        </Panel>
-                    </div>
-
-                    <div className="card card-w-title">
-                        <h1>ProgressBar - Static Display</h1>
-                        <ProgressBar value={50}/>
+                        <div className="card card-w-title">
+                            <h1>Menu</h1>
+                            <Menu model={this.state.menuItems} />
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        );
     }
 }
