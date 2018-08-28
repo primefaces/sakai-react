@@ -101,7 +101,7 @@ export class DataDemo extends Component {
         }
         
         return <div className="p-clearfix">
-            <img src={`assets/layout/images/car/${car.brand}.png`} alt={car.brand} style={{display:'inline-block', margin:'2px 0 2px 2px', width: '50px'}}/>
+            <img src={`assets/demo/images/car/${car.brand}.png`} alt={car.brand} style={{display:'inline-block', margin:'2px 0 2px 2px', width: '50px'}}/>
             <div style={{fontSize:'16px', float:'right', margin:'15px 5px 0 0'}}>{car.brand}</div>
         </div>
     }
@@ -113,7 +113,7 @@ export class DataDemo extends Component {
 
         return (
             <div className="p-clearfix">
-                <img src={`assets/layout/images/car/${car.brand}.png`} alt={car.brand} style={{display:'inline-block',margin:'2px 0 2px 2px', width: '50px'}}/>
+                <img src={`assets/demo/images/car/${car.brand}.png`} alt={car.brand} style={{display:'inline-block',margin:'2px 0 2px 2px', width: '50px'}}/>
                 <div style={{fontSize:14,float:'right',margin:'15px 5px 0 0'}}>{car.year} - {car.color}</div>
             </div>
         );
@@ -124,7 +124,7 @@ export class DataDemo extends Component {
             return;
         }
 
-        let src = "assets/layout/images/car/" + car.brand + ".png";
+        let src = "assets/demo/images/car/" + car.brand + ".png";
 
         if (layout === 'list') {
             return (
@@ -159,7 +159,7 @@ export class DataDemo extends Component {
             return (
                 <div style={{ padding: '.5em' }} className="p-g-12 p-md-3">
                     <Panel header={car.vin} style={{ textAlign: 'center' }}>
-                        <img src={`assets/layout/images/car/${car.brand}.png`} alt={car.brand} />
+                        <img src={`assets/demo/images/car/${car.brand}.png`} alt={car.brand} />
                         <div className="car-detail">{car.year} - {car.color}</div>
                         <Button icon="pi pi-search"></Button>
                     </Panel>
