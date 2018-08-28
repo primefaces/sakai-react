@@ -4,10 +4,13 @@ import 'babel-polyfill';
 import App from './App';
 //import registerServiceWorker from './registerServiceWorker';
 import { HashRouter } from 'react-router-dom'
+import ScrollToTop from './ScrollToTop';
 
 ReactDOM.render(
     <HashRouter>
-        <App></App>
+        <ScrollToTop>
+            <App></App>
+        </ScrollToTop>
     </HashRouter>,
     document.getElementById('root')
 );
