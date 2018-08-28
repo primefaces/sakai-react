@@ -23,6 +23,7 @@ import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import 'fullcalendar/dist/fullcalendar.css';
 import './layout/layout.css';
+import './App.css';
 
 class App extends Component {
 
@@ -109,7 +110,7 @@ class App extends Component {
                 ]
             },
             {
-                label: 'Layout Options', icon: 'pi pi-fw pi-align-left',
+                label: 'Menu Colors', icon: 'pi pi-fw pi-align-left',
                 items: [
                     {label: 'Dark', icon: 'pi pi-fw pi-bars',  command: () => this.setState({layoutColorMode: 'dark'}) },
                     {label: 'Light', icon: 'pi pi-fw pi-bars',  command: () => this.setState({layoutColorMode: 'light'}) }
@@ -224,7 +225,7 @@ class App extends Component {
 
                     <ScrollPanel ref={(el) => this.layoutMenuScroller = el} style={{height:'100%'}}>
                         <div className="layout-sidebar-scroll-content" >
-                            <div className="logo"></div>
+                            <div className="layout-logo"></div>
                             <AppInlineProfile />
                             <AppMenu model={this.menu} onMenuItemClick={this.onMenuItemClick} />
                         </div>

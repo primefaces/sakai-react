@@ -105,6 +105,12 @@
     filter: alpha(opacity=$opacity-ie);
 }
 
+@mixin shadow($value) {
+    -webkit-box-shadow: $value;
+    -moz-box-shadow: $value;
+    box-shadow: $value;
+}
+
 @mixin clearfix {
     &:after {
         content: "";

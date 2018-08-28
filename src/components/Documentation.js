@@ -14,7 +14,7 @@ export class Documentation extends Component {
                 <div className="p-g-12">
                     <div className="card docs">
                         <h1>Current Version</h1>
-                        <p>React 16.2.0 and PrimeReact 1.6.0</p>
+                        <p>React 16.4.2 and PrimeReact 2.0.0-beta.3</p>
 
                         <h1>Getting Started</h1>
                         <p>Sigma is an application template for React based on the popular <a href="https://github.com/facebookincubator/create-react-app">create-react-app</a> that allows
@@ -62,9 +62,8 @@ export class Documentation extends Component {
 </pre>
 
                         <h1>Structure</h1>
-                        <p>Sigma consists of 3 main parts; the application layout, layout resources and theme resources for PrimeReact components. <b>App.js</b> inside src folder is the main component containing the template for the base layout
-                            whereas required resources for the layout are placed inside the <b>public/assets/layout</b> folder and similarly theme resources are inside <b>public/assets/theme</b> folder.
-                        </p>
+                        <p>Sigma consists of 2 main parts; the application layout and the resources. <b>App.js</b> inside src folder is the main component containing the template for the base layout
+                            whereas required resources such as SASS structure for the layout are placed inside the <b>src/layout</b> folder.</p>
 
                         <h1>Template</h1>
                         <p>Main layout is the JSX template of the App.js, it is divided into a couple of child components such as topbar, profile, menu and footer. Here is render method of the
@@ -110,7 +109,6 @@ export class Documentation extends Component {
                 <Route path="/charts" component={ChartsDemo} />
                 <Route path="/misc" component={MiscDemo} />
                 <Route path="/empty" component={EmptyPage} />
-                <Route path="/utils" component={UtilsDemo} />
                 <Route path="/documentation" component={Documentation} />
             </div>
 
@@ -142,7 +140,7 @@ export class Documentation extends Component {
             ]
         },
         {
-            label: 'Layout Options', icon: 'fa fa-fw fa-diamond',
+            label: 'Menu Colors', icon: 'fa fa-fw fa-diamond',
             items: [
                 {label: 'Dark', icon: 'fa fa-fw fa-bars',  command: () => this.setState({layoutColorMode: 'dark'}) },
                 {label: 'Light', icon: 'fa fa-fw fa-bars',  command: () => this.setState({layoutColorMode: 'light'}) }
@@ -228,18 +226,17 @@ export class Documentation extends Component {
 
                         <pre>
 {
-`"primereact": "^1.5.0",         //required: PrimeReact components
-"font-awesome": "^4.7.0"        //required: Icons
+`"primereact": "^2.0.0-beta.3",         //required: PrimeReact components
+"primeicons": "1.0.0-beta.10"           //required: Icons
 `
 }
 </pre>
 
-                        <h1>Omega Theme</h1>
-                        <p>Sigma is a layout for the Omega theme of PrimeReact, Omega is a free theme distributed inside PrimeReact, however it can be used
-                            with any PrimeReact theme.</p>
+                        <h1>Nova Theme</h1>
+                        <p>Sigma uses the free Nova-Light theme of PrimeReact which is a free theme distributed within PrimeReact, however it can be used with any PrimeReact theme.</p>
 
                         <h1>SASS Variables</h1>
-                        <p>In case you'd like to customize the layout variables, open layout.scss files under src/layout folder. Saving the changes
+                        <p>In case you'd like to customize the layout variables, open layout.scss file under src/layout folder. Saving the changes
                             will be reflected instantly at your browser.
                         </p>
 
@@ -247,109 +244,56 @@ export class Documentation extends Component {
                         <pre>
 {
 `/* General */
-$fontSize: 14px;
-$dividerColor: #e3e3e3;
-$submenuFontSize: 13px;
-$menuitemBadgeBgColor: #007be5;
-$menuitemBadgeColor: #ffffff;
-$transitionDuration:.3s;
+$fontSize:14px;
+$bodyBgColor:#edf0f5;
+$textColor:#333333;
+$textSecondaryColor:#707070;
+$borderRadius:3px;
+$dividerColor:#e3e3e3;
+$transitionDuration:.2s;
+$maskBgColor:#424242;
+
+/* Menu */
+$scrollPanelBgColor:#aaaaaa;
+$menuitemBadgeBgColor:#007be5;
+$menuitemBadgeColor:#ffffff;
+$submenuFontSize:13px;
 
 /* Menu Dark*/
-$menuDarkBgColorFirst: #4d505b;
-$menuDarkBgColorLast: #3b3e47;
-$menuitemDarkColor: #ffffff;
-$menuitemDarkHoverColor: #0388e5;
-$menuitemDarkActiveColor: #0388e5;
-$menuitemDarkActiveBgColor: #2e3035;
-$menuitemDarkBorderColor:  rgba(52, 56, 65, 0.6);
-$backgroundDarkImage: url(./images/logo-white.svg) top left no-repeat;
+$menuDarkBgColorFirst:#4d505b;
+$menuDarkBgColorLast:#3b3e47;
+$menuitemDarkColor:#ffffff;
+$menuitemDarkHoverColor:#0388e5;
+$menuitemDarkActiveColor:#0388e5;
+$menuitemDarkActiveBgColor:#2e3035;
+$menuitemDarkBorderColor:rgba(52, 56, 65, 0.6);
+$backgroundDarkImage:url(./images/logo-white.svg) top left no-repeat;
 
 /* Menu Light*/
-$menuBgColorFirst: #f3f4f9;
-$menuBgColorLast: #d7dbe8;
-$menuitemColor: #232428;
-$menuitemHoverColor: #0388e5;
-$menuitemActiveColor: #0388e5;
-$menuitemActiveBgColor: #ffffff;
-$menuitemBorderColor: rgba(207, 211, 224, 0.6);
-$backgroundImage: url(./images/logo.svg) top left no-repeat;
+$menuBgColorFirst:#f3f4f9;
+$menuBgColorLast:#d7dbe8;
+$menuitemColor:#232428;
+$menuitemHoverColor:#0388e5;
+$menuitemActiveColor:#0388e5;
+$menuitemActiveBgColor:#ffffff;
+$menuitemBorderColor:rgba(207, 211, 224, 0.6);
+$backgroundImage:url(./images/logo.svg) top left no-repeat;
 
 /* Topbar */
 $topbarLeftBgColor:#0388E5;
 $topbarRightBgColor:#07BDF4;
-$topbarItemBadgeColor: #ef6262;
-$topbarItemColor: #ffffff;
-$topbarItemHoverColor: #77c7ff;
+$topbarItemBadgeBgColor:#ef6262;
+$topbarItemBadgeColor:#ffffff;
+$topbarItemColor:#ffffff;
+$topbarItemHoverColor:#77c7ff;
+$topbarSearchInputBorderBottomColor:#ffffff;
+$topbarSearchInputColor:#ffffff;
 
-// === Button Colors === //
-/* GreenButton */
-$greenButton: #1f9e53;
-$greenButtonBorder: #107533;
-$greenButtonHover: #2eb971;
-$greenButtonActive: #178544;
-
-/* YellowButton */
-$yellowButton: #eed511;
-$yellowButtonBorder: #cdb80d;
-$yellowButtonHover: #f8e653;
-$yellowButtonActive: #d4b301;
-
-/* RedButton */
-$redButton: #b8312e;
-$redButtonBorder: #9c1627;
-$redButtonHover: #d2524f;
-$redButtonActive: #9c1627;
-
-/* greyButton */
-$greyButton: #ECEFF1;
-$greyButtonBorder: #CCCFD2;
-$greyButtonText: #525252;
-$greyButtonHover: #F5FBFF;
-$greyButtonActive: #CCCFD2;
-
-/* BlackButton */
-$blackButton: #353535;
-$blackButtonBorder: #212121;
-$blackButtonHover: #4a4a4a;
-$blackButtonActive: #212121;
-
-/* BlueButton */
-$blueButton: #2c78c7;
-$blueButtonBorder: #1a51b0;
-$blueButtonHover: #409cdc;
-$blueButtonActive: #1a51b0;
-
-/* AquaButton */
-$aquaButton: #0084b4;
-$aquaButtonBorder: #087298;
-$aquaButtonHover: #03A8E4;
-$aquaButtonActive: #087298;
-
-/* NavyButton */
-$navyButton: #1f3b59;
-$navyButtonBorder: #21374f;
-$navyButtonHover: #3C6592;
-$navyButtonActive: #21374f;
-
-@import "./sass/_layout";
+/* Footer */
+$footerBgColor:#ffffff;
 `
 }
 </pre>
-
-                        <p>In the demo app layout and theme css files are defined using link tags in index.html so the demo can switch them on the fly by changing the path however if this is not a requirement, you may also import them in App.js so that webpack adds them to the bundle.</p>
-
-                        <h1>Menu Item Badges</h1>
-                        <p>Badges are numerical indicators associated with a link.
-                            The badge property is the value of the badge and badgeStyleClass is style class of the badge.</p>
-                        <pre>
-label: 'Components', icon: 'list', badge: '2', badgeClassName: 'red-badge'
-</pre>
-                        <p>Default badge uses the accent color of avalon layout and there are three more alternative colors.</p>
-                        <ul>
-                            <li>red-badge</li>
-                            <li>purple-badge</li>
-                            <li>teal-badge</li>
-                        </ul>
 
                         <h1>Menu Modes</h1>
                         <p>Menu has 2 modes, static and overlay. Main layout container element in App.js is used to define which mode to use by adding specific classes. List

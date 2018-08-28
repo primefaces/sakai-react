@@ -10,18 +10,14 @@ body {
     font-family: "Open Sans", "Helvetica Neue", sans-serif;
     font-size: $fontSize;
     color: $textColor;
+    background-color: $bodyBgColor;
     margin: 0;
     padding: 0;
-    background-color: #edf0f5;
     min-height: 100%;
 }
 
 a {
     text-decoration: none;
-}
-
-.ui-state-disabled {
-    cursor: default !important;
 }
 
 .layout-wrapper {
@@ -71,9 +67,12 @@ a {
                         font-size: 10px;
                         right: -5px;
                         top: -5px;
-                        color: #ffffff;
-                        padding: 2px 4px;
-                        background-color: $topbarItemBadgeColor;
+                        width: 16px;
+                        height: 16px;
+                        text-align: center;
+                        line-height: 16px;
+                        color: $topbarItemBadgeColor;
+                        background-color: $topbarItemBadgeBgColor;
                         @include border-radius(50%);
                     }
                 }
@@ -90,20 +89,20 @@ a {
                     border: 0 none;
                     font-size: $fontSize;
                     background: transparent;
-                    border-bottom: 2px solid #ffffff;
+                    border-bottom: 2px solid $topbarSearchInputBorderBottomColor;
                     outline: 0 none;
                     -webkit-box-shadow: none;
                     box-shadow: none;
-                    color: #ffffff;
+                    color: $topbarSearchInputColor;
                     width: 100px;
                     padding: 1px 20px 1px 1px;
                     margin: 0px;
                     @include border-radius(2px);
 
-                    &::-webkit-input-placeholder { color:#ffffff; opacity: .7; @include transition(opacity $transitionDuration);}
-                    &:-moz-placeholder { color:#ffffff; opacity: .7; @include transition(opacity $transitionDuration);}
-                    &::-moz-placeholder { color:#ffffff; opacity: .7; @include transition(opacity $transitionDuration);}
-                    &:-ms-input-placeholder { color:#ffffff; opacity: .7; @include transition(opacity $transitionDuration);}
+                    &::-webkit-input-placeholder { color:$topbarSearchInputColor; opacity: .7; @include transition(opacity $transitionDuration);}
+                    &:-moz-placeholder { color:$topbarSearchInputColor; opacity: .7; @include transition(opacity $transitionDuration);}
+                    &::-moz-placeholder { color:$topbarSearchInputColor; opacity: .7; @include transition(opacity $transitionDuration);}
+                    &:-ms-input-placeholder { color:$topbarSearchInputColor; opacity: .7; @include transition(opacity $transitionDuration);}
                 }
 
                 .layout-topbar-search-icon {
@@ -133,7 +132,7 @@ a {
             cursor: pointer;
             display: inline-block;
             text-decoration: none;
-            color: #ffffff;
+            color: $topbarItemColor;
             @include transition(color $transitionDuration);
 
             span {
@@ -160,9 +159,8 @@ a {
         }
 
         .p-scrollpanel-bar {
-            background: #aaaaaa;
-            opacity: 0.3;
-            filter: alpha(opacity=30);
+            background: $scrollPanelBgColor;
+            @include opacity(0.3);
         }
 
         .p-scrollpanel-hidden {
@@ -181,14 +179,14 @@ a {
         width: 250px;
     	height: 100%;
         z-index: 999;
-        box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.16);
         user-select: none;
         -moz-user-select: none;
         -webkit-user-select: none;
         @include transition(left $transitionDuration);
         @include linear-gradient($menuBgColorFirst, $menuBgColorLast);
+        @include shadow(0 0 6px 0 rgba(0, 0, 0, 0.16));
 
-        .logo {
+        .layout-logo {
             margin-top: 25px;
             margin-left: 84px;
             height: 30px;
@@ -206,23 +204,12 @@ a {
                 margin: 10px;
             }
 
-            > a {
-                display: inline-block;
+            .profile-link {
                 cursor: pointer;
                 color: $menuitemColor;
-                text-decoration: none;
+                display: inline-block;
                 margin-bottom: 10px;
                 @include transition(color $transitionDuration);
-
-                .username {
-                    display: inline-block;
-                    margin-top: 8px;
-
-                    &:before {
-                        content: "";
-                        display: block;
-                    }
-                }
 
                 i {
                     display: inline-block;
@@ -235,9 +222,9 @@ a {
             }
 
             > ul {
+                overflow: hidden;
                 background-color: $menuitemActiveBgColor;
                 text-align: left;
-                overflow: hidden;
                 max-height: 0;
                 @include transition-duration($transitionDuration);
                 @include transition-timing-function(cubic-bezier(0.86, 0, 0.07, 1));
@@ -249,11 +236,6 @@ a {
                 li {
                     a {
                         border: 0 none;
-                        padding: 10px 33px 10px 10px;
-
-                        .menu-badge {
-                            font-size: 12px;
-                        }
                     }
 
                     &:last-child {
@@ -277,10 +259,8 @@ a {
                     color: $menuitemColor;
                     text-decoration: none;
                     font-size: $fontSize;
-                    padding: 15px;
-                    padding-right: 33px;
+                    padding: 1em 33px 1em 1em;
                     display: block;
-                    box-sizing: border-box;
                     border-top: 1px solid $menuitemBorderColor;
 
                     i {
@@ -293,30 +273,17 @@ a {
                         vertical-align: middle;
                     }
 
-                    .menu-badge {
-                        float: right;
-                        color: #ffffff;
-                        padding: 2px 6px;
-                        background-color: $menuitemBadgeBgColor;
-                        @include border-radius(50%);
-                    }
-
                     .menuitem-toggle-icon {
                         float: right;
                     }
 
                     &:hover {
                         color: $menuitemHoverColor;
-
-                        .menu-badge {
-                            color:#ffffff;
-                        }
                     }
                 }
 
                 &.active-menuitem {
                     > a {
-                        border-bottom: 0 none;
                         background-color: $menuitemActiveBgColor;
                         color: $menuitemActiveColor;
 
@@ -333,7 +300,7 @@ a {
                 ul {
                     background-color: $menuitemActiveBgColor;
                     overflow: hidden;
-                    padding-left: 20px;
+                    padding-left: 1.5em;
                     max-height: 0;
                     @include transition-property(max-height);
                     @include transition-duration(0.4s);
@@ -342,7 +309,7 @@ a {
                     li {
                         a {
                             cursor: pointer;
-                            padding: 10px 33px 10px 10px;
+                            padding: .75em 33px .75em .75em;
                             font-size: $submenuFontSize;
                             border-top: 0 none;
                         }
@@ -360,50 +327,23 @@ a {
                         border-bottom: 1px solid $menuitemBorderColor;
                     }
                 }
-
-                &.red-badge {
-                    > a {
-                        .menuitem-badge {
-                            background-color: #ef6262;
-                            color: #a83d3b;
-                        }
-                    }
-                }
-
-                &.green-badge {
-                    > a {
-                        .menuitem-badge {
-                            background-color: #20d077;
-                            color: #038d4a;
-                        }
-                    }
-                }
-
-                &.yellow-badge {
-                    > a {
-                        .menuitem-badge {
-                            background-color: #f9c851;
-                            color: #b58c2b;
-                        }
-                    }
-                }
             }
 
             .menuitem-toggle-icon {
                 float: right;
+                margin-top: 2px;
             }
 
             .menuitem-badge {
+                margin-top: 3px;
+                font-size: 10px;
                 float: right;
                 width: 16px;
                 height: 16px;
-                margin-right: 6px;
-                text-align: center;
-                background-color: $menuitemBadgeBgColor;
-                color: $menuitemBadgeColor;
-                font-size: $fontSize - 2;
-                font-weight: 700;
                 line-height: 16px;
+                text-align: center;
+                color: $menuitemBadgeColor;
+                background-color: $menuitemBadgeBgColor;
                 @include border-radius(50%);
             }
         }
@@ -411,11 +351,11 @@ a {
         &.layout-sidebar-dark {
             @include linear-gradient($menuDarkBgColorFirst, $menuDarkBgColorLast);
 
-            .logo {
+            .layout-logo {
                 background: $backgroundDarkImage;
             }
-            .profile {
 
+            .profile {
                 > a {
                     color: $menuitemDarkColor;
 
@@ -426,11 +366,16 @@ a {
 
                 > ul {
                     background-color: $menuitemDarkActiveBgColor;
+
+                    li {
+                        a {
+                            border: 0 none;
+                        }
+                    }
                 }
             }
 
             ul {
-
                 li {
                     a {
                         color: $menuitemDarkColor;
@@ -438,31 +383,24 @@ a {
 
                         &:hover {
                             color: $menuitemDarkHoverColor;
-
-                            .menu-badge {
-                                color:#ffffff;
-                            }
                         }
                     }
 
                     &.active-menuitem {
                         > a {
-                            border-bottom: 0 none;
                             background-color: $menuitemDarkActiveBgColor;
                             color: $menuitemDarkActiveColor;
-                        }
-
-                        ul {
-                            li {
-                                a {
-                                    border: none;
-                                }
-                            }
                         }
                     }
 
                     ul {
                         background-color: $menuitemDarkActiveBgColor;
+
+                        li {
+                            a {
+                                border: none;
+                            }
+                        }
                     }
 
                     &:last-child {
@@ -482,9 +420,8 @@ a {
 
     .layout-footer {
         @include transition(margin-left $transitionDuration);
-        height: 40px;
-        background-color: #ffffff;
-        padding: 7px 24px 0 24px;
+        background-color: $footerBgColor;
+        padding: 1em 2em;
 
         img {
             vertical-align: middle;
@@ -576,7 +513,7 @@ a {
             top: 50px;
             left: 0;
             z-index: 998;
-            background-color: #424242;
+            background-color: $maskBgColor;
             @include opacity(0.7);
         }
 
