@@ -48,8 +48,8 @@ class App extends Component {
         if (!this.menuClick) {
             this.setState({
                 overlayMenuActive: false,
-                mobileMenuActive: false,
-            })
+                mobileMenuActive: false
+            });
         }
 
         this.menuClick = false;
@@ -75,11 +75,6 @@ class App extends Component {
             this.setState({
                 mobileMenuActive: !mobileMenuActive
             });
-
-            if (mobileMenuActive)
-                this.removeClass(document.body, 'body-overflow-hidden');
-            else
-                this.addClass(document.body, 'body-overflow-hidden');
         }
        
         event.preventDefault();
@@ -176,7 +171,7 @@ class App extends Component {
                                     {label: 'Submenu 2.2.1', icon: 'pi pi-fw pi-bookmark'},
                                     {label: 'Submenu 2.2.2', icon: 'pi pi-fw pi-bookmark'}
                                 ]
-                            },
+                            }
                         ]
                     }
                 ]
@@ -201,6 +196,13 @@ class App extends Component {
 
     isDesktop() {
         return window.innerWidth > 1024;
+    }
+
+    componentDidUpdate() {
+        if (this.state.mobileMenuActive)
+            this.addClass(document.body, 'body-overflow-hidden');
+        else
+            this.removeClass(document.body, 'body-overflow-hidden');
     }
 
     render() {

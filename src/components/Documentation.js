@@ -187,7 +187,7 @@ createMenu() {
                                 {label: 'Submenu 1.2.1', icon: 'pi pi-fw pi-bookmark'},
                                 {label: 'Submenu 1.2.2', icon: 'pi pi-fw pi-bookmark'}
                             ]
-                        },
+                        }
                     ]
                 },
                 {
