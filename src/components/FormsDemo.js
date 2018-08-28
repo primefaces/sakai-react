@@ -192,7 +192,7 @@ export class FormsDemo extends Component {
                                 <label htmlFor="acAdvanced">Advanced</label>
                             </div>
                             <div className="p-g-12">
-                                <AutoComplete minLength={1} placeholder="Hint: type 'v' or 'f'" id="acAdvanced" size={30} dropdown={true} multiple={true}
+                                <AutoComplete minLength={1} placeholder="Hint: type 'v' or 'f'" id="acAdvanced" size={30} multiple={true}
                                             suggestions={this.state.filteredBrands} completeMethod={this.filterBrands} value={this.state.brand}
                                             onChange={event => this.setState({ brand: event.value, filteredBrands: null})} itemTemplate={this.autoCompleteItemTemplate} />
                             </div>
