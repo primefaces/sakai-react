@@ -22,7 +22,7 @@ export class AppInlineProfile extends Component {
                 <div>
                     <img src="assets/layout/images/profile.png" alt="" />
                 </div>
-                <a class="profile-link" onClick={this.onClick}>
+                <a className="profile-link" onClick={this.onClick}>
                     <span className="username">Claire Williams</span>
                     <i className="pi pi-fw pi-cog"/>
                 </a>
