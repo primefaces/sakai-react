@@ -31,7 +31,7 @@ class App extends Component {
         super();
         this.state = {
             layoutMode: 'static',
-            layoutColorMode: 'light',
+            layoutColorMode: 'dark',
             staticMenuInactive: false,
             overlayMenuActive: false,
             mobileMenuActive: false
@@ -133,11 +133,7 @@ class App extends Component {
             {
                 label: 'Template Pages', icon: 'pi pi-fw pi-file',
                 items: [
-                    {label: 'Empty Page', icon: 'pi pi-fw pi-circle-off', command: () => {window.location = "#/empty"}},
-                    {label: 'Login', icon: 'pi pi-fw pi-user-plus', url: 'assets/pages/login.html', target: '_blank'},
-                    {label: 'Error', icon: 'pi pi-fw pi-exclamation-triangle', url: 'assets/pages/error.html', target: '_blank'},
-                    {label: '404 Page', icon: 'pi pi-fw pi-times', url: 'assets/pages/404.html', target: '_blank'},
-                    {label: 'Access Denied', icon: 'pi pi-fw pi-ban', url: 'assets/pages/access.html', target: '_blank'}
+                    {label: 'Empty Page', icon: 'pi pi-fw pi-circle-off', command: () => {window.location = "#/empty"}}
                 ]
             },
             {
@@ -208,6 +204,8 @@ class App extends Component {
     }
 
     render() {
+        let logo = this.state.layoutColorMode === 'dark' ? 'assets/layout/images/logo-white.svg': 'assets/layout/images/logo.svg';
+
         let wrapperClass = classNames('layout-wrapper', {
             'layout-overlay': this.state.layoutMode === 'overlay',
             'layout-static': this.state.layoutMode === 'static',
@@ -225,7 +223,9 @@ class App extends Component {
 
                     <ScrollPanel ref={(el) => this.layoutMenuScroller = el} style={{height:'100%'}}>
                         <div className="layout-sidebar-scroll-content" >
-                            <div className="layout-logo"></div>
+                            <div className="layout-logo">
+                                <img alt="Logo" src={logo} />
+                            </div>
                             <AppInlineProfile />
                             <AppMenu model={this.menu} onMenuItemClick={this.onMenuItemClick} />
                         </div>

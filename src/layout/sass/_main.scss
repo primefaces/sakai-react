@@ -187,12 +187,8 @@ a {
         @include shadow(0 0 6px 0 rgba(0, 0, 0, 0.16));
 
         .layout-logo {
-            margin-top: 25px;
-            margin-left: 84px;
-            height: 30px;
-            width: 100px;
-            background: $backgroundImage;
-            background-size: 100px 30px;
+            text-align: center;
+            margin-top: 24px;   
         }
 
         .profile {
@@ -352,7 +348,7 @@ a {
             @include linear-gradient($menuDarkBgColorFirst, $menuDarkBgColorLast);
 
             .layout-logo {
-                background: $backgroundDarkImage;
+                
             }
 
             .profile {
