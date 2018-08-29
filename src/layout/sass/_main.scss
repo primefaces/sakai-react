@@ -155,7 +155,7 @@ a {
         border: none;
 
         .p-scrollpanel-content {
-            overflow-x: hidden;
+            overflow: scroll;
         }
 
         .p-scrollpanel-bar {
@@ -169,7 +169,7 @@ a {
         }
 
         .layout-sidebar-scroll-content {
-            width: 268px;
+            width: calc(100% + 18px);
             padding-bottom: 120px;
         }
     }
@@ -255,7 +255,7 @@ a {
                     color: $menuitemColor;
                     text-decoration: none;
                     font-size: $fontSize;
-                    padding: 1em 33px 1em 1em;
+                    padding: 1em 15px 1em 1em;
                     display: block;
                     border-top: 1px solid $menuitemBorderColor;
 
