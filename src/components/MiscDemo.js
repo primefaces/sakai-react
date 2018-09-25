@@ -36,8 +36,8 @@ export class MiscDemo extends Component {
 
     render() {
         return (
-            <div className="p-g">
-                <div className="p-g-12">
+            <div className="p-grid">
+                <div className="p-col-12">
                     <div className="card">
                         <h1>Upload</h1>
                         <Growl ref={(el) => this.growl = el} />
@@ -46,7 +46,7 @@ export class MiscDemo extends Component {
                     </div>
                 </div>
             
-                <div className="p-g-12">
+                <div className="p-col-12">
                     <div className="card">
                         <h1>ProgressBar</h1>
                         <ProgressBar value={this.state.value}/>

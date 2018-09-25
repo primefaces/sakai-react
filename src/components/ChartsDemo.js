@@ -113,8 +113,8 @@ export class ChartsDemo extends Component {
 
     render() {
         return(
-            <div className="p-g p-fluid">
-                <div className="p-g-12 p-lg-6">
+            <div className="p-grid p-fluid">
+                <div className="p-col-12 p-lg-6">
                     <div className="card">
                         <h1 className="centerText">Linear Chart</h1>
                         <Chart type="line" data={this.state.lineData}/>
@@ -130,7 +130,7 @@ export class ChartsDemo extends Component {
                         <Chart type="polarArea" data={this.state.polarData} height="150"/>
                     </div>
                 </div>
-                <div className="p-g-12 p-lg-6">
+                <div className="p-col-12 p-lg-6">
                     <div className="card">
                         <h1 className="centerText">Bar Chart</h1>
                         <Chart type="bar" data={this.state.barData}/>

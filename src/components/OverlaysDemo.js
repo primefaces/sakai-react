@@ -16,10 +16,10 @@ export class OverlaysDemo extends Component {
             dataTableValue: [],
             display: false,
             images: [
-                {source:'assets/demo/images/sopranos/sopranos1.jpg', thumbnail: 'assets/demo/images/sopranos/sopranos1_small.jpg', title:'Sopranos 1'},
-                {source:'assets/demo/images/sopranos/sopranos2.jpg', thumbnail: 'assets/demo/images/sopranos/sopranos2_small.jpg', title:'Sopranos 2'},
-                {source:'assets/demo/images/sopranos/sopranos3.jpg', thumbnail: 'assets/demo/images/sopranos/sopranos3_small.jpg', title:'Sopranos 3'},
-                {source:'assets/demo/images/sopranos/sopranos4.jpg', thumbnail: 'assets/demo/images/sopranos/sopranos4_small.jpg', title:'Sopranos 4'}
+                {source:'assets/layout/images/sopranos/sopranos1.jpg', thumbnail: 'assets/layout/images/sopranos/sopranos1_small.jpg', title:'Sopranos 1'},
+                {source:'assets/layout/images/sopranos/sopranos2.jpg', thumbnail: 'assets/layout/images/sopranos/sopranos2_small.jpg', title:'Sopranos 2'},
+                {source:'assets/layout/images/sopranos/sopranos3.jpg', thumbnail: 'assets/layout/images/sopranos/sopranos3_small.jpg', title:'Sopranos 3'},
+                {source:'assets/layout/images/sopranos/sopranos4.jpg', thumbnail: 'assets/layout/images/sopranos/sopranos4_small.jpg', title:'Sopranos 4'}
             ]
         };
 
@@ -39,18 +39,18 @@ export class OverlaysDemo extends Component {
         );
 
         return (
-            <div className="p-g p-fluid">
-                <div className="p-g-12 p-lg-6">
+            <div className="p-grid p-fluid">
+                <div className="p-col-12 p-lg-6">
                     <div className="card">
                         <h1>Overlay Panel</h1>
-                        <div className="p-g">
-                            <div className="p-g-6">
+                        <div className="p-grid">
+                            <div className="p-col-6">
                                 <Button label="Image" onClick={(event) => this.overlayPanel1.toggle(event)} />
                                 <OverlayPanel ref={el => this.overlayPanel1 = el}>
-                                    <img src="assets/demo/images/nature/nature1.jpg" alt="Nature 1" />
+                                    <img src="assets/layout/images/nature/nature1.jpg" alt="Nature 1" />
                                 </OverlayPanel>
                             </div>
-                            <div className="p-g-6">
+                            <div className="p-col-6">
                                 <Button label="DataTable" onClick={(event)=> this.overlayPanel2.toggle(event)} />
                                 <OverlayPanel  ref={el => this.overlayPanel2=el} showCloseIcon={true} dismissable={false}>
                                     <DataTable value={this.state.dataTableValue} style={{width:'500px'}}>
@@ -75,7 +75,7 @@ export class OverlaysDemo extends Component {
                         <Button icon="pi pi-external-link" label="Show" onClick={() => this.setState({display: true})} />
                     </div>
                 </div>
-                <div className="p-g-12 p-lg-6">
+                <div className="p-col-12 p-lg-6">
                     <div className="card">
                         <h1>LightBox</h1>
                         <Lightbox images={this.state.images} />

@@ -248,7 +248,7 @@ export class SampleDemo extends Component {
         this.setState({countriesData: this.countryService.getCountries(this)});
         this.carService.getCarsSmall().then(data => this.setState({dataTableValue: data}));
         this.carService.getCarsLarge().then(data => this.setState({dataViewValue: data}));
-        this.nodeService.getFiles(this).then(files => this.setState({treeData: files}));
+        this.nodeService.getTreeNodes(this).then(nodes => this.setState({treeData: nodes}));
         this.carService.getCarsSmall().then(data => this.setState({picklistSourceCars: data}));
         this.carService.getCarsSmall().then(data => this.setState({orderlistCars: data}));
     }
@@ -279,7 +279,7 @@ export class SampleDemo extends Component {
 
         return (
             <div className="p-clearfix">
-                <img src={`assets/demo/images/car/${car.brand}.png`} alt={car.brand} style={{display:'inline-block',margin:'2px 0 2px 2px', width: '50px'}} />
+                <img src={`assets/layout/images/car/${car.brand}.png`} alt={car.brand} style={{display:'inline-block',margin:'2px 0 2px 2px', width: '50px'}} />
                 <div style={{fontSize:14,float:'right',margin:'15px 5px 0 0'}}>{car.brand} - {car.year} - {car.color}</div>
             </div>
         );
@@ -290,31 +290,31 @@ export class SampleDemo extends Component {
             return;
         }
 
-        let src = "assets/demo/images/car/" + car.brand + ".png";
+        let src = "assets/layout/images/car/" + car.brand + ".png";
 
         if (layout === 'list') {
             return (
-                <div className="p-g" style={{padding: '2em', borderBottom: '1px solid #d9d9d9'}}>
-                    <div className="p-g-12 p-md-3">
+                <div className="p-grid" style={{padding: '2em', borderBottom: '1px solid #d9d9d9'}}>
+                    <div className="p-col-12 p-md-3">
                         <img src={src} alt={car.brand} />
                     </div>
-                    <div className="p-g-12 p-md-8 car-details">
-                        <div className="p-g">
-                            <div className="p-g-2 p-sm-6">Vin:</div>
-                            <div className="p-g-10 p-sm-6">{car.vin}</div>
+                    <div className="p-col-12 p-md-8 car-details">
+                        <div className="p-grid">
+                            <div className="p-col-2 p-sm-6">Vin:</div>
+                            <div className="p-col-10 p-sm-6">{car.vin}</div>
 
-                            <div className="p-g-2 p-sm-6">Year:</div>
-                            <div className="p-g-10 p-sm-6">{car.year}</div>
+                            <div className="p-col-2 p-sm-6">Year:</div>
+                            <div className="p-col-10 p-sm-6">{car.year}</div>
 
-                            <div className="p-g-2 p-sm-6">Brand:</div>
-                            <div className="p-g-10 p-sm-6">{car.brand}</div>
+                            <div className="p-col-2 p-sm-6">Brand:</div>
+                            <div className="p-col-10 p-sm-6">{car.brand}</div>
 
-                            <div className="p-g-2 p-sm-6">Color:</div>
-                            <div className="p-g-10 p-sm-6">{car.color}</div>
+                            <div className="p-col-2 p-sm-6">Color:</div>
+                            <div className="p-col-10 p-sm-6">{car.color}</div>
                         </div>
                     </div>
 
-                    <div className="p-g-12 p-md-1 search-icon" style={{marginTop:'40px'}}>
+                    <div className="p-col-12 p-md-1 search-icon" style={{marginTop:'40px'}}>
                         <Button icon="pi pi-search"></Button>
                     </div>
                 </div>
@@ -323,9 +323,9 @@ export class SampleDemo extends Component {
 
         if (layout === 'grid') {
             return (
-                <div style={{ padding: '.5em' }} className="p-g-12 p-md-3">
+                <div style={{ padding: '.5em' }} className="p-col-12 p-md-3">
                     <Panel header={car.vin} style={{ textAlign: 'center' }}>
-                        <img src={`assets/demo/images/car/${car.brand}.png`} alt={car.brand} />
+                        <img src={`assets/layout/images/car/${car.brand}.png`} alt={car.brand} />
                         <div className="car-detail">{car.year} - {car.color}</div>
                         <i className="pi pi-search" style={{ cursor: 'pointer' }}></i>
                     </Panel>
@@ -340,13 +340,13 @@ export class SampleDemo extends Component {
         );
         
         const dataViewHeader = (
-            <div className="p-g">
-                <div className="p-g-6 p-md-8 filter-container">
+            <div className="p-grid">
+                <div className="p-col-6 p-md-8 filter-container">
                     <div style={{position:'relative'}}>
                         <InputText placeholder="Search by brand" onKeyUp={e => this.dv.filter(e.target.value)} />
                     </div>
                 </div>
-                <div className="p-g-6 p-md-4" style={{textAlign: 'right'}}>
+                <div className="p-col-6 p-md-4" style={{textAlign: 'right'}}>
                     <DataViewLayoutOptions layout={this.state.layout} onChange={(e) => this.setState({layout: e.value})} />
                 </div>
             </div>
@@ -354,8 +354,8 @@ export class SampleDemo extends Component {
 
         return (
             <div className="p-fluid">
-                <div className="p-g">
-                    <div className="p-g-12">
+                <div className="p-grid">
+                    <div className="p-col-12">
                         <div className="p-messages p-component p-messages-success" style={{margin: '0 0 1em 0', display: 'block'}}>
                             <div className="p-messages-wrapper">
                                 <span className="p-messages-icon pi pi-fw pi-2x pi-check"></span>
@@ -371,153 +371,153 @@ export class SampleDemo extends Component {
 
                         <div className="card card-w-title">
                             <h1>Form Elements</h1>
-                            <div className="p-g form-group">
-                                <div className="p-g-12 p-md-2">
+                            <div className="p-grid">
+                                <div className="p-col-12 p-md-2">
                                     <label htmlFor="input">Input</label>
                                 </div>
-                                <div className="p-g-12 p-md-4">
+                                <div className="p-col-12 p-md-4">
                                     <InputText id="input" />
                                 </div>
-                                <div className="p-g-12 p-md-2">
+                                <div className="p-col-12 p-md-2">
                                     <label htmlFor="textarea">Textarea</label>
                                 </div>
-                                <div className="p-g-12 p-md-4">
+                                <div className="p-col-12 p-md-4">
                                     <InputTextarea id="textarea" rows={3} cols={30} autoResize={true}></InputTextarea>
                                 </div>
-                                <div className="p-g-12 p-md-2">
+                                <div className="p-col-12 p-md-2">
                                     <label htmlFor="calendar">Calendar</label>
                                 </div>
-                                <div className="p-g-12 p-md-4">
+                                <div className="p-col-12 p-md-4">
                                     <Calendar id="calendar" value={this.state.date} onChange={event => this.setState({date: event.value})}></Calendar>
                                 </div>
-                                <div className="p-g-12 p-md-2">
+                                <div className="p-col-12 p-md-2">
                                     <label htmlFor="autocomplete">AutoComplete</label>
                                 </div>
-                                <div className="p-g-12 p-md-4">
+                                <div className="p-col-12 p-md-4">
                                     <AutoComplete minLength={1} placeholder="Countries" id="autocomplete" field="name" suggestions={this.state.filteredCountries}
                                                 completeMethod={this.filterCountry} value={this.state.country}
                                                 onChange={event => this.setState({country: event.value, filteredCountries: null})}
                                     />
                                 </div>
-                                <div className="p-g-12 p-md-2">
+                                <div className="p-col-12 p-md-2">
                                     <label htmlFor="dropdown">Dropdown</label>
                                 </div>
-                                <div className="p-g-12 p-md-4">
+                                <div className="p-col-12 p-md-4">
                                     <Dropdown options={this.state.cities} value={this.state.dropdownCity} onChange={event => this.setState({dropdownCity: event.value})} autoWidth={false} />
                                 </div>
-                                <div className="p-g-12 p-md-2">
+                                <div className="p-col-12 p-md-2">
                                     <label htmlFor="password">Password</label>
                                 </div>
-                                <div className="p-g-12 p-md-4">
+                                <div className="p-col-12 p-md-4">
                                     <Password id="password" />
                                 </div>
-                                <div className="p-g-12 p-md-2">
+                                <div className="p-col-12 p-md-2">
                                     <label htmlFor="mask">Mask</label>
                                 </div>
-                                <div className="p-g-12 p-md-4">
+                                <div className="p-col-12 p-md-4">
                                     <InputMask id="mask" mask="99/99/9999" slotChar="dd/mm/yyyy" placeholder="Date" />
                                 </div>
-                                <div className="p-g-12 p-md-2">
+                                <div className="p-col-12 p-md-2">
                                     <label htmlFor="spinner">Spinner</label>
                                 </div>
-                                <div className="p-g-12 p-md-4">
+                                <div className="p-col-12 p-md-4">
                                     <Spinner value={this.state.spinnerValue} onChange={event => this.setState({spinnerValue: event.value})} />
                                 </div>
 
-                                <div className="p-g-12 p-md-2">
+                                <div className="p-col-12 p-md-2">
                                     Checkbox
                                 </div>
-                                <div className="p-g-12 p-md-4">
-                                    <div className="p-g">
-                                        <div className="p-g-12">
+                                <div className="p-col-12 p-md-4">
+                                    <div className="p-grid">
+                                        <div className="p-col-12">
                                             <Checkbox value="Ultima" inputId="cb1" onChange={this.onCheckboxChange} checked={this.state.checkboxValue.indexOf('Ultima') > -1} />
                                             <label htmlFor="cb1" className="p-checkbox-label">Ultima</label>
                                         </div>
-                                        <div className="p-g-12">
+                                        <div className="p-col-12">
                                             <Checkbox value="Avalon" inputId="cb2" onChange={this.onCheckboxChange} checked={this.state.checkboxValue.indexOf('Avalon') > -1} />
                                             <label htmlFor="cb2" className="p-checkbox-label">Avalon</label>
                                         </div>
-                                        <div className="p-g-12">
+                                        <div className="p-col-12">
                                             <Checkbox value="Serenity" inputId="cb3" onChange={this.onCheckboxChange} checked={this.state.checkboxValue.indexOf('Serenity') > -1} />
                                             <label htmlFor="cb3" className="p-checkbox-label">Serenity</label>
                                         </div>
                                     </div>
                                 </div>
-                                <div className="p-g-12 p-md-2">
+                                <div className="p-col-12 p-md-2">
                                     RadioButton
                                 </div>
-                                <div className="p-g-12 p-md-4">
-                                    <div className="p-g">
-                                        <div className="p-g-12">
+                                <div className="p-col-12 p-md-4">
+                                    <div className="p-grid">
+                                        <div className="p-col-12">
                                             <RadioButton value="Ultima" inputId="rb1" onChange={event => this.setState({radioValue: event.value})} checked={this.state.radioValue === "Ultima"} />
                                             <label htmlFor="rb1" className="p-radiobutton-label">Ultima</label>
                                         </div>
-                                        <div className="p-g-12">
-                                            <RadioButton value="Icarus" inputId="rb2" onChange={event => this.setState({radioValue: event.value})} checked={this.state.radioValue === "Avalon"} />
+                                        <div className="p-col-12">
+                                            <RadioButton value="Avalon" inputId="rb2" onChange={event => this.setState({radioValue: event.value})} checked={this.state.radioValue === "Avalon"} />
                                             <label htmlFor="rb2" className="p-radiobutton-label">Avalon</label>
                                         </div>
-                                        <div className="p-g-12">
+                                        <div className="p-col-12">
                                             <RadioButton value="Serenity" inputId="rb3" onChange={event => this.setState({radioValue: event.value})} checked={this.state.radioValue === "Serenity"} />
                                             <label htmlFor="rb3" className="p-radiobutton-label">Serenity</label>
                                         </div>
                                     </div>
                                 </div>
-                                <div className="p-g-12 p-md-2">
+                                <div className="p-col-12 p-md-2">
                                     <label htmlFor="slider">Slider</label>
                                 </div>
-                                <div className="p-g-12 p-md-4">
+                                <div className="p-col-12 p-md-4">
                                     <Slider id="slider" value={this.state.sliderValue} onChange={event => this.setState({sliderValue: event.value})} />
                                 </div>
-                                <div className="p-g-12 p-md-2">
+                                <div className="p-col-12 p-md-2">
                                     Button
                                 </div>
-                                <div className="p-g-12 p-md-4">
+                                <div className="p-col-12 p-md-4">
                                     <Button label="Edit" icon="pi pi-pencil" />
                                 </div>
-                                <div className="p-g-12 p-md-2">
+                                <div className="p-col-12 p-md-2">
                                     SplitButton
                                 </div>
-                                <div className="p-g-12 p-md-4">
+                                <div className="p-col-12 p-md-4">
                                     <SplitButton label="Save" icon="pi pi-plus" model={this.state.splitButtonItems} />
                                 </div>
-                                <div className="p-g-12 p-md-2">
+                                <div className="p-col-12 p-md-2">
                                     <label htmlFor="multiselect">MultiSelect</label>
                                 </div>
-                                <div className="p-g-12 p-md-4">
+                                <div className="p-col-12 p-md-4">
                                     <MultiSelect id="multiselect" value={this.state.selectedCars} options={this.state.carOptions} onChange={event => this.setState({selectedCars: event.value})} />
                                 </div>
-                                <div className="p-g-12 p-md-2">
+                                <div className="p-col-12 p-md-2">
                                     ToggleButton
                                 </div>
-                                <div className="p-g-12 p-md-4">
+                                <div className="p-col-12 p-md-4">
                                     <ToggleButton checked={this.state.toggleButtonValue} onChange={event => this.setState({toggleButtonValue: event.value})} />
                                 </div>
-                                <div className="p-g-12 p-md-2">
+                                <div className="p-col-12 p-md-2">
                                     SelectButton
                                 </div>
-                                <div className="p-g-12 p-md-4">
+                                <div className="p-col-12 p-md-4">
                                     <SelectButton value={this.state.selectedType} options={this.state.types} onChange={event => this.setState({selectedType: event.value})} />
                                 </div>
-                                <div className="p-g-12 p-md-2">
+                                <div className="p-col-12 p-md-2">
                                     <label htmlFor="listbox">ListBox</label>
                                 </div>
-                                <div className="p-g-12 p-md-4">
+                                <div className="p-col-12 p-md-4">
                                     <ListBox value={this.state.listBoxCity} options={this.state.listBoxCities} onChange={event => this.setState({listBoxCity: event.value})} filter={true} />
                                 </div>
-                                <div className="p-g-12 p-md-2">
+                                <div className="p-col-12 p-md-2">
                                     Dialog
                                 </div>
-                                <div className="p-g-12 p-md-4">
+                                <div className="p-col-12 p-md-4">
                                     <Button label="Login" icon="pi pi-external-link" onClick={() => this.setState({dialogVisible:true})} />
                                 </div>
                             </div>
 
                             <Dialog header="Login" visible={this.state.dialogVisible} footer={dialogFooter} onHide={() => this.setState({dialogVisible:false})}>
-                                <div className="p-g">
-                                    <div className="p-g-12">
+                                <div className="p-grid">
+                                    <div className="p-col-12">
                                         <InputText placeholder="Username" />
                                     </div>
-                                    <div className="p-g-12">
+                                    <div className="p-col-12">
                                         <InputText placeholder="Password" />
                                     </div>
                                 </div>
@@ -535,14 +535,14 @@ export class SampleDemo extends Component {
                             </DataTable>
                         </div>
                     </div>
-                    <div className="p-g-12">
+                    <div className="p-col-12">
                         <div className="card card-w-title">
                             <h1>DataView</h1>
                             <DataView ref={el => this.dv = el} value={this.state.dataViewValue} filterBy="brand" itemTemplate={this.dataViewItemTemplate}
                                     paginatorPosition="both" paginator={true} rows={10} header={dataViewHeader} layout={this.state.layout} />
                         </div>
                     </div>
-                    <div className="p-g-12 p-lg-6">
+                    <div className="p-col-12 p-lg-6">
                         <div className="card card-w-title">
                             <h1>PickList</h1>
                             <PickList source={this.state.picklistSourceCars} target={this.state.picklistTargetCars} sourceHeader="Available" targetHeader="Selected"
@@ -566,7 +566,7 @@ export class SampleDemo extends Component {
                             <PanelMenu model={this.state.panelMenuItems} />
                         </div>
                     </div>
-                    <div className="p-g-12 p-lg-6">
+                    <div className="p-col-12 p-lg-6">
                         <div className="card card-w-title">
                             <h1>Accordion Panel</h1>
                             <Accordion>
@@ -617,7 +617,7 @@ export class SampleDemo extends Component {
 
                         <div className="card card-w-title">
                             <h1>Tree</h1>
-                            <Tree value={this.state.treeData} />
+                            <Tree value={this.state.treeData} selectionMode="single" />
                         </div>
 
                         <div className="card card-w-title">

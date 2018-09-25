@@ -21,6 +21,7 @@ import {ScrollPanel} from 'primereact/components/scrollpanel/ScrollPanel';
 import 'primereact/resources/themes/nova-light/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
+import 'primeflex/primeflex.css';
 import 'fullcalendar/dist/fullcalendar.css';
 import './layout/layout.css';
 import './App.css';

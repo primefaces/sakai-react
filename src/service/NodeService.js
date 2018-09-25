@@ -20,4 +20,9 @@ export class NodeService {
             });
 
     }
+
+    getTreeNodes() {
+        return axios.get('assets/demo/data/treenodes.json')
+            .then(res => res.data.root);
+    }
 }

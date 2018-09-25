@@ -10,11 +10,11 @@ export class Documentation extends Component {
 
     render() {
         return (
-            <div className="p-g">
-                <div className="p-g-12">
+            <div className="p-grid">
+                <div className="p-col-12">
                     <div className="card docs">
                         <h1>Current Version</h1>
-                        <p>React 16.4.2 and PrimeReact 2.0.0-beta.3</p>
+                        <p>React 16.5.2 and PrimeReact 2.0.0-beta.8</p>
 
                         <h1>Getting Started</h1>
                         <p>Sigma is an application template for React based on the popular <a href="https://github.com/facebookincubator/create-react-app">create-react-app</a> that allows
@@ -317,7 +317,7 @@ $footerBgColor:#ffffff;
 </pre>
 
                         <h1>Grid CSS</h1>
-                        <p>Sigma uses PrimeReact Grid CSS (p-g-*) throughout the samples, although any grid library can be used we suggest using Grid CSS as your layout framework as it is well tested and supported by PrimeReact. Grid CSS is
+                        <p>Sigma uses PrimeReact Grid CSS (p-col-*) throughout the samples, although any grid library can be used we suggest using Grid CSS as your layout framework as it is well tested and supported by PrimeReact. Grid CSS is
                             available inside primereact.min.css.</p>
 
                         <h1>Customizing Styles</h1>

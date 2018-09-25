@@ -429,8 +429,8 @@ export class MenusDemo extends Component {
 
     render() {
         return (
-            <div className="p-g p-fluid">
-                <div className="p-g-12">
+            <div className="p-grid p-fluid">
+                <div className="p-col-12">
                     <div className="card card-w-title">
                         <h1>Breadcrumb</h1>
                         <BreadCrumb model={this.state.breadcrumdItems} home={this.state.home} />
@@ -447,7 +447,7 @@ export class MenusDemo extends Component {
                     </div>
                 </div>
 
-                <div className="p-g-12 p-lg-6">
+                <div className="p-col-12 p-lg-6">
                     <div className="card card-w-title">
                         <h1>Plain Menu</h1>
                         <Menu model={this.state.items} />
@@ -461,7 +461,7 @@ export class MenusDemo extends Component {
                     </div>
                 </div>
 
-                <div className="p-g-12 p-lg-6">
+                <div className="p-col-12 p-lg-6">
                     <div className="card card-w-title">
                         <h1 style={{marginTop:'40px'}}>ContextMenu</h1>
                         Right click!
@@ -479,7 +479,7 @@ export class MenusDemo extends Component {
                     </div>
                 </div>
 
-                <div className="p-g-12 p-g-6">
+                <div className="p-col-12 p-col-6">
                     <div className="card">
                         <h1>MegaMenu - Horizontal</h1>
                         <MegaMenu model={this.state.megaMenuItems} />
@@ -489,7 +489,7 @@ export class MenusDemo extends Component {
                     </div>
                 </div>
 
-                <div className="p-g-12 p-g-6">
+                <div className="p-col-12 p-col-6">
                     <div className="card">
                         <h1>TabMenu</h1>
                         <TabMenu model={this.state.tabMenuItems} />

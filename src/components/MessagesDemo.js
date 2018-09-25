@@ -42,8 +42,8 @@ export class MessagesDemo extends Component {
     
     render() {
         return (
-            <div className="p-g">
-                <div className="p-g-12">
+            <div className="p-grid">
+                <div className="p-col-12">
                     <div className="card">
                         <h1>Messages and Growl</h1>
                         <Messages ref={(el) => this.messages = el} />
@@ -55,17 +55,17 @@ export class MessagesDemo extends Component {
                         <Button onClick={this.showError} label="Error" className="p-button-danger"  style={{width:'10em', marginRight:'.25em'}} />
                     
                         <h1>Inline Message</h1>
-                        <div className="p-g">
-                            <div className="p-g-12 p-md-3">
+                        <div className="p-grid">
+                            <div className="p-col-12 p-md-3">
                                 <Message severity="info" text="PrimeReact Rocks" />
                             </div>
-                            <div className="p-g-12 p-md-3">
+                            <div className="p-col-12 p-md-3">
                                 <Message severity="success" text="Record Saved" />
                             </div>
-                            <div className="p-g-12 p-md-3">
+                            <div className="p-col-12 p-md-3">
                                 <Message severity="warn" text="Are you sure?" />
                             </div>
-                            <div className="p-g-12 p-md-3">
+                            <div className="p-col-12 p-md-3">
                                 <Message severity="error" text="Field is required" />
                             </div>
                         </div>

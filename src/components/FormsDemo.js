@@ -40,7 +40,7 @@ export class FormsDemo extends Component {
             date7: null,
             checkboxValue: [],
             radioValue: null,
-            inputSwitchValue: null,
+            inputSwitchValue: false,
             dropdownCity: null,
             spinnerValue: null,
             sliderValue: [20,80],
@@ -129,7 +129,7 @@ export class FormsDemo extends Component {
 
         return (
                 <div className="p-clearfix">
-                    <img alt={brand} src={`assets/demo/images/car/${brand}.png`} style={{ width: '32px', display: 'inline-block', margin: '5px 0 2px 5px' }} />
+                    <img alt={brand} src={`assets/layout/images/car/${brand}.png`} style={{ width: '32px', display: 'inline-block', margin: '5px 0 2px 5px' }} />
                     <div style={{ fontSize: '18px', float: 'right', margin: '10px 10px 0 0' }}>{brand}</div>
                 </div>
         );
@@ -147,27 +147,27 @@ export class FormsDemo extends Component {
 
     render() {
         return (
-            <div className="p-g p-fluid">
-                <div className="p-g-12 p-lg-6">
+            <div className="p-grid p-fluid">
+                <div className="p-col-12 p-lg-6">
                     <div className="card card-w-title">
                         <h1>InputText</h1>
-                        <div className="p-g form-group">
-                            <div className="p-g-12 p-md-4">
+                        <div className="p-grid">
+                            <div className="p-col-12 p-md-4">
                                 <InputText placeholder="Name"/>
                             </div>
-                            <div className="p-g-12 p-md-4">
+                            <div className="p-col-12 p-md-4">
                                 <InputText placeholder="Email"/>
                             </div>
-                            <div className="p-g-12 p-md-4">
+                            <div className="p-col-12 p-md-4">
                                 <InputText placeholder="Phone"/>
                             </div>
-                            <div className="p-g-12 p-md-4">
+                            <div className="p-col-12 p-md-4">
                                 <InputText placeholder="Address" />
                             </div>
-                            <div className="p-g-12 p-md-4">
+                            <div className="p-col-12 p-md-4">
                                 <InputText placeholder="Disabled" disabled={true} />
                             </div>
-                            <div className="p-g-12 p-md-4">
+                            <div className="p-col-12 p-md-4">
                                 <InputText placeholder="Error" className="p-error"/>
                             </div>
                         </div>
@@ -180,19 +180,19 @@ export class FormsDemo extends Component {
 
                     <div className="card card-w-title">
                         <h1>AutoComplete</h1>
-                        <div className="p-g form-group">
-                            <div className="p-g-12">
+                        <div className="p-grid">
+                            <div className="p-col-12">
                                 <label htmlFor="acSimple">Simple</label>
                             </div>
-                            <div className="p-g-12" style={{marginBottom:'10px'}}>
+                            <div className="p-col-12" style={{marginBottom:'10px'}}>
                                 <AutoComplete minLength={1} placeholder="Countries" id="acSimple" size={30} field="name" suggestions={this.state.filteredCountries}
                                             completeMethod={this.filterCountry} value={this.state.country} onChange={event => this.setState({ country: event.value, filteredCountries: null})} />
                             </div>
-                            <div className="p-g-12">
+                            <div className="p-col-12">
                                 <label htmlFor="acAdvanced">Advanced</label>
                             </div>
-                            <div className="p-g-12">
-                                <AutoComplete minLength={1} placeholder="Hint: type 'v' or 'f'" id="acAdvanced" size={30} multiple={true}
+                            <div className="p-col-12">
+                                <AutoComplete minLength={1} placeholder="Hint: type 'v' or 'f'" id="acAdvanced" size={30} dropdown={true} multiple={true}
                                             suggestions={this.state.filteredBrands} completeMethod={this.filterBrands} value={this.state.brand}
                                             onChange={event => this.setState({ brand: event.value, filteredBrands: null})} itemTemplate={this.autoCompleteItemTemplate} />
                             </div>
@@ -208,23 +208,23 @@ export class FormsDemo extends Component {
                         <h1>Calendar</h1>
                         <Calendar value={this.state.date1} onChange={(e) => this.setState({date1: e.value})} inline={true} />
 
-                        <div className="p-g form-group-m" style={{marginTop:'20px'}}>
-                            <div className="p-g-12">
+                        <div className="p-grid-m" style={{marginTop:'20px'}}>
+                            <div className="p-col-12">
                                 <Calendar placeholder="Popup" value={this.state.date2} onChange={(e) => this.setState({date2: e.value})}/>
                             </div>
-                            <div className="p-g-12">
+                            <div className="p-col-12">
                                 <Calendar placeholder="DateTime" showTime={true} dateFormat="mm/dd/yy" value={this.state.date3} onChange={(e) => this.setState({date3: e.value})}/>
                             </div>
-                            <div className="p-g-12">
+                            <div className="p-col-12">
                                 <Calendar placeholder="Time" timeOnly={true} showTime={true} value={this.state.date4} onChange={(e) => this.setState({date4: e.value})}/>
                             </div>
-                            <div className="p-g-12">
+                            <div className="p-col-12">
                                 <Calendar placeholder="Button" showIcon={true} value={this.state.date5} onChange={(e) => this.setState({date5: e.value})}/>
                             </div>
-                            <div className="p-g-12">
+                            <div className="p-col-12">
                                 <Calendar readOnly={true} placeholder="Multiple Months" numberOfMonths={3} value={this.state.date6} onChange={(e) => this.setState({date6: e.value})}/>
                             </div>
-                            <div className="p-g-12">
+                            <div className="p-col-12">
                                 <Calendar readOnly={true} dateFormat="mm/yy" placeholder="Month Picker" view="month" value={this.state.date7} onChange={(e) => this.setState({date7: e.value})}/>
                             </div>
                         </div>
@@ -235,19 +235,19 @@ export class FormsDemo extends Component {
                         <Chips value={this.state.chipsValue} onChange={(e) => this.setState({chipsValue: e.value})}/>
                     </div>
                 </div>
-                <div className="p-g-12 p-lg-6">
+                <div className="p-col-12 p-lg-6">
                     <div className="card card-w-title">
                         <h1>Checkboxes</h1>
-                        <div className="p-g">
-                            <div className="p-g-12 p-md-4">
+                        <div className="p-grid">
+                            <div className="p-col-12 p-md-4">
                                 <Checkbox value="Ultima" inputId="cb1" onChange={this.onCheckboxChange} checked={this.state.checkboxValue.indexOf('Ultima') > -1} />
                                 <label htmlFor="cb1" className="p-checkbox-label">Ultima</label>
                             </div>
-                            <div className="p-g-12 p-md-4">
+                            <div className="p-col-12 p-md-4">
                                 <Checkbox value="Avalon" inputId="cb2" onChange={this.onCheckboxChange} checked={this.state.checkboxValue.indexOf('Avalon') > -1} />
                                 <label htmlFor="cb2" className="p-checkbox-label">Avalon</label>
                             </div>
-                            <div className="p-g-12 p-md-4">
+                            <div className="p-col-12 p-md-4">
                                 <Checkbox value="Serenity" inputId="cb3" onChange={this.onCheckboxChange} checked={this.state.checkboxValue.indexOf('Serenity') > -1} />
                                 <label htmlFor="cb3" className="p-checkbox-label">Serenity</label>
                             </div>
@@ -256,16 +256,16 @@ export class FormsDemo extends Component {
         
                     <div className="card card-w-title">
                         <h1>RadioButtons</h1>
-                        <div className="p-g">
-                            <div className="p-g-12 p-md-4">
+                        <div className="p-grid">
+                            <div className="p-col-12 p-md-4">
                                 <RadioButton value="Ultima" inputId="rb1" onChange={event => this.setState({radioValue: event.value})} checked={this.state.radioValue === "Ultima"}/>
                                 <label htmlFor="rb1" className="p-radiobutton-label">Ultima</label>
                             </div>
-                            <div className="p-g-12 p-md-4">
-                                <RadioButton value="Avalon" inputId="rb2" onChange={event => this.setState({radioValue: event.value})} checked={this.state.radioValue === "IcarAvalonus"}/>
+                            <div className="p-col-12 p-md-4">
+                                <RadioButton value="Avalon" inputId="rb2" onChange={event => this.setState({radioValue: event.value})} checked={this.state.radioValue === "Avalon"}/>
                                 <label htmlFor="rb2" className="p-radiobutton-label">Avalon</label>
                             </div>
-                            <div className="p-g-12 p-md-4">
+                            <div className="p-col-12 p-md-4">
                                 <RadioButton value="Serenity" inputId="rb3" onChange={event => this.setState({radioValue: event.value})} checked={this.state.radioValue === "Serenity"}/>
                                 <label htmlFor="rb3" className="p-radiobutton-label">Serenity</label>
                             </div>
@@ -313,18 +313,18 @@ export class FormsDemo extends Component {
                     </div>
                 </div>
 
-                <div className="p-g-12">
+                <div className="p-col-12">
                     <div className="card card-w-title">
                         <h1>Input Groups</h1>
-                        <div className="p-g form-group">
-                            <div className="p-g-12 p-md-6">
+                        <div className="p-grid">
+                            <div className="p-col-12 p-md-6">
                                 <div className="p-inputgroup">
                                     <span className="p-inputgroup-addon"><i className="pi pi-user" /></span>
                                     <InputText placeholder="Username"/>
                                 </div>
                             </div>
 
-                            <div className="p-g-12 p-md-6">
+                            <div className="p-col-12 p-md-6">
                                 <div className="p-inputgroup">
                                     <span className="p-inputgroup-addon"><i className="pi pi-clock" /></span>
                                     <span className="p-inputgroup-addon"><i className="pi pi-star"></i></span>
@@ -334,14 +334,14 @@ export class FormsDemo extends Component {
                                 </div>
                             </div>
 
-                            <div className="p-g-12 p-md-6">
+                            <div className="p-col-12 p-md-6">
                                 <div className="p-inputgroup">
                                     <InputText placeholder="Search"/>
                                     <Button icon="pi pi-search"/>
                                 </div>
                             </div>
 
-                            <div className="p-g-12 p-md-6">
+                            <div className="p-col-12 p-md-6">
                                 <div className="p-inputgroup">
                                     <span className="p-inputgroup-addon p-inputgroup-addon-checkbox">
                                         <Checkbox checked={this.state.inputGroupValue} onChange={event => this.setState({inputGroupValue: event.checked})} />
@@ -353,88 +353,90 @@ export class FormsDemo extends Component {
                     </div>
                 </div>
 
-                <div className="p-g-12">
+                <div className="p-col-12">
                     <div className="card card-w-title">
                         <h1>Editor</h1>
                         <Editor style={{height:'320px'}} />
                     </div>
                 </div>
 
-                <div className="p-g-12 p-g-nopad">
-                    <div className="p-g-12 p-lg-6" style={{paddingTop:0}}>
-                        <div className="card card-w-title">
-                            <h1>Buttons</h1>
+                <div className="p-col-12 p-nogutter">
+                    <div className="p-grid">
+                        <div className="p-col-12 p-lg-6">
+                            <div className="card card-w-title">
+                                <h1>Buttons</h1>
 
-                            <div className="p-g">
-                                <div className="p-g-12">ToggleButton</div>
-                                <div className="p-g-12">
-                                    <ToggleButton checked={this.state.toggleButtonValue} onChange={event => this.setState({toggleButtonValue: event.value})} />
-                                </div>
-                        
-                                <div className="p-g-12">SelectButton</div>
-                                <div className="p-g-12">
-                                    <SelectButton value={this.state.selectedType} options={this.state.types} onChange={event => this.setState({selectedType: event.value})} />
-                                </div>
-                        
-                                <div className="p-g-12">Button</div>
-                                <div className="p-g-12">
-                                    <Button label="Bookmark"/>
-                                </div>
+                                <div className="p-grid">
+                                    <div className="p-col-12">ToggleButton</div>
+                                    <div className="p-col-12">
+                                        <ToggleButton checked={this.state.toggleButtonValue} onChange={event => this.setState({toggleButtonValue: event.value})} />
+                                    </div>
+                            
+                                    <div className="p-col-12">SelectButton</div>
+                                    <div className="p-col-12">
+                                        <SelectButton value={this.state.selectedType} options={this.state.types} onChange={event => this.setState({selectedType: event.value})} />
+                                    </div>
+                            
+                                    <div className="p-col-12">Button</div>
+                                    <div className="p-col-12">
+                                        <Button label="Bookmark"/>
+                                    </div>
 
-                                <div className="p-g-12">Left Icon</div>
-                                <div className="p-g-12">
-                                    <Button label="Clear" icon="pi pi-times" />
-                                </div>
-                        
-                                <div className="p-g-12">Right Icon</div>
-                                <div className="p-g-12">
-                                    <Button label="Clear" icon="pi pi-times" iconPos="right"/>
-                                </div>
+                                    <div className="p-col-12">Left Icon</div>
+                                    <div className="p-col-12">
+                                        <Button label="Clear" icon="pi pi-times" />
+                                    </div>
+                            
+                                    <div className="p-col-12">Right Icon</div>
+                                    <div className="p-col-12">
+                                        <Button label="Clear" icon="pi pi-times" iconPos="right"/>
+                                    </div>
 
-                                <div className="p-g-12">Icon Only</div>
-                                <div className="p-g-12">
-                                    <Button icon="pi pi-check"/>
-                                </div>
+                                    <div className="p-col-12">Icon Only</div>
+                                    <div className="p-col-12">
+                                        <Button icon="pi pi-check"/>
+                                    </div>
 
-                                <div className="p-g-12">Link</div>
-                                <div className="p-g-12"><a href="http://www.primefaces.org">Homepage</a></div>
+                                    <div className="p-col-12">Link</div>
+                                    <div className="p-col-12"><a href="http://www.primefaces.org">Homepage</a></div>
 
-                                <div className="p-g-12">SplitButton</div>
-                                <div className="p-g-12">
-                                    <SplitButton label="Save" icon="pi pi-plus" model={this.state.splitButtonItems} />
+                                    <div className="p-col-12">SplitButton</div>
+                                    <div className="p-col-12">
+                                        <SplitButton label="Save" icon="pi pi-plus" model={this.state.splitButtonItems} />
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="p-g-12 p-lg-6" style={{paddingTop:0}}>
-                        <div className="card card-w-title">
-                            <h1>Colored Buttons</h1>
-                            <p>Flat buttons with various color alternatives.</p>
-                            
-                            <div className="p-g">
-                                <div className="p-g-12 p-md-4" style={{textAlign:'center'}}>
-                                    <Button label="Primary" style={{marginBottom:'10px'}} />
-                                    <Button label="Secondary" style={{marginBottom:'10px'}} className="p-button-secondary" />
-                                    <Button label="Success" style={{marginBottom:'10px'}} className="p-button-success" />
-                                    <Button label="Info" style={{marginBottom:'10px'}} className="p-button-info" />
-                                    <Button label="Warning" style={{marginBottom:'10px'}} className="p-button-warning" />
-                                    <Button label="Danger" style={{marginBottom:'10px'}} className="p-button-danger" />
-                                </div>
-                                <div className="p-g-12 p-md-4" style={{textAlign:'center'}}>
-                                    <Button label="Primary" style={{marginBottom:'10px'}} className="p-button-raised"/>
-                                    <Button label="Secondary" style={{marginBottom:'10px'}} className="p-button-secondary p-button-raised" />
-                                    <Button label="Success" style={{marginBottom:'10px'}} className="p-button-success p-button-raised" />
-                                    <Button label="Info" style={{marginBottom:'10px'}} className="p-button-info p-button-raised" />
-                                    <Button label="Warning" style={{marginBottom:'10px'}} className="p-button-warning p-button-raised" />
-                                    <Button label="Danger" style={{marginBottom:'10px'}} className="p-button-danger p-button-raised" />
-                                </div>
-                                <div className="p-g-12 p-md-4" style={{textAlign:'center'}}>
-                                    <Button label="Primary" style={{marginBottom:'10px'}}  className="p-button-rounded"/>
-                                    <Button label="Secondary" style={{marginBottom:'10px'}} className="p-button-secondary p-button-rounded" />
-                                    <Button label="Success" style={{marginBottom:'10px'}} className="p-button-success p-button-rounded" />
-                                    <Button label="Info" style={{marginBottom:'10px'}} className="p-button-info p-button-rounded" />
-                                    <Button label="Warning" style={{marginBottom:'10px'}} className="p-button-warning p-button-rounded" />
-                                    <Button label="Danger" style={{marginBottom:'10px'}} className="p-button-danger p-button-rounded" />
+                        <div className="p-col-12 p-lg-6">
+                            <div className="card card-w-title">
+                                <h1>Colored Buttons</h1>
+                                <p>Flat buttons with various color alternatives.</p>
+                                
+                                <div className="p-grid">
+                                    <div className="p-col-12 p-md-4" style={{textAlign:'center'}}>
+                                        <Button label="Primary" style={{marginBottom:'10px'}} />
+                                        <Button label="Secondary" style={{marginBottom:'10px'}} className="p-button-secondary" />
+                                        <Button label="Success" style={{marginBottom:'10px'}} className="p-button-success" />
+                                        <Button label="Info" style={{marginBottom:'10px'}} className="p-button-info" />
+                                        <Button label="Warning" style={{marginBottom:'10px'}} className="p-button-warning" />
+                                        <Button label="Danger" style={{marginBottom:'10px'}} className="p-button-danger" />
+                                    </div>
+                                    <div className="p-col-12 p-md-4" style={{textAlign:'center'}}>
+                                        <Button label="Primary" style={{marginBottom:'10px'}} className="p-button-raised"/>
+                                        <Button label="Secondary" style={{marginBottom:'10px'}} className="p-button-secondary p-button-raised" />
+                                        <Button label="Success" style={{marginBottom:'10px'}} className="p-button-success p-button-raised" />
+                                        <Button label="Info" style={{marginBottom:'10px'}} className="p-button-info p-button-raised" />
+                                        <Button label="Warning" style={{marginBottom:'10px'}} className="p-button-warning p-button-raised" />
+                                        <Button label="Danger" style={{marginBottom:'10px'}} className="p-button-danger p-button-raised" />
+                                    </div>
+                                    <div className="p-col-12 p-md-4" style={{textAlign:'center'}}>
+                                        <Button label="Primary" style={{marginBottom:'10px'}}  className="p-button-rounded"/>
+                                        <Button label="Secondary" style={{marginBottom:'10px'}} className="p-button-secondary p-button-rounded" />
+                                        <Button label="Success" style={{marginBottom:'10px'}} className="p-button-success p-button-rounded" />
+                                        <Button label="Info" style={{marginBottom:'10px'}} className="p-button-info p-button-rounded" />
+                                        <Button label="Warning" style={{marginBottom:'10px'}} className="p-button-warning p-button-rounded" />
+                                        <Button label="Danger" style={{marginBottom:'10px'}} className="p-button-danger p-button-rounded" />
+                                    </div>
                                 </div>
                             </div>
                         </div>

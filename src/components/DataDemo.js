@@ -28,10 +28,8 @@ export class DataDemo extends Component {
             orderlistCars:[],
             treeData1:[],
             treeData2:[],
-            treeData3:[],
-            selectedFile1:null,
-            selectedFile2:null,
-            selectedFiles1:null,
+            selectedFile:null,
+            selectedFiles:null,
             documents:[],
             documentsSelection:[],
             scheduleEvents:[],
@@ -85,9 +83,8 @@ export class DataDemo extends Component {
 
     componentDidMount() {
         this.carService.getCarsMedium().then(data => this.setState({dataTableValue: data}));
-        this.nodeService.getFiles(this).then(files => this.setState({treeData1: files}));
-        this.nodeService.getFiles(this).then(files => this.setState({treeData2: files}));
-        this.nodeService.getFiles(this).then(files => this.setState({treeData3: files}));
+        this.nodeService.getTreeNodes(this).then(nodes => this.setState({treeData1: nodes}));
+        this.nodeService.getTreeNodes(this).then(nodes => this.setState({treeData2: nodes}));
         this.carService.getCarsLarge().then(data => this.setState({dataViewValue: data}));
         this.nodeService.getFilesystem(this).then(files => this.setState({documents: files}));
         this.carService.getCarsMedium().then(data => this.setState({picklistSourceCars: data}));
@@ -101,7 +98,7 @@ export class DataDemo extends Component {
         }
         
         return <div className="p-clearfix">
-            <img src={`assets/demo/images/car/${car.brand}.png`} alt={car.brand} style={{display:'inline-block', margin:'2px 0 2px 2px', width: '50px'}}/>
+            <img src={`assets/layout/images/car/${car.brand}.png`} alt={car.brand} style={{display:'inline-block', margin:'2px 0 2px 2px', width: '50px'}}/>
             <div style={{fontSize:'16px', float:'right', margin:'15px 5px 0 0'}}>{car.brand}</div>
         </div>
     }
@@ -113,7 +110,7 @@ export class DataDemo extends Component {
 
         return (
             <div className="p-clearfix">
-                <img src={`assets/demo/images/car/${car.brand}.png`} alt={car.brand} style={{display:'inline-block',margin:'2px 0 2px 2px', width: '50px'}}/>
+                <img src={`assets/layout/images/car/${car.brand}.png`} alt={car.brand} style={{display:'inline-block',margin:'2px 0 2px 2px', width: '50px'}}/>
                 <div style={{fontSize:14,float:'right',margin:'15px 5px 0 0'}}>{car.year} - {car.color}</div>
             </div>
         );
@@ -124,31 +121,31 @@ export class DataDemo extends Component {
             return;
         }
 
-        let src = "assets/demo/images/car/" + car.brand + ".png";
+        let src = "assets/layout/images/car/" + car.brand + ".png";
 
         if (layout === 'list') {
             return (
-                <div className="p-g" style={{padding: '2em', borderBottom: '1px solid #d9d9d9'}}>
-                    <div className="p-g-12 p-md-3">
+                <div className="p-grid" style={{padding: '2em', borderBottom: '1px solid #d9d9d9'}}>
+                    <div className="p-col-12 p-md-3">
                         <img src={src} alt={car.brand}/>
                     </div>
-                    <div className="p-g-12 p-md-8 car-details">
-                        <div className="p-g">
-                            <div className="p-g-2 p-sm-6">Vin:</div>
-                            <div className="p-g-10 p-sm-6">{car.vin}</div>
+                    <div className="p-col-12 p-md-8 car-details">
+                        <div className="p-grid">
+                            <div className="p-col-2 p-sm-6">Vin:</div>
+                            <div className="p-col-10 p-sm-6">{car.vin}</div>
 
-                            <div className="p-g-2 p-sm-6">Year:</div>
-                            <div className="p-g-10 p-sm-6">{car.year}</div>
+                            <div className="p-col-2 p-sm-6">Year:</div>
+                            <div className="p-col-10 p-sm-6">{car.year}</div>
 
-                            <div className="p-g-2 p-sm-6">Brand:</div>
-                            <div className="p-g-10 p-sm-6">{car.brand}</div>
+                            <div className="p-col-2 p-sm-6">Brand:</div>
+                            <div className="p-col-10 p-sm-6">{car.brand}</div>
 
-                            <div className="p-g-2 p-sm-6">Color:</div>
-                            <div className="p-g-10 p-sm-6">{car.color}</div>
+                            <div className="p-col-2 p-sm-6">Color:</div>
+                            <div className="p-col-10 p-sm-6">{car.color}</div>
                         </div>
                     </div>
 
-                    <div className="p-g-12 p-md-1 search-icon" style={{marginTop:'40px'}}>
+                    <div className="p-col-12 p-md-1 search-icon" style={{marginTop:'40px'}}>
                         <Button icon="pi pi-search"></Button>
                     </div>
                 </div>
@@ -157,9 +154,9 @@ export class DataDemo extends Component {
 
         if (layout === 'grid') {
             return (
-                <div style={{ padding: '.5em' }} className="p-g-12 p-md-3">
+                <div style={{ padding: '.5em' }} className="p-col-12 p-md-3">
                     <Panel header={car.vin} style={{ textAlign: 'center' }}>
-                        <img src={`assets/demo/images/car/${car.brand}.png`} alt={car.brand} />
+                        <img src={`assets/layout/images/car/${car.brand}.png`} alt={car.brand} />
                         <div className="car-detail">{car.year} - {car.color}</div>
                         <Button icon="pi pi-search"></Button>
                     </Panel>
@@ -185,22 +182,22 @@ export class DataDemo extends Component {
         };
 
         const header = (
-            <div className="p-g">
-                <div className="p-g-12 p-md-4" style={{textAlign:'left'}}>
+            <div className="p-grid">
+                <div className="p-col-12 p-md-4" style={{textAlign:'left'}}>
                     <Dropdown options={this.state.sortOptions} value={this.state.sortKey} placeholder="Sort By" onChange={this.onSortChange} />
                 </div>
-                <div className="p-g-6 p-md-4">
+                <div className="p-col-6 p-md-4">
                     <InputText placeholder="Search by brand" onKeyUp={event => this.dv.filter(event.target.value)} />
                 </div>
-                <div className="p-g-6 p-md-4" style={{textAlign: 'right'}}>
+                <div className="p-col-6 p-md-4" style={{textAlign: 'right'}}>
                     <DataViewLayoutOptions layout={this.state.layout} onChange={event => this.setState({layout: event.value})} />
                 </div>
             </div>
         );
 
         return (
-            <div className="p-g">
-                <div className="p-g-12">
+            <div className="p-grid">
+                <div className="p-col-12">
                     <div className="card card-w-title">
                         <h1>DataTable</h1>
                         <DataTable value={this.state.dataTableValue} paginatorPosition="both" selectionMode="single" header="List of Cars" paginator={true} rows={10}
@@ -213,7 +210,7 @@ export class DataDemo extends Component {
                     </div>
                 </div>
 
-                <div className="p-g-12">
+                <div className="p-col-12">
                     <div className="card card-w-title">
                         <h1>DataView</h1>
                         <DataView ref={el => this.dv = el} value={this.state.dataViewValue} filterBy="brand" itemTemplate={this.dataViewItemTemplate} layout={this.state.layout}
@@ -221,7 +218,7 @@ export class DataDemo extends Component {
                     </div>
                 </div>
 
-                <div className="p-g-12 p-md-8">
+                <div className="p-col-12 p-md-8">
                     <div className="card card-w-title">
                         <h1>PickList</h1>
                         <PickList source={this.state.picklistSourceCars} target={this.state.picklistTargetCars} sourceHeader="Available" targetHeader="Selected"
@@ -230,7 +227,7 @@ export class DataDemo extends Component {
                     </div>
                 </div>
 
-                <div className="p-g-12 p-md-4">
+                <div className="p-col-12 p-md-4">
                     <div className="card card-w-title">
                         <h1>OrderList</h1>
                         <OrderList value={this.state.orderlistCars} responsive={true} header="OrderList" listStyle={{height:250}}
@@ -238,39 +235,31 @@ export class DataDemo extends Component {
                     </div>
                 </div>
 
-                <div className="p-g-12">
+                <div className="p-col-12">
                     <div className="card card-w-title">
-                        <div className="p-g">
-                            <div className="p-g-12 p-md-6">
+                        <div className="p-grid">
+                            <div className="p-col-12 p-md-6">
                                 <h1>Tree</h1>
-                                <Tree value={this.state.treeData1} selectionMode="single" selection={this.state.selectedFile1}
-                                      selectionChange={event => this.setState({selectedFile1: event.selection})}/>
+                                <Tree value={this.state.treeData1} selectionMode="single" selectionKeys={this.state.selectedFile}
+                                      onSelectionChange={event => this.setState({selectedFile: event.value})}/>
                             </div>
-                            <div className="p-g-12 p-md-6">
+                            <div className="p-col-12 p-md-6">
                                 <h1>Checkbox Tree</h1>
-                                <Tree value={this.state.treeData2} selectionMode="checkbox" selection={this.state.selectedFiles1}
-                                      selectionChange={event => this.setState({selectedFiles1: event.selection})}/>
+                                <Tree value={this.state.treeData2} selectionMode="checkbox" selectionKeys={this.state.selectedFiles}
+                                      onSelectionChange={event => this.setState({selectedFiles: event.value})}/>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div className="p-g-12">
-                    <div className="card card-w-title">
-                        <h1>Horizontal Tree</h1>
-                        <Tree value={this.state.treeData3} layout="horizontal" selectionMode="single" selection={this.state.selectedFile2}
-                              selectionChange={event => this.setState({selectedFile2: event.selection})}/>
-                    </div>
-                </div>
-
-                <div className="p-g-12">
+                <div className="p-col-12">
                     <div className="card card-w-title">
                         <h1>Organization Chart</h1>
                         <OrganizationChart value={this.state.organizationChartValue} />
                     </div>
                 </div>
 
-                <div className="p-g-12">
+                <div className="p-col-12">
                     <div className="card card-w-title">
                         <h1>TreeTable</h1>
                         <TreeTable value={this.state.documents} header="Documents" selectionMode="multiple" 
@@ -282,7 +271,7 @@ export class DataDemo extends Component {
                     </div>
                 </div>
 
-                <div className="p-g-12">
+                <div className="p-col-12">
                     <div className="card card-w-title">
                         <h1>Schedule</h1>
                         <Schedule header={scheduleHeader} events={this.state.scheduleEvents} defaultDate="2016-01-12"/>
