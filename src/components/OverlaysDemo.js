@@ -16,10 +16,10 @@ export class OverlaysDemo extends Component {
             dataTableValue: [],
             display: false,
             images: [
-                {source:'assets/layout/images/sopranos/sopranos1.jpg', thumbnail: 'assets/layout/images/sopranos/sopranos1_small.jpg', title:'Sopranos 1'},
-                {source:'assets/layout/images/sopranos/sopranos2.jpg', thumbnail: 'assets/layout/images/sopranos/sopranos2_small.jpg', title:'Sopranos 2'},
-                {source:'assets/layout/images/sopranos/sopranos3.jpg', thumbnail: 'assets/layout/images/sopranos/sopranos3_small.jpg', title:'Sopranos 3'},
-                {source:'assets/layout/images/sopranos/sopranos4.jpg', thumbnail: 'assets/layout/images/sopranos/sopranos4_small.jpg', title:'Sopranos 4'}
+                {source:'assets/demo/images/sopranos/sopranos1.jpg', thumbnail: 'assets/demo/images/sopranos/sopranos1_small.jpg', title:'Sopranos 1'},
+                {source:'assets/demo/images/sopranos/sopranos2.jpg', thumbnail: 'assets/demo/images/sopranos/sopranos2_small.jpg', title:'Sopranos 2'},
+                {source:'assets/demo/images/sopranos/sopranos3.jpg', thumbnail: 'assets/demo/images/sopranos/sopranos3_small.jpg', title:'Sopranos 3'},
+                {source:'assets/demo/images/sopranos/sopranos4.jpg', thumbnail: 'assets/demo/images/sopranos/sopranos4_small.jpg', title:'Sopranos 4'}
             ]
         };
 
@@ -47,7 +47,7 @@ export class OverlaysDemo extends Component {
                             <div className="p-col-6">
                                 <Button label="Image" onClick={(event) => this.overlayPanel1.toggle(event)} />
                                 <OverlayPanel ref={el => this.overlayPanel1 = el}>
-                                    <img src="assets/layout/images/nature/nature1.jpg" alt="Nature 1" />
+                                    <img src="assets/demo/images/nature/nature1.jpg" alt="Nature 1" />
                                 </OverlayPanel>
                             </div>
                             <div className="p-col-6">

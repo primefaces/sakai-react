@@ -129,7 +129,7 @@ export class FormsDemo extends Component {
 
         return (
                 <div className="p-clearfix">
-                    <img alt={brand} src={`assets/layout/images/car/${brand}.png`} style={{ width: '32px', display: 'inline-block', margin: '5px 0 2px 5px' }} />
+                    <img alt={brand} src={`assets/demo/images/car/${brand}.png`} style={{ width: '32px', display: 'inline-block', margin: '5px 0 2px 5px' }} />
                     <div style={{ fontSize: '18px', float: 'right', margin: '10px 10px 0 0' }}>{brand}</div>
                 </div>
         );
