@@ -527,7 +527,7 @@ export class SampleDemo extends Component {
                         <div className="card card-w-title">
                             <h1>DataTable</h1>
                             <DataTable value={this.state.dataTableValue} selectionMode="single" header="DataTable" selection={this.state.dataTableSelection}
-                                    onSelectionChange={event => this.setState({dataTableSelection: event.data})}>
+                                    onSelectionChange={event => this.setState({dataTableSelection: event.value})}>
                                 <Column field="vin" header="Vin" sortable={true} />
                                 <Column field="year" header="Year" sortable={true} />
                                 <Column field="brand" header="Brand" sortable={true} />

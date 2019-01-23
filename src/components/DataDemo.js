@@ -9,7 +9,7 @@ import {TreeTable} from 'primereact/treetable';
 import {Column} from 'primereact/column'
 import {PickList} from 'primereact/picklist';
 import {OrderList} from 'primereact/orderlist';
-import {Schedule} from 'primereact/schedule';
+import {FullCalendar} from 'primereact/fullcalendar';
 import {Panel} from 'primereact/panel';
 import {InputText} from 'primereact/inputtext';
 import {Button} from 'primereact/button';
@@ -32,7 +32,7 @@ export class DataDemo extends Component {
             selectedFiles:null,
             documents:[],
             documentsSelection:[],
-            scheduleEvents:[],
+            fullCalendarEvents:[],
             layout: 'list',
             sortOptions: [
                 {label: 'Newest First', value: '!year'},
@@ -89,7 +89,7 @@ export class DataDemo extends Component {
         this.nodeService.getFilesystem(this).then(files => this.setState({documents: files}));
         this.carService.getCarsMedium().then(data => this.setState({picklistSourceCars: data}));
         this.carService.getCarsSmall().then(data => this.setState({orderlistCars: data}));
-        this.eventService.getEvents().then(events => this.setState({scheduleEvents: events}));
+        this.eventService.getEvents().then(events => this.setState({fullCalendarEvents: events}));
     }
 
     pickListTemplate(car){
@@ -175,11 +175,15 @@ export class DataDemo extends Component {
     }
 
     render() {
-        const scheduleHeader = {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'month,agendaWeek,agendaDay'
-        };
+		let fullcalendarOptions = {
+			defaultDate: '2016-01-12',
+			header: {
+				left: 'prev,next today',
+				center: 'title',
+				right: 'month,agendaWeek,agendaDay'
+			},
+			editable: true
+		};
 
         const header = (
             <div className="p-grid">
@@ -201,7 +205,7 @@ export class DataDemo extends Component {
                     <div className="card card-w-title">
                         <h1>DataTable</h1>
                         <DataTable value={this.state.dataTableValue} paginatorPosition="both" selectionMode="single" header="List of Cars" paginator={true} rows={10}
-                            responsive={true} selection={this.state.dataTableSelection} onSelectionChange={event => this.setState({dataTableSelection: event.data})}>
+                            responsive={true} selection={this.state.dataTableSelection} onSelectionChange={event => this.setState({dataTableSelection: event.value})}>
                             <Column field="vin" header="Vin" sortable={true}/>
                             <Column field="year" header="Year" sortable={true}/>
                             <Column field="brand" header="Brand" sortable={true}/>
@@ -274,7 +278,7 @@ export class DataDemo extends Component {
                 <div className="p-col-12">
                     <div className="card card-w-title">
                         <h1>Schedule</h1>
-                        <Schedule header={scheduleHeader} events={this.state.scheduleEvents} defaultDate="2016-01-12"/>
+                        <FullCalendar events={this.state.fullCalendarEvents} options={fullcalendarOptions}/>
                     </div>
                 </div>
             </div>

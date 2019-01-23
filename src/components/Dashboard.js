@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import {CarService} from '../service/CarService';
 import {Panel} from 'primereact/panel';
@@ -9,7 +8,7 @@ import {InputText} from 'primereact/inputtext';
 import {Chart} from 'primereact/chart';
 import {DataTable} from 'primereact/datatable';
 import {Column} from 'primereact/column';
-import {Schedule} from 'primereact/schedule';
+import {FullCalendar} from 'primereact/fullcalendar';
 
 export class Dashboard extends Component {
 
@@ -70,10 +69,14 @@ export class Dashboard extends Component {
             {label:'Paris', value:{id:5, name: 'Paris', code: 'PRS'}}
         ];
 
-        let scheduleHeader = {
-			left: 'prev,next today',
-			center: 'title',
-			right: 'month,agendaWeek,agendaDay'
+        let fullcalendarOptions = {
+			defaultDate: '2017-02-01',
+			header: {
+				left: 'prev,next today',
+				center: 'title',
+				right: 'month,agendaWeek,agendaDay'
+			},
+			editable: true
 		};
 
         let events = [
@@ -303,7 +306,7 @@ export class Dashboard extends Component {
                     <div className="card">
                         <h1 style={{fontSize:'16px'}}>Recent Sales</h1>
                         <DataTable value={this.state.cars}  style={{marginBottom: '20px'}} responsive={true}
-                                selectionMode="single" selection={this.state.selectedCar} onSelectionChange={(e) => this.setState({selectedCar: e.data})}>
+                                selectionMode="single" selection={this.state.selectedCar} onSelectionChange={(e) => this.setState({selectedCar: e.value})}>
                             <Column field="vin" header="Vin" sortable={true} />
                             <Column field="year" header="Year" sortable={true} />
                             <Column field="brand" header="Brand" sortable={true} />
@@ -318,7 +321,7 @@ export class Dashboard extends Component {
                 </div>
                 <div className="p-col-12 p-lg-8">
                     <Panel header="Calendar" style={{height: '100%'}}> 
-                        <Schedule events={events} header={scheduleHeader} defaultDate="2017-02-01" eventLimit={4}></Schedule>
+                        <FullCalendar events={events} options={fullcalendarOptions}></FullCalendar>
                     </Panel>
                 </div>
 
