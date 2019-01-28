@@ -292,6 +292,15 @@ a {
                     &:hover {
                         color: $menuitemHoverColor;
                     }
+
+                    &.active-route {
+                        background-color: $menuitemActiveBgColor;
+                        color: $menuitemActiveColor;
+
+                        .menuitem-toggle-icon {
+                            @include icon-override("\e933");
+                        }
+                    }
                 }
 
                 &.active-menuitem {
@@ -397,6 +406,11 @@ a {
 
                         &:hover {
                             color: $menuitemDarkHoverColor;
+                        }
+
+                        &.active-route {
+                            background-color: $menuitemDarkActiveBgColor;
+                            color: $menuitemDarkActiveColor;
                         }
                     }
 

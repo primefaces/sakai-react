@@ -115,21 +115,21 @@ class App extends Component {
             {
                 label: 'Components', icon: 'pi pi-fw pi-globe', badge: '9',
                 items: [
-                    {label: 'Sample Page', icon: 'pi pi-fw pi-star-o', command: () => {window.location = '#/sample'}},
-                    {label: 'Forms', icon: 'pi pi-fw pi-calendar', command: () => {window.location = '#/forms'}},
-                    {label: 'Data', icon: 'pi pi-fw pi-align-justify', command: () => {window.location = "#/data"}},
-                    {label: 'Panels', icon: 'pi pi-fw pi-th-large', command: () => {window.location = "#/panels"}},
-                    {label: 'Overlays', icon: 'pi pi-fw pi-clone', command: () => {window.location = "#/overlays"}},
-                    {label: 'Menus', icon: 'pi pi-fw pi-bars', command: () => {window.location = "#/menus"}},
-                    {label: 'Messages', icon: 'pi pi-fw pi-info-circle', command: () => {window.location = "#/messages"}},
-                    {label: 'Charts', icon: 'pi pi-fw pi-clock', command: () => {window.location = "#/charts"}},
-                    {label: 'Misc', icon: 'pi pi-fw pi-filter', command: () => {window.location = "#/misc"}}
+					{label: 'Sample Page', icon: 'pi pi-fw pi-th-large', to: '/sample'},
+					{label: 'Forms', icon: 'pi pi-fw pi-file', to: '/forms'},
+					{label: 'Data', icon: 'pi pi-fw pi-table', to: '/data'},
+					{label: 'Panels', icon: 'pi pi-fw pi-list', to: '/panels'},
+					{label: 'Overlays', icon: 'pi pi-fw pi-clone', to: '/overlays'},
+					{label: 'Menus', icon: 'pi pi-fw pi-plus', to: '/menus'},
+					{label: 'Messages', icon: 'pi pi-fw pi-spinner',to: '/messages'},
+					{label: 'Charts', icon: 'pi pi-fw pi-chart-bar', to: '/charts'},
+					{label: 'Misc', icon: 'pi pi-fw pi-upload', to: '/misc'}
                 ]
             },
             {
                 label: 'Template Pages', icon: 'pi pi-fw pi-file',
                 items: [
-                    {label: 'Empty Page', icon: 'pi pi-fw pi-circle-off', command: () => {window.location = "#/empty"}}
+                    {label: 'Empty Page', icon: 'pi pi-fw pi-circle-off', to: '/empty'}
                 ]
             },
             {
