@@ -43,6 +43,7 @@ export class SampleDemo extends Component {
             filteredCountries: null,
             countriesData: [],
             dropdownCity: null,
+			selectedNodeKey: null,
             cities: [
                 {label: 'Select City', value: null},
                 {label: 'New York', value: 'New York'},
@@ -617,7 +618,7 @@ export class SampleDemo extends Component {
 
                         <div className="card card-w-title">
                             <h1>Tree</h1>
-                            <Tree value={this.state.treeData} selectionMode="single" />
+                            <Tree value={this.state.treeData} selectionMode="single" selectionKeys={this.state.selectedNodeKey} onSelectionChange={e => this.setState({selectedNodeKey: e.value})}/>
                         </div>
 
                         <div className="card card-w-title">

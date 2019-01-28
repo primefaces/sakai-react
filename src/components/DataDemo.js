@@ -31,7 +31,7 @@ export class DataDemo extends Component {
             selectedFile:null,
             selectedFiles:null,
             documents:[],
-            documentsSelection:[],
+            documentsSelection:null,
             fullCalendarEvents:[],
             layout: 'list',
             sortOptions: [
@@ -86,7 +86,7 @@ export class DataDemo extends Component {
         this.nodeService.getTreeNodes(this).then(nodes => this.setState({treeData1: nodes}));
         this.nodeService.getTreeNodes(this).then(nodes => this.setState({treeData2: nodes}));
         this.carService.getCarsLarge().then(data => this.setState({dataViewValue: data}));
-        this.nodeService.getFilesystem(this).then(files => this.setState({documents: files}));
+        this.nodeService.getTreeTableNodes().then(files => this.setState({documents: files}));
         this.carService.getCarsMedium().then(data => this.setState({picklistSourceCars: data}));
         this.carService.getCarsSmall().then(data => this.setState({orderlistCars: data}));
         this.eventService.getEvents().then(events => this.setState({fullCalendarEvents: events}));
@@ -266,9 +266,9 @@ export class DataDemo extends Component {
                 <div className="p-col-12">
                     <div className="card card-w-title">
                         <h1>TreeTable</h1>
-                        <TreeTable value={this.state.documents} header="Documents" selectionMode="multiple" 
-                            selection={this.state.documents} selectionChange={event => this.setState({documents: event.value})}>
-                            <Column field="name" header="Name"></Column>
+                        <TreeTable value={this.state.documents} header="Documents" selectionMode="single"
+                            selectionKeys={this.state.documentsSelection} onSelectionChange={event => this.setState({documentsSelection: event.value})}>
+                            <Column field="name" header="Name" expander></Column>
                             <Column field="size" header="Size"></Column>
                             <Column field="type" header="Type"></Column>
                         </TreeTable>
