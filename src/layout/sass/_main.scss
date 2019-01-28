@@ -40,7 +40,7 @@ a {
             -webkit-animation-duration: .5s;
             animation-duration: .5s;
 
-            a {
+            button {
                 position: relative;
                 color: $topbarItemColor;
                 margin-left: 20px;
@@ -144,7 +144,7 @@ a {
             }
         }
 
-        a {
+        button {
             cursor: pointer;
         }
     }
@@ -210,6 +210,7 @@ a {
                 i {
                     display: inline-block;
                     font-size: 16px;
+                    vertical-align: middle;
                 }
 
                 &:hover {
@@ -230,12 +231,27 @@ a {
                 }
 
                 li {
-                    a {
+                    button {
+                        width: 100%;
+                        padding: 1em 15px 1em 1em;
                         border: 0 none;
+                        border-radius: 0;
+
+                        &:hover {
+                            color: $menuitemHoverColor;
+                        }
+
+                        span {
+                            margin-left: .25em;
+                            vertical-align: middle;
+                        }
+                        i {
+                            vertical-align: middle;
+                        }
                     }
 
                     &:last-child {
-                        > a {
+                        > button {
                             border: 0 none;
                         }
                     }
@@ -347,12 +363,8 @@ a {
         &.layout-sidebar-dark {
             @include linear-gradient($menuDarkBgColorFirst, $menuDarkBgColorLast);
 
-            .layout-logo {
-                
-            }
-
             .profile {
-                > a {
+                > button {
                     color: $menuitemDarkColor;
 
                     &:hover {
@@ -364,8 +376,14 @@ a {
                     background-color: $menuitemDarkActiveBgColor;
 
                     li {
-                        a {
+                        button {
                             border: 0 none;
+                            color: $menuitemDarkColor;
+                            border-top: 1px solid $menuitemDarkBorderColor;
+
+                            &:hover {
+                                color: $menuitemDarkHoverColor;
+                            }
                         }
                     }
                 }

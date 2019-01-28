@@ -484,7 +484,7 @@ export class SampleDemo extends Component {
                                     <label htmlFor="multiselect">MultiSelect</label>
                                 </div>
                                 <div className="p-col-12 p-md-4">
-                                    <MultiSelect id="multiselect" value={this.state.selectedCars} options={this.state.carOptions} onChange={event => this.setState({selectedCars: event.value})} />
+                                    <MultiSelect id="multiselect" placeholder="Choose" value={this.state.selectedCars} options={this.state.carOptions} onChange={event => this.setState({selectedCars: event.value})} />
                                 </div>
                                 <div className="p-col-12 p-md-2">
                                     ToggleButton

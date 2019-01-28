@@ -272,32 +272,32 @@ export class Dashboard extends Component {
                     <Panel header="Contacts">
                         <ul>
                             <li>
-                                <a>
+                                <button className="p-link">
                                     <img src="assets/layout/images/avatar_1.png" width="35" alt="avatar1"/>
                                     <span className="name">Claire Williams</span>
                                     <span className="email">clare@pf-sigma.com</span>
-                                </a>
+                                </button>
                             </li>
                             <li>
-                                <a>
+                                <button className="p-link">
                                     <img src="assets/layout/images/avatar_2.png" width="35" alt="avatar2"/>
                                     <span className="name">Jason Dourne</span>
                                     <span className="email">jason@pf-sigma.com</span>
-                                </a>
+                                </button>
                             </li>
                             <li>
-                                <a>
+                                <button className="p-link">
                                     <img src="assets/layout/images/avatar_3.png" width="35" alt="avatar3"/>
                                     <span className="name">Jane Davidson</span>
                                     <span className="email">jane@pf-sigma.com</span>
-                                </a>
+                                </button>
                             </li>
                             <li>
-                                <a>
+                                <button className="p-link">
                                     <img src="assets/layout/images/avatar_4.png" width="35" alt="avatar4"/>
                                     <span className="name">Tony Corleone</span>
                                     <span className="email">tony@pf-sigma.com</span>
-                                </a>
+                                </button>
                             </li>
                         </ul>
                     </Panel>
