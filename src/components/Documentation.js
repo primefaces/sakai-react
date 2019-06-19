@@ -18,8 +18,7 @@ export class Documentation extends Component {
 
                         <h1>Getting Started</h1>
                         <p>Sigma is an application template for React based on the popular <a href="https://github.com/facebookincubator/create-react-app">create-react-app</a> that allows
-                            creating React apps with no configuration. To get started extract the contents of the zip bundle and install the dependencies
-                            with npm or yarn.</p>
+                            creating React apps with no configuration. To get started, clone the <a href="https://github.com/primefaces/sigma">repository</a> from GitHub and install the dependencies with npm or yarn.</p>
                         <pre>
 {
 `npm install
@@ -35,7 +34,7 @@ export class Documentation extends Component {
 </pre>
 
                         <p>Next step is running the application using the start script and navigate to <b>http://localhost:3000/</b> to view the application.
-                            That is it, you may now start with the development of your application using the Avalon template.</p>
+                            That is it, you may now start with the development of your application using the Sigma template.</p>
 
                         <pre>
 {
