@@ -4,17 +4,20 @@ import {NodeService} from '../service/NodeService';
 import {EventService} from '../service/EventService';
 import {OrganizationChart} from 'primereact/organizationchart';
 import {DataTable} from 'primereact/datatable';
+import {FullCalendar} from 'primereact/fullcalendar';
 import {Tree} from 'primereact/tree';
 import {TreeTable} from 'primereact/treetable';
 import {Column} from 'primereact/column'
 import {PickList} from 'primereact/picklist';
 import {OrderList} from 'primereact/orderlist';
-import {FullCalendar} from 'primereact/fullcalendar';
 import {Panel} from 'primereact/panel';
 import {InputText} from 'primereact/inputtext';
 import {Button} from 'primereact/button';
 import {Dropdown} from 'primereact/dropdown';
 import {DataView, DataViewLayoutOptions} from 'primereact/dataview';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import interactionPlugin from '@fullcalendar/interaction';
 
 export class DataDemo extends Component {
 
@@ -176,13 +179,15 @@ export class DataDemo extends Component {
 
     render() {
 		let fullcalendarOptions = {
-			defaultDate: '2016-01-12',
-			header: {
-				left: 'prev,next today',
-				center: 'title',
-				right: 'month,agendaWeek,agendaDay'
-			},
-			editable: true
+			plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
+            defaultView: 'dayGridMonth',
+            defaultDate: '2016-02-01',
+            header: {
+                left: 'prev,next',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            },
+            editable: true
 		};
 
         const header = (

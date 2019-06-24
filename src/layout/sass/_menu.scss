@@ -1,0 +1,195 @@
+.layout-menu-container {
+    padding-bottom: 120px;
+}
+
+.layout-menu {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+        a {
+            cursor: pointer;
+            position: relative;
+            text-decoration: none;
+            display: block;
+            @include transition(color $transitionDuration);
+
+            i {
+                font-size: 18px;
+                vertical-align: middle;
+            }
+
+            span {
+                margin-left: .25em;
+                vertical-align: middle;
+                line-height: 18px;
+                display: inline-block;
+            }
+
+            .menuitem-toggle-icon {
+                position: absolute;
+                top: 50%;
+                right: 1em;
+                margin-top: -9px;
+            }
+
+            &.router-link-active {
+                font-weight: 700;
+            }
+        }
+
+        &.active-menuitem {
+            > a {
+                .menuitem-toggle-icon {
+                    @include icon-override("\e933");
+                }
+            }
+        }
+    }
+
+    > li {
+        > a {
+            padding: 1em;
+
+            span {
+                font-size: $fontSize;
+            }
+        }
+
+        &:last-child {
+            > a {
+                border-bottom: 1px solid $menuitemBorderColor;
+            }
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            padding-left: 1.5em;
+
+            li {
+                a {
+                    cursor: pointer;
+                    padding: .75em 1em;
+                    border-top: 0 none;
+
+                    span {
+                        font-size: $submenuFontSize;
+                    }
+                }
+
+                &:last-child {
+                    padding-bottom: 1em;
+                }
+            }
+
+            &.layout-submenu-wrapper-enter,
+            &.layout-submenu-wrapper-leave-to {
+                max-height: 0;
+            }
+
+            &.layout-submenu-wrapper-enter-to,
+            &.layout-submenu-wrapper-leave {
+                max-height: 1000px;
+            }
+
+            &.layout-submenu-wrapper-leave-active {
+                overflow: hidden;
+                transition: max-height 0.45s cubic-bezier(0, 1, 0, 1);
+            }
+
+            &.layout-submenu-wrapper-enter-active {
+                overflow: hidden;
+                transition: max-height 1s ease-in-out;
+            }
+        }
+    }
+}
+
+.layout-sidebar-light {
+    @include linear-gradient($menuBgColorFirst, $menuBgColorLast);
+
+    .layout-menu {
+        > li {
+            > a {
+                border-top: 1px solid $menuitemBorderColor;
+            }
+
+            &:last-child {
+                > a {
+                    border-bottom: 1px solid $menuitemBorderColor;
+                }
+            }
+
+            ul {
+                background-color: $menuitemActiveBgColor;
+            }
+        }
+
+        li {
+            a {
+                color: $menuitemColor;
+
+                &.router-link-active {
+                    color: $menuitemActiveRouteColor;
+                }
+
+                &:hover {
+                    color: $menuitemHoverColor;
+                }
+            }
+
+            &.active-menuitem {
+                > a {
+                    background-color: $menuitemActiveBgColor;
+                    color: $menuitemActiveColor;
+                }
+            }
+        }
+    }
+}
+
+.layout-sidebar-dark {
+    @include linear-gradient($menuDarkBgColorFirst, $menuDarkBgColorLast);
+
+    .layout-menu {
+        > li {
+            > a {
+                border-top: 1px solid $menuitemDarkBorderColor;
+            }
+
+            &:last-child {
+                > a {
+                    border-bottom: 1px solid $menuitemDarkBorderColor;
+                }
+            }
+
+            ul {
+                background-color: $menuitemDarkActiveBgColor;
+            }
+        }
+
+        li {
+            a {
+                color: $menuitemDarkColor;
+
+                &.router-link-active {
+                    color: $menuitemActiveRouteColor;
+                }
+
+                &:hover {
+                    color: $menuitemDarkHoverColor;
+                }
+            }
+
+            &.active-menuitem {
+                > a {
+                    background-color: $menuitemDarkActiveBgColor;
+                    color: $menuitemDarkActiveColor;
+                }
+            }
+        }
+    }
+}

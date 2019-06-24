@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 
-export class AppInlineProfile extends Component {
+export class AppProfile extends Component {
 
     constructor() {
         super();
@@ -18,11 +18,11 @@ export class AppInlineProfile extends Component {
 
     render() {
         return  (
-            <div className="profile">
+            <div className="layout-profile">
                 <div>
                     <img src="assets/layout/images/profile.png" alt="" />
                 </div>
-                <button className="p-link profile-link" onClick={this.onClick}>
+                <button className="p-link layout-profile-link" onClick={this.onClick}>
                     <span className="username">Claire Williams</span>
                     <i className="pi pi-fw pi-cog"/>
                 </button>

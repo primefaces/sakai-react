@@ -114,6 +114,10 @@ export class AppMenu extends Component {
     }
 
     render() {
-        return <div className="menu"><AppSubmenu items={this.props.model} className="layout-main-menu" onMenuItemClick={this.props.onMenuItemClick} root={true}/></div>
+        return (
+            <div className="layout-menu-container">
+                <AppSubmenu items={this.props.model} className="layout-menu" onMenuItemClick={this.props.onMenuItemClick} root={true}/>
+            </div>
+        );
     }
 }

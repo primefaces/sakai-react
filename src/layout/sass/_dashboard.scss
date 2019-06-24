@@ -94,12 +94,10 @@
             vertical-align: middle;
         }
         
-        .p-button {
+        i {
             float: right;
-
-            .p-button-text {
-                padding: .125em;
-            }
+            font-size: 24px;
+            color: $textSecondaryColor;
         }
 
         .p-panel-content {

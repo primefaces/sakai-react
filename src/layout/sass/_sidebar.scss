@@ -1,0 +1,30 @@
+.layout-sidebar {
+    position: fixed;
+    width: 250px;
+    height: 100%;
+    z-index: 999;
+    overflow-y: auto;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    @include transition(left $transitionDuration);
+    @include shadow(0 0 6px 0 rgba(0, 0, 0, 0.16));
+
+    .layout-logo {
+        text-align: center;
+        margin-top: 24px;
+    }
+
+    .menuitem-badge {
+        display: inline-block;
+        margin-left: 4px;
+        font-size: 10px;
+        width: 16px;
+        height: 16px;
+        line-height: 16px;
+        text-align: center;
+        color: $menuitemBadgeColor;
+        background-color: $menuitemBadgeBgColor;
+        @include border-radius(50%);
+    }
+}
