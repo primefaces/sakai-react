@@ -1,0 +1,20 @@
+.docs {
+    h1 {
+        margin-top: 28px;
+        margin-bottom: 14px;
+    }
+
+    pre {
+        border-left: 10px solid #7fbcec;
+        background: #f0f0f0;
+        font-family: Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;
+        text-align: left;
+        white-space: pre;
+        padding: 1em;
+        overflow: auto;
+    }
+
+    p {
+        line-height: 1.5;
+    }
+}

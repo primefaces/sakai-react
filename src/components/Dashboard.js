@@ -217,32 +217,32 @@ export class Dashboard extends Component {
                             <li>
                                 <Checkbox value="task1" onChange={this.onTaskChange} checked={this.state.tasks.indexOf('task1')>-1?true:false}></Checkbox>
                                 <span className="task-name">Sales Reports</span>
-                                <i class="pi pi-chart-bar" />
+                                <i className="pi pi-chart-bar" />
                             </li>
                             <li>
                                 <Checkbox value="task2" onChange={this.onTaskChange} checked={this.state.tasks.indexOf('task2')>-1?true:false}></Checkbox>
                                 <span className="task-name">Pay Invoices</span>
-                                <i class="pi pi-dollar" />
+                                <i className="pi pi-dollar" />
                             </li>
                             <li>
                                 <Checkbox value="task3" onChange={this.onTaskChange} checked={this.state.tasks.indexOf('task3')>-1?true:false}></Checkbox>
                                 <span className="task-name">Dinner with Tony</span>
-                                <i class="pi pi-user" />
+                                <i className="pi pi-user" />
                             </li>
                             <li>
                                 <Checkbox value="task4" onChange={this.onTaskChange} checked={this.state.tasks.indexOf('task4')>-1?true:false}></Checkbox>
                                 <span className="task-name">Client Meeting</span>
-                                <i class="pi pi-users" />
+                                <i className="pi pi-users" />
                             </li>
                             <li>
                                 <Checkbox value="task5" onChange={this.onTaskChange} checked={this.state.tasks.indexOf('task5')>-1?true:false}></Checkbox>
                                 <span className="task-name">New Theme</span>
-                                <i class="pi pi-briefcase" />
+                                <i className="pi pi-briefcase" />
                             </li>
                             <li>
                                 <Checkbox value="task6" onChange={this.onTaskChange} checked={this.state.tasks.indexOf('task6')>-1?true:false}></Checkbox>
                                 <span className="task-name">Flight Ticket</span>
-                                <i class="pi pi-briefcase" />
+                                <i className="pi pi-briefcase" />
                             </li>
                         </ul>
                     </Panel>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './Documentation.css';
+import './Documentation.scss';
 
 export class Documentation extends Component {
 
@@ -14,7 +14,7 @@ export class Documentation extends Component {
                 <div className="p-col-12">
                     <div className="card docs">
                         <h1>Current Version</h1>
-                        <p>React 16.7.0 and PrimeReact 3.0.0</p>
+                        <p>React 16.8.6 and PrimeReact 3.1.7</p>
 
                         <h1>Getting Started</h1>
                         <p>Sigma is an application template for React based on the popular <a href="https://github.com/facebookincubator/create-react-app">create-react-app</a> that allows
@@ -71,52 +71,36 @@ export class Documentation extends Component {
 
                         <pre>
 {
-`render() {
-    let wrapperClass = classNames('layout-wrapper', {
-        'layout-overlay': this.state.layoutMode === 'overlay',
-        'layout-static': this.state.layoutMode === 'static',
-        'layout-static-sidebar-inactive': this.state.staticMenuInactive && this.state.layoutMode === 'static',
-        'layout-overlay-sidebar-active': this.state.overlayMenuActive && this.state.layoutMode === 'overlay',
-        'layout-mobile-sidebar-active': this.state.mobileMenuActive
-    });
-    let sidebarClassName = classNames("layout-sidebar", {'layout-sidebar-dark': this.state.layoutColorMode === 'dark'});
+`<div className={wrapperClass} onClick={this.onWrapperClick}>
+    <AppTopbar onToggleMenu={this.onToggleMenu}/>
 
-    return (
-        <div className={wrapperClass} onClick={this.onWrapperClick}>
-            <AppTopbar onToggleMenu={this.onToggleMenu}/>
-
-            <div ref={(el) => this.sidebar = el} className={sidebarClassName} onClick={this.onSidebarClick}>
-
-                <ScrollPanel ref={(el) => this.layoutMenuScroller = el} style={{height:'100%'}}>
-                    <div className="layout-sidebar-scroll-content" >
-                        <div className="logo"></div>
-                        <AppInlineProfile />
-                        <AppMenu model={this.menu} onMenuItemClick={this.onMenuItemClick} />
-                    </div>
-                </ScrollPanel>
-            </div>
-
-            <div className="layout-main">
-                <Route path="/" exact component={Dashboard} />
-                <Route path="/forms" component={FormsDemo} />
-                <Route path="/sample" component={SampleDemo} />
-                <Route path="/data" component={DataDemo} />
-                <Route path="/panels" component={PanelsDemo} />
-                <Route path="/overlays" component={OverlaysDemo} />
-                <Route path="/menus" component={MenusDemo} />
-                <Route path="/messages" component={MessagesDemo} />
-                <Route path="/charts" component={ChartsDemo} />
-                <Route path="/misc" component={MiscDemo} />
-                <Route path="/empty" component={EmptyPage} />
-                <Route path="/documentation" component={Documentation} />
-            </div>
-
-            <AppFooter />
-
-            <div className="layout-mask"></div>
+    <div ref={(el) => this.sidebar = el} className={sidebarClassName} onClick={this.onSidebarClick}>
+        <div className="layout-logo">
+            <img alt="Logo" src={logo} />
         </div>
-    );
-}
+        <AppProfile />
+        <AppMenu model={this.menu} onMenuItemClick={this.onMenuItemClick} />
+    </div>
+
+    <div className="layout-main">
+        <Route path="/" exact component={Dashboard} />
+        <Route path="/forms" component={FormsDemo} />
+        <Route path="/sample" component={SampleDemo} />
+        <Route path="/data" component={DataDemo} />
+        <Route path="/panels" component={PanelsDemo} />
+        <Route path="/overlays" component={OverlaysDemo} />
+        <Route path="/menus" component={MenusDemo} />
+        <Route path="/messages" component={MessagesDemo} />
+        <Route path="/charts" component={ChartsDemo} />
+        <Route path="/misc" component={MiscDemo} />
+        <Route path="/empty" component={EmptyPage} />
+        <Route path="/documentation" component={Documentation} />
+    </div>
+
+    <AppFooter />
+
+    <div className="layout-mask"></div>
+</div>
 `
 }
 </pre>
@@ -222,8 +206,8 @@ createMenu() {
 
                         <pre>
 {
-`"primereact": "^2.0.0-beta.3",         //required: PrimeReact components
-"primeicons": "1.0.0-beta.10"           //required: Icons
+`"primereact": "^3.1.7",                //required: PrimeReact components
+"primeicons": "1.0.00"                  //required: Icons
 `
 }
 </pre>
@@ -232,7 +216,7 @@ createMenu() {
                         <p>Sigma uses the free Nova-Light theme of PrimeReact which is a free theme distributed within PrimeReact, however it can be used with any PrimeReact theme.</p>
 
                         <h1>SASS Variables</h1>
-                        <p>In case you'd like to customize the layout variables, open layout.scss file under src/layout folder. Saving the changes
+                        <p>In case you'd like to customize the layout variables, open _variables.scss file under src/layout folder. Saving the changes
                             will be reflected instantly at your browser.
                         </p>
 
@@ -249,23 +233,13 @@ $dividerColor:#e3e3e3;
 $transitionDuration:.2s;
 $maskBgColor:#424242;
 
-/* Menu */
-$scrollPanelBgColor:#aaaaaa;
+/* Menu Common */
 $menuitemBadgeBgColor:#007be5;
 $menuitemBadgeColor:#ffffff;
 $submenuFontSize:13px;
+$menuitemActiveRouteColor:#1fa1fc;
 
-/* Menu Dark*/
-$menuDarkBgColorFirst:#4d505b;
-$menuDarkBgColorLast:#3b3e47;
-$menuitemDarkColor:#ffffff;
-$menuitemDarkHoverColor:#0388e5;
-$menuitemDarkActiveColor:#0388e5;
-$menuitemDarkActiveBgColor:#2e3035;
-$menuitemDarkBorderColor:rgba(52, 56, 65, 0.6);
-$backgroundDarkImage:url(./images/logo-white.svg) top left no-repeat;
-
-/* Menu Light*/
+/* Menu Light */
 $menuBgColorFirst:#f3f4f9;
 $menuBgColorLast:#d7dbe8;
 $menuitemColor:#232428;
@@ -273,7 +247,15 @@ $menuitemHoverColor:#0388e5;
 $menuitemActiveColor:#0388e5;
 $menuitemActiveBgColor:#ffffff;
 $menuitemBorderColor:rgba(207, 211, 224, 0.6);
-$backgroundImage:url(./images/logo.svg) top left no-repeat;
+
+/* Menu Dark */
+$menuDarkBgColorFirst:#4d505b;
+$menuDarkBgColorLast:#3b3e47;
+$menuitemDarkColor:#ffffff;
+$menuitemDarkHoverColor:#0388e5;
+$menuitemDarkActiveColor:#0388e5;
+$menuitemDarkActiveBgColor:#2e3035;
+$menuitemDarkBorderColor:rgba(52, 56, 65, 0.6);
 
 /* Topbar */
 $topbarLeftBgColor:#0388E5;
@@ -281,7 +263,7 @@ $topbarRightBgColor:#07BDF4;
 $topbarItemBadgeBgColor:#ef6262;
 $topbarItemBadgeColor:#ffffff;
 $topbarItemColor:#ffffff;
-$topbarItemHoverColor:#77c7ff;
+$topbarItemHoverColor:#c3e8fb;
 $topbarSearchInputBorderBottomColor:#ffffff;
 $topbarSearchInputColor:#ffffff;
 
@@ -296,32 +278,39 @@ $footerBgColor:#ffffff;
                             below indicates the style classes for each mode.</p>
 
                         <ul>
-                            <li>Static: "layout-wrapper menu-layout-static"</li>
-                            <li>Overlay: "layout-wrapper menu-layout-overlay"</li>
+                            <li>Static: "layout-wrapper layout-static"</li>
+                            <li>Overlay: "layout-wrapper layout-overlay"</li>
                         </ul>
 
                         <p>For example to create an overlay menu, the div element should be in following form;</p>
                         <pre>
-&lt;div className="layout-wrapper menu-layout-overlay"&gt;
+&lt;div className="layout-wrapper layout-overlay"&gt;
 </pre>
 
                         <p>It is also possible to leave the choice to the user by keeping the preference at a component and using an expression to bind it so that user can switch between modes. Sample
                             application has an example implementation of such use case. Refer to App.js for an example.</p>
 
-                        <h1>Dark Menu</h1>
-                        <p>Default color scheme of menu is light and alternative dark mode can be activated by adding <i>dark-sidebar'</i> style class to the sidebar element.</p>
+                        <h1>Menu Color Scheme</h1>
+                        <p>There are two alternatives as the menu colors schemes; "light" and "dark". A color scheme is applied using the <i>layout-sidebar-light</i> or <i>layout-sidebar-dark</i>
+                        to the sidebar element.</p>
 
-                        <pre>
+                        <b>Dark Menu</b>
+<pre>
 &lt;div className="layout-sidebar layout-sidebar-dark"&gt;
+</pre>
+                
+                        <b>Light Menu</b>
+<pre>
+&lt;div className="layout-sidebar layout-sidebar-light"&gt;
 </pre>
 
                         <h1>Grid CSS</h1>
-                        <p>Sigma uses PrimeReact Grid CSS (p-col-*) throughout the samples, although any grid library can be used we suggest using Grid CSS as your layout framework as it is well tested and supported by PrimeReact. Grid CSS is
-                            available inside primereact.min.css.</p>
+                        <p>Sigma uses PrimeFlex CSS Grid throughout the samples. Although any grid library can be used, we recommend using PrimeFlex as your layout framework as it is well tested and supported by PrimeVue. PrimeFlex is
+                        available at <a href="https://www.npmjs.com/package/primeflex">NPM</a>.</p>
 
                         <h1>Customizing Styles</h1>
-                        <p>It is suggested to write your customizations in <i>App.css</i> file instead of adding them to the
-                            scss files under sass folders to avoid maintenance issues after an update.</p>
+                        <p>It is suggested to write your customizations in <i>src/layout/_overrides.scss</i> file instead of adding them to the
+                        scss files under sass folder to avoid maintenance issues after an update.</p>
                     </div>
                 </div>
             </div>
