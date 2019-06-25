@@ -23,6 +23,7 @@
             display: inline-block;
             text-decoration: none;
             @include transition(color $transitionDuration);
+            overflow: visible;
 
             &:hover {
                 color: $topbarItemHoverColor;
