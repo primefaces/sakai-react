@@ -9,6 +9,9 @@ import {Chart} from 'primereact/chart';
 import {DataTable} from 'primereact/datatable';
 import {Column} from 'primereact/column';
 import {FullCalendar} from 'primereact/fullcalendar';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import timeGridPlugin from '@fullcalendar/timegrid';
 
 export class Dashboard extends Component {
 
@@ -70,6 +73,7 @@ export class Dashboard extends Component {
         ];
 
         let fullcalendarOptions = {
+            plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
 			defaultDate: '2017-02-01',
 			header: {
 				left: 'prev,next today',
