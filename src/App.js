@@ -24,8 +24,8 @@ import 'primeflex/primeflex.css';
 import '@fullcalendar/core/main.css';
 import '@fullcalendar/daygrid/main.css';
 import '@fullcalendar/timegrid/main.css';
-import './layout/layout.css';
-import './App.css';
+import './layout/layout.scss';
+import './App.scss';
 
 class App extends Component {
 
@@ -84,7 +84,6 @@ class App extends Component {
 
     onSidebarClick(event) {
         this.menuClick = true;
-        setTimeout(() => {this.layoutMenuScroller.moveBar(); }, 500);
     }
 
     onMenuItemClick(event) {
