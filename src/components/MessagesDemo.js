@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Messages} from 'primereact/messages';
-import {Growl} from 'primereact/growl';
+
 import {Button} from 'primereact/button';
 import {Message} from 'primereact/message';
 import {InputText} from 'primereact/inputtext';
@@ -47,7 +47,7 @@ export class MessagesDemo extends Component {
                     <div className="card">
                         <h1>Messages and Growl</h1>
                         <Messages ref={(el) => this.messages = el} />
-                        <Growl ref={(el) => this.growl = el} style={{marginTop: '75px'}} />
+                        {/* <Growl ref={(el) => this.growl = el} style={{marginTop: '75px'}} /> */}
             
                         <Button onClick={this.showInfo} label="Info" className="p-button-info" style={{width:'10em', marginRight:'.25em'}} />
                         <Button onClick={this.showSuccess} label="Success" className="p-button-success" style={{width:'10em', marginRight:'.25em'}} />

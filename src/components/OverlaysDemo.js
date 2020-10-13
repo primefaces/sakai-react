@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {CarService} from '../service/CarService';
 import {OverlayPanel} from 'primereact/overlaypanel';
 import {Dialog} from 'primereact/dialog';
-import {Lightbox} from 'primereact/lightbox';
 import {Button} from 'primereact/button';
 import {InputText} from 'primereact/inputtext';
 import {DataTable} from 'primereact/datatable';
@@ -78,7 +77,7 @@ export class OverlaysDemo extends Component {
                 <div className="p-col-12 p-lg-6">
                     <div className="card">
                         <h1>LightBox</h1>
-                        <Lightbox images={this.state.images} />
+                        {/* <Lightbox images={this.state.images} /> */}
                     </div>
                     <div className="card">
                         <h1>Tooltip</h1>

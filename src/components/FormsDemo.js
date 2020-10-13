@@ -10,13 +10,12 @@ import {Checkbox} from 'primereact/checkbox';
 import {RadioButton} from 'primereact/radiobutton';
 import {InputSwitch} from 'primereact/inputswitch';
 import {Dropdown} from 'primereact/dropdown';
-import {Password} from 'primereact/password';
-import {Spinner} from 'primereact/spinner';
+//input number
 import {Slider} from 'primereact/components/slider/Slider';
 import {ListBox} from 'primereact/listbox';
 import {Rating} from 'primereact/rating';
 import {ColorPicker} from 'primereact/colorpicker';
-import {Editor} from 'primereact/editor';
+
 import {ToggleButton} from 'primereact/togglebutton';
 import {SelectButton} from 'primereact/selectbutton';
 import {Button} from 'primereact/button';
@@ -284,12 +283,12 @@ export class FormsDemo extends Component {
             
                     <div className="card card-w-title">
                         <h1>Password</h1>
-                        <Password/>
+                        {/* <Password/> */}
                     </div>
             
                     <div className="card card-w-title">
                         <h1>Spinner</h1>
-                        <Spinner value={this.state.spinnerValue} onChange={event => this.setState({spinnerValue: event.value})} />
+                        {/* <Spinner value={this.state.spinnerValue} onChange={event => this.setState({spinnerValue: event.value})} /> */}
                     </div>
         
                     <div className="card card-w-title">
@@ -353,12 +352,12 @@ export class FormsDemo extends Component {
                     </div>
                 </div>
 
-                <div className="p-col-12">
+                {/* <div className="p-col-12">
                     <div className="card card-w-title">
                         <h1>Editor</h1>
                         <Editor style={{height:'320px'}} />
                     </div>
-                </div>
+                </div> */}
 
                 <div className="p-col-12 p-nogutter">
                     <div className="p-grid">
