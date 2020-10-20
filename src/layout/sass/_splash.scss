@@ -25,13 +25,10 @@
         position: absolute;
         top: 0;
         left: 0;
-
-        -webkit-animation: splash-bounce 2.0s infinite ease-in-out;
         animation: splash-bounce 2.0s infinite ease-in-out;
     }
 
     .splash-double-bounce2 {
-        -webkit-animation-delay: -1.0s;
         animation-delay: -1.0s;
     }
 
@@ -43,10 +40,8 @@
     @keyframes splash-bounce {
         0%, 100% {
             transform: scale(0.0);
-            -webkit-transform: scale(0.0);
         } 50% {
               transform: scale(1.0);
-              -webkit-transform: scale(1.0);
           }
     }
 }

@@ -19,6 +19,7 @@ import { EmptyPage } from './components/EmptyPage';
 import { Documentation } from "./components/Documentation";
 import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
+import './layout/flags/flags.css';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
 import '@fullcalendar/core/main.css';
@@ -32,6 +33,14 @@ import { ButtonDemo } from './components/ButtonDemo';
 import { PanelDemo } from "./components/PanelDemo";
 import { MessageDemo } from './components/MessageDemo';
 import { MenuDemo } from './components/MenuDemo';
+import { OverlayDemo } from './components/OverlayDemo';
+import { FileDemo } from './components/FileDemo';
+import { ChartDemo } from './components/ChartDemo';
+import { TableDemo } from './components/TableDemo';
+import { ListDemo } from './components/ListDemo';
+import { TreeDemo } from './components/TreeDemo';
+import { Crud } from './components/Crud';
+
 
 class App extends Component {
 
@@ -84,7 +93,6 @@ class App extends Component {
                 mobileMenuActive: !mobileMenuActive
             });
         }
-
         event.preventDefault();
     }
 
@@ -121,28 +129,26 @@ class App extends Component {
             {
                 label: 'Components', icon: 'pi pi-fw pi-globe', badge: '9',
                 items: [
-                    { label: 'Sample Page', icon: 'pi pi-fw pi-th-large', to: '/sample' },
-                    { label: 'Forms', icon: 'pi pi-fw pi-file', to: '/forms' },
-                    { label: 'Data', icon: 'pi pi-fw pi-table', to: '/data' },
-                    { label: 'Panels', icon: 'pi pi-fw pi-list', to: '/panels' },
-                    { label: 'Overlays', icon: 'pi pi-fw pi-clone', to: '/overlays' },
-                    { label: 'Menus', icon: 'pi pi-fw pi-plus', to: '/menus' },
-                    { label: 'Messages', icon: 'pi pi-fw pi-spinner', to: '/messages' },
-                    { label: 'Charts', icon: 'pi pi-fw pi-chart-bar', to: '/charts' },
-                    { label: 'Misc', icon: 'pi pi-fw pi-upload', to: '/misc' },
+                    
                     { label: 'Form Layout', icon: 'pi pi-fw pi-file', to: '/formlayout' },
                     { label: 'Input', icon: 'pi pi-fw pi-file', to: '/input' },
                     { label: 'Button', icon: 'pi pi-fw pi-file', to: '/button' },
                     { label: 'Panel', icon: 'pi pi-fw pi-file', to: '/panel' },
                     { label: 'Message', icon: 'pi pi-fw pi-file', to: '/message' },
-                    { label: 'Menu', icon: 'pi pi-fw pi-file', to: '/menu' }
-
+                    { label: 'Menu', icon: 'pi pi-fw pi-file', to: '/menu' },
+                    { label: 'Overlay', icon: 'pi pi-fw pi-file', to: '/overlay' },
+                    { label: 'File', icon: 'pi pi-fw pi-file', to: '/file' },
+                    { label: 'Chart', icon: 'pi pi-fw pi-file', to: '/chart' },
+                    { label: 'Table', icon: 'pi pi-fw pi-file', to: '/table' },
+                    { label: 'List', icon: 'pi pi-fw pi-file', to: '/list' },
+                    { label: 'Tree', icon: 'pi pi-fw pi-file', to: '/tree' }
                 ]
             },
             {
                 label: 'Template Pages', icon: 'pi pi-fw pi-file',
                 items: [
-                    { label: 'Empty Page', icon: 'pi pi-fw pi-circle-off', to: '/empty' }
+                    { label: 'Empty Page', icon: 'pi pi-fw pi-circle-off', to: '/empty' },
+                    { label: 'Crud', icon: 'pi pi-fw pi-circle-off', to: '/crud' }
                 ]
             },
             {
@@ -258,7 +264,6 @@ class App extends Component {
                     <Route path="/menus" component={MenusDemo} />
                     <Route path="/messages" component={MessagesDemo} />
                     <Route path="/charts" component={ChartsDemo} />
-                    <Route path="/misc" component={MiscDemo} />
                     <Route path="/empty" component={EmptyPage} />
                     <Route path="/documentation" component={Documentation} />
                     <Route path="/formlayout" component={FormLayoutDemo} />
@@ -267,6 +272,14 @@ class App extends Component {
                     <Route path="/panel" component={PanelDemo} />
                     <Route path="/message" component={MessageDemo} />
                     <Route path="/menu" component={MenuDemo} />
+                    <Route path="/overlay" component={OverlayDemo} />
+                    <Route path="/file" component={FileDemo} />
+                    <Route path="/chart" component={ChartDemo} />
+                    <Route path="/misc" component={MiscDemo} />
+                    <Route path="/table" component={TableDemo} />
+                    <Route path="/list" component={ListDemo} />
+                    <Route path="/tree" component={TreeDemo} />
+                    <Route path="/crud" component={Crud} />
                 </div>
 
                 <AppFooter />

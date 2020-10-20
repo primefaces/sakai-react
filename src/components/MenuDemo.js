@@ -544,10 +544,10 @@ export function MenuDemo() {
             </div>
 
             <div className="p-col-12 p-md-4">
-                <div className="card">
+                <div className="card"> 
                     <h5>Overlay Menu</h5>
                     <Menu model={overlayMenuItems} popup ref={menu} id="popup_menu" />
-                    <Button label="Show" style={{width:'auto'}} icon="pi pi-angle-down" onClick={(event) => menu.current.toggle(event)} aria-controls="popup_menu" aria-haspopup />
+                    <Button label="Options" style={{width:'auto'}} icon="pi pi-angle-down" onClick={(event) => menu.current.toggle(event)} aria-controls="popup_menu" aria-haspopup />
                 </div>
 
                 <div className="card">
@@ -570,7 +570,7 @@ export function MenuDemo() {
             <div className="p-col-12 p-md-6">
                 <div className="card">
                     <h5>PanelMenu</h5>
-                    <PanelMenu model={panelMenuItems} style={{ width: '22rem' }} />
+                    <PanelMenu model={panelMenuItems} />
                 </div>
             </div>
 

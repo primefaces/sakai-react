@@ -12,30 +12,24 @@
             cursor: pointer;
             position: relative;
             text-decoration: none;
-            display: block;
-            @include transition(color $transitionDuration);
+            display: flex;
+            align-items: center;
+            transition: color $transitionDuration;
 
             i {
-                font-size: 18px;
-                vertical-align: middle;
+                font-size: 16px;
             }
 
             span {
-                margin-left: .25em;
-                vertical-align: middle;
-                line-height: 18px;
-                display: inline-block;
+                margin-left: .5em;
             }
 
             .menuitem-toggle-icon {
-                position: absolute;
-                top: 50%;
-                right: 1em;
-                margin-top: -9px;
+                margin-left: auto;
             }
 
-            &.router-link-active {
-                font-weight: 700;
+            &:focus {
+                @include focused-inset();
             }
         }
 
@@ -44,10 +38,6 @@
                 .menuitem-toggle-icon {
                     @include icon-override("\e933");
                 }
-            }
-
-            > ul {
-                max-height: 500px;
             }
         }
     }
@@ -72,11 +62,6 @@
             margin: 0;
             padding: 0;
             padding-left: 1.5em;
-            max-height: 0;
-            overflow: hidden;
-            @include transition-property(max-height);
-            @include transition-duration(0.4s);
-            @include transition-timing-function(cubic-bezier(0.86, 0, 0.07, 1));
 
             li {
                 a {
@@ -92,6 +77,26 @@
                 &:last-child {
                     padding-bottom: 1em;
                 }
+            }
+
+            &.layout-submenu-wrapper-enter,
+            &.layout-submenu-wrapper-leave-to {
+                max-height: 0;
+            }
+
+            &.layout-submenu-wrapper-enter-to,
+            &.layout-submenu-wrapper-leave {
+                max-height: 1000px;
+            }
+
+            &.layout-submenu-wrapper-leave-active {
+                overflow: hidden;
+                transition: max-height 0.45s cubic-bezier(0, 1, 0, 1);
+            }
+
+            &.layout-submenu-wrapper-enter-active {
+                overflow: hidden;
+                transition: max-height 1s ease-in-out;
             }
         }
     }

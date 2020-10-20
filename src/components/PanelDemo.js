@@ -2,7 +2,6 @@ import React from 'react';
 import { Toolbar } from 'primereact/toolbar';
 import { Button } from 'primereact/button';
 import { SplitButton } from 'primereact/splitbutton';
-import './ButtonDemo.scss';
 import { Accordion, AccordionTab } from 'primereact/accordion';
 import { TabView, TabPanel } from 'primereact/tabview';
 import { Panel } from 'primereact/panel';
@@ -57,16 +56,16 @@ export function PanelDemo() {
 
     return (
         <div>
-            <div className="p-grid">
+            <div className="p-grid pane-demo">
                 <div className="p-col-12">
                     <div className="card">
-                        <h1>Toolbar</h1>
+                        <h5>Toolbar</h5>
                         <Toolbar left={leftContents} right={rightContents} />
                     </div>
                 </div>
-                <div className="p-col-6">
+                <div className="p-col-6 p-col-12 p-md-6">
                     <div className="card">
-                        <h1>AccordionPanel</h1>
+                        <h5>AccordionPanel</h5>
                         <Accordion activeIndex={0}>
                             <AccordionTab header="Header I">
                                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
@@ -86,7 +85,7 @@ export function PanelDemo() {
                         </Accordion>
                     </div>
                     <div className="card">
-                        <h1>TabView</h1>
+                        <h5>TabView</h5>
                         <TabView>
                             <TabPanel header="Header I">
                                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
@@ -106,9 +105,9 @@ export function PanelDemo() {
                         </TabView>
                     </div>
                 </div>
-                <div className="p-col-6">
+                <div className="p-col-12 p-md-6">
                     <div className="card">
-                        <h1>Panel</h1>
+                        <h5>Panel</h5>
                         <Panel header="Header" toggleable>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                             Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -117,7 +116,7 @@ export function PanelDemo() {
                         </Panel>
                     </div>
                     <div className="card">
-                        <h1>Fieldset</h1>
+                        <h5>Fieldset</h5>
                         <Fieldset legend="Legend" toggleable>
                             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                             Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -127,8 +126,11 @@ export function PanelDemo() {
                     </div>
                     <div className="card">
                         <Card title="Card" subTitle="Subtitle">
-                            <p className="p-m-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt
-                        quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!</p>
+                            <p className="p-m-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
                         </Card>
                     </div>
                 </div>

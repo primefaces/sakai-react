@@ -33,13 +33,13 @@ export function MessageDemo() {
 
 
     return (
-        <div>
+        <div className="message-demo">
             <Toast ref={toast} />
 
             <div className="p-grid">
                 <div className="p-col-12 p-lg-6">
                     <div className="card">
-                        <h1>Toast</h1>
+                        <h5>Toast</h5>
                         <Button label="Success" className="p-button-success p-mr-2" onClick={showSuccess} />
                         <Button label="Info" className="p-button-info p-mr-2" onClick={showInfo} />
                         <Button label="Warn" className="p-button-warning p-mr-2" onClick={showWarn} />
@@ -48,7 +48,7 @@ export function MessageDemo() {
                 </div>
                 <div className="p-col-12 p-lg-6">
                     <div className="card">
-                        <h1>Messages</h1>
+                        <h5>Messages</h5>
                         <Button label="Success" className="p-button-success p-mr-2" onClick={() => showMessage('success')} />
                         <Button label="Info" className="p-button-info p-mr-2" onClick={() => showMessage('info')} />
                         <Button label="Warn" className="p-button-warning p-mr-2" onClick={() => showMessage('warn')} />
@@ -58,7 +58,7 @@ export function MessageDemo() {
                 </div>
                 <div className="p-col-12 p-lg-8">
                     <div className="card">
-                        <h1>Inline</h1>
+                        <h5>Inline</h5>
                         <div className="p-field p-grid p-align-start">
                             <label htmlFor="username1" className="p-col-fixed">Username</label>
                             <div className="p-col">
@@ -77,11 +77,11 @@ export function MessageDemo() {
                 </div>
                 <div className="p-col-12 p-lg-4">
                     <div className="card">
-                        <h1>Help Text</h1>
+                        <h5>Help Text</h5>
                         <div className="p-field p-fluid">
                             <label htmlFor="username2">Username</label>
                             <InputText id="username2" aria-describedby="username-help" className="p-invalid p-mr-2" />
-                            <small id="username-help" className="p-invalid">Username is not available.</small>
+                            <small id="username-help" className="p-invalid">Enter your username to reset your password.</small>
                         </div>
                     </div>
                 </div>

@@ -5,10 +5,13 @@
     z-index: 999;
     overflow-y: auto;
     user-select: none;
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    @include transition(left $transitionDuration);
-    @include shadow(0 0 6px 0 rgba(0, 0, 0, 0.16));
+    transition: transform $transitionDuration;
+    box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.16);
+
+    &.layout-sidebar-enter,
+    &.layout-sidebar-leave-to {
+        transform: translateX(-100%);
+    }
 
     .layout-logo {
         text-align: center;
@@ -25,6 +28,6 @@
         text-align: center;
         color: $menuitemBadgeColor;
         background-color: $menuitemBadgeBgColor;
-        @include border-radius(50%);
+        border-radius: 50%;
     }
 }

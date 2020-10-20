@@ -1,57 +1,104 @@
-import React, {Component} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { ProgressBar } from 'primereact/progressbar';
+import { Button } from "primereact/button";
+import './MiscDemo.scss'
 
-import {ProgressBar} from 'primereact/progressbar';
+export function MiscDemo() {
 
-export class MiscDemo extends Component {
+    const [value, setValue] = useState(0);
+    const interval = useRef(null);
 
-    constructor() {
-        super();
-        this.state = {
-            value: 0
-        };
-        
-        this.onUpload = this.onUpload.bind(this);
-    }
-    
-    onUpload() {
-        this.growl.show({severity: 'info', summary: 'Success', detail: 'File Uploaded'});
-    }
-
-    componentDidMount() {
-        this.interval = setInterval(() => {
-            let val = this.state.value;
+    useEffect(() => {
+        let val = value;
+        interval.current = setInterval(() => {
             val += Math.floor(Math.random() * 10) + 1;
+
             if (val >= 100) {
                 val = 100;
-                clearInterval(this.interval);
+                clearInterval(interval.current);
             }
-            this.setState({value: val});
+            setValue(val);
         }, 2000);
-    }
 
-    componentWillUnmount() {
-        clearInterval(this.interval);
-    }
+        return () => {
+            if (interval.current) {
+                clearInterval(interval.current);
+                interval.current = null;
+            }
+        }
+    }, []);
 
-    render() {
-        return (
-            <div className="p-grid">
-                <div className="p-col-12">
-                    <div className="card">
-                        <h1>Upload</h1>
-                        {/* <Growl ref={(el) => this.growl = el} /> */}
-                
-                        {/* <FileUpload name="demo[]" url="./upload.php" onUpload={this.onUpload} multiple={true} accept="image/*" maxFileSize={1000000} /> */}
-                    </div>
-                </div>
-            
-                <div className="p-col-12">
-                    <div className="card">
-                        <h1>ProgressBar</h1>
-                        <ProgressBar value={this.state.value}/>
+    return (
+        <div className="p-grid misc-demo">
+            <div className="p-col-12">
+                <div className="card">
+                    <h5>ProgressBar</h5>
+                    <div className="p-grid">
+                        <div className="p-col">
+                            <ProgressBar value={value}></ProgressBar>
+                        </div>
+                        <div className="p-col">
+                            <ProgressBar value="50" showValue={false}></ProgressBar>
+                        </div>
                     </div>
                 </div>
             </div>
-        );
-    }
+
+            <div className="p-col-12">
+                <div className="card">
+                    <h4>Badge</h4>
+                    <h5>Numbers</h5>
+                    <div className="badges">
+                        <span className="p-badge">2</span>
+                        <span className="p-badge p-badge-success">8</span>
+                        <span className="p-badge p-badge-info">4</span>
+                        <span className="p-badge p-badge-warning">12</span>
+                        <span className="p-badge p-badge-danger">3</span>
+                    </div>
+
+                    <h5>Tags</h5>
+                    <div className="badges">
+                        <span className="p-tag">Primary</span>
+                        <span className="p-tag p-tag-success">Success</span>
+                        <span className="p-tag p-tag-info">Info</span>
+                        <span className="p-tag p-tag-warning">Warning</span>
+                        <span className="p-tag p-tag-danger">Danger</span>
+                    </div>
+
+                    <h5>Pills</h5>
+                    <div className="badges">
+                        <span className="p-tag p-tag-rounded">Primary</span>
+                        <span className="p-tag p-tag-rounded p-tag-success">Success</span>
+                        <span className="p-tag p-tag-rounded p-tag-info">Info</span>
+                        <span className="p-tag p-tag-rounded p-tag-warning">Warning</span>
+                        <span className="p-tag p-tag-rounded p-tag-danger">Danger</span>
+                    </div>
+
+                    <h5>Icon Badge</h5>
+                    <span className="p-overlay-badge p-mr-5">
+                        <i className="pi pi-bell" style={{ fontSize: "2em" }}></i>
+                        <span className="p-badge">2</span>
+                    </span>
+
+                    <h5>Button Badge</h5>
+                    <span className="p-overlay-badge">
+                        <Button type="button" label="New" />
+                        <span className="p-badge p-badge-warning">5</span>
+                    </span>
+
+                    <h5>Inline Button Badge</h5>
+                    <Button type="button" label="Emails" badge="8" className="p-mr-2" />
+                    <Button type="button" label="Messages" icon="pi pi-users" className="p-button-warning" badge="8" badgeClassName="p-badge-danger" />
+
+                    <h5>Sizes</h5>
+                    <div className="badges">
+                        <span className="p-badge">2</span>
+                        <span className="p-badge p-badge-lg p-badge-sucess">4</span>
+                        <span className="p-badge p-badge-xl p-badge-warning">6</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    )
 }
