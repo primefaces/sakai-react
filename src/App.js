@@ -6,14 +6,6 @@ import { AppMenu } from './AppMenu';
 import { AppProfile } from './AppProfile';
 import { Route } from 'react-router-dom';
 import { Dashboard } from './components/Dashboard';
-import { FormsDemo } from './components/FormsDemo';
-import { SampleDemo } from './components/SampleDemo';
-import { DataDemo } from './components/DataDemo';
-import { PanelsDemo } from './components/PanelsDemo';
-import { OverlaysDemo } from './components/OverlaysDemo';
-import { MenusDemo } from './components/MenusDemo';
-import { MessagesDemo } from './components/MessagesDemo';
-import { ChartsDemo } from './components/ChartsDemo';
 import { MiscDemo } from './components/MiscDemo';
 import { EmptyPage } from './components/EmptyPage';
 import { Documentation } from "./components/Documentation";
@@ -162,15 +154,15 @@ class App extends Component {
                     { label: 'Form Layout', icon: 'pi pi-fw pi-file', to: '/formlayout' },
                     { label: 'Input', icon: 'pi pi-fw pi-file', to: '/input' },
                     { label: 'Button', icon: 'pi pi-fw pi-file', to: '/button' },
-                    { label: 'Panel', icon: 'pi pi-fw pi-file', to: '/panel' },
-                    { label: 'Message', icon: 'pi pi-fw pi-file', to: '/message' },
-                    { label: 'Menu', icon: 'pi pi-fw pi-file', to: '/menu' },
-                    { label: 'Overlay', icon: 'pi pi-fw pi-file', to: '/overlay' },
-                    { label: 'File', icon: 'pi pi-fw pi-file', to: '/file' },
-                    { label: 'Chart', icon: 'pi pi-fw pi-file', to: '/chart' },
                     { label: 'Table', icon: 'pi pi-fw pi-file', to: '/table' },
                     { label: 'List', icon: 'pi pi-fw pi-file', to: '/list' },
-                    { label: 'Tree', icon: 'pi pi-fw pi-file', to: '/tree' }
+                    { label: 'Tree', icon: 'pi pi-fw pi-file', to: '/tree' },
+                    { label: 'Panel', icon: 'pi pi-fw pi-file', to: '/panel' },
+                    { label: 'Overlay', icon: 'pi pi-fw pi-file', to: '/overlay' },
+                    { label: 'Menu', icon: 'pi pi-fw pi-file', to: '/menu' },
+                    { label: 'Message', icon: 'pi pi-fw pi-file', to: '/message' },
+                    { label: 'File', icon: 'pi pi-fw pi-file', to: '/file' },
+                    { label: 'Chart', icon: 'pi pi-fw pi-file', to: '/chart' },
                 ]
             },
             {
@@ -308,14 +300,6 @@ class App extends Component {
 
                 <div className="layout-main">
                     <Route path="/" exact component={Dashboard} />
-                    <Route path="/forms" component={FormsDemo} />
-                    <Route path="/sample" component={SampleDemo} />
-                    <Route path="/data" component={DataDemo} />
-                    <Route path="/panels" component={PanelsDemo} />
-                    <Route path="/overlays" component={OverlaysDemo} />
-                    <Route path="/menus" component={MenusDemo} />
-                    <Route path="/messages" component={MessagesDemo} />
-                    <Route path="/charts" component={ChartsDemo} />
                     <Route path="/empty" component={EmptyPage} />
                     <Route path="/documentation" component={Documentation} />
                     <Route path="/formlayout" component={FormLayoutDemo} />
