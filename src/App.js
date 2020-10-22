@@ -151,18 +151,19 @@ class App extends Component {
                 label: 'Components', icon: 'pi pi-fw pi-globe', badge: '9',
                 items: [
 
-                    { label: 'Form Layout', icon: 'pi pi-fw pi-file', to: '/formlayout' },
-                    { label: 'Input', icon: 'pi pi-fw pi-file', to: '/input' },
-                    { label: 'Button', icon: 'pi pi-fw pi-file', to: '/button' },
-                    { label: 'Table', icon: 'pi pi-fw pi-file', to: '/table' },
-                    { label: 'List', icon: 'pi pi-fw pi-file', to: '/list' },
-                    { label: 'Tree', icon: 'pi pi-fw pi-file', to: '/tree' },
-                    { label: 'Panel', icon: 'pi pi-fw pi-file', to: '/panel' },
-                    { label: 'Overlay', icon: 'pi pi-fw pi-file', to: '/overlay' },
-                    { label: 'Menu', icon: 'pi pi-fw pi-file', to: '/menu' },
-                    { label: 'Message', icon: 'pi pi-fw pi-file', to: '/message' },
+                    { label: 'Form Layout', icon: 'pi pi-fw pi-id-card', to: '/formlayout' },
+                    { label: 'Input', icon: 'pi pi-fw pi-check-square', to: '/input' },
+                    { label: 'Button', icon: 'pi pi-fw pi-mobile', to: '/button' },
+                    { label: 'Table', icon: 'pi pi-fw pi-table', to: '/table' },
+                    { label: 'List', icon: 'pi pi-fw pi-list', to: '/list' },
+                    { label: 'Tree', icon: 'pi pi-fw pi-share-alt', to: '/tree' },
+                    { label: 'Panel', icon: 'pi pi-fw pi-tablet', to: '/panel' },
+                    { label: 'Overlay', icon: 'pi pi-fw pi-clone', to: '/overlay' },
+                    { label: 'Menu', icon: 'pi pi-fw pi-bars', to: '/menu' },
+                    { label: 'Message', icon: 'pi pi-fw pi-comment', to: '/message' },
                     { label: 'File', icon: 'pi pi-fw pi-file', to: '/file' },
-                    { label: 'Chart', icon: 'pi pi-fw pi-file', to: '/chart' },
+                    { label: 'Chart', icon: 'pi pi-fw pi-chart-bar', to: '/chart' },
+                    { label: 'Misc', icon: 'pi pi-fw pi-circle-off', to: '/misc' }
                 ]
             },
             {
