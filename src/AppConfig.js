@@ -1,23 +1,15 @@
-import React, { Component } from 'react';
+import React, { useRef, useState } from 'react';
 import { RadioButton } from 'primereact/radiobutton';
 import { InputSwitch } from 'primereact/inputswitch';
 import classNames from 'classnames';
 
+export function AppConfig(props) {
+
+    const [active, setActive] = useState(false);
+    const config = useRef(null)
 
 
-export class AppConfig extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            active: false
-        }
-
-        this.toggleConfigurator = this.toggleConfigurator.bind(this);
-        this.hideConfigurator = this.hideConfigurator.bind(this);
-    }
-
-    toggleConfigurator(event) {
+    const toggleConfigurator = (event) => {
         this.setState((prevState) => ({
             active: !prevState.active
         }), () => {
@@ -30,14 +22,14 @@ export class AppConfig extends Component {
         event.preventDefault();
     }
 
-    hideConfigurator(event) {
+    const hideConfigurator = (event) => {
         this.setState({ active: false });
         this.unbindOutsideClickListener();
         event.preventDefault();
     }
 
 
-    bindOutsideClickListener() {
+    const bindOutsideClickListener = () => {
         if (!this.outsideClickListener) {
             this.outsideClickListener = (event) => {
                 if (this.state.active && this.isOutsideClicked(event)) {
@@ -48,14 +40,14 @@ export class AppConfig extends Component {
         }
     }
 
-    unbindOutsideClickListener() {
+    const unbindOutsideClickListener = () => {
         if (this.outsideClickListener) {
             document.removeEventListener('click', this.outsideClickListener);
             this.outsideClickListener = null;
         }
     }
 
-    isOutsideClicked(event) {
+    const isOutsideClicked = (event) => {
         return !(this.config.isSameNode(event.target) || this.config.contains(event.target));
     }
 
@@ -67,12 +59,12 @@ export class AppConfig extends Component {
 
 
         return (
-            <div ref={(el) => this.config = el} className={configClassName}>
+            <div ref={config} className={configClassName}>
                 <div className="layout-config-content-wrapper">
-                    <button className="layout-config-button p-link" onClick={this.toggleConfigurator}>
+                    <button className="layout-config-button p-link" onClick={toggleConfigurator}>
                         <i className="pi pi-cog"></i>
                     </button>
-                    <button className="layout-config-close p-link" onClick={this.hideConfigurator}>
+                    <button className="layout-config-close p-link" onClick={hideConfigurator}>
                         <i className="pi pi-times"></i>
                     </button>
                 </div>
@@ -81,26 +73,26 @@ export class AppConfig extends Component {
                     <h5 style={{ marginTop: '0px' }}>Input Style</h5>
                     <div className="p-formgroup-inline">
                         <div className="p-field-radiobutton">
-                            <RadioButton inputId="input_outlined" name="inputstyle" value="outlined" onChange={(e) => this.props.onInputStyleChange(e.value)} checked={this.props.inputStyle === 'outlined'} />
+                            <RadioButton inputId="input_outlined" name="inputstyle" value="outlined" onChange={(e) => props.onInputStyleChange(e.value)} checked={props.inputStyle === 'outlined'} />
                             <label htmlFor="input_outlined">Outlined</label>
                         </div>
                         <div className="p-field-radiobutton">
-                            <RadioButton inputId="input_filled" name="inputstyle" value="filled" onChange={(e) => this.props.onInputStyleChange(e.value)} checked={this.props.inputStyle === 'filled'} />
+                            <RadioButton inputId="input_filled" name="inputstyle" value="filled" onChange={(e) => props.onInputStyleChange(e.value)} checked={props.inputStyle === 'filled'} />
                             <label htmlFor="input_filled">Filled</label>
                         </div>
                     </div>
 
                     <h5>Ripple Effect</h5>
-                    <InputSwitch checked={this.props.rippleEffect} onChange={this.props.onRippleEffect} />
+                    <InputSwitch checked={props.rippleEffect} onChange={props.onRippleEffect} />
 
                     <h5>Menu Type</h5>
                     <div className="p-formgroup-inline">
                         <div className="p-field-radiobutton">
-                            <RadioButton inputId="static" name="layoutMode" value="static" onChange={(e) => this.props.onLayoutModeChange(e.value)} checked={this.props.layoutMode === 'static'} />
+                            <RadioButton inputId="static" name="layoutMode" value="static" onChange={(e) => props.onLayoutModeChange(e.value)} checked={props.layoutMode === 'static'} />
                             <label htmlFor="static">Static</label>
                         </div>
                         <div className="p-field-radiobutton">
-                            <RadioButton inputId="overlay" name="layoutMode" value="overlay" onChange={(e) => this.props.onLayoutModeChange(e.value)} checked={this.props.layoutMode === 'overlay'} />
+                            <RadioButton inputId="overlay" name="layoutMode" value="overlay" onChange={(e) => props.onLayoutModeChange(e.value)} checked={props.layoutMode === 'overlay'} />
                             <label htmlFor="overlay">Overlay</label>
                         </div>
                     </div>
@@ -108,11 +100,11 @@ export class AppConfig extends Component {
                     <h5>Menu Color</h5>
                     <div className="p-formgroup-inline">
                         <div className="p-field-radiobutton">
-                            <RadioButton inputId="dark" name="layoutColorMode" value="dark" onChange={(e) => this.props.onColorModeChange(e.value)} checked={this.props.layoutColorMode === 'dark'} />
+                            <RadioButton inputId="dark" name="layoutColorMode" value="dark" onChange={(e) => props.onColorModeChange(e.value)} checked={props.layoutColorMode === 'dark'} />
                             <label htmlFor="dark">Dark</label>
                         </div>
                         <div className="p-field-radiobutton">
-                            <RadioButton inputId="light" name="layoutColorMode" value="light" onChange={(e) => this.props.onColorModeChange(e.value)} checked={this.props.layoutColorMode === 'light'} />
+                            <RadioButton inputId="light" name="layoutColorMode" value="light" onChange={(e) => props.onColorModeChange(e.value)} checked={props.layoutColorMode === 'light'} />
                             <label htmlFor="light">Light</label>
                         </div>
                     </div>
