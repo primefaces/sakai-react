@@ -64,10 +64,10 @@ class App extends Component {
         this.onToggleMenu = this.onToggleMenu.bind(this);
         this.onSidebarClick = this.onSidebarClick.bind(this);
         this.onMenuItemClick = this.onMenuItemClick.bind(this);
-        this.onInputStyleChange = this.onInputStyleChange.bind(this); 
+        this.onInputStyleChange = this.onInputStyleChange.bind(this);
         this.onRippleEffect = this.onRippleEffect.bind(this);
         this.onLayoutModeChange = this.onLayoutModeChange.bind(this);
-        this.onColorModeChange = this. onColorModeChange.bind(this);
+        this.onColorModeChange = this.onColorModeChange.bind(this);
 
         this.createMenu();
     }
@@ -83,11 +83,11 @@ class App extends Component {
     }
 
     onLayoutModeChange(mode) {
-        this.setState({layoutMode: mode});
+        this.setState({ layoutMode: mode });
     }
 
     onColorModeChange(mode) {
-        this.setState({layoutColorMode: mode});
+        this.setState({ layoutColorMode: mode });
     }
 
     onWrapperClick(event) {
@@ -304,7 +304,7 @@ class App extends Component {
                 <AppConfig rippleEffect={this.state.rippleEffect} onRippleEffect={this.onRippleEffect}
                     inputStyle={this.state.inputStyle} onInputStyleChange={this.onInputStyleChange}
                     layoutMode={this.state.layoutMode} onLayoutModeChange={this.onLayoutModeChange}
-                    layoutColorMode={this.state.layoutColorMode} onColorModeChange={this.onColorModeChange}/>
+                    layoutColorMode={this.state.layoutColorMode} onColorModeChange={this.onColorModeChange} />
 
                 <div className="layout-main">
                     <Route path="/" exact component={Dashboard} />
