@@ -1,24 +1,25 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import classNames from 'classnames';
-import {AppTopbar} from './AppTopbar';
-import {AppFooter} from './AppFooter';
-import {AppMenu} from './AppMenu';
-import {AppProfile} from './AppProfile';
-import {Route} from 'react-router-dom';
-import {Dashboard} from './components/Dashboard';
-import {FormsDemo} from './components/FormsDemo';
-import {SampleDemo} from './components/SampleDemo';
-import {DataDemo} from './components/DataDemo';
-import {PanelsDemo} from './components/PanelsDemo';
-import {OverlaysDemo} from './components/OverlaysDemo';
-import {MenusDemo} from './components/MenusDemo';
-import {MessagesDemo} from './components/MessagesDemo';
-import {ChartsDemo} from './components/ChartsDemo';
-import {MiscDemo} from './components/MiscDemo';
-import {EmptyPage} from './components/EmptyPage';
-import {Documentation} from "./components/Documentation";
-import 'primereact/resources/themes/nova-light/theme.css';
+import { AppTopbar } from './AppTopbar';
+import { AppFooter } from './AppFooter';
+import { AppMenu } from './AppMenu';
+import { AppProfile } from './AppProfile';
+import { Route } from 'react-router-dom';
+import { Dashboard } from './components/Dashboard';
+import { FormsDemo } from './components/FormsDemo';
+import { SampleDemo } from './components/SampleDemo';
+import { DataDemo } from './components/DataDemo';
+import { PanelsDemo } from './components/PanelsDemo';
+import { OverlaysDemo } from './components/OverlaysDemo';
+import { MenusDemo } from './components/MenusDemo';
+import { MessagesDemo } from './components/MessagesDemo';
+import { ChartsDemo } from './components/ChartsDemo';
+import { MiscDemo } from './components/MiscDemo';
+import { EmptyPage } from './components/EmptyPage';
+import { Documentation } from "./components/Documentation";
+import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
+import './layout/flags/flags.css';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
 import '@fullcalendar/core/main.css';
@@ -26,6 +27,23 @@ import '@fullcalendar/daygrid/main.css';
 import '@fullcalendar/timegrid/main.css';
 import './layout/layout.scss';
 import './App.scss';
+import { InputDemo } from './components/InputDemo';
+import { FormLayoutDemo } from './components/FormLayoutDemo';
+import { ButtonDemo } from './components/ButtonDemo';
+import { PanelDemo } from "./components/PanelDemo";
+import { MessageDemo } from './components/MessageDemo';
+import { MenuDemo } from './components/MenuDemo';
+import { OverlayDemo } from './components/OverlayDemo';
+import { FileDemo } from './components/FileDemo';
+import { ChartDemo } from './components/ChartDemo';
+import { TableDemo } from './components/TableDemo';
+import { ListDemo } from './components/ListDemo';
+import { TreeDemo } from './components/TreeDemo';
+import { Crud } from './components/Crud';
+import { CSSTransition } from 'react-transition-group';
+import { AppConfig } from './AppConfig';
+import PrimeReact from 'primereact/utils';
+
 
 class App extends Component {
 
@@ -36,14 +54,40 @@ class App extends Component {
             layoutColorMode: 'dark',
             staticMenuInactive: false,
             overlayMenuActive: false,
-            mobileMenuActive: false
+            mobileMenuActive: false,
+            inputStyle: 'outlined',
+            rippleEffect: false,
         };
+        PrimeReact.ripple = false;
 
         this.onWrapperClick = this.onWrapperClick.bind(this);
         this.onToggleMenu = this.onToggleMenu.bind(this);
         this.onSidebarClick = this.onSidebarClick.bind(this);
         this.onMenuItemClick = this.onMenuItemClick.bind(this);
+        this.onInputStyleChange = this.onInputStyleChange.bind(this); 
+        this.onRippleEffect = this.onRippleEffect.bind(this);
+        this.onLayoutModeChange = this.onLayoutModeChange.bind(this);
+        this.onColorModeChange = this. onColorModeChange.bind(this);
+
         this.createMenu();
+    }
+
+
+    onInputStyleChange(inputStyle) {
+        this.setState({ inputStyle: inputStyle });
+    }
+
+    onRippleEffect(e) {
+        PrimeReact.ripple = e.value;
+        this.setState({ rippleEffect: e.value })
+    }
+
+    onLayoutModeChange(mode) {
+        this.setState({layoutMode: mode});
+    }
+
+    onColorModeChange(mode) {
+        this.setState({layoutColorMode: mode});
     }
 
     onWrapperClick(event) {
@@ -78,7 +122,6 @@ class App extends Component {
                 mobileMenuActive: !mobileMenuActive
             });
         }
-       
         event.preventDefault();
     }
 
@@ -87,7 +130,7 @@ class App extends Component {
     }
 
     onMenuItemClick(event) {
-        if(!event.item.items) {
+        if (!event.item.items) {
             this.setState({
                 overlayMenuActive: false,
                 mobileMenuActive: false
@@ -97,39 +140,44 @@ class App extends Component {
 
     createMenu() {
         this.menu = [
-            {label: 'Dashboard', icon: 'pi pi-fw pi-home', command: () => {window.location = '#/'}},
+            { label: 'Dashboard', icon: 'pi pi-fw pi-home', command: () => { window.location = '#/' } },
             {
                 label: 'Menu Modes', icon: 'pi pi-fw pi-cog',
                 items: [
-                    {label: 'Static Menu', icon: 'pi pi-fw pi-bars',  command: () => this.setState({layoutMode: 'static'}) },
-                    {label: 'Overlay Menu', icon: 'pi pi-fw pi-bars',  command: () => this.setState({layoutMode: 'overlay'}) }
+                    { label: 'Static Menu', icon: 'pi pi-fw pi-bars', command: () => this.setState({ layoutMode: 'static' }) },
+                    { label: 'Overlay Menu', icon: 'pi pi-fw pi-bars', command: () => this.setState({ layoutMode: 'overlay' }) }
                 ]
             },
             {
                 label: 'Menu Colors', icon: 'pi pi-fw pi-align-left',
                 items: [
-                    {label: 'Dark', icon: 'pi pi-fw pi-bars',  command: () => this.setState({layoutColorMode: 'dark'}) },
-                    {label: 'Light', icon: 'pi pi-fw pi-bars',  command: () => this.setState({layoutColorMode: 'light'}) }
+                    { label: 'Dark', icon: 'pi pi-fw pi-bars', command: () => this.setState({ layoutColorMode: 'dark' }) },
+                    { label: 'Light', icon: 'pi pi-fw pi-bars', command: () => this.setState({ layoutColorMode: 'light' }) }
                 ]
             },
             {
                 label: 'Components', icon: 'pi pi-fw pi-globe', badge: '9',
                 items: [
-					{label: 'Sample Page', icon: 'pi pi-fw pi-th-large', to: '/sample'},
-					{label: 'Forms', icon: 'pi pi-fw pi-file', to: '/forms'},
-					{label: 'Data', icon: 'pi pi-fw pi-table', to: '/data'},
-					{label: 'Panels', icon: 'pi pi-fw pi-list', to: '/panels'},
-					{label: 'Overlays', icon: 'pi pi-fw pi-clone', to: '/overlays'},
-					{label: 'Menus', icon: 'pi pi-fw pi-plus', to: '/menus'},
-					{label: 'Messages', icon: 'pi pi-fw pi-spinner',to: '/messages'},
-					{label: 'Charts', icon: 'pi pi-fw pi-chart-bar', to: '/charts'},
-					{label: 'Misc', icon: 'pi pi-fw pi-upload', to: '/misc'}
+
+                    { label: 'Form Layout', icon: 'pi pi-fw pi-file', to: '/formlayout' },
+                    { label: 'Input', icon: 'pi pi-fw pi-file', to: '/input' },
+                    { label: 'Button', icon: 'pi pi-fw pi-file', to: '/button' },
+                    { label: 'Panel', icon: 'pi pi-fw pi-file', to: '/panel' },
+                    { label: 'Message', icon: 'pi pi-fw pi-file', to: '/message' },
+                    { label: 'Menu', icon: 'pi pi-fw pi-file', to: '/menu' },
+                    { label: 'Overlay', icon: 'pi pi-fw pi-file', to: '/overlay' },
+                    { label: 'File', icon: 'pi pi-fw pi-file', to: '/file' },
+                    { label: 'Chart', icon: 'pi pi-fw pi-file', to: '/chart' },
+                    { label: 'Table', icon: 'pi pi-fw pi-file', to: '/table' },
+                    { label: 'List', icon: 'pi pi-fw pi-file', to: '/list' },
+                    { label: 'Tree', icon: 'pi pi-fw pi-file', to: '/tree' }
                 ]
             },
             {
                 label: 'Template Pages', icon: 'pi pi-fw pi-file',
                 items: [
-                    {label: 'Empty Page', icon: 'pi pi-fw pi-circle-off', to: '/empty'}
+                    { label: 'Empty Page', icon: 'pi pi-fw pi-circle-off', to: '/empty' },
+                    { label: 'Crud', icon: 'pi pi-fw pi-circle-off', to: '/crud' }
                 ]
             },
             {
@@ -141,16 +189,16 @@ class App extends Component {
                             {
                                 label: 'Submenu 1.1', icon: 'pi pi-fw pi-bookmark',
                                 items: [
-                                    {label: 'Submenu 1.1.1', icon: 'pi pi-fw pi-bookmark'},
-                                    {label: 'Submenu 1.1.2', icon: 'pi pi-fw pi-bookmark'},
-                                    {label: 'Submenu 1.1.3', icon: 'pi pi-fw pi-bookmark'},
+                                    { label: 'Submenu 1.1.1', icon: 'pi pi-fw pi-bookmark' },
+                                    { label: 'Submenu 1.1.2', icon: 'pi pi-fw pi-bookmark' },
+                                    { label: 'Submenu 1.1.3', icon: 'pi pi-fw pi-bookmark' },
                                 ]
                             },
                             {
                                 label: 'Submenu 1.2', icon: 'pi pi-fw pi-bookmark',
                                 items: [
-                                    {label: 'Submenu 1.2.1', icon: 'pi pi-fw pi-bookmark'},
-                                    {label: 'Submenu 1.2.2', icon: 'pi pi-fw pi-bookmark'}
+                                    { label: 'Submenu 1.2.1', icon: 'pi pi-fw pi-bookmark' },
+                                    { label: 'Submenu 1.2.2', icon: 'pi pi-fw pi-bookmark' }
                                 ]
                             },
                         ]
@@ -161,24 +209,24 @@ class App extends Component {
                             {
                                 label: 'Submenu 2.1', icon: 'pi pi-fw pi-bookmark',
                                 items: [
-                                    {label: 'Submenu 2.1.1', icon: 'pi pi-fw pi-bookmark'},
-                                    {label: 'Submenu 2.1.2', icon: 'pi pi-fw pi-bookmark'},
-                                    {label: 'Submenu 2.1.3', icon: 'pi pi-fw pi-bookmark'},
+                                    { label: 'Submenu 2.1.1', icon: 'pi pi-fw pi-bookmark' },
+                                    { label: 'Submenu 2.1.2', icon: 'pi pi-fw pi-bookmark' },
+                                    { label: 'Submenu 2.1.3', icon: 'pi pi-fw pi-bookmark' },
                                 ]
                             },
                             {
                                 label: 'Submenu 2.2', icon: 'pi pi-fw pi-bookmark',
                                 items: [
-                                    {label: 'Submenu 2.2.1', icon: 'pi pi-fw pi-bookmark'},
-                                    {label: 'Submenu 2.2.2', icon: 'pi pi-fw pi-bookmark'}
+                                    { label: 'Submenu 2.2.1', icon: 'pi pi-fw pi-bookmark' },
+                                    { label: 'Submenu 2.2.2', icon: 'pi pi-fw pi-bookmark' }
                                 ]
                             }
                         ]
                     }
                 ]
             },
-            {label: 'Documentation', icon: 'pi pi-fw pi-question', command: () => {window.location = "#/documentation"}},
-            {label: 'View Source', icon: 'pi pi-fw pi-search', command: () => {window.location = "https://github.com/primefaces/sigma"}}
+            { label: 'Documentation', icon: 'pi pi-fw pi-question', command: () => { window.location = "#/documentation" } },
+            { label: 'View Source', icon: 'pi pi-fw pi-search', command: () => { window.location = "https://github.com/primefaces/sigma" } }
         ];
     }
 
@@ -207,15 +255,31 @@ class App extends Component {
             this.removeClass(document.body, 'body-overflow-hidden');
     }
 
+    isSidebarVisible() {
+        if (this.isDesktop()) {
+            if (this.state.layoutMode === 'static')
+                return !this.state.staticMenuInactive;
+            else if (this.state.layoutMode === 'overlay')
+                return this.state.overlayMenuActive;
+            else
+                return true;
+        }
+        else {
+            return true;
+        }
+    }
+
     render() {
-        const logo = this.state.layoutColorMode === 'dark' ? 'assets/layout/images/logo-white.svg': 'assets/layout/images/logo.svg';
+        const logo = this.state.layoutColorMode === 'dark' ? 'assets/layout/images/logo-white.svg' : 'assets/layout/images/logo.svg';
 
         const wrapperClass = classNames('layout-wrapper', {
             'layout-overlay': this.state.layoutMode === 'overlay',
             'layout-static': this.state.layoutMode === 'static',
             'layout-static-sidebar-inactive': this.state.staticMenuInactive && this.state.layoutMode === 'static',
             'layout-overlay-sidebar-active': this.state.overlayMenuActive && this.state.layoutMode === 'overlay',
-            'layout-mobile-sidebar-active': this.state.mobileMenuActive
+            'layout-mobile-sidebar-active': this.state.mobileMenuActive,
+            'p-input-filled': this.state.inputStyle === 'filled',
+            'p-ripple-disabled': this.state.rippleEffect === false
         });
 
         const sidebarClassName = classNames("layout-sidebar", {
@@ -225,15 +289,22 @@ class App extends Component {
 
         return (
             <div className={wrapperClass} onClick={this.onWrapperClick}>
-                <AppTopbar onToggleMenu={this.onToggleMenu}/>
+                <AppTopbar onToggleMenu={this.onToggleMenu} />
 
-                <div ref={(el) => this.sidebar = el} className={sidebarClassName} onClick={this.onSidebarClick}>
-                    <div className="layout-logo">
-                        <img alt="Logo" src={logo} />
+                <CSSTransition classNames="layout-sidebar" timeout={{ enter: 200, exit: 200 }} in={this.isSidebarVisible()} unmountOnExit>
+                    <div ref={(el) => this.sidebar = el} className={sidebarClassName} onClick={this.onSidebarClick}>
+                        <div className="layout-logo">
+                            <img alt="Logo" src={logo} />
+                        </div>
+                        <AppProfile />
+                        <AppMenu model={this.menu} onMenuItemClick={this.onMenuItemClick} />
                     </div>
-                    <AppProfile />
-                    <AppMenu model={this.menu} onMenuItemClick={this.onMenuItemClick} />
-                </div>
+                </CSSTransition>
+
+                <AppConfig rippleEffect={this.state.rippleEffect} onRippleEffect={this.onRippleEffect}
+                    inputStyle={this.state.inputStyle} onInputStyleChange={this.onInputStyleChange}
+                    layoutMode={this.state.layoutMode} onLayoutModeChange={this.onLayoutModeChange}
+                    layoutColorMode={this.state.layoutColorMode} onColorModeChange={this.onColorModeChange}/>
 
                 <div className="layout-main">
                     <Route path="/" exact component={Dashboard} />
@@ -245,9 +316,22 @@ class App extends Component {
                     <Route path="/menus" component={MenusDemo} />
                     <Route path="/messages" component={MessagesDemo} />
                     <Route path="/charts" component={ChartsDemo} />
-                    <Route path="/misc" component={MiscDemo} />
                     <Route path="/empty" component={EmptyPage} />
                     <Route path="/documentation" component={Documentation} />
+                    <Route path="/formlayout" component={FormLayoutDemo} />
+                    <Route path="/input" component={InputDemo} />
+                    <Route path="/button" component={ButtonDemo} />
+                    <Route path="/panel" component={PanelDemo} />
+                    <Route path="/message" component={MessageDemo} />
+                    <Route path="/menu" component={MenuDemo} />
+                    <Route path="/overlay" component={OverlayDemo} />
+                    <Route path="/file" component={FileDemo} />
+                    <Route path="/chart" component={ChartDemo} />
+                    <Route path="/misc" component={MiscDemo} />
+                    <Route path="/table" component={TableDemo} />
+                    <Route path="/list" component={ListDemo} />
+                    <Route path="/tree" component={TreeDemo} />
+                    <Route path="/crud" component={Crud} />
                 </div>
 
                 <AppFooter />

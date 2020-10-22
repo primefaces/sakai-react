@@ -5,10 +5,29 @@
     z-index: 999;
     overflow-y: auto;
     user-select: none;
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    @include transition(left $transitionDuration);
-    @include shadow(0 0 6px 0 rgba(0, 0, 0, 0.16));
+    box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.16);
+
+    &.layout-sidebar-enter {
+        transform: translateX(-100%);
+    }
+
+    &.layout-sidebar-enter-active {
+        transform: translateX(0%);
+        transition: transform $transitionDuration;
+    }
+
+    &.layout-sidebar-enter-done {
+        transform: none;
+    }
+
+    &.layout-sidebar-exit {
+        transform: translateX(0%);
+    }
+
+    &.layout-sidebar-exit-active {
+        transform: translateX(-100%);
+        transition: transform $transitionDuration;
+    }
 
     .layout-logo {
         text-align: center;
@@ -25,6 +44,6 @@
         text-align: center;
         color: $menuitemBadgeColor;
         background-color: $menuitemBadgeBgColor;
-        @include border-radius(50%);
+        border-radius: 50%;
     }
 }

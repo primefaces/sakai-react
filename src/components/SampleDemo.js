@@ -16,7 +16,7 @@ import {PanelMenu} from 'primereact/panelmenu';
 import {InputMask} from 'primereact/inputmask';
 import {Dropdown} from 'primereact/dropdown';
 import {Password} from 'primereact/password';
-import {Spinner} from 'primereact/spinner';
+// import {Spinner} from 'primereact/spinner';
 import {Slider} from 'primereact/slider';
 import {ListBox} from 'primereact/listbox';
 import {RadioButton} from 'primereact/radiobutton';
@@ -422,7 +422,7 @@ export class SampleDemo extends Component {
                                     <label htmlFor="spinner">Spinner</label>
                                 </div>
                                 <div className="p-col-12 p-md-4">
-                                    <Spinner value={this.state.spinnerValue} onChange={event => this.setState({spinnerValue: event.value})} />
+                                    {/* <Spinner value={this.state.spinnerValue} onChange={event => this.setState({spinnerValue: event.value})} /> */}
                                 </div>
 
                                 <div className="p-col-12 p-md-2">

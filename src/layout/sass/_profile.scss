@@ -11,12 +11,13 @@
         cursor: pointer;
         display: inline-block;
         margin-bottom: .75em;
-        @include transition(color $transitionDuration);
+        transition: color $transitionDuration;
 
         i {
             display: inline-block;
             font-size: 16px;
             vertical-align: middle;
+            margin-left: .5em;
         }
     }
 
@@ -24,15 +25,6 @@
         list-style-type: none;
         padding: 0;
         margin: 0;
-        max-height: 0;
-        overflow: hidden;
-        @include transition-property(max-height);
-        @include transition-duration(0.4s);
-        @include transition-timing-function(cubic-bezier(0.86, 0, 0.07, 1));
-       
-        &.layout-profile-expanded {
-            max-height: 500px;
-        }
 
         li {
             button {
@@ -41,7 +33,7 @@
                 border: 0 none;
                 border-radius: 0;
                 cursor: pointer;
-                @include transition(color $transitionDuration);
+                transition: color $transitionDuration;
 
                 &:hover {
                     color: $menuitemHoverColor;
@@ -57,6 +49,26 @@
                 }
             }
         }
+
+        &.layout-submenu-wrapper-enter,
+        &.layout-submenu-wrapper-leave-to {
+            max-height: 0;
+        }
+
+        &.layout-submenu-wrapper-enter-to,
+        &.layout-submenu-wrapper-leave {
+            max-height: 1000px;
+        }
+
+        &.layout-submenu-wrapper-leave-active {
+            overflow: hidden;
+            transition: max-height 0.45s cubic-bezier(0, 1, 0, 1);
+        }
+
+        &.layout-submenu-wrapper-enter-active {
+            overflow: hidden;
+            transition: max-height 1s ease-in-out;
+        }
     }
 }
 
@@ -64,7 +76,7 @@
     .layout-profile {
         .layout-profile-link {
             color: $menuitemColor;
-    
+
             &:hover {
                 color: $menuitemHoverColor;
             }
@@ -90,7 +102,7 @@
     .layout-profile {
         .layout-profile-link {
             color: $menuitemDarkColor;
-    
+
             &:hover {
                 color: $menuitemDarkHoverColor;
             }
