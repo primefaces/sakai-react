@@ -33,8 +33,8 @@ import { ListDemo } from './components/ListDemo';
 import { TreeDemo } from './components/TreeDemo';
 import { Crud } from './components/Crud';
 import { CSSTransition } from 'react-transition-group';
-import { AppConfig } from './AppConfig';
 import PrimeReact from 'primereact/utils';
+import { AppConfig } from './AppConfig';
 
 
 class App extends Component {
