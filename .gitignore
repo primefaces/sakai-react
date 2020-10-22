@@ -5,7 +5,7 @@
 
 # dependencies
 /node_modules
-package-log.json
+package-lock.json
 
 # testing
 /coverage
