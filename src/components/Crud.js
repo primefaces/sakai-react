@@ -250,9 +250,7 @@ export function Crud() {
 
     return (
         <div className="datatable-crud-demo">
-            {typeof product}
             <Toast ref={toast} />
-
             <div className="card">
                 <Toolbar className="p-mb-4" left={leftToolbarTemplate} right={rightToolbarTemplate}></Toolbar>
 

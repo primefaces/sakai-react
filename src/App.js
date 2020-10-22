@@ -40,6 +40,9 @@ import { TableDemo } from './components/TableDemo';
 import { ListDemo } from './components/ListDemo';
 import { TreeDemo } from './components/TreeDemo';
 import { Crud } from './components/Crud';
+import { CSSTransition } from 'react-transition-group';
+import { AppConfig } from './AppConfig';
+import PrimeReact from 'primereact/utils';
 
 
 class App extends Component {
@@ -51,14 +54,40 @@ class App extends Component {
             layoutColorMode: 'dark',
             staticMenuInactive: false,
             overlayMenuActive: false,
-            mobileMenuActive: false
+            mobileMenuActive: false,
+            inputStyle: 'outlined',
+            rippleEffect: false,
         };
+        PrimeReact.ripple = false;
 
         this.onWrapperClick = this.onWrapperClick.bind(this);
         this.onToggleMenu = this.onToggleMenu.bind(this);
         this.onSidebarClick = this.onSidebarClick.bind(this);
         this.onMenuItemClick = this.onMenuItemClick.bind(this);
+        this.onInputStyleChange = this.onInputStyleChange.bind(this); 
+        this.onRippleEffect = this.onRippleEffect.bind(this);
+        this.onLayoutModeChange = this.onLayoutModeChange.bind(this);
+        this.onColorModeChange = this. onColorModeChange.bind(this);
+
         this.createMenu();
+    }
+
+
+    onInputStyleChange(inputStyle) {
+        this.setState({ inputStyle: inputStyle });
+    }
+
+    onRippleEffect(e) {
+        PrimeReact.ripple = e.value;
+        this.setState({ rippleEffect: e.value })
+    }
+
+    onLayoutModeChange(mode) {
+        this.setState({layoutMode: mode});
+    }
+
+    onColorModeChange(mode) {
+        this.setState({layoutColorMode: mode});
     }
 
     onWrapperClick(event) {
@@ -129,7 +158,7 @@ class App extends Component {
             {
                 label: 'Components', icon: 'pi pi-fw pi-globe', badge: '9',
                 items: [
-                    
+
                     { label: 'Form Layout', icon: 'pi pi-fw pi-file', to: '/formlayout' },
                     { label: 'Input', icon: 'pi pi-fw pi-file', to: '/input' },
                     { label: 'Button', icon: 'pi pi-fw pi-file', to: '/button' },
@@ -226,6 +255,20 @@ class App extends Component {
             this.removeClass(document.body, 'body-overflow-hidden');
     }
 
+    isSidebarVisible() {
+        if (this.isDesktop()) {
+            if (this.state.layoutMode === 'static')
+                return !this.state.staticMenuInactive;
+            else if (this.state.layoutMode === 'overlay')
+                return this.state.overlayMenuActive;
+            else
+                return true;
+        }
+        else {
+            return true;
+        }
+    }
+
     render() {
         const logo = this.state.layoutColorMode === 'dark' ? 'assets/layout/images/logo-white.svg' : 'assets/layout/images/logo.svg';
 
@@ -234,7 +277,9 @@ class App extends Component {
             'layout-static': this.state.layoutMode === 'static',
             'layout-static-sidebar-inactive': this.state.staticMenuInactive && this.state.layoutMode === 'static',
             'layout-overlay-sidebar-active': this.state.overlayMenuActive && this.state.layoutMode === 'overlay',
-            'layout-mobile-sidebar-active': this.state.mobileMenuActive
+            'layout-mobile-sidebar-active': this.state.mobileMenuActive,
+            'p-input-filled': this.state.inputStyle === 'filled',
+            'p-ripple-disabled': this.state.rippleEffect === false
         });
 
         const sidebarClassName = classNames("layout-sidebar", {
@@ -246,13 +291,20 @@ class App extends Component {
             <div className={wrapperClass} onClick={this.onWrapperClick}>
                 <AppTopbar onToggleMenu={this.onToggleMenu} />
 
-                <div ref={(el) => this.sidebar = el} className={sidebarClassName} onClick={this.onSidebarClick}>
-                    <div className="layout-logo">
-                        <img alt="Logo" src={logo} />
+                <CSSTransition classNames="layout-sidebar" timeout={{ enter: 200, exit: 200 }} in={this.isSidebarVisible()} unmountOnExit>
+                    <div ref={(el) => this.sidebar = el} className={sidebarClassName} onClick={this.onSidebarClick}>
+                        <div className="layout-logo">
+                            <img alt="Logo" src={logo} />
+                        </div>
+                        <AppProfile />
+                        <AppMenu model={this.menu} onMenuItemClick={this.onMenuItemClick} />
                     </div>
-                    <AppProfile />
-                    <AppMenu model={this.menu} onMenuItemClick={this.onMenuItemClick} />
-                </div>
+                </CSSTransition>
+
+                <AppConfig rippleEffect={this.state.rippleEffect} onRippleEffect={this.onRippleEffect}
+                    inputStyle={this.state.inputStyle} onInputStyleChange={this.onInputStyleChange}
+                    layoutMode={this.state.layoutMode} onLayoutModeChange={this.onLayoutModeChange}
+                    layoutColorMode={this.state.layoutColorMode} onColorModeChange={this.onColorModeChange}/>
 
                 <div className="layout-main">
                     <Route path="/" exact component={Dashboard} />
