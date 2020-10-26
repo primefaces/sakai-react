@@ -62,7 +62,6 @@ export function TableDemo() {
         productService.getProductsWithOrdersSmall().then(data => setProducts(data));
         customerService.getCustomersMedium().then(data => setCustomersRowGroup(data));
         customerService.getCustomersLarge().then(data => {
-            console.log(data)
             setCustomers(data)
         });
     }, []);

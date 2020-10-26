@@ -225,36 +225,36 @@ export function ChartDemo() {
     };
 
     return (
-        <div class="p-grid p-fluid">
-            <div class="p-col-12 p-lg-6">
-                <div class="card">
-                    <h5 class="centerText">Linear Chart</h5>
+        <div className="p-grid p-fluid">
+            <div className="p-col-12 p-lg-6">
+                <div className="card">
+                    <h5 className="centerText">Linear Chart</h5>
                     <Chart type="line" data={linearData} options={linearOptions} />
                 </div>
 
-                <div class="card">
-                    <h5 class="centerText">Pie Chart</h5>
+                <div className="card">
+                    <h5 className="centerText">Pie Chart</h5>
                     <Chart type="pie" data={pieData} options={pieOptions} />
                 </div>
 
-                <div class="card">
-                    <h5 class="centerText">Polar Area Chart</h5>
+                <div className="card">
+                    <h5 className="centerText">Polar Area Chart</h5>
                     <Chart type="polarArea" data={polarData} options={polarOptions} />
                 </div>
             </div>
-            <div class="p-col-12 p-lg-6">
-                <div class="card">
-                    <h5 class="centerText">Bar Chart</h5>
+            <div className="p-col-12 p-lg-6">
+                <div className="card">
+                    <h5 className="centerText">Bar Chart</h5>
                     <Chart type="bar" data={barData} options={barOptions} />
                 </div>
 
-                <div class="card">
-                    <h5 class="centerText">Doughnut Chart</h5>
+                <div className="card">
+                    <h5 className="centerText">Doughnut Chart</h5>
                     <Chart type="doughnut" data={doughnutData} options={doughnutOptions} />
                 </div>
 
-                <div class="card">
-                    <h5 class="centerText">Radar Chart</h5>
+                <div className="card">
+                    <h5 className="centerText">Radar Chart</h5>
                     <Chart type="radar" data={radarData} options={radarOptions} />
                 </div>
             </div>

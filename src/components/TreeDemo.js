@@ -22,15 +22,15 @@ export function TreeDemo() {
     }, []); 
 
     return (
-        <div class="p-grid">
-            <div class="p-col-12">
-                <div class="card">
+        <div className="p-grid">
+            <div className="p-col-12">
+                <div className="card">
                     <h5>Tree</h5>
                     <Tree value={treeNodes} selectionMode="checkbox" selectionKeys={selectedKeys} onSelectionChange={e => setSelectedKeys(e.value)} />
                 </div>
             </div>
-            <div class="p-col-12">
-                <div class="card">
+            <div className="p-col-12">
+                <div className="card">
                     <h5>TreeTable</h5>
                     <TreeTable value={treeTableNodes} selectionMode="checkbox" selectionKeys={selectedNodeKeys2} onSelectionChange={e => setSelectedNodeKeys2(e.value)}>
                         <Column field="name" header="Name" expander></Column>
