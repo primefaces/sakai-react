@@ -363,6 +363,7 @@ export function TableDemo() {
                             selection={selectedCustomers} onSelectionChange={e => setSelectedCustomers(e.value)}
                             paginator rows={10} emptyMessage="No customers found" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                             paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown" rowsPerPageOptions={[10, 25, 50]}>
+                            <Column selectionMode="multiple" style={{ width: '3em' }} />
                             <Column field="name" header="Name" body={nameBodyTemplate} sortable filterPlaceholder="Search by name" />
                             <Column sortField="country.name" filterField="country.name" header="Country" body={countryBodyTemplate} sortable filterMatchMode="contains" filterPlaceholder="Search by country" />
                             <Column sortField="representative.name" filterField="representative.name" header="Representative" body={representativeBodyTemplate} sortable filterElement={representativeFilterElement} />

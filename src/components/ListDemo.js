@@ -81,7 +81,7 @@ export function ListDemo() {
                     </div>
                     <div className="product-grid-item-bottom">
                         <span className="product-price">${data.price}</span>
-                        <Button icon="pi pi-shopping-cart" label="Add to Cart" disabled={data.inventoryStatus === 'OUTOFSTOCK'}></Button>
+                        <Button icon="pi pi-shopping-cart"  disabled={data.inventoryStatus === 'OUTOFSTOCK'}></Button>
                     </div>
                 </div>
             </div>

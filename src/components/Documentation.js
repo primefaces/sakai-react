@@ -1,77 +1,71 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './Documentation.scss';
 
-export class Documentation extends Component {
+export const Documentation = () => {
 
-    constructor() {
-        super();
-        this.state = {};
-    }
+    return (
+        <div className="p-grid">
+            <div className="p-col-12">
+                <div className="card docs">
+                    <h1>Current Version</h1>
+                    <p>React 16.8.6 and PrimeReact 3.1.7</p>
 
-    render() {
-        return (
-            <div className="p-grid">
-                <div className="p-col-12">
-                    <div className="card docs">
-                        <h1>Current Version</h1>
-                        <p>React 16.8.6 and PrimeReact 3.1.7</p>
-
-                        <h1>Getting Started</h1>
-                        <p>Sigma is an application template for React based on the popular <a href="https://github.com/facebookincubator/create-react-app">create-react-app</a> that allows
+                    <h1>Getting Started</h1>
+                    <p>Sigma is an application template for React based on the popular <a href="https://github.com/facebookincubator/create-react-app">create-react-app</a> that allows
                             creating React apps with no configuration. To get started, clone the <a href="https://github.com/primefaces/sigma">repository</a> from GitHub and install the dependencies with npm or yarn.</p>
-                        <pre>
-{
-`npm install
+                    <pre>
+                        {
+                            `npm install
 `}
-</pre>
+                    </pre>
 
                         or
 
                         <pre>
-{
-`yarn
+                        {
+                            `yarn
 `}
-</pre>
+                    </pre>
 
-                        <p>Next step is running the application using the start script and navigate to <b>http://localhost:3000/</b> to view the application.
+                    <p>Next step is running the application using the start script and navigate to <b>http://localhost:3000/</b> to view the application.
                             That is it, you may now start with the development of your application using the Sigma template.</p>
 
-                        <pre>
-{
-`npm start
+                    <pre>
+                        {
+                            `npm start
 `}
-</pre>
+                    </pre>
 
                         or
 
                         <pre>
-{
-    `yarn start
+                        {
+                            `yarn start
 `}
-</pre>
+                    </pre>
 
-                        <h1>React Scripts</h1>
-                        <p>Following commands are derived from create-app-app.</p>
-                        <pre>
-{
-`"npm start" or "yarn start": Starts the development server
+                    <h1>React Scripts</h1>
+                    <p>Following commands are derived from create-app-app.</p>
+                    <pre>
+                        {
+                            `"npm start" or "yarn start": Starts the development server
 "npm test" or "yarn test": Runs the tests.
 "npm run build" or "yarn run build": Creates a production build.
 `}
-</pre>
+                    </pre>
 
-                        <h1>Structure</h1>
-                        <p>Sigma consists of 2 main parts; the application layout and the resources. <b>App.js</b> inside src folder is the main component containing the template for the base layout
+                    <h1>Structure</h1>
+                    <p>Sigma consists of 2 main parts; the application layout and the resources. <b>App.js</b> inside src folder is the main component containing the template for the base layout
                             whereas required resources such as SASS structure for the layout are placed inside the <b>src/layout</b> folder.</p>
 
-                        <h1>Template</h1>
-                        <p>Main layout is the JSX template of the App.js, it is divided into a couple of child components such as topbar, profile, menu and footer. Here is render method of the
-                            App.js component that implements the logic such as menu state, layout modes and so on.
+                    <h1>Template</h1>
+                    <p>Main layout is the JSX template of the App.js, it is divided into a couple of child components such as topbar, profile, menu and footer. Here is render method of the
+                    App.js component that implements the logic such as menu state, layout modes and so on.
                         </p>
 
-                        <pre>
-{
-`<div className={wrapperClass} onClick={this.onWrapperClick}>
+                    <pre>
+                        {
+                            `<div className={wrapperClass} onClick={this.onWrapperClick}>
     <AppTopbar onToggleMenu={this.onToggleMenu}/>
 
     <div ref={(el) => this.sidebar = el} className={sidebarClassName} onClick={this.onSidebarClick}>
@@ -102,17 +96,17 @@ export class Documentation extends Component {
     <div className="layout-mask"></div>
 </div>
 `
-}
-</pre>
+                        }
+                    </pre>
 
-                        <h1>Menu</h1>
-                        <p>Menu is a separate component defined in AppMenu.js file based on PrimeReact MenuModel API. In order to define the menuitems,
-                            navigate to createMenu() method App.js file and define your own model as a nested structure. Here is the menu component from the demo application.
+                    <h1>Menu</h1>
+                    <p>Menu is a separate component defined in AppMenu.js file based on PrimeReact MenuModel API. In order to define the menuitems,
+                    navigate to createMenu() method App.js file and define your own model as a nested structure. Here is the menu component from the demo application.
                             Notice that menu object is bound to the model property of AppMenu component as shown above.</p>
 
-                        <pre>
-{
-`
+                    <pre>
+                        {
+                            `
 createMenu() {
     this.menu = [
         {label: 'Dashboard', icon: 'pi pi-fw pi-home', command: () => {window.location = '#/'}},
@@ -199,31 +193,31 @@ createMenu() {
     ];
 }
 `}
-</pre>
+                    </pre>
 
-                        <p>Dependencies of Sigma are listed below and needs to be added to package.json. Only required
+                    <p>Dependencies of Sigma are listed below and needs to be added to package.json. Only required
                             dependency is PrimeReact where optional dependencies exist to enable certain components in PrimeReact.</p>
 
-                        <pre>
-{
-`"primereact": "^3.1.7",                //required: PrimeReact components
+                    <pre>
+                        {
+                            `"primereact": "^3.1.7",                //required: PrimeReact components
 "primeicons": "1.0.00"                  //required: Icons
 `
-}
-</pre>
+                        }
+                    </pre>
 
-                        <h1>Nova Theme</h1>
-                        <p>Sigma uses the free Nova-Light theme of PrimeReact which is a free theme distributed within PrimeReact, however it can be used with any PrimeReact theme.</p>
+                    <h1>Nova Theme</h1>
+                    <p>Sigma uses the free Nova-Light theme of PrimeReact which is a free theme distributed within PrimeReact, however it can be used with any PrimeReact theme.</p>
 
-                        <h1>SASS Variables</h1>
-                        <p>In case you'd like to customize the layout variables, open _variables.scss file under src/layout folder. Saving the changes
-                            will be reflected instantly at your browser.
+                    <h1>SASS Variables</h1>
+                    <p>In case you'd like to customize the layout variables, open _variables.scss file under src/layout folder. Saving the changes
+                    will be reflected instantly at your browser.
                         </p>
 
-                        <h3>src/layout/layout.scss</h3>
-                        <pre>
-{
-`/* General */
+                    <h3>src/layout/layout.scss</h3>
+                    <pre>
+                        {
+                            `/* General */
 $fontSize:14px;
 $bodyBgColor:#edf0f5;
 $textColor:#333333;
@@ -270,50 +264,50 @@ $topbarSearchInputColor:#ffffff;
 /* Footer */
 $footerBgColor:#ffffff;
 `
-}
-</pre>
+                        }
+                    </pre>
 
-                        <h1>Menu Modes</h1>
-                        <p>Menu has 2 modes, static and overlay. Main layout container element in App.js is used to define which mode to use by adding specific classes. List
+                    <h1>Menu Modes</h1>
+                    <p>Menu has 2 modes, static and overlay. Main layout container element in App.js is used to define which mode to use by adding specific classes. List
                             below indicates the style classes for each mode.</p>
 
-                        <ul>
-                            <li>Static: "layout-wrapper layout-static"</li>
-                            <li>Overlay: "layout-wrapper layout-overlay"</li>
-                        </ul>
+                    <ul>
+                        <li>Static: "layout-wrapper layout-static"</li>
+                        <li>Overlay: "layout-wrapper layout-overlay"</li>
+                    </ul>
 
-                        <p>For example to create an overlay menu, the div element should be in following form;</p>
-                        <pre>
-&lt;div className="layout-wrapper layout-overlay"&gt;
+                    <p>For example to create an overlay menu, the div element should be in following form;</p>
+                    <pre>
+                        &lt;div className="layout-wrapper layout-overlay"&gt;
 </pre>
 
-                        <p>It is also possible to leave the choice to the user by keeping the preference at a component and using an expression to bind it so that user can switch between modes. Sample
+                    <p>It is also possible to leave the choice to the user by keeping the preference at a component and using an expression to bind it so that user can switch between modes. Sample
                             application has an example implementation of such use case. Refer to App.js for an example.</p>
 
-                        <h1>Menu Color Scheme</h1>
-                        <p>There are two alternatives as the menu colors schemes; "light" and "dark". A color scheme is applied using the <i>layout-sidebar-light</i> or <i>layout-sidebar-dark</i>
+                    <h1>Menu Color Scheme</h1>
+                    <p>There are two alternatives as the menu colors schemes; "light" and "dark". A color scheme is applied using the <i>layout-sidebar-light</i> or <i>layout-sidebar-dark</i>
                         to the sidebar element.</p>
 
-                        <b>Dark Menu</b>
-<pre>
-&lt;div className="layout-sidebar layout-sidebar-dark"&gt;
-</pre>
-                
-                        <b>Light Menu</b>
-<pre>
-&lt;div className="layout-sidebar layout-sidebar-light"&gt;
+                    <b>Dark Menu</b>
+                    <pre>
+                        &lt;div className="layout-sidebar layout-sidebar-dark"&gt;
 </pre>
 
-                        <h1>Grid CSS</h1>
-                        <p>Sigma uses PrimeFlex CSS Grid throughout the samples. Although any grid library can be used, we recommend using PrimeFlex as your layout framework as it is well tested and supported by PrimeVue. PrimeFlex is
+                    <b>Light Menu</b>
+                    <pre>
+                        &lt;div className="layout-sidebar layout-sidebar-light"&gt;
+</pre>
+
+                    <h1>Grid CSS</h1>
+                    <p>Sigma uses PrimeFlex CSS Grid throughout the samples. Although any grid library can be used, we recommend using PrimeFlex as your layout framework as it is well tested and supported by PrimeVue. PrimeFlex is
                         available at <a href="https://www.npmjs.com/package/primeflex">NPM</a>.</p>
 
-                        <h1>Customizing Styles</h1>
-                        <p>It is suggested to write your customizations in <i>src/layout/_overrides.scss</i> file instead of adding them to the
+                    <h1>Customizing Styles</h1>
+                    <p>It is suggested to write your customizations in <i>src/layout/_overrides.scss</i> file instead of adding them to the
                         scss files under sass folder to avoid maintenance issues after an update.</p>
-                    </div>
                 </div>
             </div>
-        )
-    }
+        </div>
+    )
+
 }
