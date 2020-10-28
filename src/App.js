@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import classNames from 'classnames';
+import { Route } from 'react-router-dom';
+import { CSSTransition } from 'react-transition-group';
+
 import { AppTopbar } from './AppTopbar';
 import { AppFooter } from './AppFooter';
 import { AppMenu } from './AppMenu';
 import { AppProfile } from './AppProfile';
-import { Route } from 'react-router-dom';
+import { AppConfig } from './AppConfig';
 import { Dashboard } from './components/Dashboard';
 import { MiscDemo } from './components/MiscDemo';
 import { EmptyPage } from './components/EmptyPage';
@@ -22,17 +25,17 @@ import { TableDemo } from './components/TableDemo';
 import { ListDemo } from './components/ListDemo';
 import { TreeDemo } from './components/TreeDemo';
 import { Crud } from './components/Crud';
-import { CSSTransition } from 'react-transition-group';
-import { AppConfig } from './AppConfig';
+
 import PrimeReact from 'primereact/utils';
+
 import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
-import './layout/flags/flags.css';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
 import '@fullcalendar/core/main.css';
 import '@fullcalendar/daygrid/main.css';
 import '@fullcalendar/timegrid/main.css';
+import './layout/flags/flags.css';
 import './layout/layout.scss';
 import './App.scss';
 
@@ -45,18 +48,26 @@ const App = () => {
     const [overlayMenuActive, setOverlayMenuActive] = useState(false);
     const [mobileMenuActive, setMobileMenuActive] = useState(false);
     const [inputStyle, setInputStyle] = useState('outlined');
-    const [rippleEffect, setRippleEffect] = useState(false);
+    const [ripple, setRipple] = useState(false);
     const sidebar = useRef();
     let menuClick = false;
 
+    useEffect(() => {
+        if (mobileMenuActive) {
+            addClass(document.body, 'body-overflow-hidden');
+        }
+        else {
+            removeClass(document.body, 'body-overflow-hidden');
+        }
+    }, []);
 
     const onInputStyleChange = (inputStyle) => {
         setInputStyle(inputStyle);
     }
 
-    const onRippleEffect = (e) => {
+    const onRipple = (e) => {
         PrimeReact.ripple = e.value;
-        setRippleEffect(e.value)
+        setRipple(e.value)
     }
 
     const onLayoutModeChange = (mode) => {
@@ -92,7 +103,7 @@ const App = () => {
         event.preventDefault();
     }
 
-    const onSidebarClick = (event) => {
+    const onSidebarClick = () => {
         menuClick = true;
     }
 
@@ -102,7 +113,6 @@ const App = () => {
             setMobileMenuActive(false);
         }
     }
-
 
     const menu = [
         { label: 'Dashboard', icon: 'pi pi-fw pi-home', command: () => { window.location = '#/' } },
@@ -195,7 +205,6 @@ const App = () => {
         { label: 'View Source', icon: 'pi pi-fw pi-search', command: () => { window.location = "https://github.com/primefaces/sigma" } }
     ];
 
-
     const addClass = (element, className) => {
         if (element.classList)
             element.classList.add(className);
@@ -214,15 +223,6 @@ const App = () => {
         return window.innerWidth > 1024;
     }
 
-    useEffect(() => {
-        if (mobileMenuActive) {
-            addClass(document.body, 'body-overflow-hidden');
-        }
-        else {
-            removeClass(document.body, 'body-overflow-hidden');
-        }
-    }, [])
-
     const isSidebarVisible = () => {
         if (isDesktop()) {
             if (layoutMode === 'static')
@@ -232,9 +232,8 @@ const App = () => {
             else
                 return true;
         }
-        else {
-            return true;
-        }
+
+        return true;
     }
 
     const logo = layoutColorMode === 'dark' ? 'assets/layout/images/logo-white.svg' : 'assets/layout/images/logo.svg';
@@ -246,10 +245,10 @@ const App = () => {
         'layout-overlay-sidebar-active': overlayMenuActive && layoutMode === 'overlay',
         'layout-mobile-sidebar-active': mobileMenuActive,
         'p-input-filled': inputStyle === 'filled',
-        'p-ripple-disabled': rippleEffect === false
+        'p-ripple-disabled': ripple === false
     });
 
-    const sidebarClassName = classNames("layout-sidebar", {
+    const sidebarClassName = classNames('layout-sidebar', {
         'layout-sidebar-dark': layoutColorMode === 'dark',
         'layout-sidebar-light': layoutColorMode === 'light'
     });
@@ -268,10 +267,8 @@ const App = () => {
                 </div>
             </CSSTransition>
 
-            <AppConfig rippleEffect={rippleEffect} onRippleEffect={onRippleEffect}
-                inputStyle={inputStyle} onInputStyleChange={onInputStyleChange}
-                layoutMode={layoutMode} onLayoutModeChange={onLayoutModeChange}
-                layoutColorMode={layoutColorMode} onColorModeChange={onColorModeChange} />
+            <AppConfig rippleEffect={ripple} onRipple={onRipple} inputStyle={inputStyle} onInputStyleChange={onInputStyleChange}
+                layoutMode={layoutMode} onLayoutModeChange={onLayoutModeChange} layoutColorMode={layoutColorMode} onColorModeChange={onColorModeChange} />
 
             <div className="layout-main">
                 <Route path="/" exact component={Dashboard} />

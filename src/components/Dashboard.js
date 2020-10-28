@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { CarService } from '../service/CarService';
 import { Panel } from 'primereact/panel';
 import { Checkbox } from 'primereact/checkbox';
 import { Button } from 'primereact/button';
@@ -15,7 +14,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 
 export const Dashboard = () => {
 
-    const carservice = new CarService();
+    const carservice = null;
 
     const [tasks, setTasks] = useState([]);
     const [city, setCity] = useState(null);

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom'
-import classNames from 'classnames';
+import { NavLink } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
+import classNames from 'classnames';
 
 const AppSubmenu = (props) => {
 
@@ -62,7 +62,6 @@ const AppSubmenu = (props) => {
                     {content}
                 </a>
             );
-
         }
     }
 
@@ -82,15 +81,12 @@ const AppSubmenu = (props) => {
     });
 
     return items ? <ul className={props.className}>{items}</ul> : null;
-
 }
 
 export const AppMenu = (props) => {
-
     return (
         <div className="layout-menu-container">
             <AppSubmenu items={props.model} className="layout-menu" onMenuItemClick={props.onMenuItemClick} root={true} />
         </div>
     );
-
 }

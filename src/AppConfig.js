@@ -6,8 +6,7 @@ import classNames from 'classnames';
 export const AppConfig = (props) => {
 
     const [active, setActive] = useState(false);
-    const config = useRef()
-
+    const config = useRef(null);
 
     const toggleConfigurator = (event) => {
         setActive(prevState => !prevState);
@@ -54,7 +53,6 @@ export const AppConfig = (props) => {
     const configClassName = classNames('layout-config', {
         'layout-config-active': active
     });
-
 
     return (
         <div ref={config} className={configClassName}>
@@ -109,5 +107,4 @@ export const AppConfig = (props) => {
             </div>
         </div>
     );
-
 }
