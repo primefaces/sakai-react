@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { RadioButton } from 'primereact/radiobutton';
 import { InputSwitch } from 'primereact/inputswitch';
 import classNames from 'classnames';
@@ -7,47 +7,47 @@ export const AppConfig = (props) => {
 
     const [active, setActive] = useState(false);
     const config = useRef(null);
+    let outsideClickListener = useRef(null);
 
-    const toggleConfigurator = (event) => {
-        setActive(prevState => !prevState);
-    }
-
-    useEffect(() => {
-        if(active) {
-            bindOutsideClickListener()
-        } else {
-            unbindOutsideClickListener()
+    const unbindOutsideClickListener = useCallback(() => {
+        if (outsideClickListener.current) {
+            document.removeEventListener('click', outsideClickListener.current);
+            outsideClickListener.current = null;
         }
-    }, [active]);
+    }, []);
 
-    const hideConfigurator = (event) => {
+    const hideConfigurator = useCallback((event) => {
         setActive(false);
         unbindOutsideClickListener();
         event.preventDefault();
-    }
+    }, [unbindOutsideClickListener]);
 
-    let outsideClickListener;
-
-    const bindOutsideClickListener = () => {
-        if (!outsideClickListener) {
-            outsideClickListener = (event) => {
+    const bindOutsideClickListener = useCallback(() => {
+        if (!outsideClickListener.current) {
+            outsideClickListener.current = (event) => {
                 if (active && isOutsideClicked(event)) {
                     hideConfigurator(event);
                 }
             };
-            document.addEventListener('click', outsideClickListener);
+            document.addEventListener('click', outsideClickListener.current);
         }
-    }
+    }, [active, hideConfigurator]);
 
-    const unbindOutsideClickListener = () => {
-        if (outsideClickListener) {
-            document.removeEventListener('click', outsideClickListener);
-            outsideClickListener = null;
+    useEffect(() => {
+        if (active) {
+            bindOutsideClickListener()
         }
-    }
+        else {
+            unbindOutsideClickListener()
+        }
+    }, [active, bindOutsideClickListener, unbindOutsideClickListener]);
 
     const isOutsideClicked = (event) => {
         return !(config.current.isSameNode(event.target) || config.current.contains(event.target));
+    }
+
+    const toggleConfigurator = (event) => {
+        setActive(prevState => !prevState);
     }
 
     const configClassName = classNames('layout-config', {

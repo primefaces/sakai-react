@@ -135,10 +135,6 @@ export const Dashboard = () => {
         setCity(e.value);
     }
 
-    useEffect(() => {
-        carservice.getCarsSmall().then(data => setCars(data));
-    }, [])
-
 
     return (
         <div className="p-grid p-fluid dashboard">

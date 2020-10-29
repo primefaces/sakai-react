@@ -37,7 +37,7 @@ export function OverlayDemo() {
     useEffect(() => {
         isMounted.current = true;
         productService.getProductsSmall().then(data => setProducts(data));
-    }, []);
+    }, [productService]);
 
     useEffect(() => {
         if (isMounted.current) {
