@@ -9,18 +9,3 @@
         padding-bottom: 2em;
     }
 }
-
-/* Code Highlight */
-.docs {
-    pre[class*="language-"] {
-        padding: 0 !important;
-        background: transparent;
-        overflow: visible;
-
-        > code {
-            border-left: 0 none;
-            box-shadow: none !important;
-            font-size: 14px;
-        }
-    }
-}

@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ProgressBar } from 'primereact/progressbar';
-import { Button } from "primereact/button";
-import './MiscDemo.scss'
+import { Button } from 'primereact/button';
 
-export function MiscDemo() {
+export const MiscDemo = () => {
 
     const [value, setValue] = useState(0);
     const interval = useRef(null);
@@ -26,7 +25,7 @@ export function MiscDemo() {
                 interval.current = null;
             }
         }
-    }, []);
+    }, [value]);
 
     return (
         <div className="p-grid misc-demo">
@@ -35,10 +34,10 @@ export function MiscDemo() {
                     <h5>ProgressBar</h5>
                     <div className="p-grid">
                         <div className="p-col">
-                            <ProgressBar value={value}></ProgressBar>
+                            <ProgressBar value={value} />
                         </div>
                         <div className="p-col">
-                            <ProgressBar value="50" showValue={false}></ProgressBar>
+                            <ProgressBar value="50" showValue={false} />
                         </div>
                     </div>
                 </div>
@@ -76,7 +75,7 @@ export function MiscDemo() {
 
                     <h5>Icon Badge</h5>
                     <span className="p-overlay-badge p-mr-5">
-                        <i className="pi pi-bell" style={{ fontSize: "2em" }}></i>
+                        <i className="pi pi-bell" style={{fontSize: '2em'}}></i>
                         <span className="p-badge">2</span>
                     </span>
 
@@ -96,7 +95,6 @@ export function MiscDemo() {
                         <span className="p-badge p-badge-lg p-badge-sucess">4</span>
                         <span className="p-badge p-badge-xl p-badge-warning">6</span>
                     </div>
-
                 </div>
             </div>
         </div>

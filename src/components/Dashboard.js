@@ -5,136 +5,82 @@ import { Button } from 'primereact/button';
 import { Dropdown } from 'primereact/dropdown';
 import { InputText } from 'primereact/inputtext';
 import { Chart } from 'primereact/chart';
+import { ProgressBar } from 'primereact/progressbar';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { FullCalendar } from 'primereact/fullcalendar';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import { ProductService } from '../service/ProductService';
+import { EventService } from '../service/EventService';
+
+const dropdownCities = [
+    { name: 'New York', code: 'NY' },
+    { name: 'Rome', code: 'RM' },
+    { name: 'London', code: 'LDN' },
+    { name: 'Istanbul', code: 'IST' },
+    { name: 'Paris', code: 'PRS' }
+];
+
+const options = {
+    plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
+    defaultDate: '2019-01-01',
+    header: {
+        left: 'prev,next',
+        center: 'title',
+        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+    },
+    editable: true
+};
+
+const lineData = {
+    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+    datasets: [
+        {
+            label: 'First Dataset',
+            data: [65, 59, 80, 81, 56, 55, 40],
+            fill: false,
+            backgroundColor: '#2f4860',
+            borderColor: '#2f4860'
+        },
+        {
+            label: 'Second Dataset',
+            data: [28, 48, 40, 19, 86, 27, 90],
+            fill: false,
+            backgroundColor: '#00bb7e',
+            borderColor: '#00bb7e'
+        }
+    ]
+};
 
 export const Dashboard = () => {
 
-    const carservice = null;
+    const [tasksCheckbox, setTasksCheckbox] = useState([]);
+    const [dropdownCity, setDropdownCity] = useState(null);
+    const [events, setEvents] = useState(null);
+    const [products, setProducts] = useState(null);
 
-    const [tasks, setTasks] = useState([]);
-    const [city, setCity] = useState(null);
-    const [cars, setCars] = useState(null)
-    const [selectedCar, setSelectedCar] = useState(null);
-    const [lineData, setLineData] = useState({
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-        datasets: [
-            {
-                label: 'First Dataset',
-                data: [65, 59, 80, 81, 56, 55, 40],
-                fill: false,
-                borderColor: '#007be5'
-            },
-            {
-                label: 'Second Dataset',
-                data: [28, 48, 40, 19, 86, 27, 90],
-                fill: false,
-                borderColor: '#20d077'
-            }
-        ]
-    });
-    const [cities, setCities] = useState([
-        { label: 'New York', value: { id: 1, name: 'New York', code: 'NY' } },
-        { label: 'Rome', value: { id: 2, name: 'Rome', code: 'RM' } },
-        { label: 'London', value: { id: 3, name: 'London', code: 'LDN' } },
-        { label: 'Istanbul', value: { id: 4, name: 'Istanbul', code: 'IST' } },
-        { label: 'Paris', value: { id: 5, name: 'Paris', code: 'PRS' } }
-    ]);
-    const [fullcalendarOptions, setFullcalendarOptions] = useState({
-        plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
-        defaultDate: '2017-02-01',
-        header: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'month,agendaWeek,agendaDay'
-        },
-        editable: true
-    });
-    const [events, setEvents] = useState([
-        {
-            "id": 1,
-            "title": "All Day Event",
-            "start": "2017-02-01"
-        },
-        {
-            "id": 2,
-            "title": "Long Event",
-            "start": "2017-02-07",
-            "end": "2017-02-10"
-        },
-        {
-            "id": 3,
-            "title": "Repeating Event",
-            "start": "2017-02-09T16:00:00"
-        },
-        {
-            "id": 4,
-            "title": "Repeating Event",
-            "start": "2017-02-16T16:00:00"
-        },
-        {
-            "id": 5,
-            "title": "Conference",
-            "start": "2017-02-11",
-            "end": "2017-02-13"
-        },
-        {
-            "id": 6,
-            "title": "Meeting",
-            "start": "2017-02-12T10:30:00",
-            "end": "2017-02-12T12:30:00"
-        },
-        {
-            "id": 7,
-            "title": "Lunch",
-            "start": "2017-02-12T12:00:00"
-        },
-        {
-            "id": 8,
-            "title": "Meeting",
-            "start": "2017-02-12T14:30:00"
-        },
-        {
-            "id": 9,
-            "title": "Happy Hour",
-            "start": "2017-02-12T17:30:00"
-        },
-        {
-            "id": 10,
-            "title": "Dinner",
-            "start": "2017-02-12T20:00:00"
-        },
-        {
-            "id": 11,
-            "title": "Birthday Party",
-            "start": "2017-02-13T07:00:00"
-        },
-        {
-            "id": 12,
-            "title": "Click for Google",
-            "url": "http://google.com/",
-            "start": "2017-02-28"
-        }
-    ])
+    useEffect(() => {
+        const productService = new ProductService();
+        const eventService = new EventService();
+        productService.getProductsSmall().then(data => setProducts(data));
+        eventService.getEvents().then(data => setEvents(data));
+    }, []);
 
-    const onTaskChange = (e) => {
-        let selectedTasks = [...tasks];
+    const formatCurrency = (value) => {
+        return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+    };
+
+    const onTaskCheckboxChange = (e) => {
+        let selectedTasks = [...tasksCheckbox];
         if (e.checked)
             selectedTasks.push(e.value);
         else
             selectedTasks.splice(selectedTasks.indexOf(e.value), 1);
 
-        setTasks(selectedTasks);
-    }
-
-    const onCityChange = (e) => {
-        setCity(e.value);
-    }
-
+        setTasksCheckbox(selectedTasks);
+    };
 
     return (
         <div className="p-grid p-fluid dashboard">
@@ -164,7 +110,7 @@ export const Dashboard = () => {
                 <div className="highlight-box">
                     <div className="initials" style={{ backgroundColor: '#007be5', color: '#00448f' }}><span>TV</span></div>
                     <div className="highlight-details ">
-                        <i className="pi pi-search" />
+                        <i className="pi pi-search"></i>
                         <span>Total Queries</span>
                         <span className="count">523</span>
                     </div>
@@ -174,7 +120,7 @@ export const Dashboard = () => {
                 <div className="highlight-box">
                     <div className="initials" style={{ backgroundColor: '#ef6262', color: '#a83d3b' }}><span>TI</span></div>
                     <div className="highlight-details ">
-                        <i className="pi pi-question-circle" />
+                        <i className="pi pi-question-circle"></i>
                         <span>Total Issues</span>
                         <span className="count">81</span>
                     </div>
@@ -184,7 +130,7 @@ export const Dashboard = () => {
                 <div className="highlight-box">
                     <div className="initials" style={{ backgroundColor: '#20d077', color: '#038d4a' }}><span>OI</span></div>
                     <div className="highlight-details ">
-                        <i className="pi pi-filter" />
+                        <i className="pi pi-filter"></i>
                         <span>Open Issues</span>
                         <span className="count">21</span>
                     </div>
@@ -194,53 +140,55 @@ export const Dashboard = () => {
                 <div className="highlight-box">
                     <div className="initials" style={{ backgroundColor: '#f9c851', color: '#b58c2b' }}><span>CI</span></div>
                     <div className="highlight-details ">
-                        <i className="pi pi-check" />
+                        <i className="pi pi-check"></i>
                         <span>Closed Issues</span>
                         <span className="count">60</span>
                     </div>
                 </div>
             </div>
+
             <div className="p-col-12 p-md-6 p-lg-4">
                 <Panel header="Tasks" style={{ height: '100%' }}>
                     <ul className='task-list'>
                         <li>
-                            <Checkbox value="task1" onChange={onTaskChange} checked={tasks.indexOf('task1') > -1 ? true : false}></Checkbox>
+                            <Checkbox name="task" value="reports" checked={tasksCheckbox.indexOf('reports') !== -1} onChange={onTaskCheckboxChange} />
                             <span className="task-name">Sales Reports</span>
                             <i className="pi pi-chart-bar" />
                         </li>
                         <li>
-                            <Checkbox value="task2" onChange={onTaskChange} checked={tasks.indexOf('task2') > -1 ? true : false}></Checkbox>
+                            <Checkbox name="task" value="invoices" checked={tasksCheckbox.indexOf('invoices') !== -1} onChange={onTaskCheckboxChange} />
                             <span className="task-name">Pay Invoices</span>
                             <i className="pi pi-dollar" />
                         </li>
                         <li>
-                            <Checkbox value="task3" onChange={onTaskChange} checked={tasks.indexOf('task3') > -1 ? true : false}></Checkbox>
+                            <Checkbox name="task" value="dinner" checked={tasksCheckbox.indexOf('dinner') !== -1} onChange={onTaskCheckboxChange} />
                             <span className="task-name">Dinner with Tony</span>
                             <i className="pi pi-user" />
                         </li>
                         <li>
-                            <Checkbox value="task4" onChange={onTaskChange} checked={tasks.indexOf('task4') > -1 ? true : false}></Checkbox>
+                            <Checkbox name="task" value="meeting" checked={tasksCheckbox.indexOf('meeting') !== -1} onChange={onTaskCheckboxChange} />
                             <span className="task-name">Client Meeting</span>
                             <i className="pi pi-users" />
                         </li>
                         <li>
-                            <Checkbox value="task5" onChange={onTaskChange} checked={tasks.indexOf('task5') > -1 ? true : false}></Checkbox>
+                            <Checkbox name="task" value="theme" checked={tasksCheckbox.indexOf('theme') !== -1} onChange={onTaskCheckboxChange} />
                             <span className="task-name">New Theme</span>
-                            <i className="pi pi-briefcase" />
+                            <i className="pi pi-globe" />
                         </li>
                         <li>
-                            <Checkbox value="task6" onChange={onTaskChange} checked={tasks.indexOf('task6') > -1 ? true : false}></Checkbox>
+                            <Checkbox name="task" value="flight" checked={tasksCheckbox.indexOf('flight') !== -1} onChange={onTaskCheckboxChange} />
                             <span className="task-name">Flight Ticket</span>
                             <i className="pi pi-briefcase" />
                         </li>
                     </ul>
                 </Panel>
             </div>
+
             <div className="p-col-12 p-md-6 p-lg-4 p-fluid contact-form">
                 <Panel header="Contact Us">
                     <div className="p-grid">
                         <div className="p-col-12">
-                            <Dropdown value={city} options={cities} placeholder="Select a City" onChange={onCityChange} autoWidth={false} />
+                            <Dropdown value={dropdownCity} onChange={(e) => setDropdownCity(e.value)} options={dropdownCities} optionLabel="name" placeholder="Select a City" />
                         </div>
                         <div className="p-col-12">
                             <InputText type="text" placeholder="Name" />
@@ -252,7 +200,7 @@ export const Dashboard = () => {
                             <InputText type="text" placeholder="Message" />
                         </div>
                         <div className="p-col-12">
-                            <Button type="button" label="Send" icon="fa-send" />
+                            <Button type="button" label="Send" icon="pi pi-envelope" />
                         </div>
                     </div>
                 </Panel>
@@ -265,42 +213,48 @@ export const Dashboard = () => {
                             <button className="p-link">
                                 <img src="assets/layout/images/avatar_1.png" width="35" alt="avatar1" />
                                 <span className="name">Claire Williams</span>
-                                <span className="email">clare@pf-sigma.com</span>
+                                <span className="email">clare@primereact.com</span>
                             </button>
                         </li>
                         <li>
                             <button className="p-link">
                                 <img src="assets/layout/images/avatar_2.png" width="35" alt="avatar2" />
                                 <span className="name">Jason Dourne</span>
-                                <span className="email">jason@pf-sigma.com</span>
+                                <span className="email">jason@primereact.com</span>
                             </button>
                         </li>
                         <li>
                             <button className="p-link">
                                 <img src="assets/layout/images/avatar_3.png" width="35" alt="avatar3" />
                                 <span className="name">Jane Davidson</span>
-                                <span className="email">jane@pf-sigma.com</span>
+                                <span className="email">jane@primereact.com</span>
                             </button>
                         </li>
                         <li>
                             <button className="p-link">
                                 <img src="assets/layout/images/avatar_4.png" width="35" alt="avatar4" />
                                 <span className="name">Tony Corleone</span>
-                                <span className="email">tony@pf-sigma.com</span>
+                                <span className="email">tony@primereact.com</span>
                             </button>
                         </li>
                     </ul>
                 </Panel>
             </div>
+
             <div className="p-col-12 p-lg-6">
                 <div className="card">
                     <h1 style={{ fontSize: '16px' }}>Recent Sales</h1>
-                    <DataTable value={cars} style={{ marginBottom: '20px' }} responsive={true}
-                        selectionMode="single" selection={selectedCar} onSelectionChange={(e) => setSelectedCar( e.value )}>
-                        <Column field="vin" header="Vin" sortable={true} />
-                        <Column field="year" header="Year" sortable={true} />
-                        <Column field="brand" header="Brand" sortable={true} />
-                        <Column field="color" header="Color" sortable={true} />
+                    <DataTable value={products} className="p-datatable-customers" rows={5} style={{ marginBottom: '20px' }} paginator>
+                        <Column header="Logo" body={(data) => <img src={`assets/demo/images/product/${data.image}`} alt={data.image} width="50" />}></Column>
+                        <Column field="name" header="Name" sortable></Column>
+                        <Column field="category" header="Category" sortable></Column>
+                        <Column field="price" header="Price" sortable body={(data) => formatCurrency(data.price)}></Column>
+                        <Column header="View" body={() => (
+                            <>
+                                <Button icon="pi pi-search" type="button" className="p-button-success p-mr-2 p-mb-1"></Button>
+                                <Button icon="pi pi-times" type="button" className="p-button-danger p-mb-1"></Button>
+                            </>
+                        )}></Column>
                     </DataTable>
                 </div>
             </div>
@@ -309,9 +263,10 @@ export const Dashboard = () => {
                     <Chart type="line" data={lineData} />
                 </div>
             </div>
+
             <div className="p-col-12 p-lg-8">
                 <Panel header="Calendar" style={{ height: '100%' }}>
-                    <FullCalendar events={events} options={fullcalendarOptions}></FullCalendar>
+                    <FullCalendar events={events} options={options} />
                 </Panel>
             </div>
 
@@ -331,51 +286,50 @@ export const Dashboard = () => {
 
                     <ul className="activity-list">
                         <li>
-                            <div className="count">$900</div>
-                            <div className="p-grid">
-                                <div className="p-col-6">Income</div>
-                                <div className="p-col-6">95%</div>
+                            <div className="p-d-flex p-jc-between p-ai-center p-mb-3">
+                                <h5 className="activity p-m-0">Income</h5>
+                                <div className="count">$900</div>
                             </div>
+                            <ProgressBar value={95} showValue={false} />
                         </li>
                         <li>
-                            <div className="count" style={{ backgroundColor: '#f9c851' }}>$250</div>
-                            <div className="p-grid">
-                                <div className="p-col-6">Tax</div>
-                                <div className="p-col-6">24%</div>
+                            <div className="p-d-flex p-jc-between p-ai-center p-mb-3">
+                                <h5 className="activity p-m-0">Tax</h5>
+                                <div className="count" style={{ backgroundColor: '#f9c851' }}>$250</div>
                             </div>
+                            <ProgressBar value={24} showValue={false} />
                         </li>
                         <li>
-                            <div className="count" style={{ backgroundColor: '#20d077' }}>$125</div>
-                            <div className="p-grid">
-                                <div className="p-col-6">Invoices</div>
-                                <div className="p-col-6">55%</div>
+                            <div className="p-d-flex p-jc-between p-ai-center p-mb-3">
+                                <h5 className="activity p-m-0">Invoices</h5>
+                                <div className="count" style={{ backgroundColor: '#20d077' }}>$125</div>
                             </div>
+                            <ProgressBar value={55} showValue={false} />
                         </li>
                         <li>
-                            <div className="count" style={{ backgroundColor: '#f9c851' }}>$250</div>
-                            <div className="p-grid">
-                                <div className="p-col-6">Expenses</div>
-                                <div className="p-col-6">15%</div>
+                            <div className="p-d-flex p-jc-between p-ai-center p-mb-3">
+                                <h5 className="activity p-m-0">Expenses</h5>
+                                <div className="count" style={{ backgroundColor: '#f9c851' }}>$250</div>
                             </div>
+                            <ProgressBar value={15} showValue={false} />
                         </li>
                         <li>
-                            <div className="count" style={{ backgroundColor: '#007be5' }}>$350</div>
-                            <div className="p-grid">
-                                <div className="p-col-6">Bonus</div>
-                                <div className="p-col-6">5%</div>
+                            <div className="p-d-flex p-jc-between p-ai-center p-mb-3">
+                                <h5 className="activity p-m-0">Bonus</h5>
+                                <div className="count" style={{ backgroundColor: '#007be5' }}>$350</div>
                             </div>
+                            <ProgressBar value={5} showValue={false} />
                         </li>
                         <li>
-                            <div className="count" style={{ backgroundColor: '#ef6262' }}>$500</div>
-                            <div className="p-grid">
-                                <div className="p-col-6">Revenue</div>
-                                <div className="p-col-6">25%</div>
+                            <div className="p-d-flex p-jc-between p-ai-center p-mb-3">
+                                <h5 className="activity p-m-0">Revenue</h5>
+                                <div className="count" style={{ backgroundColor: '#ef6262' }}>$500</div>
                             </div>
+                            <ProgressBar value={25} showValue={false} />
                         </li>
                     </ul>
                 </Panel>
             </div>
         </div>
     );
-
 }

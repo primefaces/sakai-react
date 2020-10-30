@@ -126,7 +126,7 @@
             a {
                 color: $menuitemColor;
 
-                &.router-link-active {
+                &.active-route {
                     color: $menuitemActiveRouteColor;
                 }
 
@@ -169,7 +169,7 @@
             a {
                 color: $menuitemDarkColor;
 
-                &.router-link-active {
+                &.active-route {
                     color: $menuitemActiveRouteColor;
                 }
 

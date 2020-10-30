@@ -1,5 +1,5 @@
 import React from 'react';
-import './Documentation.scss';
+import { CodeHighlight } from './CodeHighlight';
 
 export const Documentation = () => {
 
@@ -12,47 +12,47 @@ export const Documentation = () => {
 
                     <h1>Getting Started</h1>
                     <p>Sigma is an application template for React based on the popular <a href="https://github.com/facebookincubator/create-react-app">create-react-app</a> that allows
-                            creating React apps with no configuration. To get started, clone the <a href="https://github.com/primefaces/sigma">repository</a> from GitHub and install the dependencies with npm or yarn.</p>
-                    <pre>
-                        {
-                            `npm install
+                            creating React apps with no configuration. To get started, clone the <a href="https://github.com/primefaces/sigma-react">repository</a> from GitHub and install the dependencies with npm or yarn.</p>
+<CodeHighlight>
+{`
+npm install
 `}
-                    </pre>
+</CodeHighlight>
 
                         or
 
-                        <pre>
-                        {
-                            `yarn
+<CodeHighlight>
+{`
+yarn
 `}
-                    </pre>
+</CodeHighlight>
 
                     <p>Next step is running the application using the start script and navigate to <b>http://localhost:3000/</b> to view the application.
                             That is it, you may now start with the development of your application using the Sigma template.</p>
 
-                    <pre>
-                        {
-                            `npm start
+<CodeHighlight>
+{`
+npm start
 `}
-                    </pre>
+</CodeHighlight>
 
                         or
 
-                        <pre>
-                        {
-                            `yarn start
+<CodeHighlight>
+{`
+yarn start
 `}
-                    </pre>
+</CodeHighlight>
 
                     <h1>React Scripts</h1>
                     <p>Following commands are derived from create-app-app.</p>
-                    <pre>
-                        {
-                            `"npm start" or "yarn start": Starts the development server
+<CodeHighlight>
+{`
+"npm start" or "yarn start": Starts the development server
 "npm test" or "yarn test": Runs the tests.
 "npm run build" or "yarn run build": Creates a production build.
 `}
-                    </pre>
+</CodeHighlight>
 
                     <h1>Structure</h1>
                     <p>Sigma consists of 2 main parts; the application layout and the resources. <b>App.js</b> inside src folder is the main component containing the template for the base layout
@@ -63,9 +63,9 @@ export const Documentation = () => {
                     App.js component that implements the logic such as menu state, layout modes and so on.
                         </p>
 
-                    <pre>
-                        {
-                            `<div className={wrapperClass} onClick={this.onWrapperClick}>
+<CodeHighlight>
+{`
+<div className={wrapperClass} onClick={this.onWrapperClick}>
     <AppTopbar onToggleMenu={this.onToggleMenu}/>
 
     <div ref={(el) => this.sidebar = el} className={sidebarClassName} onClick={this.onSidebarClick}>
@@ -95,18 +95,16 @@ export const Documentation = () => {
 
     <div className="layout-mask"></div>
 </div>
-`
-                        }
-                    </pre>
+`}
+</CodeHighlight>
 
                     <h1>Menu</h1>
                     <p>Menu is a separate component defined in AppMenu.js file based on PrimeReact MenuModel API. In order to define the menuitems,
                     navigate to createMenu() method App.js file and define your own model as a nested structure. Here is the menu component from the demo application.
                             Notice that menu object is bound to the model property of AppMenu component as shown above.</p>
 
-                    <pre>
-                        {
-                            `
+<CodeHighlight>
+{`
 createMenu() {
     this.menu = [
         {label: 'Dashboard', icon: 'pi pi-fw pi-home', command: () => {window.location = '#/'}},
@@ -193,21 +191,20 @@ createMenu() {
     ];
 }
 `}
-                    </pre>
+</CodeHighlight>
 
                     <p>Dependencies of Sigma are listed below and needs to be added to package.json. Only required
                             dependency is PrimeReact where optional dependencies exist to enable certain components in PrimeReact.</p>
 
-                    <pre>
-                        {
-                            `"primereact": "^3.1.7",                //required: PrimeReact components
+<CodeHighlight>
+{`
+"primereact": "^3.1.7",                //required: PrimeReact components
 "primeicons": "1.0.00"                  //required: Icons
-`
-                        }
-                    </pre>
+`}
+</CodeHighlight>
 
-                    <h1>Nova Theme</h1>
-                    <p>Sigma uses the free Nova-Light theme of PrimeReact which is a free theme distributed within PrimeReact, however it can be used with any PrimeReact theme.</p>
+                    <h1>Saga Theme</h1>
+                    <p>Sigma uses the free Saga-Blue theme of PrimeReact which is a free theme distributed within PrimeReact, however it can be used with any PrimeReact theme.</p>
 
                     <h1>SASS Variables</h1>
                     <p>In case you'd like to customize the layout variables, open _variables.scss file under src/layout folder. Saving the changes
@@ -215,9 +212,9 @@ createMenu() {
                         </p>
 
                     <h3>src/layout/layout.scss</h3>
-                    <pre>
-                        {
-                            `/* General */
+<CodeHighlight>
+{`
+/* General */
 $fontSize:14px;
 $bodyBgColor:#edf0f5;
 $textColor:#333333;
@@ -263,9 +260,8 @@ $topbarSearchInputColor:#ffffff;
 
 /* Footer */
 $footerBgColor:#ffffff;
-`
-                        }
-                    </pre>
+`}
+</CodeHighlight>
 
                     <h1>Menu Modes</h1>
                     <p>Menu has 2 modes, static and overlay. Main layout container element in App.js is used to define which mode to use by adding specific classes. List
@@ -277,9 +273,11 @@ $footerBgColor:#ffffff;
                     </ul>
 
                     <p>For example to create an overlay menu, the div element should be in following form;</p>
-                    <pre>
-                        &lt;div className="layout-wrapper layout-overlay"&gt;
-</pre>
+<CodeHighlight>
+{`
+<div className="layout-wrapper layout-overlay">;
+`}
+</CodeHighlight>
 
                     <p>It is also possible to leave the choice to the user by keeping the preference at a component and using an expression to bind it so that user can switch between modes. Sample
                             application has an example implementation of such use case. Refer to App.js for an example.</p>
@@ -289,17 +287,21 @@ $footerBgColor:#ffffff;
                         to the sidebar element.</p>
 
                     <b>Dark Menu</b>
-                    <pre>
-                        &lt;div className="layout-sidebar layout-sidebar-dark"&gt;
-</pre>
+<CodeHighlight>
+{`
+<div className="layout-sidebar layout-sidebar-dark">
+`}
+</CodeHighlight>
 
                     <b>Light Menu</b>
-                    <pre>
-                        &lt;div className="layout-sidebar layout-sidebar-light"&gt;
-</pre>
+<CodeHighlight>
+{`
+<div className="layout-sidebar layout-sidebar-light">
+`}
+</CodeHighlight>
 
                     <h1>Grid CSS</h1>
-                    <p>Sigma uses PrimeFlex CSS Grid throughout the samples. Although any grid library can be used, we recommend using PrimeFlex as your layout framework as it is well tested and supported by PrimeVue. PrimeFlex is
+                    <p>Sigma uses PrimeFlex CSS Grid throughout the samples. Although any grid library can be used, we recommend using PrimeFlex as your layout framework as it is well tested and supported by PrimeReact. PrimeFlex is
                         available at <a href="https://www.npmjs.com/package/primeflex">NPM</a>.</p>
 
                     <h1>Customizing Styles</h1>
@@ -309,5 +311,4 @@ $footerBgColor:#ffffff;
             </div>
         </div>
     )
-
 }

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Chart } from 'primereact/chart';
 
-export function ChartDemo() {
-    //Linear Chart
-    const linearData = {
+export const ChartDemo = () => {
+
+    const lineData = {
         labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
         datasets: [
             {
@@ -23,28 +23,6 @@ export function ChartDemo() {
         ]
     };
 
-    const linearOptions = {
-        legend: {
-            labels: {
-                fontColor: '#495057'
-            }
-        },
-        scales: {
-            xAxes: [{
-                ticks: {
-                    fontColor: '#495057'
-                }
-            }],
-            yAxes: [{
-                ticks: {
-                    fontColor: '#495057'
-                }
-            }]
-        }
-    };
-
-
-    //Pie Chart
     const pieData = {
         labels: ['A', 'B', 'C'],
         datasets: [
@@ -64,15 +42,6 @@ export function ChartDemo() {
         ]
     };
 
-    const pieOptions = {
-        legend: {
-            labels: {
-                fontColor: '#495057'
-            }
-        }
-    };
-
-    //PolarArea Chart
     const polarData = {
         datasets: [{
             data: [
@@ -100,21 +69,6 @@ export function ChartDemo() {
         ]
     };
 
-    const polarOptions = {
-        legend: {
-            labels: {
-                fontColor: '#495057'
-            }
-        },
-        scale: {
-            gridLines: {
-                color: '#ebedef'
-            }
-        }
-    };
-
-    //Bar Chart
-
     const barData = {
         labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
         datasets: [
@@ -131,29 +85,6 @@ export function ChartDemo() {
         ]
     };
 
-    const barOptions = {
-        legend: {
-            labels: {
-                fontColor: '#495057'
-            }
-        },
-        scales: {
-            xAxes: [{
-                ticks: {
-                    fontColor: '#495057'
-                }
-            }],
-            yAxes: [{
-                ticks: {
-                    fontColor: '#495057'
-                }
-            }]
-        }
-    };
-
-
-    //Doughnat Chart
-
     const doughnutData = {
         labels: ['A', 'B', 'C'],
         datasets: [
@@ -169,18 +100,9 @@ export function ChartDemo() {
                     "#36A2EB",
                     "#FFCE56"
                 ]
-            }]
-    };
-
-    const doughnutOptions = {
-        legend: {
-            labels: {
-                fontColor: '#495057'
             }
-        }
+        ]
     };
-
-    //Radar Chart
 
     const radarData = {
         labels: ['Eating', 'Drinking', 'Sleeping', 'Designing', 'Coding', 'Cycling', 'Running'],
@@ -208,54 +130,38 @@ export function ChartDemo() {
         ]
     };
 
-    const radarOptions = {
-        legend: {
-            labels: {
-                fontColor: '#495057'
-            }
-        },
-        scale: {
-            pointLabels: {
-                fontColor: '#495057'
-            },
-            gridLines: {
-                color: '#ebedef'
-            }
-        }
-    };
-
     return (
         <div className="p-grid p-fluid">
             <div className="p-col-12 p-lg-6">
                 <div className="card">
                     <h5 className="centerText">Linear Chart</h5>
-                    <Chart type="line" data={linearData} options={linearOptions} />
+                    <Chart type="line" data={lineData} />
                 </div>
 
                 <div className="card">
                     <h5 className="centerText">Pie Chart</h5>
-                    <Chart type="pie" data={pieData} options={pieOptions} />
+                    <Chart type="pie" data={pieData} />
                 </div>
 
                 <div className="card">
                     <h5 className="centerText">Polar Area Chart</h5>
-                    <Chart type="polarArea" data={polarData} options={polarOptions} />
+                    <Chart type="polarArea" data={polarData} />
                 </div>
             </div>
             <div className="p-col-12 p-lg-6">
                 <div className="card">
                     <h5 className="centerText">Bar Chart</h5>
-                    <Chart type="bar" data={barData} options={barOptions} />
+                    <Chart type="bar" data={barData} />
                 </div>
 
                 <div className="card">
                     <h5 className="centerText">Doughnut Chart</h5>
-                    <Chart type="doughnut" data={doughnutData} options={doughnutOptions} />
+                    <Chart type="doughnut" data={doughnutData} />
                 </div>
 
                 <div className="card">
                     <h5 className="centerText">Radar Chart</h5>
-                    <Chart type="radar" data={radarData} options={radarOptions} />
+                    <Chart type="radar" data={radarData} />
                 </div>
             </div>
         </div>
