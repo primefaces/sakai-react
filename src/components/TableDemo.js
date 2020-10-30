@@ -179,7 +179,7 @@ export const TableDemo = () => {
                     <Column field="customer" header="Customer" sortable></Column>
                     <Column field="date" header="Date" sortable></Column>
                     <Column field="amount" header="Amount" sortable body={(data) => formatCurrency(data.amount)}></Column>
-                    <Column field="status" header="Status" sortable body={() => <span className={`order-badge order-${data.status.toLowerCase()}`}>{data.status}</span>}></Column>
+                    <Column field="status" header="Status" sortable body={(data) => <span className={`order-badge order-${data.status.toLowerCase()}`}>{data.status}</span>}></Column>
                     <Column headerStyle={{ width: '4rem' }} body={() => <Button icon="pi pi-search" />}></Column>
                 </DataTable>
             </div>
@@ -245,7 +245,7 @@ export const TableDemo = () => {
                     <h5>Row Expand</h5>
 
                     <Toast ref={toast} />
-                    <DataTable value={products} expandedRows={expandedRows} className="p-datatable-responsive" dataKey="id" onRowExpand={onRowExpand} onRowCollapse={onRowCollapse}
+                    <DataTable value={products} expandedRows={expandedRows} className="p-datatable-responsive" dataKey="id" onRowToggle={(e) => setExpandedRows(e.data)} onRowExpand={onRowExpand} onRowCollapse={onRowCollapse}
                         header={productsTableHeader} rowExpansionTemplate={rowExpansionTemplate}>
                         <Column expander headerStyle={{ width: '3rem' }} />
                         <Column field="name" header="Name" sortable></Column>
