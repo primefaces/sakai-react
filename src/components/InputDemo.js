@@ -255,7 +255,7 @@ export const InputDemo = () => {
                     </div>
 
                     <h5 style={{marginTop: 0}}>Input Switch</h5>
-                    <InputSwitch value={switchValue} onChange={(e) => setSwitchValue(e.value)} />
+                    <InputSwitch checked={switchValue} onChange={(e) => setSwitchValue(e.value)} />
                 </div>
 
                 <div className="card">
