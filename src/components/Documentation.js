@@ -8,22 +8,14 @@ export const Documentation = () => {
             <div className="p-col-12">
                 <div className="card docs">
                     <h4>Current Version</h4>
-                    <p>React 16.8.6 and PrimeReact 5.0.1</p>
+                    <p>React 16.x and PrimeReact 5.x</p>
 
                     <h4>Getting Started</h4>
                     <p>Sigma is an application template for React based on the popular <a href="https://github.com/facebookincubator/create-react-app">create-react-app</a> that allows
                             creating React apps with no configuration. To get started, clone the <a href="https://github.com/primefaces/sigma-react">repository</a> from GitHub and install the dependencies with npm or yarn.</p>
 <CodeHighlight>
 {`
-npm install
-`}
-</CodeHighlight>
-
-                        or
-
-<CodeHighlight>
-{`
-yarn
+"npm install" or "yarn"
 `}
 </CodeHighlight>
 
@@ -32,15 +24,7 @@ yarn
 
 <CodeHighlight>
 {`
-npm start
-`}
-</CodeHighlight>
-
-                        or
-
-<CodeHighlight>
-{`
-yarn start
+"npm start" or "yarn start"
 `}
 </CodeHighlight>
 
@@ -66,54 +50,54 @@ yarn start
 <CodeHighlight>
 {`
 <div className={wrapperClass} onClick={onWrapperClick}>
-<AppTopbar onToggleMenu={onToggleMenu} />
+    <AppTopbar onToggleMenu={onToggleMenu} />
 
-<CSSTransition classNames="layout-sidebar" timeout={{ enter: 200, exit: 200 }} in={isSidebarVisible()} unmountOnExit>
-    <div ref={sidebar} className={sidebarClassName} onClick={onSidebarClick}>
-        <div className="layout-logo">
-            <img alt="Logo" src={logo} />
+    <CSSTransition classNames="layout-sidebar" timeout={{ enter: 200, exit: 200 }} in={isSidebarVisible()} unmountOnExit>
+        <div ref={sidebar} className={sidebarClassName} onClick={onSidebarClick}>
+            <div className="layout-logo">
+                <img alt="Logo" src={logo} />
+            </div>
+            <AppProfile />
+            <AppMenu model={menu} onMenuItemClick={onMenuItemClick} />
         </div>
-        <AppProfile />
-        <AppMenu model={menu} onMenuItemClick={onMenuItemClick} />
+    </CSSTransition>
+
+    <AppConfig rippleEffect={ripple} onRippleEffect={onRipple} inputStyle={inputStyle} onInputStyleChange={onInputStyleChange}
+        layoutMode={layoutMode} onLayoutModeChange={onLayoutModeChange} layoutColorMode={layoutColorMode} onColorModeChange={onColorModeChange} />
+
+    <div className="layout-main">
+        <Route path="/" exact component={Dashboard} />
+        <Route path="/formlayout" component={FormLayoutDemo} />
+        <Route path="/input" component={InputDemo} />
+        <Route path="/floatlabel" component={FloatLabelDemo} />
+        <Route path="/button" component={ButtonDemo} />
+        <Route path="/table" component={TableDemo} />
+        <Route path="/list" component={ListDemo} />
+        <Route path="/tree" component={TreeDemo} />
+        <Route path="/panel" component={PanelDemo} />
+        <Route path="/overlay" component={OverlayDemo} />
+        <Route path="/menu" component={MenuDemo} />
+        <Route path="/messages" component={MessageDemo} />
+        <Route path="/file" component={FileDemo} />
+        <Route path="/chart" component={ChartDemo} />
+        <Route path="/misc" component={MiscDemo} />
+        <Route path="/display" component={DisplayDemo} />
+        <Route path="/elevation" component={ElevationDemo} />
+        <Route path="/flexbox" component={FlexBoxDemo} />
+        <Route path="/icons" component={IconsDemo} />
+        <Route path="/grid" component={GridDemo} />
+        <Route path="/spacing" component={SpacingDemo} />
+        <Route path="/typography" component={TypographyDemo} />
+        <Route path="/text" component={TextDemo} />
+        <Route path="/calendar" component={Calendar} />
+        <Route path="/crud" component={Crud} />
+        <Route path="/empty" component={EmptyPage} />
+        <Route path="/documentation" component={Documentation} />
     </div>
-</CSSTransition>
 
-<AppConfig rippleEffect={ripple} onRippleEffect={onRipple} inputStyle={inputStyle} onInputStyleChange={onInputStyleChange}
-    layoutMode={layoutMode} onLayoutModeChange={onLayoutModeChange} layoutColorMode={layoutColorMode} onColorModeChange={onColorModeChange} />
+    <AppFooter />
 
-<div className="layout-main">
-    <Route path="/" exact component={Dashboard} />
-    <Route path="/formlayout" component={FormLayoutDemo} />
-    <Route path="/input" component={InputDemo} />
-    <Route path="/floatlabel" component={FloatLabelDemo} />
-    <Route path="/button" component={ButtonDemo} />
-    <Route path="/table" component={TableDemo} />
-    <Route path="/list" component={ListDemo} />
-    <Route path="/tree" component={TreeDemo} />
-    <Route path="/panel" component={PanelDemo} />
-    <Route path="/overlay" component={OverlayDemo} />
-    <Route path="/menu" component={MenuDemo} />
-    <Route path="/messages" component={MessageDemo} />
-    <Route path="/file" component={FileDemo} />
-    <Route path="/chart" component={ChartDemo} />
-    <Route path="/misc" component={MiscDemo} />
-    <Route path="/display" component={DisplayDemo} />
-    <Route path="/elevation" component={ElevationDemo} />
-    <Route path="/flexbox" component={FlexBoxDemo} />
-    <Route path="/icons" component={IconsDemo} />
-    <Route path="/grid" component={GridDemo} />
-    <Route path="/spacing" component={SpacingDemo} />
-    <Route path="/typography" component={TypographyDemo} />
-    <Route path="/text" component={TextDemo} />
-    <Route path="/calendar" component={Calendar} />
-    <Route path="/crud" component={Crud} />
-    <Route path="/empty" component={EmptyPage} />
-    <Route path="/documentation" component={Documentation} />
-</div>
-
-<AppFooter />
-
-<div className="layout-mask"></div>
+    <div className="layout-mask"></div>
 </div>
 `}
 </CodeHighlight>
@@ -123,7 +107,7 @@ yarn start
                     navigate to createMenu() method App.js file and define your own model as a nested structure. Here is the menu component from the demo application.
                             Notice that menu object is bound to the model property of AppMenu component as shown above.</p>
 
-<CodeHighlight>
+<CodeHighlight lang="js">
 {`
 const menu = [
     { label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/' },
@@ -222,7 +206,7 @@ const menu = [
                     <p>Dependencies of Sigma are listed below and needs to be added to package.json. Only required
                             dependency is PrimeReact where optional dependencies exist to enable certain components in PrimeReact.</p>
 
-<CodeHighlight>
+<CodeHighlight lang="js">
 {`
 "primereact": "5.0.1",                //required: PrimeReact components
 "primeicons": "4.0.0"                  //required: Icons
@@ -237,8 +221,8 @@ const menu = [
                     will be reflected instantly at your browser.
                         </p>
 
-                    <h3>src/layout/_variables.scss</h3>
-<CodeHighlight>
+                    <h5>src/layout/_variables.scss</h5>
+<CodeHighlight lang="scss">
 {`
 /* General */
 $fontSize:14px;
@@ -302,7 +286,7 @@ $footerBgColor:#ffffff;
                     <p>For example to create an overlay menu, the div element should be in following form;</p>
 <CodeHighlight>
 {`
-<div className="layout-wrapper layout-overlay">;
+<div className="layout-wrapper layout-overlay">
 `}
 </CodeHighlight>
 
@@ -310,8 +294,8 @@ $footerBgColor:#ffffff;
                             application has an example implementation of such use case. Refer to App.js for an example.</p>
 
                     <h4>Menu Color Scheme</h4>
-                    <p>There are two alternatives as the menu colors schemes; "light" and "dark". A color scheme is applied using the <i>layout-sidebar-light</i> or <i>layout-sidebar-dark</i>
-                        to the sidebar element.</p>
+                    <p>There are two alternatives as the menu colors schemes; "light" and "dark". A color scheme is applied using the <i>layout-sidebar-light</i> or <i>layout-sidebar-dark </i>
+                         to the sidebar element.</p>
 
                     <b>Dark Menu</b>
 <CodeHighlight>
