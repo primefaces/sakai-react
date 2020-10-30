@@ -97,7 +97,6 @@ export const Documentation = () => {
 
     <AppFooter />
 
-    <div className="layout-mask"></div>
 </div>
 `}
 </CodeHighlight>

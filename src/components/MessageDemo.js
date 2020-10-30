@@ -83,7 +83,7 @@ export const MessageDemo = () => {
                         <label htmlFor="email" className="p-col-fixed">Email</label>
                         <div className="p-col">
                             <InputText id="email" value={email} onChange={(e) => setEmail(e.target.value)} required className="p-invalid"></InputText>
-                            <Message />
+                            <Message severity="error"/>
                         </div>
                     </div>
                 </div>

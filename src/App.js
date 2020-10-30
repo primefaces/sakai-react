@@ -315,7 +315,6 @@ const App = () => {
 
             <AppFooter />
 
-            <div className="layout-mask"></div>
         </div>
     );
 
