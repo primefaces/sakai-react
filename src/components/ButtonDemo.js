@@ -14,9 +14,6 @@ export const ButtonDemo = () => {
             icon: 'pi pi-times'
         },
         {
-            separator: true
-        },
-        {
             label: 'Home',
             icon: 'pi pi-home'
         }
