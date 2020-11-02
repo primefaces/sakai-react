@@ -19,7 +19,7 @@ import { FormLayoutDemo } from './components/FormLayoutDemo';
 import { InputDemo } from './components/InputDemo';
 import { ListDemo } from './components/ListDemo';
 import { MenuDemo } from './components/MenuDemo';
-import { MessageDemo } from './components/MessageDemo';
+import { MessagesDemo } from './components/MessagesDemo';
 import { MiscDemo } from './components/MiscDemo';
 import { OverlayDemo } from './components/OverlayDemo';
 import { PanelDemo } from './components/PanelDemo';
@@ -295,7 +295,7 @@ const App = () => {
                 <Route path="/panel" component={PanelDemo} />
                 <Route path="/overlay" component={OverlayDemo} />
                 <Route path="/menu" component={MenuDemo} />
-                <Route path="/messages" component={MessageDemo} />
+                <Route path="/messages" component={MessagesDemo} />
                 <Route path="/file" component={FileDemo} />
                 <Route path="/chart" component={ChartDemo} />
                 <Route path="/misc" component={MiscDemo} />
