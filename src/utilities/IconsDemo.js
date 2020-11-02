@@ -32,7 +32,7 @@ export const IconsDemo = () => {
             <p>PrimeIcons use the pi pi-{`{icon}`} syntax such as pi pi-check. A standalone icon can be displayed using an element like i or span.</p>
 <CodeHighlight>
 {`
-<i className="pi pi-check" style={{ marginRight: '.5rem' }}></i>
+<i className="pi pi-check"></i>
 <i className="pi pi-times"></i>
 `}
 </CodeHighlight>

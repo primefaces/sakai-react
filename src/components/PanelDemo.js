@@ -43,7 +43,7 @@ export const PanelDemo = () => {
             </>
         )
     };
-    const toolbarRightTemplate = <SplitButton label="Options" model={toolbarItems}></SplitButton>;
+    const toolbarRightTemplate = <SplitButton label="Options" model={toolbarItems} menuStyle={{width: '12rem'}}></SplitButton>;
     const cardHeader = (
         <div className="p-card-title">
             <h5>Card</h5>
