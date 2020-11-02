@@ -44,7 +44,7 @@ export const MessagesDemo = () => {
     };
 
     return (
-        <div className="p-grid message-demo">
+        <div className="p-grid messages-demo">
             <div className="p-col-12 p-lg-6">
                 <div className="card">
                     <h5>Toast</h5>
