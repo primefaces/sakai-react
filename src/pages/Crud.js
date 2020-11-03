@@ -299,7 +299,7 @@ export const Crud = () => {
                         dataKey="id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]} className="datatable-responsive"
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
-                        globalFilter={globalFilter} header={header}>
+                        globalFilter={globalFilter} emptyMessage="No products found." header={header}>
                         <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
                         <Column field="code" header="Code" sortable body={codeBodyTemplate}></Column>
                         <Column field="name" header="Name" sortable body={nameBodyTemplate}></Column>
