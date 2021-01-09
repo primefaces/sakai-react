@@ -14,17 +14,7 @@
                     left: 0;
                 }
 
-                .layout-topbar  {
-                    left: 250px;
-                }
-            }
-
-            &.layout-mobile-sidebar-active {
-                .layout-sidebar {
-                    left: 0;
-                }
-
-                .layout-topbar  {
+                .layout-topbar {
                     left: 250px;
                 }
             }
@@ -40,7 +30,7 @@
             }
 
             &.layout-static-sidebar-inactive {
-                .layout-topbar  {
+                .layout-topbar {
                     left: 0;
                 }
 
@@ -68,8 +58,36 @@
             margin-top: 50px;
         }
 
-    }
+        &.layout-static {
+            .layout-topbar {
+                left: 0;
+            }
 
+            .layout-main, .layout-footer {
+                margin-left: 0;
+            }
+
+            &.layout-static-sidebar-inactive {
+                .layout-topbar {
+                    left: 0;
+                }
+
+                .layout-main, .layout-footer {
+                    margin-left: 0;
+                }
+            }
+
+            &.layout-mobile-sidebar-active {
+                .layout-sidebar {
+                    left: 0;
+                }
+
+                .layout-topbar {
+                    left: 0;
+                }
+            }
+        }
+    }
     .body-overflow-hidden {
         overflow: hidden;
     }
