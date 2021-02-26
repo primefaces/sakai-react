@@ -39,7 +39,7 @@ import { SpacingDemo } from './utilities/SpacingDemo';
 import { TextDemo } from './utilities/TextDemo';
 import { TypographyDemo } from './utilities/TypographyDemo';
 
-import PrimeReact from 'primereact/utils';
+import PrimeReact from 'primereact/api';
 
 import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
