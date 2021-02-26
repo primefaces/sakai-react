@@ -26,6 +26,7 @@ export const ButtonDemo = () => {
                     <h5>Default</h5>
                     <Button label="Submit" className="p-mr-2 p-mb-2"></Button>
                     <Button label="Disabled" className="p-mr-2 p-mb-2" disabled></Button>
+                    <Button label="Link" className="p-button-link p-mb-2 p-mr-2"></Button>
                 </div>
 
                 <div className="card">

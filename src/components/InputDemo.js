@@ -5,6 +5,7 @@ import { AutoComplete } from 'primereact/autocomplete';
 import { Calendar } from 'primereact/calendar';
 import { Chips } from 'primereact/chips';
 import { Slider } from 'primereact/slider';
+import { Knob } from 'primereact/knob';
 import { Rating } from 'primereact/rating';
 import { ColorPicker } from 'primereact/colorpicker';
 import { RadioButton } from 'primereact/radiobutton';
@@ -31,6 +32,7 @@ export const InputDemo = () => {
     const [sliderValue, setSliderValue] = useState('');
     const [ratingValue, setRatingValue] = useState(null);
     const [colorValue, setColorValue] = useState('1976D2');
+    const [knobValue, setKnobValue] = useState(20);
     const [radioValue, setRadioValue] = useState(null);
     const [checkboxValue, setCheckboxValue] = useState([]);
     const [switchValue, setSwitchValue] = useState(false);
@@ -196,15 +198,25 @@ export const InputDemo = () => {
                 </div>
 
                 <div className="card">
-                    <h5>Slider</h5>
-                    <InputText value={sliderValue} onChange={(e) => setSliderValue(parseInt(e.target.value), 10)} />
-                    <Slider value={sliderValue} onChange={(e) => setSliderValue(e.value)} />
-
-                    <h5>Rating</h5>
-                    <Rating value={ratingValue} onChange={(e) => setRatingValue(e.value)} />
-
-                    <h5>ColorPicker</h5>
-                    <ColorPicker value={colorValue} onChange={(e) => setColorValue(e.value)} style={{width: '2rem'}} />
+                    <div className="p-grid">
+                        <div className="p-col-12">
+                            <h5>Slider</h5>
+                            <InputText value={sliderValue} onChange={(e) => setSliderValue(parseInt(e.target.value), 10)} />
+                            <Slider value={sliderValue} onChange={(e) => setSliderValue(e.value)} />
+                        </div>
+                        <div className="p-col-12 p-md-6">
+                            <h5>Rating</h5>
+                            <Rating value={ratingValue} onChange={(e) => setRatingValue(e.value)} />
+                        </div>
+                        <div className="p-col-12 p-md-6">
+                            <h5>ColorPicker</h5>
+                            <ColorPicker value={colorValue} onChange={(e) => setColorValue(e.value)} style={{ width: '2rem' }} />
+                        </div>
+                        <div className="p-col-12">
+                            <h5>Knob</h5>
+                            <Knob value={knobValue} valueTemplate={"{value}%"} onChange={(e) => setKnobValue(e.value)} step={10} min={-50} max={50} />
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -232,7 +244,7 @@ export const InputDemo = () => {
                         </div>
                     </div>
 
-                    <h5 style={{marginTop: 0}}>Checkbox</h5>
+                    <h5 style={{ marginTop: 0 }}>Checkbox</h5>
                     <div className="p-grid">
                         <div className="p-col-12 p-md-4">
                             <div className="p-field-checkbox">
@@ -254,7 +266,7 @@ export const InputDemo = () => {
                         </div>
                     </div>
 
-                    <h5 style={{marginTop: 0}}>Input Switch</h5>
+                    <h5 style={{ marginTop: 0 }}>Input Switch</h5>
                     <InputSwitch checked={switchValue} onChange={(e) => setSwitchValue(e.value)} />
                 </div>
 

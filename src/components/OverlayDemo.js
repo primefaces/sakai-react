@@ -7,6 +7,7 @@ import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { OverlayPanel } from 'primereact/overlaypanel';
 import { InputText } from 'primereact/inputtext';
+import { confirmPopup } from 'primereact/confirmpopup';
 import { ProductService } from '../service/ProductService';
 
 export const OverlayDemo = () => {
@@ -23,6 +24,24 @@ export const OverlayDemo = () => {
     const op = useRef(null);
     const op2 = useRef(null);
     const toast = useRef(null);
+
+    const accept = () => {
+        toast.current.show({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted', life: 3000 });
+    };
+
+    const reject = () => {
+        toast.current.show({ severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
+    };
+
+    const confirm = (event) => {
+        confirmPopup({
+            target: event.currentTarget,
+            message: 'Are you sure you want to proceed?',
+            icon: 'pi pi-exclamation-triangle',
+            accept,
+            reject
+        });
+    };
 
     useEffect(() => {
         const productService = new ProductService();
@@ -47,7 +66,7 @@ export const OverlayDemo = () => {
     };
 
     const basicDialogFooter = <Button type="button" label="Dismiss" onClick={() => setDisplayBasic(false)} icon="pi pi-check" className="p-button-secondary" />;
-    const imageBodyTemplate = (data) => <img src={`assets/demo/images/product/${data.image}`} alt={data.image} className="product-image" width="50" style={{boxShadow: '0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)'}} />;
+    const imageBodyTemplate = (data) => <img src={`assets/demo/images/product/${data.image}`} alt={data.image} className="product-image" width="50" style={{ boxShadow: '0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)' }} />;
     const priceBodyTemplate = (data) => formatCurrency(data.price);
     const confirmationDialogFooter = (
         <>
@@ -73,7 +92,7 @@ export const OverlayDemo = () => {
                         </Dialog>
                         <div className="p-grid">
                             <div className="p-col-12">
-                                <Button type="button" label="Show" icon="pi pi-external-link" onClick={() => setDisplayBasic(true)} />
+                                <Button type="button" label="Show" icon="pi pi-external-link" style={{ width: '50%' }} onClick={() => setDisplayBasic(true)} />
                             </div>
                         </div>
                     </div>
@@ -104,7 +123,7 @@ export const OverlayDemo = () => {
                 <div className="p-col-12 p-lg-6">
                     <div className="card p-fluid">
                         <h5>Confirmation</h5>
-                        <Button label="Delete" icon="pi pi-trash" className="p-button-danger" onClick={() => setDisplayConfirmation(true)} />
+                        <Button label="Delete" icon="pi pi-trash" className="p-button-danger" style={{ width: '50%' }} onClick={() => setDisplayConfirmation(true)} />
                         <Dialog header="Confirmation" visible={displayConfirmation} onHide={() => setDisplayConfirmation(false)} style={{ width: '350px' }} modal footer={confirmationDialogFooter}>
                             <div className="confirmation-content">
                                 <i className="pi pi-exclamation-triangle p-mr-3" style={{ fontSize: '2rem' }} />
@@ -116,31 +135,31 @@ export const OverlayDemo = () => {
                         <h5>Sidebar</h5>
                         <Sidebar visible={visibleLeft} onHide={() => setVisibleLeft(false)} baseZIndex={1000}>
                             <h1 style={{ fontWeight: 'normal' }}>Left Sidebar</h1>
-                            <Button type="button" onClick={() => setVisibleLeft(false)} label="Save" className="p-button-success" style={{marginRight: '.25em'}} />
+                            <Button type="button" onClick={() => setVisibleLeft(false)} label="Save" className="p-button-success" style={{ marginRight: '.25em' }} />
                             <Button type="button" onClick={() => setVisibleLeft(false)} label="Cancel" className="p-button-secondary" />
                         </Sidebar>
 
                         <Sidebar visible={visibleRight} onHide={() => setVisibleRight(false)} baseZIndex={1000} position="right">
                             <h1 style={{ fontWeight: 'normal' }}>Right Sidebar</h1>
-                            <Button type="button" onClick={() => setVisibleRight(false)} label="Save" className="p-button-success" style={{marginRight: '.25em'}} />
+                            <Button type="button" onClick={() => setVisibleRight(false)} label="Save" className="p-button-success" style={{ marginRight: '.25em' }} />
                             <Button type="button" onClick={() => setVisibleRight(false)} label="Cancel" className="p-button-secondary" />
                         </Sidebar>
 
                         <Sidebar visible={visibleTop} onHide={() => setVisibleTop(false)} baseZIndex={1000} position="top">
                             <h1 style={{ fontWeight: 'normal' }}>Top Sidebar</h1>
-                            <Button type="button" onClick={() => setVisibleTop(false)} label="Save" className="p-button-success" style={{marginRight: '.25em'}} />
+                            <Button type="button" onClick={() => setVisibleTop(false)} label="Save" className="p-button-success" style={{ marginRight: '.25em' }} />
                             <Button type="button" onClick={() => setVisibleTop(false)} label="Cancel" className="p-button-secondary" />
                         </Sidebar>
 
                         <Sidebar visible={visibleBottom} onHide={() => setVisibleBottom(false)} baseZIndex={1000} position="bottom">
                             <h1 style={{ fontWeight: 'normal' }}>Bottom Sidebar</h1>
-                            <Button type="button" onClick={() => setVisibleBottom(false)} label="Save" className="p-button-success" style={{marginRight: '.25em'}} />
+                            <Button type="button" onClick={() => setVisibleBottom(false)} label="Save" className="p-button-success" style={{ marginRight: '.25em' }} />
                             <Button type="button" onClick={() => setVisibleBottom(false)} label="Cancel" className="p-button-secondary" />
                         </Sidebar>
 
                         <Sidebar visible={visibleFullScreen} onHide={() => setVisibleFullScreen(false)} baseZIndex={1000} fullScreen>
                             <h1 style={{ fontWeight: 'normal' }}>Full Screen</h1>
-                            <Button type="button" onClick={() => setVisibleFullScreen(false)} label="Save" className="p-button-success" style={{marginRight: '.25em'}} />
+                            <Button type="button" onClick={() => setVisibleFullScreen(false)} label="Save" className="p-button-success" style={{ marginRight: '.25em' }} />
                             <Button type="button" onClick={() => setVisibleFullScreen(false)} label="Cancel" className="p-button-secondary" />
                         </Sidebar>
 
@@ -152,7 +171,7 @@ export const OverlayDemo = () => {
                     </div>
                 </div>
 
-                <div className="p-col-12">
+                <div className="p-col-12 p-lg-6">
                     <div className="card">
                         <h5>Tooltip</h5>
                         <div className="p-formgroup-inline">
@@ -160,11 +179,21 @@ export const OverlayDemo = () => {
                                 <InputText type="text" placeholder="Username" tooltip="Your username" />
                             </div>
 
-                            <Button type="button" label="Save" icon="pi pi-check" tooltip="Click to proceed" />
+                            <Button className="p-mt-2" type="button" label="Save" icon="pi pi-check" tooltip="Click to proceed" />
                         </div>
                     </div>
                 </div>
+                <div className="p-col-12 p-lg-6">
+                    <Toast ref={toast} />
+
+                    <div className="card">
+                        <h5>ConfirmPopup</h5>
+                        <Button onClick={confirm} icon="pi pi-check" label="Confirm" className="p-mr-2"></Button>
+                    </div>
+                </div>
             </div>
+
+
         </>
     )
 }

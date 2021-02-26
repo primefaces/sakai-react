@@ -25,6 +25,7 @@ import { OverlayDemo } from './components/OverlayDemo';
 import { PanelDemo } from './components/PanelDemo';
 import { TableDemo } from './components/TableDemo';
 import { TreeDemo } from './components/TreeDemo';
+import { InvalidStateDemo } from './components/InvalidStateDemo';
 
 import { Calendar } from './pages/Calendar';
 import { Crud } from './pages/Crud';
@@ -38,6 +39,7 @@ import { IconsDemo } from './utilities/IconsDemo';
 import { SpacingDemo } from './utilities/SpacingDemo';
 import { TextDemo } from './utilities/TextDemo';
 import { TypographyDemo } from './utilities/TypographyDemo';
+import { TimelineDemo } from './utilities/TimelineDemo';
 
 import PrimeReact from 'primereact/api';
 
@@ -135,6 +137,7 @@ const App = () => {
                 { label: 'Form Layout', icon: 'pi pi-fw pi-id-card', to: '/formlayout' },
                 { label: 'Input', icon: 'pi pi-fw pi-check-square', to: '/input' },
                 { label: 'Float Label', icon: 'pi pi-fw pi-bookmark', to: '/floatlabel' },
+                { label: "Invalid State", icon: "pi pi-exclamation-circle", to: "/invalidstate" },
                 { label: 'Button', icon: 'pi pi-fw pi-mobile', to: '/button' },
                 { label: 'Table', icon: 'pi pi-fw pi-table', to: '/table' },
                 { label: 'List', icon: 'pi pi-fw pi-list', to: '/list' },
@@ -166,6 +169,7 @@ const App = () => {
             items: [
                 { label: 'Crud', icon: 'pi pi-fw pi-user-edit', to: '/crud' },
                 { label: 'Calendar', icon: 'pi pi-fw pi-calendar-plus', to: '/calendar' },
+                { label: 'Timeline', icon: 'pi pi-fw pi-calendar', to: '/timeline' },
                 { label: 'Empty Page', icon: 'pi pi-fw pi-circle-off', to: '/empty' }
             ]
         },
@@ -288,6 +292,7 @@ const App = () => {
                 <Route path="/formlayout" component={FormLayoutDemo} />
                 <Route path="/input" component={InputDemo} />
                 <Route path="/floatlabel" component={FloatLabelDemo} />
+                <Route path="/invalidstate" component={InvalidStateDemo} />
                 <Route path="/button" component={ButtonDemo} />
                 <Route path="/table" component={TableDemo} />
                 <Route path="/list" component={ListDemo} />
@@ -308,6 +313,7 @@ const App = () => {
                 <Route path="/typography" component={TypographyDemo} />
                 <Route path="/text" component={TextDemo} />
                 <Route path="/calendar" component={Calendar} />
+                <Route path="/timeline" component={TimelineDemo} />
                 <Route path="/crud" component={Crud} />
                 <Route path="/empty" component={EmptyPage} />
                 <Route path="/documentation" component={Documentation} />
