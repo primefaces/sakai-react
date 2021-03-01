@@ -8,7 +8,7 @@ export const Documentation = () => {
             <div className="p-col-12">
                 <div className="card docs">
                     <h4>Current Version</h4>
-                    <p>React 16.x and PrimeReact 6.x</p>
+                    <p>React 17.x and PrimeReact 6.x</p>
 
                     <h4>Getting Started</h4>
                     <p>Sigma is an application template for React based on the popular <a href="https://github.com/facebookincubator/create-react-app">create-react-app</a> that allows
@@ -207,8 +207,8 @@ const menu = [
 
 <CodeHighlight lang="js">
 {`
-"primereact": "5.0.1",                //required: PrimeReact components
-"primeicons": "4.0.0"                  //required: Icons
+"primereact": "...",                //required: PrimeReact components
+"primeicons": "..."                  //required: Icons
 `}
 </CodeHighlight>
 
