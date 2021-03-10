@@ -4,10 +4,10 @@ import { Column } from 'primereact/column';
 import { Rating } from 'primereact/rating';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
-import { ProductService } from '../service/ProductService';
-import { CustomerService } from '../service/CustomerService';
 import { InputText } from 'primereact/inputtext';
 import { ProgressBar } from 'primereact/progressbar';
+import { ProductService } from '../service/ProductService';
+import { CustomerService } from '../service/CustomerService';
 
 export const TableDemo = () => {
 
@@ -42,7 +42,10 @@ export const TableDemo = () => {
     };
 
     const expandAll = () => {
-        setExpandedRows(products.filter(p => p.id));
+        let _expandedRows = {}
+        products.forEach(p => _expandedRows[`${p.id}`] = true);
+
+        setExpandedRows(_expandedRows);
         toast.current.show({ severity: 'success', summary: 'All Rows Expanded', life: 3000 });
     };
 
@@ -89,11 +92,11 @@ export const TableDemo = () => {
         </div>
     );
 
-    const nameBodyTemplate = (data) => {
+    const bodyTemplate = (data, props) => {
         return (
             <>
-                <span className="p-column-title">Name</span>
-                {data.name}
+                <span className="p-column-title">{props.header}</span>
+                {data[props.field]}
             </>
         );
     };
@@ -114,15 +117,6 @@ export const TableDemo = () => {
                 <span className="p-column-title">Representative</span>
                 <img alt={data.representative.name} src={`assets/demo/images/avatar/${data.representative.image}`} width="32" style={{ verticalAlign: 'middle' }} />
                 <span style={{ marginLeft: '.5em', verticalAlign: 'middle' }} className="image-text">{data.representative.name}</span>
-            </>
-        );
-    };
-
-    const dateBodyTemplate = (data) => {
-        return (
-            <>
-                <span className="p-column-title">Date</span>
-                {data.date}
             </>
         );
     };
@@ -155,19 +149,39 @@ export const TableDemo = () => {
     );
 
     const imageBodyTemplate = (data) => {
-        return <img src={`assets/demo/images/product/${data.image}`} alt={data.image} className="product-image" />
+        return (
+            <>
+                <span className="p-column-title">Image</span>
+                <img src={`assets/demo/images/product/${data.image}`} alt={data.image} className="product-image" />
+            </>
+        );
     };
 
     const priceBodyTemplate = (data) => {
-        return formatCurrency(data.price);
+        return (
+            <>
+                <span className="p-column-title">Price</span>
+                {formatCurrency(data.price)}
+            </>
+        );
     };
 
     const reviewsBodyTemplate = (data) => {
-        return <Rating value={data.rating} readonly cancel={false} />
+        return (
+            <>
+                <span className="p-column-title">Reviews</span>
+                <Rating value={data.rating} readonly cancel={false} />
+            </>
+        );
     };
 
     const productStatusBodyTemplate = (data) => {
-        return <span className={`product-badge status-${data.inventoryStatus.toLowerCase()}`}>{data.inventoryStatus}</span>;
+        return (
+            <>
+                <span className="p-column-title">Status</span>
+                <span className={`product-badge status-${data.inventoryStatus.toLowerCase()}`}>{data.inventoryStatus}</span>
+            </>
+        );
     };
 
     const rowExpansionTemplate = (data) => {
@@ -175,11 +189,11 @@ export const TableDemo = () => {
             <div className="orders-subtable">
                 <h5>Orders for {data.name}</h5>
                 <DataTable value={data.orders}>
-                    <Column field="id" header="Id" sortable></Column>
-                    <Column field="customer" header="Customer" sortable></Column>
-                    <Column field="date" header="Date" sortable></Column>
-                    <Column field="amount" header="Amount" sortable body={(data) => formatCurrency(data.amount)}></Column>
-                    <Column field="status" header="Status" sortable body={(data) => <span className={`order-badge order-${data.status.toLowerCase()}`}>{data.status}</span>}></Column>
+                    <Column field="id" header="Id" sortable body={bodyTemplate}></Column>
+                    <Column field="customer" header="Customer" sortable body={bodyTemplate}></Column>
+                    <Column field="date" header="Date" sortable body={bodyTemplate}></Column>
+                    <Column field="amount" header="Amount" sortable body={bodyTemplate}></Column>
+                    <Column field="status" header="Status" sortable body={statusBodyTemplate}></Column>
                     <Column headerStyle={{ width: '4rem' }} body={() => <Button icon="pi pi-search" />}></Column>
                 </DataTable>
             </div>
@@ -210,16 +224,16 @@ export const TableDemo = () => {
                 <div className="card">
                     <h5>Default</h5>
                     <p>Pagination, sorting, filtering and checkbox selection.</p>
-                    <DataTable value={customer1} paginator className="p-datatable-customers p-datatable-responsive" rows={10} dataKey="id" rowHover selection={selectedCustomers1} onSelectionChange={(e) => setSelectedCustomers1(e.value)}
+                    <DataTable value={customer1} paginator className="p-datatable-customers" rows={10} dataKey="id" rowHover selection={selectedCustomers1} onSelectionChange={(e) => setSelectedCustomers1(e.value)}
                         globalFilter={globalFilter1} emptyMessage="No customers found." loading={loading1} header={customer1TableHeader}>
                         <Column selectionMode="multiple" headerStyle={{ width: '3em' }}></Column>
-                        <Column field="name" header="Name" sortable body={nameBodyTemplate}></Column>
+                        <Column field="name" header="Name" sortable body={bodyTemplate}></Column>
                         <Column field="country.name" header="Country" sortable body={countryBodyTemplate}></Column>
                         <Column field="representative.name" header="Representative" sortable body={representativeBodyTemplate}></Column>
-                        <Column field="date" header="Date" sortable body={dateBodyTemplate}></Column>
+                        <Column field="date" header="Date" sortable body={bodyTemplate}></Column>
                         <Column field="status" header="Status" sortable body={statusBodyTemplate}></Column>
                         <Column field="activity" header="Activity" sortable body={activityBody}></Column>
-                        <Column headerStyle={{ width: '8rem', textAlign: 'center' }} bodyStyle={{ textAlign: 'center', overflow: 'visible' }} body={actionTemplate}></Column>
+                        <Column headerStyle={{ width: '8rem', textAlign: 'center' }} bodyStyle={{ textAlign: 'center', overflow: 'visible', justifyContent: 'center' }} body={actionTemplate}></Column>
                     </DataTable>
                 </div>
             </div>
@@ -227,13 +241,13 @@ export const TableDemo = () => {
                 <div className="card">
                     <h5>Customized</h5>
                     <p>Scrollable table with gridlines (<mark>.p-datatable-gridlines</mark>), striped rows (<mark>.p-datatable-striped</mark>) and smaller paddings (<mark>p-datatable-sm</mark>).</p>
-                    <DataTable value={customer2} paginator className="p-datatable-gridlines p-datatable-striped p-datatable-sm p-datatable-responsive p-datatable-customers"
+                    <DataTable value={customer2} paginator className="p-datatable-gridlines p-datatable-striped p-datatable-sm p-datatable-customers"
                         rows={10} dataKey="id" rowHover selection={selectedCustomers2} onSelectionChange={(e) => setSelectedCustomers2(e.value)}
                         globalFilter={globalFilter2} emptyMessage="No customers found." loading={loading2} header={customer2TableHeader}>
-                        <Column field="name" header="Name" sortable body={nameBodyTemplate}></Column>
+                        <Column field="name" header="Name" sortable body={bodyTemplate}></Column>
                         <Column field="country.name" header="Country" sortable body={countryBodyTemplate}></Column>
                         <Column field="representative.name" header="Representative" sortable body={representativeBodyTemplate}></Column>
-                        <Column field="date" header="Date" sortable body={dateBodyTemplate}></Column>
+                        <Column field="date" header="Date" sortable body={bodyTemplate}></Column>
                         <Column field="status" header="Status" sortable body={statusBodyTemplate}></Column>
                         <Column field="activity" header="Activity" sortable body={activityBody}></Column>
                     </DataTable>
@@ -245,13 +259,13 @@ export const TableDemo = () => {
                     <h5>Row Expand</h5>
 
                     <Toast ref={toast} />
-                    <DataTable value={products} expandedRows={expandedRows} className="p-datatable-responsive" dataKey="id" onRowToggle={(e) => setExpandedRows(e.data)} onRowExpand={onRowExpand} onRowCollapse={onRowCollapse}
+                    <DataTable value={products} expandedRows={expandedRows} className="p-datatable-customers" dataKey="id" onRowToggle={(e) => setExpandedRows(e.data)} onRowExpand={onRowExpand} onRowCollapse={onRowCollapse}
                         header={productsTableHeader} rowExpansionTemplate={rowExpansionTemplate}>
                         <Column expander headerStyle={{ width: '3rem' }} />
-                        <Column field="name" header="Name" sortable></Column>
+                        <Column field="name" header="Name" sortable body={bodyTemplate}></Column>
                         <Column header="Image" body={imageBodyTemplate}></Column>
                         <Column field="price" header="Price" sortable body={priceBodyTemplate}></Column>
-                        <Column field="category" header="Category" sortable></Column>
+                        <Column field="category" header="Category" sortable body={bodyTemplate}></Column>
                         <Column field="rating" header="Reviews" sortable body={reviewsBodyTemplate}></Column>
                         <Column field="inventoryStatus" header="Status" sortable body={productStatusBodyTemplate}></Column>
                     </DataTable>
@@ -261,14 +275,14 @@ export const TableDemo = () => {
             <div className="p-col-12">
                 <div className="card">
                     <h5>Row Group</h5>
-                    <DataTable value={customer3} rowGroupMode="subheader" className="p-datatable-customers p-datatable-responsive" groupField="representative.name" sortMode="single" sortField="representative.name" sortOrder={1}
+                    <DataTable value={customer3} rowGroupMode="subheader" className="p-datatable-customers" groupField="representative.name" sortMode="single" sortField="representative.name" sortOrder={1}
                         rowGroupHeaderTemplate={headerRowGroup} rowGroupFooterTemplate={footerRowGroup}>
                         <Column field="representative.name" header="Representative"></Column>
-                        <Column field="name" header="Name"></Column>
+                        <Column field="name" header="Name" body={bodyTemplate}></Column>
                         <Column field="country" header="Country" body={countryBodyTemplate}></Column>
-                        <Column field="company" header="Company"></Column>
+                        <Column field="company" header="Company" body={bodyTemplate}></Column>
                         <Column field="status" header="Status" body={statusBodyTemplate}></Column>
-                        <Column field="date" header="Date"></Column>
+                        <Column field="date" header="Date" body={bodyTemplate}></Column>
                     </DataTable>
                 </div>
             </div>

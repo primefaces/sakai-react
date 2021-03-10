@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import classNames from 'classnames';
-import { Route } from 'react-router-dom';
+import { Route, useHistory } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
 
 import { AppTopbar } from './AppTopbar';
@@ -65,6 +65,9 @@ const App = () => {
     const [inputStyle, setInputStyle] = useState('outlined');
     const [ripple, setRipple] = useState(false);
     const sidebar = useRef();
+
+    const history = useHistory();
+
     let menuClick = false;
 
     useEffect(() => {
@@ -137,7 +140,7 @@ const App = () => {
                 { label: 'Form Layout', icon: 'pi pi-fw pi-id-card', to: '/formlayout' },
                 { label: 'Input', icon: 'pi pi-fw pi-check-square', to: '/input' },
                 { label: 'Float Label', icon: 'pi pi-fw pi-bookmark', to: '/floatlabel' },
-                { label: "Invalid State", icon: "pi pi-exclamation-circle", to: "/invalidstate" },
+                { label: "Invalid State", icon: "pi pi-fw pi-exclamation-circle", to: "/invalidstate" },
                 { label: 'Button', icon: 'pi pi-fw pi-mobile', to: '/button' },
                 { label: 'Table', icon: 'pi pi-fw pi-table', to: '/table' },
                 { label: 'List', icon: 'pi pi-fw pi-list', to: '/list' },
@@ -276,7 +279,7 @@ const App = () => {
 
             <CSSTransition classNames="layout-sidebar" timeout={{ enter: 200, exit: 200 }} in={isSidebarVisible()} unmountOnExit>
                 <div ref={sidebar} className={sidebarClassName} onClick={onSidebarClick}>
-                    <div className="layout-logo">
+                    <div className="layout-logo" style={{cursor: 'pointer'}} onClick={() => history.push('/')}>
                         <img alt="Logo" src={logo} />
                     </div>
                     <AppProfile />

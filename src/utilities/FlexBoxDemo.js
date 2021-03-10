@@ -11,9 +11,7 @@ export const FlexBoxDemo = () => {
                 <h4>FlexBox</h4>
                 <p>Easily manage the layout of your components with the responsive FlexBox utilities. If you require a
                     utility to manage the layout of your application,
-                    refer to the
-                    <Link to="/grid">Grid System</Link>
-                    instead.
+                    refer to the &nbsp;<Link to="/grid">Grid System</Link>&nbsp;instead.
                 </p>
 
                 <h5>Flex Container</h5>
