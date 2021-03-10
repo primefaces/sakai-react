@@ -19,7 +19,7 @@ export const Calendar = () => {
 
     const options = {
         plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
-        defaultDate: '2019-01-01',
+        defaultDate: '2023-01-01',
         header: {
             left: 'prev,next',
             center: 'title',
