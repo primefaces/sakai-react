@@ -1,6 +1,6 @@
 {
     "name": "sigma-react",
-    "version": "6.0.0",
+    "version": "6.0.0-SNAPSHOT",
     "homepage": ".",
     "private": false,
     "repository": {
