@@ -610,14 +610,23 @@
 
 .crud-demo {
     .table-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+        flex-direction: column;
+        @media screen and (min-width: 768px) {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-direction: row!important;
+        }
     }
 
     .product-image {
         width: 100px;
         box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    }
+
+    .p-toolbar {
+        display: flex;
+        flex-wrap: wrap;
     }
 
     .p-dialog .product-image {
@@ -670,6 +679,7 @@
                 }
 
                 .p-datatable-tbody > tr {
+                    border-bottom: 1px solid var(--surface-d);
                     > td {
                         text-align: left;
                         display: flex;
