@@ -499,6 +499,16 @@
                         }
                     }
                 }
+
+                colgroup {
+                    display: none;
+                }
+            }
+
+            .p-datatable-header {
+                .table-header {
+                    flex-direction: column !important;
+                }
             }
         }
     }
