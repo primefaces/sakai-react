@@ -14,8 +14,7 @@ export const TableDemo = () => {
     const [customer1, setCustomer1] = useState(null);
     const [customer2, setCustomer2] = useState(null);
     const [customer3, setCustomer3] = useState(null);
-    const [selectedCustomers1, setSelectedCustomers1] = useState(null);
-    const [selectedCustomers2, setSelectedCustomers2] = useState(null);
+    const [selectedCustomers, setSelectedCustomers] = useState(null);
     const [globalFilter1, setGlobalFilter1] = useState('');
     const [globalFilter2, setGlobalFilter2] = useState('');
     const [loading1, setLoading1] = useState(true);
@@ -29,7 +28,7 @@ export const TableDemo = () => {
         const productService = new ProductService();
         productService.getProductsWithOrdersSmall().then(data => setProducts(data));
         customerService.getCustomersMedium().then(data => { setCustomer1(data); setLoading1(false) });
-        customerService.getCustomersLarge().then(data => { setCustomer2(data); setLoading2(false) });
+        customerService.getCustomersMedium().then(data => { setCustomer2(data); setLoading2(false) });
         customerService.getCustomersMedium().then(data => setCustomer3(data));
     }, []);
 
@@ -224,7 +223,7 @@ export const TableDemo = () => {
                 <div className="card">
                     <h5>Default</h5>
                     <p>Pagination, sorting, filtering and checkbox selection.</p>
-                    <DataTable value={customer1} paginator className="p-datatable-customers" rows={10} dataKey="id" rowHover selection={selectedCustomers1} onSelectionChange={(e) => setSelectedCustomers1(e.value)}
+                    <DataTable value={customer1} paginator className="p-datatable-customers" rows={10} dataKey="id" rowHover selection={selectedCustomers} onSelectionChange={(e) => setSelectedCustomers(e.value)}
                         globalFilter={globalFilter1} emptyMessage="No customers found." loading={loading1} header={customer1TableHeader}>
                         <Column selectionMode="multiple" headerStyle={{ width: '3em' }}></Column>
                         <Column field="name" header="Name" sortable body={bodyTemplate}></Column>
@@ -241,8 +240,7 @@ export const TableDemo = () => {
                 <div className="card">
                     <h5>Customized</h5>
                     <p>Scrollable table with gridlines (<mark>.p-datatable-gridlines</mark>), striped rows (<mark>.p-datatable-striped</mark>) and smaller paddings (<mark>p-datatable-sm</mark>).</p>
-                    <DataTable value={customer2} paginator className="p-datatable-gridlines p-datatable-striped p-datatable-sm p-datatable-customers"
-                        rows={10} dataKey="id" rowHover selection={selectedCustomers2} onSelectionChange={(e) => setSelectedCustomers2(e.value)}
+                    <DataTable value={customer2} scrollable scrollHeight="600px" className="p-datatable-gridlines p-datatable-striped p-datatable-sm p-datatable-customers" dataKey="id" rowHover
                         globalFilter={globalFilter2} emptyMessage="No customers found." loading={loading2} header={customer2TableHeader}>
                         <Column field="name" header="Name" sortable body={bodyTemplate}></Column>
                         <Column field="country.name" header="Country" sortable body={countryBodyTemplate}></Column>
