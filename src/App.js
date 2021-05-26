@@ -59,11 +59,9 @@ const App = () => {
 
     const [layoutMode, setLayoutMode] = useState('static');
     const [layoutColorMode, setLayoutColorMode] = useState('dark')
-    const [staticMenuInactive, setStaticMenuInactive] = useState(false);
-    const [overlayMenuActive, setOverlayMenuActive] = useState(false);
-    const [mobileMenuActive, setMobileMenuActive] = useState(false);
     const [inputStyle, setInputStyle] = useState('outlined');
     const [ripple, setRipple] = useState(false);
+    const [sidebarActive, setSidebarActive] = useState(false);
     const sidebar = useRef();
 
     const history = useHistory();
@@ -71,13 +69,12 @@ const App = () => {
     let menuClick = false;
 
     useEffect(() => {
-        if (mobileMenuActive) {
-            addClass(document.body, 'body-overflow-hidden');
+        if (sidebarActive) {
+            addClass(document.body, "body-overflow-hidden");
+        } else {
+            removeClass(document.body, "body-overflow-hidden");
         }
-        else {
-            removeClass(document.body, 'body-overflow-hidden');
-        }
-    }, [mobileMenuActive]);
+    }, [sidebarActive]);
 
     const onInputStyleChange = (inputStyle) => {
         setInputStyle(inputStyle);
@@ -97,9 +94,8 @@ const App = () => {
     }
 
     const onWrapperClick = (event) => {
-        if (!menuClick) {
-            setOverlayMenuActive(false);
-            setMobileMenuActive(false);
+        if (!menuClick && layoutMode === "overlay") {
+            setSidebarActive(false);
         }
         menuClick = false;
     }
@@ -107,17 +103,8 @@ const App = () => {
     const onToggleMenu = (event) => {
         menuClick = true;
 
-        if (isDesktop()) {
-            if (layoutMode === 'overlay') {
-                setOverlayMenuActive(prevState => !prevState);
-            }
-            else if (layoutMode === 'static') {
-                setStaticMenuInactive(prevState => !prevState);
-            }
-        }
-        else {
-            setMobileMenuActive(prevState => !prevState);
-        }
+        setSidebarActive((prevState) => !prevState);
+
         event.preventDefault();
     }
 
@@ -126,9 +113,8 @@ const App = () => {
     }
 
     const onMenuItemClick = (event) => {
-        if (!event.item.items) {
-            setOverlayMenuActive(false);
-            setMobileMenuActive(false);
+        if (!event.item.items && layoutMode === "overlay") {
+            setSidebarActive(false);
         }
     }
 
@@ -239,31 +225,16 @@ const App = () => {
             element.className = element.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
     }
 
-    const isDesktop = () => {
-        return window.innerWidth > 1024;
-    }
-
     const isSidebarVisible = () => {
-        if (isDesktop()) {
-            if (layoutMode === 'static')
-                return !staticMenuInactive;
-            else if (layoutMode === 'overlay')
-                return overlayMenuActive;
-            else
-                return true;
-        }
-
-        return true;
-    }
+        return sidebarActive;
+    };
 
     const logo = layoutColorMode === 'dark' ? 'assets/layout/images/logo-white.svg' : 'assets/layout/images/logo.svg';
 
     const wrapperClass = classNames('layout-wrapper', {
         'layout-overlay': layoutMode === 'overlay',
         'layout-static': layoutMode === 'static',
-        'layout-static-sidebar-inactive': staticMenuInactive && layoutMode === 'static',
-        'layout-overlay-sidebar-active': overlayMenuActive && layoutMode === 'overlay',
-        'layout-mobile-sidebar-active': mobileMenuActive,
+        'layout-active': sidebarActive,
         'p-input-filled': inputStyle === 'filled',
         'p-ripple-disabled': ripple === false
     });
