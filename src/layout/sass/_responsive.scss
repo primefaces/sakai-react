@@ -1,51 +1,45 @@
+.layout-sidebar {
+    transition: left $transitionDuration;
+    left: 0px;
+}
+
 @media (min-width: 1025px) {
+    .layout-topbar {
+        left: 0;
+    }
+
     .layout-wrapper {
         &.layout-overlay {
-            .layout-topbar {
-                left: 0;
-            }
-
-            .layout-main, .layout-footer {
+            .layout-main,
+            .layout-footer {
                 margin-left: 0;
             }
 
-            &.layout-overlay-sidebar-active {
+            &.layout-active {
                 .layout-sidebar {
                     left: 0;
                 }
 
-                .layout-topbar  {
-                    left: 250px;
-                }
-            }
-
-            &.layout-mobile-sidebar-active {
-                .layout-sidebar {
-                    left: 0;
-                }
-
-                .layout-topbar  {
+                .layout-topbar {
                     left: 250px;
                 }
             }
         }
 
         &.layout-static {
-            .layout-topbar {
-                left: 250px;
+            .layout-main,
+            .layout-footer {
+                margin-left: 0px;
             }
 
-            .layout-main, .layout-footer {
-                margin-left: 250px;
-            }
-
-            &.layout-static-sidebar-inactive {
-                .layout-topbar  {
-                    left: 0;
+            &.layout-active {
+                .layout-topbar {
+                    left: 250px;
                 }
 
-                .layout-main, .layout-footer {
-                    margin-left: 0;
+                .layout-main,
+                .layout-footer {
+                    margin-left: 250px;
                 }
             }
         }
@@ -53,21 +47,25 @@
 }
 
 @media (max-width: 1024px) {
+    .layout-sidebar {
+        margin-top: 50px;
+    }
+
     .layout-wrapper {
         .layout-topbar {
             left: 0;
         }
 
-        .layout-main, .layout-footer {
+        .layout-main,
+        .layout-footer {
             margin-left: 0;
         }
 
-        .layout-sidebar {
-            transition: left $transitionDuration;
-            left: -250px;
-            margin-top: 50px;
+        &.layout-active {
+            .layout-sidebar {
+                left: 0;
+            }
         }
-
     }
 
     .body-overflow-hidden {
