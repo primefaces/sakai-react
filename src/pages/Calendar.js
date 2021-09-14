@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import interactionPlugin from '@fullcalendar/interaction';
 import { Button } from 'primereact/button';
-import { FullCalendar } from 'primereact/fullcalendar';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { Checkbox } from 'primereact/checkbox';
 import { Calendar as PRCalendar } from 'primereact/calendar';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import timeGridPlugin from '@fullcalendar/timegrid';
-import interactionPlugin from '@fullcalendar/interaction';
 import { EventService } from '../service/EventService';
 
 export const Calendar = () => {
@@ -17,22 +17,12 @@ export const Calendar = () => {
     const [changedEvent, setChangedEvent] = useState({ title: '', start: null, end: null, allDay: null });
     const [events, setEvents] = useState(null);
 
-    const options = {
-        plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
-        defaultDate: '2023-01-01',
-        header: {
-            left: 'prev,next',
-            center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay'
-        },
-        editable: true,
-        eventClick: (e) => {
-            const { title, start, end } = e.event;
-            setEventDialog(true);
-            setClickedEvent(e.event);
-            setChangedEvent({ title, start, end, allDay: null });
-        }
-    };
+    const eventClick = (e) => {
+        const { title, start, end } = e.event;
+        setEventDialog(true);
+        setClickedEvent(e.event);
+        setChangedEvent({ title, start, end, allDay: null });
+    }
 
     useEffect(() => {
         const eventService = new EventService();
@@ -66,7 +56,9 @@ export const Calendar = () => {
         <div className="p-grid">
             <div className="p-col-12">
                 <div className="card">
-                    <FullCalendar events={events} options={options} />
+
+                    <FullCalendar events={events} eventClick={eventClick} initialDate="2021-01-01" initialView='dayGridMonth' plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+                                  headerToolbar={{ left: 'prev,next today', center: 'title', right: 'dayGridMonth,timeGridWeek,timeGridDay' }} editable selectable selectMirror dayMaxEvents />
 
                     <Dialog visible={eventDialog && !!clickedEvent} style={{ width: '450px' }} header="Event Details" footer={footer} modal closable onHide={() => setEventDialog(false)}>
                         <div className="p-fluid">

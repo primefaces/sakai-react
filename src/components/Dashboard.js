@@ -8,7 +8,7 @@ import { Chart } from 'primereact/chart';
 import { ProgressBar } from 'primereact/progressbar';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { FullCalendar } from 'primereact/fullcalendar';
+import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -22,17 +22,6 @@ const dropdownCities = [
     { name: 'Istanbul', code: 'IST' },
     { name: 'Paris', code: 'PRS' }
 ];
-
-const options = {
-    plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
-    defaultDate: '2023-01-01',
-    header: {
-        left: 'prev,next',
-        center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay'
-    },
-    editable: true
-};
 
 const lineData = {
     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -266,7 +255,8 @@ export const Dashboard = () => {
 
             <div className="p-col-12 p-lg-8">
                 <Panel header="Calendar" style={{ height: '100%' }}>
-                    <FullCalendar events={events} options={options} />
+                    <FullCalendar events={events} initialDate="2021-01-01" initialView='dayGridMonth' plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+                                  headerToolbar={{ left: 'prev,next today', center: 'title', right: 'dayGridMonth,timeGridWeek,timeGridDay' }} editable selectable selectMirror dayMaxEvents />
                 </Panel>
             </div>
 
