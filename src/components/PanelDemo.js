@@ -57,14 +57,14 @@ export const PanelDemo = () => {
     );
 
     return (
-        <div className="p-grid panel-demo">
-            <div className="p-col-12">
+        <div className="grid">
+            <div className="col-12">
                 <div className="card">
                     <h5>Toolbar</h5>
                     <Toolbar left={toolbarLeftTemplate} right={toolbarRightTemplate}></Toolbar>
                 </div>
             </div>
-            <div className="p-col-12 p-md-6">
+            <div className="col-12 md:col-6">
                 <div className="card">
                     <h5>AccordionPanel</h5>
                     <Accordion activeIndex={0}>
@@ -111,7 +111,7 @@ export const PanelDemo = () => {
                     </TabView>
                 </div>
             </div>
-            <div className="p-col-12 p-md-6">
+            <div className="col-12 md:col-6">
                 <div className="card">
                     <h5>Panel</h5>
                     <Panel header="Header" toggleable>
@@ -140,19 +140,19 @@ export const PanelDemo = () => {
                 </div>
             </div>
 
-            <div className="p-col-12">
+            <div className="col-12">
                 <div className="card">
                     <h5>Divider</h5>
-                    <div className="p-grid">
-                        <div className="p-col-5 p-d-flex p-ai-center p-jc-center">
+                    <div className="grid">
+                        <div className="col-5 flex align-items-center justify-content-center">
                             <div className="p-fluid">
-                                <div className="p-field">
+                                <div className="field">
                                     <span className="p-float-label">
                                         <InputText id="username" type="text" />
                                         <label htmlFor="username">Username</label>
                                     </span>
                                 </div>
-                                <div className="p-field">
+                                <div className="field">
                                     <span className="p-float-label">
                                         <Password id="password" type="password" />
                                         <label htmlFor="password">Password</label>
@@ -161,12 +161,12 @@ export const PanelDemo = () => {
                                 <Button label="Login"></Button>
                             </div>
                         </div>
-                        <div className="p-col-1">
+                        <div className="col-1">
                             <Divider layout="vertical">
                                 <b>OR</b>
                             </Divider>
                         </div>
-                        <div className="p-col-5 p-ai-center p-jc-center">
+                        <div className="col-5 align-items-center justify-content-center">
                             <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
                             totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi
                             architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit
@@ -198,12 +198,12 @@ export const PanelDemo = () => {
                 </div>
             </div>
 
-            <div className="p-col-12">
+            <div className="col-12">
                 <div className="card">
                     <h5>Splitter</h5>
-                    <Splitter style={{ height: '300px' }} className="p-mb-5">
+                    <Splitter style={{ height: '300px' }} className="mb-5">
                         <SplitterPanel size={40} minSize={10} style={{overflow: 'auto'}}>
-                            <div className="p-col p-pt-3">
+                            <div className="col pt-3">
                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
                                 labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
                                 ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit
@@ -215,7 +215,7 @@ export const PanelDemo = () => {
                         <SplitterPanel size={80}>
                             <Splitter layout="vertical">
                                 <SplitterPanel size={30} style={{overflow: 'auto'}}>
-                                    <div className="p-col p-pt-3">
+                                    <div className="col pt-3">
                                         Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
                                         doloremque
                                         laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi
@@ -228,7 +228,7 @@ export const PanelDemo = () => {
                                     </div>
                                 </SplitterPanel>
                                 <SplitterPanel size={70} style={{overflow: 'auto'}}>
-                                    <div className="p-col p-pt-3">
+                                    <div className="col pt-3">
                                         At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
                                         praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias
                                         excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui

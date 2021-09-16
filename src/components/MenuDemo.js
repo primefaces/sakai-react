@@ -468,50 +468,50 @@ export const MenuDemo = () => {
     };
 
     return (
-        <div className="p-grid p-fluid">
-            <div className="p-col-12">
+        <div className="grid p-fluid">
+            <div className="col-12">
                 <div className="card card-w-title">
                     <h5>Menubar</h5>
                     <Menubar model={nestedMenuitems} end={menubarEndTemplate}></Menubar>
                 </div>
             </div>
 
-            <div className="p-col-12">
+            <div className="col-12">
                 <div className="card card-w-title">
                     <h5>Breadcrumb</h5>
                     <BreadCrumb home={breadcrumbHome} model={breadcrumbItems} />
                 </div>
             </div>
 
-            <div className="p-col-12 p-md-6">
+            <div className="col-12 md:col-6">
                 <div className="card card-w-title">
                     <h5>Steps</h5>
                     <Steps model={wizardItems} readonly={false} />
                 </div>
             </div>
 
-            <div className="p-col-12 p-md-6">
+            <div className="col-12 md:col-6">
                 <div className="card card-w-title">
                     <h5>TabMenu</h5>
                     <TabMenu model={wizardItems} />
                 </div>
             </div>
 
-            <div className="p-col-12 p-md-4">
+            <div className="col-12 md:col-4">
                 <div className="card">
                     <h5>Tiered Menu</h5>
                     <TieredMenu model={tieredMenuItems} />
                 </div>
             </div>
 
-            <div className="p-col-12 p-md-4">
+            <div className="col-12 md:col-4">
                 <div className="card">
                     <h5>Plain Menu</h5>
                     <Menu model={menuitems} />
                 </div>
             </div>
 
-            <div className="p-col-12 p-md-4">
+            <div className="col-12 md:col-4">
                 <div className="card">
                     <h5>Overlay Menu</h5>
 
@@ -526,7 +526,7 @@ export const MenuDemo = () => {
                 </div>
             </div>
 
-            <div className="p-col-12 p-md-6">
+            <div className="col-12 md:col-6">
                 <div className="card">
                     <h5>MegaMenu - Horizontal</h5>
                     <MegaMenu model={megamenuItems} />
@@ -536,7 +536,7 @@ export const MenuDemo = () => {
                 </div>
             </div>
 
-            <div className="p-col-12 p-md-6">
+            <div className="col-12 md:col-6">
                 <div className="card">
                     <h5>PanelMenu</h5>
                     <PanelMenu model={panelMenuitems} />

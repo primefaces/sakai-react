@@ -1,12 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
-import { Route, useHistory } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
 
 import { AppTopbar } from './AppTopbar';
 import { AppFooter } from './AppFooter';
 import { AppMenu } from './AppMenu';
-import { AppProfile } from './AppProfile';
 import { AppConfig } from './AppConfig';
 
 import { Dashboard } from './components/Dashboard';
@@ -27,23 +26,12 @@ import { TableDemo } from './components/TableDemo';
 import { TreeDemo } from './components/TreeDemo';
 import { InvalidStateDemo } from './components/InvalidStateDemo';
 
-import { Calendar } from './pages/Calendar';
 import { Crud } from './pages/Crud';
 import { EmptyPage } from './pages/EmptyPage';
-
-import { DisplayDemo } from './utilities/DisplayDemo';
-import { ElevationDemo } from './utilities/ElevationDemo';
-import { FlexBoxDemo } from './utilities/FlexBoxDemo';
-import { GridDemo } from './utilities/GridDemo';
-import { IconsDemo } from './utilities/IconsDemo';
-import { SpacingDemo } from './utilities/SpacingDemo';
-import { TextDemo } from './utilities/TextDemo';
-import { TypographyDemo } from './utilities/TypographyDemo';
-import { TimelineDemo } from './utilities/TimelineDemo';
+import { TimelineDemo } from './pages/TimelineDemo';
 
 import PrimeReact from 'primereact/api';
 
-import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import 'primeflex/primeflex.css';
@@ -55,23 +43,26 @@ import './App.scss';
 const App = () => {
 
     const [layoutMode, setLayoutMode] = useState('static');
-    const [layoutColorMode, setLayoutColorMode] = useState('dark')
+    const [layoutColorMode, setLayoutColorMode] = useState('light')
     const [inputStyle, setInputStyle] = useState('outlined');
-    const [ripple, setRipple] = useState(false);
-    const [sidebarActive, setSidebarActive] = useState(true);
-    const sidebar = useRef();
+    const [ripple, setRipple] = useState(true);
+    const [staticMenuInactive, setStaticMenuInactive] = useState(false);
+    const [overlayMenuActive, setOverlayMenuActive] = useState(false);
+    const [mobileMenuActive, setMobileMenuActive] = useState(false);
+    const [mobileTopbarMenuActive, setMobileTopbarMenuActive] = useState(false);
 
-    const history = useHistory();
+    PrimeReact.ripple = true;
 
     let menuClick = false;
+    let mobileTopbarMenuClick = false;
 
     useEffect(() => {
-        if (sidebarActive) {
+        if (mobileMenuActive) {
             addClass(document.body, "body-overflow-hidden");
         } else {
             removeClass(document.body, "body-overflow-hidden");
         }
-    }, [sidebarActive]);
+    }, [mobileMenuActive]);
 
     const onInputStyleChange = (inputStyle) => {
         setInputStyle(inputStyle);
@@ -91,16 +82,38 @@ const App = () => {
     }
 
     const onWrapperClick = (event) => {
-        if (!menuClick && layoutMode === "overlay") {
-            setSidebarActive(false);
+        if (!menuClick) {
+            setOverlayMenuActive(false);
+            setMobileMenuActive(false);
         }
+
+        if (!mobileTopbarMenuClick) {
+            setMobileTopbarMenuActive(false);
+        }
+
+        mobileTopbarMenuClick = false;
         menuClick = false;
     }
 
     const onToggleMenu = (event) => {
         menuClick = true;
 
-        setSidebarActive((prevState) => !prevState);
+        if (isDesktop()) {
+            if (layoutMode === 'overlay') {
+                if(mobileMenuActive === true) {
+                    setOverlayMenuActive(true);
+                }
+
+                setOverlayMenuActive((prevState) => !prevState);
+                setMobileMenuActive(false);
+            }
+            else if (layoutMode === 'static') {
+                setStaticMenuInactive((prevState) => !prevState);
+            }
+        }
+        else {
+            setMobileMenuActive((prevState) => !prevState);
+        }
 
         event.preventDefault();
     }
@@ -109,54 +122,62 @@ const App = () => {
         menuClick = true;
     }
 
+    const onMobileTopbarMenu = (event) => {
+        mobileTopbarMenuClick = true;
+
+        setMobileTopbarMenuActive((prevState) => !prevState);
+        event.preventDefault();
+    }
+
+    const onMobileSubTopbarMenu = (event) => {
+        mobileTopbarMenuClick = true;
+
+        event.preventDefault();
+    }
+
     const onMenuItemClick = (event) => {
-        if (!event.item.items && layoutMode === "overlay") {
-            setSidebarActive(false);
+        if (!event.item.items) {
+            setOverlayMenuActive(false);
+            setMobileMenuActive(false);
         }
+    }
+    const isDesktop = () => {
+        return window.innerWidth >= 992;
     }
 
     const menu = [
-        { label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/' },
+        {
+            label: 'Home',
+            items: [{
+                label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/'
+            }]
+        },
         {
             label: 'UI Kit', icon: 'pi pi-fw pi-sitemap',
             items: [
-                { label: 'Form Layout', icon: 'pi pi-fw pi-id-card', to: '/formlayout' },
-                { label: 'Input', icon: 'pi pi-fw pi-check-square', to: '/input' },
-                { label: 'Float Label', icon: 'pi pi-fw pi-bookmark', to: '/floatlabel' },
-                { label: "Invalid State", icon: "pi pi-fw pi-exclamation-circle", to: "/invalidstate" },
-                { label: 'Button', icon: 'pi pi-fw pi-mobile', to: '/button' },
-                { label: 'Table', icon: 'pi pi-fw pi-table', to: '/table' },
-                { label: 'List', icon: 'pi pi-fw pi-list', to: '/list' },
-                { label: 'Tree', icon: 'pi pi-fw pi-share-alt', to: '/tree' },
-                { label: 'Panel', icon: 'pi pi-fw pi-tablet', to: '/panel' },
-                { label: 'Overlay', icon: 'pi pi-fw pi-clone', to: '/overlay' },
-                { label: 'Menu', icon: 'pi pi-fw pi-bars', to: '/menu' },
-                { label: 'Message', icon: 'pi pi-fw pi-comment', to: '/messages' },
-                { label: 'File', icon: 'pi pi-fw pi-file', to: '/file' },
-                { label: 'Chart', icon: 'pi pi-fw pi-chart-bar', to: '/chart' },
-                { label: 'Misc', icon: 'pi pi-fw pi-circle-off', to: '/misc' },
-            ]
-        },
-        {
-            label: 'Utilities', icon: 'pi pi-fw pi-globe',
-            items: [
-                { label: 'Display', icon: 'pi pi-fw pi-desktop', to: '/display' },
-                { label: 'Elevation', icon: 'pi pi-fw pi-external-link', to: '/elevation' },
-                { label: 'Flexbox', icon: 'pi pi-fw pi-directions', to: '/flexbox' },
-                { label: 'Icons', icon: 'pi pi-fw pi-search', to: '/icons' },
-                { label: 'Grid System', icon: 'pi pi-fw pi-th-large', to: '/grid' },
-                { label: 'Spacing', icon: 'pi pi-fw pi-arrow-right', to: '/spacing' },
-                { label: 'Typography', icon: 'pi pi-fw pi-align-center', to: '/typography' },
-                { label: 'Text', icon: 'pi pi-fw pi-pencil', to: '/text' },
+                {label: 'Form Layout', icon: 'pi pi-fw pi-id-card', to: '/formlayout'},
+                {label: 'Input', icon: 'pi pi-fw pi-check-square', to: '/input'},
+                {label: "Float Label", icon: "pi pi-fw pi-bookmark", to: "/floatlabel"},
+                {label: "Invalid State", icon: "pi pi-fw pi-exclamation-circle", to: "invalidstate"},
+                {label: 'Button', icon: 'pi pi-fw pi-mobile', to: '/button'},
+                {label: 'Table', icon: 'pi pi-fw pi-table', to: '/table'},
+                {label: 'List', icon: 'pi pi-fw pi-list', to: '/list'},
+                {label: 'Tree', icon: 'pi pi-fw pi-share-alt', to: '/tree'},
+                {label: 'Panel', icon: 'pi pi-fw pi-tablet', to: '/panel'},
+                {label: 'Overlay', icon: 'pi pi-fw pi-clone', to: '/overlay'},
+                {label: 'Menu', icon: 'pi pi-fw pi-bars', to: '/menu'},
+                {label: 'Message', icon: 'pi pi-fw pi-comment', to: '/messages'},
+                {label: 'File', icon: 'pi pi-fw pi-file', to: '/file'},
+                {label: 'Chart', icon: 'pi pi-fw pi-chart-bar', to: '/chart'},
+                {label: 'Misc', icon: 'pi pi-fw pi-circle-off', to: '/misc'},
             ]
         },
         {
             label: 'Pages', icon: 'pi pi-fw pi-clone',
             items: [
-                { label: 'Crud', icon: 'pi pi-fw pi-user-edit', to: '/crud' },
-                { label: 'Calendar', icon: 'pi pi-fw pi-calendar-plus', to: '/calendar' },
-                { label: 'Timeline', icon: 'pi pi-fw pi-calendar', to: '/timeline' },
-                { label: 'Empty Page', icon: 'pi pi-fw pi-circle-off', to: '/empty' }
+                {label: 'Crud', icon: 'pi pi-fw pi-user-edit', to: '/crud'},
+                {label: 'Timeline', icon: 'pi pi-fw pi-calendar', to: '/timeline'},
+                {label: 'Empty', icon: 'pi pi-fw pi-circle-off', to: '/empty'}
             ]
         },
         {
@@ -168,16 +189,16 @@ const App = () => {
                         {
                             label: 'Submenu 1.1', icon: 'pi pi-fw pi-bookmark',
                             items: [
-                                { label: 'Submenu 1.1.1', icon: 'pi pi-fw pi-bookmark' },
-                                { label: 'Submenu 1.1.2', icon: 'pi pi-fw pi-bookmark' },
-                                { label: 'Submenu 1.1.3', icon: 'pi pi-fw pi-bookmark' },
+                                {label: 'Submenu 1.1.1', icon: 'pi pi-fw pi-bookmark'},
+                                {label: 'Submenu 1.1.2', icon: 'pi pi-fw pi-bookmark'},
+                                {label: 'Submenu 1.1.3', icon: 'pi pi-fw pi-bookmark'},
                             ]
                         },
                         {
                             label: 'Submenu 1.2', icon: 'pi pi-fw pi-bookmark',
                             items: [
-                                { label: 'Submenu 1.2.1', icon: 'pi pi-fw pi-bookmark' },
-                                { label: 'Submenu 1.2.2', icon: 'pi pi-fw pi-bookmark' }
+                                {label: 'Submenu 1.2.1', icon: 'pi pi-fw pi-bookmark'},
+                                {label: 'Submenu 1.2.2', icon: 'pi pi-fw pi-bookmark'}
                             ]
                         },
                     ]
@@ -188,24 +209,29 @@ const App = () => {
                         {
                             label: 'Submenu 2.1', icon: 'pi pi-fw pi-bookmark',
                             items: [
-                                { label: 'Submenu 2.1.1', icon: 'pi pi-fw pi-bookmark' },
-                                { label: 'Submenu 2.1.2', icon: 'pi pi-fw pi-bookmark' },
-                                { label: 'Submenu 2.1.3', icon: 'pi pi-fw pi-bookmark' },
+                                {label: 'Submenu 2.1.1', icon: 'pi pi-fw pi-bookmark'},
+                                {label: 'Submenu 2.1.2', icon: 'pi pi-fw pi-bookmark'},
+                                {label: 'Submenu 2.1.3', icon: 'pi pi-fw pi-bookmark'},
                             ]
                         },
                         {
                             label: 'Submenu 2.2', icon: 'pi pi-fw pi-bookmark',
                             items: [
-                                { label: 'Submenu 2.2.1', icon: 'pi pi-fw pi-bookmark' },
-                                { label: 'Submenu 2.2.2', icon: 'pi pi-fw pi-bookmark' }
+                                {label: 'Submenu 2.2.1', icon: 'pi pi-fw pi-bookmark'},
+                                {label: 'Submenu 2.2.2', icon: 'pi pi-fw pi-bookmark'}
                             ]
                         }
                     ]
                 }
             ]
         },
-        { label: 'Documentation', icon: 'pi pi-fw pi-question', command: () => { window.location = "#/documentation" } },
-        { label: 'View Source', icon: 'pi pi-fw pi-search', command: () => { window.location = "https://github.com/primefaces/sigma-react" } }
+        {
+            label: 'Get Started',
+            items: [
+                {label: 'Documentation', icon: 'pi pi-fw pi-question', command: () => {window.location = "#/documentation"}},
+                {label: 'View Source', icon: 'pi pi-fw pi-search', command: () => {window.location = "https://github.com/primefaces/sakai-vue"}}
+            ]
+        }
     ];
 
     const addClass = (element, className) => {
@@ -222,75 +248,59 @@ const App = () => {
             element.className = element.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
     }
 
-    const isSidebarVisible = () => {
-        return sidebarActive;
-    };
-
-    const logo = layoutColorMode === 'dark' ? 'assets/layout/images/logo-white.svg' : 'assets/layout/images/logo.svg';
-
     const wrapperClass = classNames('layout-wrapper', {
         'layout-overlay': layoutMode === 'overlay',
         'layout-static': layoutMode === 'static',
-        'layout-active': sidebarActive,
+        'layout-static-sidebar-inactive': staticMenuInactive && layoutMode === 'static',
+        'layout-overlay-sidebar-active': overlayMenuActive && layoutMode === 'overlay',
+        'layout-mobile-sidebar-active': mobileMenuActive,
         'p-input-filled': inputStyle === 'filled',
-        'p-ripple-disabled': ripple === false
-    });
-
-    const sidebarClassName = classNames('layout-sidebar', {
-        'layout-sidebar-dark': layoutColorMode === 'dark',
-        'layout-sidebar-light': layoutColorMode === 'light'
+        'p-ripple-disabled': ripple === false,
+        'layout-theme-light': layoutColorMode === 'light'
     });
 
     return (
         <div className={wrapperClass} onClick={onWrapperClick}>
-            <AppTopbar onToggleMenu={onToggleMenu} />
+            <AppTopbar onToggleMenu={onToggleMenu} layoutColorMode={layoutColorMode}
+                       mobileTopbarMenuActive={mobileTopbarMenuActive} onMobileTopbarMenu={onMobileTopbarMenu} onMobileSubTopbarMenu={onMobileSubTopbarMenu}/>
 
-            <CSSTransition classNames="layout-sidebar" timeout={{ enter: 200, exit: 200 }} in={isSidebarVisible()} unmountOnExit>
-                <div ref={sidebar} className={sidebarClassName} onClick={onSidebarClick}>
-                    <div className="layout-logo" style={{cursor: 'pointer'}} onClick={() => history.push('/')}>
-                        <img alt="Logo" src={logo} />
-                    </div>
-                    <AppProfile />
-                    <AppMenu model={menu} onMenuItemClick={onMenuItemClick} />
-                </div>
-            </CSSTransition>
-
-            <AppConfig rippleEffect={ripple} onRippleEffect={onRipple} inputStyle={inputStyle} onInputStyleChange={onInputStyleChange}
-                layoutMode={layoutMode} onLayoutModeChange={onLayoutModeChange} layoutColorMode={layoutColorMode} onColorModeChange={onColorModeChange} />
-
-            <div className="layout-main">
-                <Route path="/" exact component={Dashboard} />
-                <Route path="/formlayout" component={FormLayoutDemo} />
-                <Route path="/input" component={InputDemo} />
-                <Route path="/floatlabel" component={FloatLabelDemo} />
-                <Route path="/invalidstate" component={InvalidStateDemo} />
-                <Route path="/button" component={ButtonDemo} />
-                <Route path="/table" component={TableDemo} />
-                <Route path="/list" component={ListDemo} />
-                <Route path="/tree" component={TreeDemo} />
-                <Route path="/panel" component={PanelDemo} />
-                <Route path="/overlay" component={OverlayDemo} />
-                <Route path="/menu" component={MenuDemo} />
-                <Route path="/messages" component={MessagesDemo} />
-                <Route path="/file" component={FileDemo} />
-                <Route path="/chart" component={ChartDemo} />
-                <Route path="/misc" component={MiscDemo} />
-                <Route path="/display" component={DisplayDemo} />
-                <Route path="/elevation" component={ElevationDemo} />
-                <Route path="/flexbox" component={FlexBoxDemo} />
-                <Route path="/icons" component={IconsDemo} />
-                <Route path="/grid" component={GridDemo} />
-                <Route path="/spacing" component={SpacingDemo} />
-                <Route path="/typography" component={TypographyDemo} />
-                <Route path="/text" component={TextDemo} />
-                <Route path="/calendar" component={Calendar} />
-                <Route path="/timeline" component={TimelineDemo} />
-                <Route path="/crud" component={Crud} />
-                <Route path="/empty" component={EmptyPage} />
-                <Route path="/documentation" component={Documentation} />
+            <div className="layout-sidebar" onClick={onSidebarClick}>
+                <AppMenu model={menu} onMenuItemClick={onMenuItemClick} />
             </div>
 
-            <AppFooter />
+            <div className="layout-main-container">
+                <div className="layout-main">
+                    <Route path="/" exact component={Dashboard}/>
+                    <Route path="/formlayout" component={FormLayoutDemo}/>
+                    <Route path="/input" component={InputDemo}/>
+                    <Route path="/floatlabel" component={FloatLabelDemo}/>
+                    <Route path="/invalidstate" component={InvalidStateDemo}/>
+                    <Route path="/button" component={ButtonDemo}/>
+                    <Route path="/table" component={TableDemo}/>
+                    <Route path="/list" component={ListDemo}/>
+                    <Route path="/tree" component={TreeDemo}/>
+                    <Route path="/panel" component={PanelDemo}/>
+                    <Route path="/overlay" component={OverlayDemo}/>
+                    <Route path="/menu" component={MenuDemo}/>
+                    <Route path="/messages" component={MessagesDemo}/>
+                    <Route path="/file" component={FileDemo}/>
+                    <Route path="/chart" component={ChartDemo}/>
+                    <Route path="/misc" component={MiscDemo}/>
+                    <Route path="/timeline" component={TimelineDemo}/>
+                    <Route path="/crud" component={Crud}/>
+                    <Route path="/empty" component={EmptyPage}/>
+                    <Route path="/documentation" component={Documentation}/>
+                </div>
+
+                <AppFooter layoutColorMode={layoutColorMode}/>
+            </div>
+
+            <AppConfig rippleEffect={ripple} onRippleEffect={onRipple} inputStyle={inputStyle} onInputStyleChange={onInputStyleChange}
+                       layoutMode={layoutMode} onLayoutModeChange={onLayoutModeChange} layoutColorMode={layoutColorMode} onColorModeChange={onColorModeChange} />
+
+            <CSSTransition classNames="layout-mask" timeout={{ enter: 200, exit: 200 }} in={mobileMenuActive} unmountOnExit>
+                <div className="layout-mask p-component-overlay"></div>
+            </CSSTransition>
 
         </div>
     );

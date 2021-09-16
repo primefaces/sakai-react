@@ -29,7 +29,7 @@
   }
 }
 
-.floatlabel-demo .p-field {
+.floatlabel-demo .field {
   margin-top: 2rem;
   margin-bottom: 0;
 }
@@ -189,7 +189,7 @@
   width: 100%;
 }
 
-.messages-demo .p-field > label {
+.messages-demo .field > label {
   width: 125px;
 }
 .messages-demo .p-inputtext {
@@ -404,7 +404,7 @@
   text-align: center;
   color: #6c757d;
 }
-.icons-demo .icons-list .p-md-2 {
+.icons-demo .icons-list .md:col-2 {
   padding: 1em;
 }
 .icons-demo .icons-list i {
@@ -429,7 +429,7 @@
   background: #dee2e6;
   border-radius: 4px;
 }
-.flexgrid-demo .nested-grid .p-col-4 {
+.flexgrid-demo .nested-grid .col-4 {
   padding-bottom: 1rem;
 }
 .flexgrid-demo .dynamic-box-enter-active, .flexgrid-demo .dynamic-box-leave-active {
@@ -445,7 +445,7 @@
   margin: 0;
 }
 
-.flexbox-demo .p-d-flex > div,
+.flexbox-demo .flex > div,
 .flexbox-demo .box {
   background-color: #ffffff;
   text-align: center;
@@ -453,7 +453,7 @@
   border-radius: 4px;
   box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
 }
-.flexbox-demo .p-d-flex > div {
+.flexbox-demo .flex > div {
   width: 8rem;
 }
 

@@ -1,12 +1,12 @@
 import React from 'react';
 
-export const AppFooter = () => {
+export const AppFooter = (props) => {
 
     return (
         <div className="layout-footer">
-            <span className="footer-text" style={{ 'marginRight': '5px' }}>PrimeReact</span>
-            <img src="assets/layout/images/logo.svg" alt="Logo" width="80" />
-            <span className="footer-text" style={{ 'marginLeft': '5px' }}>Theme and Layout</span>
+            <img src={props.layoutColorMode === 'light' ? 'assets/layout/images/logo-dark.svg' : 'assets/layout/images/logo-white.svg'} alt="Logo" height="20" className="mr-2" />
+            by
+            <span className="font-medium ml-2">PrimeReact</span>
         </div>
     );
 }

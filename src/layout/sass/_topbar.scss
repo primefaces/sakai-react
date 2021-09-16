@@ -1,127 +1,149 @@
 .layout-topbar {
     position: fixed;
-    height: 50px;
-    padding: 1em 2em 0em 2em;
-    color: #ffffff;
-    z-index: 999;
-    right: 0;
-    @include clearfix();
-    @include linear-gradient-left($topbarLeftBgColor,$topbarRightBgColor);
+    height: 5rem;
+    z-index: 997;
+    left: 0;
+    top: 0;
+    width: 100%;
+    padding: 0 2rem;
+    background-color: var(--surface-card);
     transition: left $transitionDuration;
+    display: flex;
+    align-items: center;
+    box-shadow: 0px 3px 5px rgba(0,0,0,.02), 0px 0px 2px rgba(0,0,0,.05), 0px 1px 4px rgba(0,0,0,.08);
 
-    .layout-topbar-icons {
-        float: right;
-        display: block;
-        animation-duration: .5s;
+    .layout-topbar-logo {
+        display: flex;
+        align-items: center;
+        color: var(--surface-900);
+        font-size: 1.5rem;
+        font-weight: 500;
+        width: 300px;
+        border-radius: 12px;
 
-        button {
-            position: relative;
-            color: $topbarItemColor;
-            margin-left: 20px;
-            display: inline-block;
-            text-decoration: none;
-            transition: color $transitionDuration;
-
-            &:hover {
-                color: $topbarItemHoverColor;
-            }
-
-            &:focus {
-                @include focused();
-            }
-
-            span {
-                &.layout-topbar-icon {
-                    font-size: 1.5em;
-                }
-
-                &.layout-topbar-item-text {
-                    font-size: 20px;
-                    display: none;
-                }
-
-                &.layout-topbar-badge {
-                    position: absolute;
-                    font-size: 10px;
-                    right: -5px;
-                    top: -5px;
-                    width: 16px;
-                    height: 16px;
-                    text-align: center;
-                    line-height: 16px;
-                    color: $topbarItemBadgeColor;
-                    background-color: $topbarItemBadgeBgColor;
-                    border-radius: 50%;
-                }
-            }
+        img {
+            height: 2.5rem;
+            margin-right: .5rem;
         }
 
-        .layout-topbar-search {
-            padding: 0;
-            position: relative;
-            display: inline-block;
-            top: -4px;
+        &:focus {
+            @include focused();
+        }
+    }
 
-            input {
-                display: inline-block;
-                border: 0 none;
-                font-size: $fontSize;
-                background: transparent;
-                border-bottom: 2px solid $topbarSearchInputBorderBottomColor;
-                outline: 0 none;
-                box-shadow: none;
-                color: $topbarSearchInputColor;
-                width: 100px;
-                padding: 1px 20px 1px 1px;
-                margin: 0px;
-                border-radius: 2px;
+    .layout-topbar-button {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        color: var(--text-color-secondary);
+        border-radius: 50%;
+        width: 3rem;
+        height: 3rem;
+        cursor: pointer;
+        transition: background-color $transitionDuration;
 
-                &::-webkit-input-placeholder { color:$topbarSearchInputColor; opacity: .7; transition: opacity $transitionDuration;}
-                &:-moz-placeholder { color:$topbarSearchInputColor; opacity: .7; transition: opacity $transitionDuration;}
-                &::-moz-placeholder { color:$topbarSearchInputColor; opacity: .7; transition: opacity $transitionDuration;}
-                &:-ms-input-placeholder { color:$topbarSearchInputColor; opacity: .7; transition: opacity $transitionDuration;}
-            }
+        &:hover {
+            color: var(--text-color);
+            background-color: var(--surface-hover);
+        }
 
-            .layout-topbar-search-icon {
-                font-size: 18px;
-                position: absolute;
-                top: -1px;
-                right: 0px;
-            }
+        &:focus {
+            @include focused();
+        }
 
-            &:hover {
-                input {
-                    border-bottom-color: $topbarItemHoverColor;
-                    &::-webkit-input-placeholder { opacity: 1 }
-                    &:-moz-placeholder {opacity: 1}
-                    &::-moz-placeholder {opacity: 1}
-                    &:-ms-input-placeholder {opacity: 1}
-                }
+        i {
+            font-size: 1.5rem;
+        }
 
-                .layout-topbar-search-icon {
-                    color: $topbarItemHoverColor;
-                }
-            }
+        span {
+            font-size: 1rem;
+            display: none;
         }
     }
 
     .layout-menu-button {
-        cursor: pointer;
-        display: inline-block;
-        text-decoration: none;
-        color: $topbarItemColor;
-        transition: color $transitionDuration;
+        margin-left: 2rem;
+    }
 
-        span {
-            font-size: 1.5em;
-        }
+    .layout-topbar-menu-button {
+        display: none;
 
-        &:hover {
-            color: $topbarItemHoverColor;
+        i {
+            font-size: 1.25rem;
         }
     }
 
-    button {
-        cursor: pointer;
+    .layout-topbar-menu {
+        margin: 0 0 0 auto;
+        padding: 0;
+        list-style: none;
+        display: flex;
+
+        .layout-topbar-button {
+            margin-left: 1rem;
+        }
+    }
+}
+
+@media (max-width: 991px) {
+    .layout-topbar {
+        justify-content: space-between;
+
+        .layout-topbar-logo {
+            width: auto;
+            order: 2;
+        }
+
+        .layout-menu-button {
+            margin-left: 0;
+            order: 1;
+        }
+
+        .layout-topbar-menu-button {
+            display: inline-flex;
+            margin-left: 0;
+            order: 3;
+        }
+
+        .layout-topbar-menu {
+            margin-left: 0;
+            position: absolute;
+            flex-direction: column;
+            background-color: var(--surface-overlay);
+            box-shadow: 0px 3px 5px rgba(0,0,0,.02), 0px 0px 2px rgba(0,0,0,.05), 0px 1px 4px rgba(0,0,0,.08);
+            border-radius: 12px;
+            padding: 1rem;
+            right: 2rem;
+            top: 5rem;
+            min-width: 15rem;
+            display: none;
+            -webkit-animation: scalein 0.15s linear;
+            animation: scalein 0.15s linear;
+
+            &.layout-topbar-menu-mobile-active {
+                display: block
+            }
+
+            .layout-topbar-button {
+                margin-left: 0;
+                display: flex;
+                width: 100%;
+                height: auto;
+                justify-content: flex-start;
+                border-radius: 12px;
+                padding: 1rem;
+
+                i {
+                    font-size: 1rem;
+                    margin-right: .5rem;
+                }
+
+                span {
+                    font-weight: medium;
+                    display: block;
+                }
+            }
+        }
     }
 }

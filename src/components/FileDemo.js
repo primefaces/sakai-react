@@ -10,8 +10,8 @@ export const FileDemo = () => {
     }
 
     return (
-        <div className="p-grid">
-            <div className="p-col-12">
+        <div className="grid">
+            <div className="col-12">
                 <div className="card">
                     <h5>Advanced</h5>
                     <FileUpload name="demo[]" url="./upload.php" onUpload={onUpload} multiple accept="image/*" maxFileSize={1000000} />

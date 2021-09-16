@@ -1,43 +1,13 @@
-@mixin icon-override($icon) {
-    &:before {
-        content: $icon;
-    }
-}
-
-@mixin linear-gradient($top, $bottom){
-    background: $top; /* Old browsers */
-    background: linear-gradient(to bottom,  $top 0%,$bottom 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#000000',GradientType=0 ); /* IE6-9 */
-}
-
-@mixin linear-gradient-left($left, $right){
-    background: $left; /* Old browsers */
-    background: linear-gradient(to right,  $left 0%,$right 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=$left, endColorstr=$right,GradientType=1 ); /* IE6-9 */
-}
-
-@mixin opacity($opacity) {
-    opacity: $opacity;
-    $opacity-ie: $opacity * 100;
-    filter: alpha(opacity=$opacity-ie);
-}
-
 @mixin focused() {
     outline: 0 none;
     outline-offset: 0;
-    box-shadow: 0 0 0 0.2em $focusShadowColor;
+    transition: box-shadow .2s;
+    box-shadow: var(--focus-ring);
 }
 
 @mixin focused-inset() {
     outline: 0 none;
     outline-offset: 0;
-    box-shadow: inset 0 0 0 0.2em $focusShadowColor;
-}
-
-@mixin clearfix {
-    &:after {
-        content: "";
-        display: table;
-        clear: both;
-    }
+    transition: box-shadow .2s;
+    box-shadow: inset var(--focus-ring);
 }

@@ -14,19 +14,19 @@ export const FormLayoutDemo = () => {
     ];
 
     return (
-        <div className="p-grid">
-            <div className="p-col-12 p-md-6">
+        <div className="grid">
+            <div className="col-12 md:col-6">
                 <div className="card p-fluid">
                     <h5>Vertical</h5>
-                    <div className="p-field">
+                    <div className="field">
                         <label htmlFor="name1">Name</label>
                         <InputText id="name1" type="text" />
                     </div>
-                    <div className="p-field">
+                    <div className="field">
                         <label htmlFor="email1">Email</label>
                         <InputText id="email1" type="text" />
                     </div>
-                    <div className="p-field">
+                    <div className="field">
                         <label htmlFor="age1">Age</label>
                         <InputText id="age1" type="text" />
                     </div>
@@ -34,12 +34,12 @@ export const FormLayoutDemo = () => {
 
                 <div className="card p-fluid">
                     <h5>Vertical Grid</h5>
-                    <div className="p-formgrid p-grid">
-                        <div className="p-field p-col">
+                    <div className="formgrid grid">
+                        <div className="field col">
                             <label htmlFor="name2">Name</label>
                             <InputText id="name2" type="text" />
                         </div>
-                        <div className="p-field p-col">
+                        <div className="field col">
                             <label htmlFor="email2">Email</label>
                             <InputText id="email2" type="text" />
                         </div>
@@ -47,18 +47,18 @@ export const FormLayoutDemo = () => {
                 </div>
             </div>
 
-            <div className="p-col-12 p-md-6">
+            <div className="col-12 md:col-6">
                 <div className="card p-fluid">
                     <h5>Horizontal</h5>
-                    <div className="p-field p-grid">
-                        <label htmlFor="name3" className="p-col-12 p-mb-2 p-md-2 p-mb-md-0">Name</label>
-                        <div className="p-col-12 p-md-10">
+                    <div className="field grid">
+                        <label htmlFor="name3" className="col-12 mb-2 md:col-2 md:mb-0">Name</label>
+                        <div className="col-12 md:col-10">
                             <InputText id="name3" type="text" />
                         </div>
                     </div>
-                    <div className="p-field p-grid">
-                        <label htmlFor="email3" className="p-col-12 p-mb-2 p-md-2 p-mb-md-0">Email</label>
-                        <div className="p-col-12 p-md-10">
+                    <div className="field grid">
+                        <label htmlFor="email3" className="col-12 mb-2 md:col-2 md:mb-0">Email</label>
+                        <div className="col-12 md:col-10">
                             <InputText id="email3" type="text" />
                         </div>
                     </div>
@@ -66,12 +66,12 @@ export const FormLayoutDemo = () => {
 
                 <div className="card">
                     <h5>Inline</h5>
-                    <div className="p-formgroup-inline">
-                        <div className="p-field">
+                    <div className="formgroup-inline">
+                        <div className="field">
                             <label htmlFor="firstname1" className="p-sr-only">Firstname</label>
                             <InputText id="firstname1" type="text" placeholder="Firstname" />
                         </div>
-                        <div className="p-field">
+                        <div className="field">
                             <label htmlFor="lastname1" className="p-sr-only">Lastname</label>
                             <InputText id="lastname1" type="text" placeholder="Lastname" />
                         </div>
@@ -81,7 +81,7 @@ export const FormLayoutDemo = () => {
 
                 <div className="card">
                     <h5>Help Text</h5>
-                    <div className="p-field p-fluid">
+                    <div className="field p-fluid">
                         <label htmlFor="username">Username</label>
                         <InputText id="username" type="text" />
                         <small>Enter your username to reset your password.</small>
@@ -89,31 +89,31 @@ export const FormLayoutDemo = () => {
                 </div>
             </div>
 
-            <div className="p-col-12">
+            <div className="col-12">
                 <div className="card">
                     <h5>Advanced</h5>
-                    <div className="p-fluid p-formgrid p-grid">
-                        <div className="p-field p-col-12 p-md-6">
+                    <div className="p-fluid formgrid grid">
+                        <div className="field col-12 md:col-6">
                             <label htmlFor="firstname2">Firstname</label>
                             <InputText id="firstname2" type="text" />
                         </div>
-                        <div className="p-field p-col-12 p-md-6">
+                        <div className="field col-12 md:col-6">
                             <label htmlFor="lastname2">Lastname</label>
                             <InputText id="lastname2" type="text" />
                         </div>
-                        <div className="p-field p-col-12">
+                        <div className="field col-12">
                             <label htmlFor="address">Address</label>
                             <InputTextarea id="address" rows="4" />
                         </div>
-                        <div className="p-field p-col-12 p-md-6">
+                        <div className="field col-12 md:col-6">
                             <label htmlFor="city">City</label>
                             <InputText id="city" type="text" />
                         </div>
-                        <div className="p-field p-col-12 p-md-3">
+                        <div className="field col-12 md:col-3">
                             <label htmlFor="state">State</label>
                             <Dropdown id="state" value={dropdownItem} onChange={(e) => setDropdownItem(e.value)} options={dropdownItems} optionLabel="name" placeholder="Select One"></Dropdown>
                         </div>
-                        <div className="p-field p-col-12 p-md-3">
+                        <div className="field col-12 md:col-3">
                             <label htmlFor="zip">Zip</label>
                             <InputText id="zip" type="text" />
                         </div>

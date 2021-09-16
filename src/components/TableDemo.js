@@ -142,7 +142,7 @@ export const TableDemo = () => {
 
     const productsTableHeader = (
         <div className="table-header-container">
-            <Button icon="pi pi-plus" label="Expand All" onClick={expandAll} className="p-mr-2" />
+            <Button icon="pi pi-plus" label="Expand All" onClick={expandAll} className="mr-2" />
             <Button icon="pi pi-minus" label="Collapse All" onClick={collapseAll} />
         </div>
     );
@@ -218,8 +218,8 @@ export const TableDemo = () => {
     };
 
     return (
-        <div className="p-grid table-demo">
-            <div className="p-col-12">
+        <div className="grid table-demo">
+            <div className="col-12">
                 <div className="card">
                     <h5>Default</h5>
                     <p>Pagination, sorting, filtering and checkbox selection.</p>
@@ -236,7 +236,7 @@ export const TableDemo = () => {
                     </DataTable>
                 </div>
             </div>
-            <div className="p-col-12">
+            <div className="col-12">
                 <div className="card">
                     <h5>Customized</h5>
                     <p>Scrollable table with gridlines (<mark>.p-datatable-gridlines</mark>), striped rows (<mark>.p-datatable-striped</mark>) and smaller paddings (<mark>p-datatable-sm</mark>).</p>
@@ -252,7 +252,7 @@ export const TableDemo = () => {
                 </div>
             </div>
 
-            <div className="p-col-12">
+            <div className="col-12">
                 <div className="card">
                     <h5>Row Expand</h5>
 
@@ -270,11 +270,11 @@ export const TableDemo = () => {
                 </div>
             </div>
 
-            <div className="p-col-12">
+            <div className="col-12">
                 <div className="card">
                     <h5>Row Group</h5>
                     <DataTable value={customer3} rowGroupMode="subheader" className="p-datatable-customers" groupField="representative.name" sortMode="single" sortField="representative.name" sortOrder={1}
-                        rowGroupHeaderTemplate={headerRowGroup} rowGroupFooterTemplate={footerRowGroup}>
+                        rowGroupHeaderTemplate={headerRowGroup} rowGroupFooterTemplate={footerRowGroup} scrollable scrollHeight="600px">
                         <Column field="representative.name" header="Representative"></Column>
                         <Column field="name" header="Name" body={bodyTemplate}></Column>
                         <Column field="country" header="Country" body={countryBodyTemplate}></Column>

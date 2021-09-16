@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { InputText } from 'primereact/inputtext';
-import { InputTextarea } from 'primereact/inputtextarea';
-import { InputMask } from 'primereact/inputmask';
-import { InputNumber } from 'primereact/inputnumber';
-import { AutoComplete } from 'primereact/autocomplete';
-import { Calendar } from 'primereact/calendar';
-import { Chips } from 'primereact/chips';
-import { Dropdown } from 'primereact/dropdown';
-import { MultiSelect } from 'primereact/multiselect';
-import { CountryService } from '../service/CountryService';
+import React, {useState, useEffect} from 'react';
+import {InputText} from 'primereact/inputtext';
+import {InputTextarea} from 'primereact/inputtextarea';
+import {InputMask} from 'primereact/inputmask';
+import {InputNumber} from 'primereact/inputnumber';
+import {AutoComplete} from 'primereact/autocomplete';
+import {Calendar} from 'primereact/calendar';
+import {Chips} from 'primereact/chips';
+import {Dropdown} from 'primereact/dropdown';
+import {MultiSelect} from 'primereact/multiselect';
+import {CountryService} from '../service/CountryService';
 
 export const FloatLabelDemo = () => {
 
@@ -26,11 +26,11 @@ export const FloatLabelDemo = () => {
     const [value10, setValue10] = useState(null);
 
     const cities = [
-        { name: 'New York', code: 'NY' },
-        { name: 'Rome', code: 'RM' },
-        { name: 'London', code: 'LDN' },
-        { name: 'Istanbul', code: 'IST' },
-        { name: 'Paris', code: 'PRS' },
+        {name: 'New York', code: 'NY'},
+        {name: 'Rome', code: 'RM'},
+        {name: 'London', code: 'LDN'},
+        {name: 'Istanbul', code: 'IST'},
+        {name: 'Paris', code: 'PRS'},
     ];
 
     useEffect(() => {
@@ -55,83 +55,73 @@ export const FloatLabelDemo = () => {
     };
 
     return (
-        <div className="p-grid floatlabel-demo">
-            <div className="p-col-12">
-                <div className="card p-fluid">
-                    <h5>Float Label</h5>
-                    <p>All input text components support floating labels by adding (<mark>.p-float-label</mark>) to wrapper class.</p>
-                    <div className="p-grid">
-                        <div className="p-col-12 p-md-6">
-                            <div className="p-field">
-                                <span className="p-float-label">
-                                    <InputText type="text" id="inputtext" value={value1} onChange={(e) => setValue1(e.target.value)} />
-                                    <label htmlFor="inputtext">InputText</label>
-                                </span>
-                            </div>
-                            <div className="p-field">
-                                <span className="p-float-label">
-                                    <InputMask id="inputmask" mask="99/99/9999" value={value2} onChange={(e) => setValue2(e.value)}></InputMask>
-                                    <label htmlFor="inputmask">InputMask</label>
-                                </span>
-                            </div>
-                            <div className="p-field">
-                                <span className="p-float-label">
-                                    <InputNumber id="inputnumber" value={value3} onValueChange={(e) => setValue3(e.target.value)}></InputNumber>
-                                    <label htmlFor="inputnumber">InputNumber</label>
-                                </span>
-                            </div>
-                            <div className="p-field">
-                                <div className="p-inputgroup">
-                                    <span className="p-inputgroup-addon">
-                                        <i className="pi pi-user"></i>
-                                    </span>
-                                    <span className="p-float-label">
-                                        <InputText type="text" id="inputgroup" value={value4} onChange={(e) => setValue4(e.target.value)} />
-                                        <label htmlFor="inputgroup">InputGroup</label>
-                                    </span>
-                                </div>
-                            </div>
-                            <div className="p-field">
-                                <span className="p-float-label">
-                                    <InputTextarea id="textarea" rows="3" cols="30" value={value5} onChange={(e) => setValue5(e.target.value)}></InputTextarea>
-                                    <label htmlFor="textarea">Textarea</label>
-                                </span>
-                            </div>
-                        </div>
-
-                        <div className="p-col-12 p-md-6">
-                            <div className="p-field">
-                                <span className="p-float-label">
-                                    <AutoComplete id="autocomplete" value={value6} onChange={(e) => setValue6(e.value)} suggestions={filteredCountries} completeMethod={searchCountry} field="name"></AutoComplete>
-                                    <label htmlFor="autocomplete">AutoComplete</label>
-                                </span>
-                            </div>
-                            <div className="p-field">
-                                <span className="p-float-label">
-                                    <Calendar inputId="calendar" value={value7} onChange={(e) => setValue7(e.value)}></Calendar>
-                                    <label htmlFor="calendar">Calendar</label>
-                                </span>
-                            </div>
-                            <div className="p-field">
-                                <span className="p-float-label">
-                                    <Dropdown id="dropdown" options={cities} value={value8} onChange={(e) => setValue8(e.value)} optionLabel="name"></Dropdown>
-                                    <label htmlFor="dropdown">Dropdown</label>
-                                </span>
-                            </div>
-                            <div className="p-field">
-                                <span className="p-float-label">
-                                    <Chips inputId="chips" value={value9} onChange={(e) => setValue9(e.value)}></Chips>
-                                    <label htmlFor="chips">Chips</label>
-                                </span>
-                            </div>
-                            <div className="p-field">
-                                <span className="p-float-label">
-                                    <MultiSelect id="multiselect" options={cities} value={value10} onChange={(e) => setValue10(e.value)} optionLabel="name"></MultiSelect>
-                                    <label htmlFor="multiselect">MultiSelect</label>
-                                </span>
-                            </div>
-                        </div>
+        <div className="card">
+            <h5>Float Label</h5>
+            <div className="grid p-fluid mt-3">
+                <div className="field col-12 md:col-4">
+                    <span className="p-float-label">
+                        <InputText type="text" id="inputtext" value={value1} onChange={(e) => setValue1(e.target.value)}/>
+                        <label htmlFor="inputtext">InputText</label>
+                    </span>
+                </div>
+                <div className="field col-12 md:col-4">
+                    <span className="p-float-label">
+                        <AutoComplete id="autocomplete" value={value6} onChange={(e) => setValue6(e.value)} suggestions={filteredCountries} completeMethod={searchCountry} field="name"></AutoComplete>
+                        <label htmlFor="autocomplete">AutoComplete</label>
+                    </span>
+                </div>
+                <div className="field col-12 md:col-4">
+                    <span className="p-float-label">
+                        <Calendar inputId="calendar" value={value7} onChange={(e) => setValue7(e.value)}></Calendar>
+                        <label htmlFor="calendar">Calendar</label>
+                    </span>
+                </div>
+                <div className="field col-12 md:col-4">
+                    <span className="p-float-label">
+                        <Chips inputId="chips" value={value9} onChange={(e) => setValue9(e.value)}></Chips>
+                        <label htmlFor="chips">Chips</label>
+                    </span>
+                </div>
+                <div className="field col-12 md:col-4">
+                    <span className="p-float-label">
+                        <InputMask id="inputmask" mask="99/99/9999" value={value2} onChange={(e) => setValue2(e.value)}></InputMask>
+                        <label htmlFor="inputmask">InputMask</label>
+                    </span>
+                </div>
+                <div className="field col-12 md:col-4">
+                    <span className="p-float-label">
+                        <InputNumber id="inputnumber" value={value3} onValueChange={(e) => setValue3(e.target.value)}></InputNumber>
+                        <label htmlFor="inputnumber">InputNumber</label>
+                    </span>
+                </div>
+                <div className="field col-12 md:col-4">
+                    <div className="p-inputgroup">
+                        <span className="p-inputgroup-addon">
+                            <i className="pi pi-user"></i>
+                        </span>
+                        <span className="p-float-label">
+                            <InputText type="text" id="inputgroup" value={value4} onChange={(e) => setValue4(e.target.value)}/>
+                            <label htmlFor="inputgroup">InputGroup</label>
+                        </span>
                     </div>
+                </div>
+                <div className="field col-12 md:col-4">
+                    <span className="p-float-label">
+                        <Dropdown id="dropdown" options={cities} value={value8} onChange={(e) => setValue8(e.value)} optionLabel="name"></Dropdown>
+                        <label htmlFor="dropdown">Dropdown</label>
+                    </span>
+                </div>
+                <div className="field col-12 md:col-4">
+                    <span className="p-float-label">
+                        <MultiSelect id="multiselect" options={cities} value={value10} onChange={(e) => setValue10(e.value)} optionLabel="name"></MultiSelect>
+                        <label htmlFor="multiselect">MultiSelect</label>
+                    </span>
+                </div>
+                <div className="field col-12 md:col-4">
+                    <span className="p-float-label">
+                        <InputTextarea id="textarea" rows="3" cols="30" value={value5} onChange={(e) => setValue5(e.target.value)}></InputTextarea>
+                        <label htmlFor="textarea">Textarea</label>
+                    </span>
                 </div>
             </div>
         </div>

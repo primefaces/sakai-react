@@ -11,14 +11,16 @@ export const ChartDemo = () => {
                 data: [65, 59, 80, 81, 56, 55, 40],
                 fill: false,
                 backgroundColor: '#2f4860',
-                borderColor: '#2f4860'
+                borderColor: '#2f4860',
+                tension: .4
             },
             {
                 label: 'Second Dataset',
                 data: [28, 48, 40, 19, 86, 27, 90],
                 fill: false,
                 backgroundColor: '#00bb7e',
-                borderColor: '#00bb7e'
+                borderColor: '#00bb7e',
+                tension: .4
             }
         ]
     };
@@ -131,37 +133,37 @@ export const ChartDemo = () => {
     };
 
     return (
-        <div className="p-grid p-fluid">
-            <div className="p-col-12 p-lg-6">
+        <div className="grid p-fluid">
+            <div className="col-12 lg:col-6">
                 <div className="card">
-                    <h5 className="centerText">Linear Chart</h5>
+                    <h5>Linear Chart</h5>
                     <Chart type="line" data={lineData} />
                 </div>
 
-                <div className="card">
-                    <h5 className="centerText">Pie Chart</h5>
-                    <Chart type="pie" data={pieData} />
+                <div className="card flex flex-column align-items-center">
+                    <h5>Pie Chart</h5>
+                    <Chart type="pie" data={pieData} style={{width: '50%'}}/>
                 </div>
 
-                <div className="card">
-                    <h5 className="centerText">Polar Area Chart</h5>
-                    <Chart type="polarArea" data={polarData} />
+                <div className="card flex flex-column align-items-center">
+                    <h5>Polar Area Chart</h5>
+                    <Chart type="polarArea" data={polarData} style={{width: '50%'}}/>
                 </div>
             </div>
-            <div className="p-col-12 p-lg-6">
+            <div className="col-12 lg:col-6">
                 <div className="card">
-                    <h5 className="centerText">Bar Chart</h5>
+                    <h5>Bar Chart</h5>
                     <Chart type="bar" data={barData} />
                 </div>
 
-                <div className="card">
-                    <h5 className="centerText">Doughnut Chart</h5>
-                    <Chart type="doughnut" data={doughnutData} />
+                <div className="card flex flex-column align-items-center">
+                    <h5>Doughnut Chart</h5>
+                    <Chart type="doughnut" data={doughnutData} style={{width: '50%'}}/>
                 </div>
 
-                <div className="card">
-                    <h5 className="centerText">Radar Chart</h5>
-                    <Chart type="radar" data={radarData} />
+                <div className="card flex flex-column align-items-center">
+                    <h5>Radar Chart</h5>
+                    <Chart type="radar" data={radarData} style={{width: '50%'}}/>
                 </div>
             </div>
         </div>

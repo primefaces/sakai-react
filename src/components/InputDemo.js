@@ -136,37 +136,37 @@ export const InputDemo = () => {
     };
 
     return (
-        <div className="p-grid p-fluid input-demo">
-            <div className="p-col-12 p-md-6">
+        <div className="grid p-fluid">
+            <div className="col-12 md:col-6">
                 <div className="card">
                     <h5>InputText</h5>
-                    <div className="p-grid p-formgrid">
-                        <div className="p-col-12 p-mb-2 p-lg-4 p-mb-lg-0">
+                    <div className="grid formgrid">
+                        <div className="col-12 mb-2 lg:col-4 lg:mb-0">
                             <InputText type="text" placeholder="Default"></InputText>
                         </div>
-                        <div className="p-col-12 p-mb-2 p-lg-4 p-mb-lg-0">
+                        <div className="col-12 mb-2 lg:col-4 lg:mb-0">
                             <InputText type="text" placeholder="Disabled" disabled></InputText>
                         </div>
-                        <div className="p-col-12 p-mb-2 p-lg-4 p-mb-lg-0">
+                        <div className="col-12 mb-2 lg:col-4 lg:mb-0">
                             <InputText type="text" placeholder="Invalid" className="p-error" />
                         </div>
                     </div>
 
                     <h5>Icons</h5>
-                    <div className="p-grid p-formgrid">
-                        <div className="p-col-12 p-mb-2 p-lg-4 p-mb-lg-0">
+                    <div className="grid formgrid">
+                        <div className="col-12 mb-2 lg:col-4 lg:mb-0">
                             <span className="p-input-icon-left">
                                 <i className="pi pi-user" />
                                 <InputText type="text" placeholder="Username" />
                             </span>
                         </div>
-                        <div className="p-col-12 p-mb-2 p-lg-4 p-mb-lg-0">
+                        <div className="col-12 mb-2 lg:col-4 lg:mb-0">
                             <span className="p-input-icon-right">
                                 <InputText type="text" placeholder="Search" />
                                 <i className="pi pi-search" />
                             </span>
                         </div>
-                        <div className="p-col-12 p-mb-2 p-lg-4 p-mb-lg-0">
+                        <div className="col-12 mb-2 lg:col-4 lg:mb-0">
                             <span className="p-input-icon-left p-input-icon-right">
                                 <i className="pi pi-user" />
                                 <InputText type="text" placeholder="Search" />
@@ -198,21 +198,21 @@ export const InputDemo = () => {
                 </div>
 
                 <div className="card">
-                    <div className="p-grid">
-                        <div className="p-col-12">
+                    <div className="grid">
+                        <div className="col-12">
                             <h5>Slider</h5>
                             <InputText value={sliderValue} onChange={(e) => setSliderValue(parseInt(e.target.value), 10)} />
                             <Slider value={sliderValue} onChange={(e) => setSliderValue(e.value)} />
                         </div>
-                        <div className="p-col-12 p-md-6">
+                        <div className="col-12 md:col-6">
                             <h5>Rating</h5>
                             <Rating value={ratingValue} onChange={(e) => setRatingValue(e.value)} />
                         </div>
-                        <div className="p-col-12 p-md-6">
+                        <div className="col-12 md:col-6">
                             <h5>ColorPicker</h5>
                             <ColorPicker value={colorValue} onChange={(e) => setColorValue(e.value)} style={{ width: '2rem' }} />
                         </div>
-                        <div className="p-col-12">
+                        <div className="col-12">
                             <h5>Knob</h5>
                             <Knob value={knobValue} valueTemplate={"{value}%"} onChange={(e) => setKnobValue(e.value)} step={10} min={-50} max={50} />
                         </div>
@@ -220,53 +220,53 @@ export const InputDemo = () => {
                 </div>
             </div>
 
-            <div className="p-col-12 p-md-6">
+            <div className="col-12 md:col-6">
                 <div className="card">
                     <h5>RadioButton</h5>
-                    <div className="p-grid">
-                        <div className="p-col-12 p-md-4">
-                            <div className="p-field-radiobutton">
+                    <div className="grid">
+                        <div className="col-12 md:col-4">
+                            <div className="field-radiobutton">
                                 <RadioButton inputId="option1" name="option" value="Chicago" checked={radioValue === 'Chicago'} onChange={(e) => setRadioValue(e.value)} />
                                 <label htmlFor="option1">Chicago</label>
                             </div>
                         </div>
-                        <div className="p-col-12 p-md-4">
-                            <div className="p-field-radiobutton">
+                        <div className="col-12 md:col-4">
+                            <div className="field-radiobutton">
                                 <RadioButton inputId="option2" name="option" value="Los Angeles" checked={radioValue === 'Los Angeles'} onChange={(e) => setRadioValue(e.value)} />
                                 <label htmlFor="option2">Los Angeles</label>
                             </div>
                         </div>
-                        <div className="p-col-12 p-md-4">
-                            <div className="p-field-radiobutton">
+                        <div className="col-12 md:col-4">
+                            <div className="field-radiobutton">
                                 <RadioButton inputId="option3" name="option" value="New York" checked={radioValue === 'New York'} onChange={(e) => setRadioValue(e.value)} />
                                 <label htmlFor="option3">New York</label>
                             </div>
                         </div>
                     </div>
 
-                    <h5 style={{ marginTop: 0 }}>Checkbox</h5>
-                    <div className="p-grid">
-                        <div className="p-col-12 p-md-4">
-                            <div className="p-field-checkbox">
+                    <h5>Checkbox</h5>
+                    <div className="grid">
+                        <div className="col-12 md:col-4">
+                            <div className="field-checkbox">
                                 <Checkbox inputId="checkOption1" name="option" value="Chicago" checked={checkboxValue.indexOf('Chicago') !== -1} onChange={onCheckboxChange} />
                                 <label htmlFor="checkOption1">Chicago</label>
                             </div>
                         </div>
-                        <div className="p-col-12 p-md-4">
-                            <div className="p-field-checkbox">
+                        <div className="col-12 md:col-4">
+                            <div className="field-checkbox">
                                 <Checkbox inputId="checkOption2" name="option" value="Los Angeles" checked={checkboxValue.indexOf('Los Angeles') !== -1} onChange={onCheckboxChange} />
                                 <label htmlFor="checkOption2">Los Angeles</label>
                             </div>
                         </div>
-                        <div className="p-col-12 p-md-4">
-                            <div className="p-field-checkbox">
+                        <div className="col-12 md:col-4">
+                            <div className="field-checkbox">
                                 <Checkbox inputId="checkOption3" name="option" value="New York" checked={checkboxValue.indexOf('New York') !== -1} onChange={onCheckboxChange} />
                                 <label htmlFor="checkOption3">New York</label>
                             </div>
                         </div>
                     </div>
 
-                    <h5 style={{ marginTop: 0 }}>Input Switch</h5>
+                    <h5>Input Switch</h5>
                     <InputSwitch checked={switchValue} onChange={(e) => setSwitchValue(e.value)} />
                 </div>
 
@@ -294,11 +294,11 @@ export const InputDemo = () => {
                 </div>
             </div>
 
-            <div className="p-col-12">
+            <div className="col-12">
                 <div className="card">
                     <h5>Input Groups</h5>
-                    <div className="p-grid p-fluid">
-                        <div className="p-col-12 p-md-6">
+                    <div className="grid p-fluid">
+                        <div className="col-12 md:col-6">
                             <div className="p-inputgroup">
                                 <span className="p-inputgroup-addon">
                                     <i className="pi pi-user"></i>
@@ -307,7 +307,7 @@ export const InputDemo = () => {
                             </div>
                         </div>
 
-                        <div className="p-col-12 p-md-6">
+                        <div className="col-12 md:col-6">
                             <div className="p-inputgroup">
                                 <span className="p-inputgroup-addon"><i className="pi pi-shopping-cart"></i></span>
                                 <span className="p-inputgroup-addon"><i className="pi pi-globe"></i></span>
@@ -317,14 +317,14 @@ export const InputDemo = () => {
                             </div>
                         </div>
 
-                        <div className="p-col-12 p-md-6">
+                        <div className="col-12 md:col-6">
                             <div className="p-inputgroup">
                                 <Button label="Search" />
                                 <InputText placeholder="Keyword" />
                             </div>
                         </div>
 
-                        <div className="p-col-12 p-md-6">
+                        <div className="col-12 md:col-6">
                             <div className="p-inputgroup">
                                 <span className="p-inputgroup-addon p-inputgroup-addon-checkbox">
                                     <Checkbox checked={inputGroupValue} onChange={(e) => setInputGroupValue(e.checked)} binary />

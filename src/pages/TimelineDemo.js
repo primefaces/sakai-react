@@ -4,7 +4,6 @@ import { Card } from 'primereact/card';
 import { Timeline } from 'primereact/timeline';
 import classNames from 'classnames';
 
-
 export const TimelineDemo = () => {
 
     const customEvents = [

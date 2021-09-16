@@ -54,11 +54,11 @@ export const ListDemo = () => {
     };
 
     const dataviewHeader = (
-        <div className="p-grid p-nogutter">
-            <div className="p-col-6" style={{ textAlign: 'left' }}>
+        <div className="grid grid-nogutter">
+            <div className="col-6" style={{ textAlign: 'left' }}>
                 <Dropdown value={sortKey} options={sortOptions} optionLabel="label" placeholder="Sort By Price" onChange={onSortChange} />
             </div>
-            <div className="p-col-6" style={{ textAlign: 'right' }}>
+            <div className="col-6" style={{ textAlign: 'right' }}>
                 <DataViewLayoutOptions layout={layout} onChange={(e) => setLayout(e.value)} />
             </div>
         </div>
@@ -66,7 +66,7 @@ export const ListDemo = () => {
 
     const dataviewListItem = (data) => {
         return (
-            <div className="p-col-12">
+            <div className="col-12">
                 <div className="product-list-item">
                     <img src={`assets/demo/images/product/${data.image}`} alt={data.name} />
                     <div className="product-list-detail">
@@ -87,25 +87,25 @@ export const ListDemo = () => {
 
     const dataviewGridItem = (data) => {
         return (
-            <div className="p-col-12 p-md-4">
-                <div className="product-grid-item card">
-                    <div className="product-grid-item-top">
-                        <div>
-                            <i className="pi pi-tag product-category-icon"></i>
-                            <span className="product-category">{data.category}</span>
+            <div className="col-12 md:col-4">
+                <div className="card m-3 border-1 surface-border">
+                    <div className="flex align-items-center justify-content-between">
+                        <div className="flex align-items-center">
+                            <i className="pi pi-tag mr-2"/>
+                            <span className="font-semibold">{data.category}</span>
                         </div>
                         <span className={`product-badge status-${data.inventoryStatus.toLowerCase()}`}>{data.inventoryStatus}</span>
                     </div>
-                    <div className="product-grid-item-content">
-                        <img src={`assets/demo/images/product/${data.image}`} alt={data.name} />
-                        <div className="product-name">{data.name}</div>
-                        <div className="product-description">{data.description}</div>
-                        <Rating value={data.rating} readonly cancel={false}></Rating>
+                    <div className="text-center">
+                        <img src={`assets/demo/images/product/${data.image}`} alt={data.name}  className="w-9 shadow-2 my-3 mx-0"/>
+                        <div className="text-2xl font-bold">{data.name}</div>
+                        <div className="mb-3">{data.description}</div>
+                        <Rating value={data.rating} readonly cancel={false}/>
                     </div>
-                    <div className="product-grid-item-bottom">
-                        <span className="product-price">${data.price}</span>
-                        <Button icon="pi pi-shopping-cart" disabled={data.inventoryStatus === 'OUTOFSTOCK'}></Button>
-                    </div>
+                    <div className="flex align-items-center justify-content-between">
+                        <span className="text-2xl font-semibold">${data.price}</span>
+                        <Button icon="pi pi-shopping-cart" disabled={data.inventoryStatus === 'OUTOFSTOCK'}/>
+                </div>
                 </div>
             </div>
         );
@@ -125,15 +125,15 @@ export const ListDemo = () => {
     };
 
     return (
-        <div className="p-grid list-demo">
-            <div className="p-col-12">
+        <div className="grid list-demo">
+            <div className="col-12">
                 <div className="card">
                     <h5>DataView</h5>
                     <DataView value={dataviewValue} layout={layout} paginator rows={9} sortOrder={sortOrder} sortField={sortField} itemTemplate={itemTemplate} header={dataviewHeader}></DataView>
                 </div>
             </div>
 
-            <div className="p-col-12 p-lg-8">
+            <div className="col-12 lg:col-8">
                 <div className="card">
                     <h5>PickList</h5>
                     <PickList source={picklistSourceValue} target={picklistTargetValue} sourceHeader="From" targetHeader="To" itemTemplate={(item) => <div>{item.name}</div>}
@@ -141,7 +141,7 @@ export const ListDemo = () => {
                 </div>
             </div>
 
-            <div className="p-col-12 p-lg-4">
+            <div className="col-12 lg:col-4">
                 <div className="card">
                     <h5>OrderList</h5>
                     <OrderList value={orderlistValue} listStyle={{ height: '200px' }} className="p-orderlist-responsive" rows={10} header="Cities" itemTemplate={(item) => <div>{item.name}</div>}

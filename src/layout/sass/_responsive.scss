@@ -1,69 +1,84 @@
-.layout-sidebar {
-    transition: left $transitionDuration;
-    left: 0px;
-}
-
-@media (min-width: 1025px) {
-    .layout-topbar {
-        left: 0;
-    }
-
+@media (min-width: 992px) {
     .layout-wrapper {
         &.layout-overlay {
-            .layout-main,
-            .layout-footer {
+            .layout-main-container {
                 margin-left: 0;
+                padding-left: 2rem;
             }
 
-            &.layout-active {
-                .layout-sidebar {
-                    left: 0;
-                }
+            .layout-sidebar {
+                transform: translateX(-100%);
+                left: 0;
+                top: 0;
+                height: 100vh;
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+            }
 
-                .layout-topbar {
-                    left: 250px;
+            &.layout-overlay-sidebar-active {
+                .layout-sidebar {
+                    transform: translateX(0);
                 }
             }
         }
 
         &.layout-static {
-            .layout-main,
-            .layout-footer {
-                margin-left: 0px;
+            .layout-main-container {
+                margin-left: 300px;
             }
 
-            &.layout-active {
-                .layout-topbar {
-                    left: 250px;
+            &.layout-static-sidebar-inactive {
+                .layout-sidebar {
+                    transform: translateX(-100%);
+                    left: 0;
                 }
 
-                .layout-main,
-                .layout-footer {
-                    margin-left: 250px;
+                .layout-main-container {
+                    margin-left: 0;
+                    padding-left: 2rem;
                 }
             }
+        }
+
+        .layout-mask {
+            display: none;
         }
     }
 }
 
-@media (max-width: 1024px) {
-    .layout-sidebar {
-        margin-top: 50px;
-    }
-
+@media (max-width: 991px) {
     .layout-wrapper {
-        .layout-topbar {
-            left: 0;
-        }
-
-        .layout-main,
-        .layout-footer {
+        .layout-main-container {
             margin-left: 0;
+            padding-left: 2rem;
         }
 
-        &.layout-active {
+        .layout-sidebar {
+            transform: translateX(-100%);
+            left: 0;
+            top: 0;
+            height: 100vh;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        .layout-mask {
+            z-index: 998;
+            background-color: $maskBg;
+
+            &.layout-mask-enter-from,
+            &.layout-mask-leave-to {
+                background-color: transparent;
+            }
+        }
+
+        &.layout-mobile-sidebar-active {
             .layout-sidebar {
-                left: 0;
+                transform: translateX(0);
+            }
+
+            .layout-mask {
+                display: block;
             }
         }
     }
