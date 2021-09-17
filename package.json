@@ -1,11 +1,11 @@
 {
-    "name": "sigma-react",
+    "name": "sakai-react",
     "version": "6.0.0-SNAPSHOT",
     "homepage": ".",
     "private": false,
     "repository": {
         "type": "git",
-        "url": "https://github.com/primefaces/sigma-react.git"
+        "url": "https://github.com/primefaces/sakai-react.git"
     },
     "license": "MIT",
     "dependencies": {
