@@ -11,7 +11,7 @@ export const Documentation = () => {
                     <p>React 17.x and PrimeReact 6.x</p>
 
                     <h5>Getting Started</h5>
-                    <p>Sakai is an application template for React based on the popular <a href="https://github.com/facebookincubator/create-react-app">create-react-app</a> that allows
+                    <p>Sakai is an application template for React based on the popular <a href="https://github.com/facebook/create-react-app">create-react-app</a> that allows
                             creating React apps with no configuration. To get started, clone the <a href="https://github.com/primefaces/sakai-react">repository</a> from GitHub and install the dependencies with npm or yarn.</p>
 <CodeHighlight>
 {`

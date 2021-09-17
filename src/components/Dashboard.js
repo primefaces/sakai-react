@@ -228,7 +228,7 @@ export const Dashboard = () => {
                                 <i className="pi pi-dollar text-xl text-blue-500"/>
                             </div>
                             <span className="text-900 line-height-3">Richard Jones
-						<span className="text-700">has purchased a blue t-shirt for <span className="text-blue-500">79$</span></span>
+						<span className="text-700"> has purchased a blue t-shirt for <span className="text-blue-500">79$</span></span>
 					</span>
                         </li>
                         <li className="flex align-items-center py-2">
@@ -246,7 +246,7 @@ export const Dashboard = () => {
                                 <i className="pi pi-dollar text-xl text-blue-500"/>
                             </div>
                             <span className="text-900 line-height-3">Keyser Wick
-						<span className="text-700">has purchased a black jacket for <span className="text-blue-500">59$</span></span>
+						<span className="text-700"> has purchased a black jacket for <span className="text-blue-500">59$</span></span>
 					</span>
                         </li>
                         <li className="flex align-items-center py-2 border-bottom-1 surface-border">
@@ -254,7 +254,7 @@ export const Dashboard = () => {
                                 <i className="pi pi-question text-xl text-pink-500"/>
                             </div>
                             <span className="text-900 line-height-3">Jane Davis
-						<span className="text-700">has posted a new questions about your product.</span>
+						<span className="text-700"> has posted a new questions about your product.</span>
 					</span>
                         </li>
                     </ul>
@@ -266,7 +266,7 @@ export const Dashboard = () => {
                         <div className="text-white font-medium text-5xl">Try PrimeBlocks</div>
                     </div>
                     <div className="mt-4 mr-auto md:mt-0 md:mr-0">
-                        <a href="https://www.primefaces.org/primeblocks-vue" className="p-button font-bold px-5 py-3 p-button-warning p-button-rounded p-button-raised">
+                        <a href="https://www.primefaces.org/primeblocks-react" className="p-button font-bold px-5 py-3 p-button-warning p-button-rounded p-button-raised">
                             Get Started
                         </a>
                     </div>
