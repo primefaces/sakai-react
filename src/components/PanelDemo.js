@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import { Toolbar } from 'primereact/toolbar';
 import { Button } from 'primereact/button';
 import { SplitButton } from 'primereact/splitbutton';
@@ -11,10 +11,12 @@ import { Divider } from 'primereact/divider';
 import { InputText } from 'primereact/inputtext';
 import { Splitter, SplitterPanel } from 'primereact/splitter';
 import { Password } from 'primereact/password';
+import {Menu} from "primereact/menu";
 
 
 export const PanelDemo = () => {
 
+    const menu1 = useRef(null);
     const toolbarItems = [
         {
             label: 'Save',
@@ -50,9 +52,10 @@ export const PanelDemo = () => {
     };
     const toolbarRightTemplate = <SplitButton label="Options" icon="pi pi-check" model={toolbarItems} menuStyle={{ width: '12rem' }}></SplitButton>;
     const cardHeader = (
-        <div className="p-card-title">
-            <h5>Card</h5>
-            <Button icon="pi pi-plus" className="p-button-text" />
+        <div className="flex align-items-center justify-content-between mb-0 p-3 pb-0">
+            <h5 className="m-0">Card</h5>
+            <Button icon="pi pi-plus" className="p-button-text" onClick={(event) => menu1.current.toggle(event)}/>
+            <Menu ref={menu1} popup model={[{ label: 'Add New', icon: 'pi pi-fw pi-plus' }, { label: 'Remove', icon: 'pi pi-fw pi-minus' }]}/>
         </div>
     );
 
@@ -130,14 +133,12 @@ export const PanelDemo = () => {
 						Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
                     </Fieldset>
                 </div>
-                <div className="card">
-                    <Card header={cardHeader} subTitle="Subtitle">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-							Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                    </Card>
-                </div>
+                <Card header={cardHeader}>
+                    <p className="line-height-3 m-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                </Card>
             </div>
 
             <div className="col-12">
