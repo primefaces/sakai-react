@@ -95,7 +95,7 @@ const App = () => {
         menuClick = false;
     }
 
-    const onToggleMenu = (event) => {
+    const onToggleMenuClick = (event) => {
         menuClick = true;
 
         if (isDesktop()) {
@@ -122,14 +122,14 @@ const App = () => {
         menuClick = true;
     }
 
-    const onMobileTopbarMenu = (event) => {
+    const onMobileTopbarMenuClick = (event) => {
         mobileTopbarMenuClick = true;
 
         setMobileTopbarMenuActive((prevState) => !prevState);
         event.preventDefault();
     }
 
-    const onMobileSubTopbarMenu = (event) => {
+    const onMobileSubTopbarMenuClick = (event) => {
         mobileTopbarMenuClick = true;
 
         event.preventDefault();
@@ -261,8 +261,8 @@ const App = () => {
 
     return (
         <div className={wrapperClass} onClick={onWrapperClick}>
-            <AppTopbar onToggleMenu={onToggleMenu} layoutColorMode={layoutColorMode}
-                       mobileTopbarMenuActive={mobileTopbarMenuActive} onMobileTopbarMenu={onMobileTopbarMenu} onMobileSubTopbarMenu={onMobileSubTopbarMenu}/>
+            <AppTopbar onToggleMenuClick={onToggleMenuClick} layoutColorMode={layoutColorMode}
+                       mobileTopbarMenuActive={mobileTopbarMenuActive} onMobileTopbarMenuClick={onMobileTopbarMenuClick} onMobileSubTopbarMenuClick={onMobileSubTopbarMenuClick}/>
 
             <div className="layout-sidebar" onClick={onSidebarClick}>
                 <AppMenu model={menu} onMenuItemClick={onMenuItemClick} />

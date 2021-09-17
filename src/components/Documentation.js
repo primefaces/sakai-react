@@ -50,8 +50,8 @@ export const Documentation = () => {
 <CodeHighlight>
 {`
 <div className={wrapperClass} onClick={onWrapperClick}>
-    <AppTopbar onToggleMenu={onToggleMenu} layoutColorMode={layoutColorMode}
-               mobileTopbarMenuActive={mobileTopbarMenuActive} onMobileTopbarMenu={onMobileTopbarMenu} onMobileSubTopbarMenu={onMobileSubTopbarMenu}/>
+    <AppTopbar onToggleMenuClick={onToggleMenuClick} layoutColorMode={layoutColorMode}
+               mobileTopbarMenuActive={mobileTopbarMenuActive} onMobileTopbarMenuClick={onMobileTopbarMenuClick} onMobileSubTopbarMenuClick={onMobileSubTopbarMenuClick}/>
 
     <div className="layout-sidebar" onClick={onSidebarClick}>
         <AppMenu model={menu} onMenuItemClick={onMenuItemClick} />
