@@ -166,7 +166,7 @@ export const AppConfig = (props) => {
                     </div>
                 </div>
 
-                <h6>Menu Color</h6>
+                <h6>Color Scheme</h6>
                 <div className="p-formgroup-inline">
                     <div className="field-radiobutton">
                         <RadioButton inputId="light" name="layoutColorMode" value="light" onChange={e => changeThemeScheme(e, 'saga')} checked={props.layoutColorMode === 'light'} />
