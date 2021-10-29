@@ -174,7 +174,7 @@ export const AppConfig = (props) => {
                     </div>
                     <div className="field-radiobutton">
                         <RadioButton inputId="dim" name="layoutColorMode" value="dim" onChange={e => changeThemeScheme(e, 'vela')} checked={props.layoutColorMode === 'dim'} />
-                        <label htmlFor="dark">Dim</label>
+                        <label htmlFor="dim">Dim</label>
                     </div>
                     <div className="field-radiobutton">
                         <RadioButton inputId="dark" name="layoutColorMode" value="dark" onChange={e => changeThemeScheme(e, 'arya')} checked={props.layoutColorMode === 'dark'} />
