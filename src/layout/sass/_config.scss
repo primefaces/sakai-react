@@ -80,4 +80,21 @@
             }
         }
     }
+
+    .free-themes {
+        img {
+            width: 2rem;
+            border-radius: 4px;
+            transition: transform .2s;
+
+            &:hover {
+                transform: scale(1.1);
+            }
+        }
+
+        span {
+            font-size: .75rem;
+            margin-top: .25rem;
+        }
+    }
 }
