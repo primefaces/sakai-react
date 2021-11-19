@@ -7,9 +7,9 @@ import {Button} from "primereact/button";
 export const AppConfig = (props) => {
 
     const [active, setActive] = useState(false);
-    const [scale, setScale] = useState(16);
+    const [scale, setScale] = useState(14);
     const [scales] = useState([12,13,14,15,16]);
-    const [theme, setTheme] = useState('saga-blue');
+    const [theme, setTheme] = useState('lara-light-indigo');
     const config = useRef(null);
     let outsideClickListener = useRef(null);
 
@@ -250,7 +250,51 @@ export const AppConfig = (props) => {
                     </div>
                 </div>
 
-                <h6>PrimeOne Design</h6>
+                <h6>PrimeOne Design - 2022</h6>
+                <div className="grid free-themes">
+                    <div className="col-3">
+                        <button className="p-link" onClick={(e) => changeTheme(e, 'lara-light-indigo', 'light')}>
+                            <img src="assets/layout/images/themes/lara-light-indigo.png" alt="Lara Light Indigo"/>
+                        </button>
+                    </div>
+                    <div className="col-3">
+                        <button className="p-link" onClick={(e) => changeTheme(e, 'lara-light-blue', 'light')}>
+                            <img src="assets/layout/images/themes/lara-light-blue.png" alt="Lara Light Blue"/>
+                        </button>
+                    </div>
+                    <div className="col-3">
+                        <button className="p-link" onClick={(e) => changeTheme(e, 'lara-light-purple', 'light')}>
+                            <img src="assets/layout/images/themes/lara-light-purple.png" alt="Lara Light Purple"/>
+                        </button>
+                    </div>
+                    <div className="col-3">
+                        <button className="p-link" onClick={(e) => changeTheme(e, 'lara-light-teal', 'light')}>
+                            <img src="assets/layout/images/themes/lara-light-teal.png" alt="Lara Light Teal"/>
+                        </button>
+                    </div>
+                    <div className="col-3">
+                        <button className="p-link" onClick={(e) => changeTheme(e, 'lara-dark-indigo', 'dark')}>
+                            <img src="assets/layout/images/themes/lara-dark-indigo.png" alt="Lara Dark Indigo"/>
+                        </button>
+                    </div>
+                    <div className="col-3">
+                        <button className="p-link" onClick={(e) => changeTheme(e, 'lara-dark-blue', 'dark')}>
+                            <img src="assets/layout/images/themes/lara-dark-blue.png" alt="Lara Dark Blue"/>
+                        </button>
+                    </div>
+                    <div className="col-3">
+                        <button className="p-link" onClick={(e) => changeTheme(e, 'lara-dark-purple', 'dark')}>
+                            <img src="assets/layout/images/themes/lara-dark-purple.png" alt="Lara Dark Purple"/>
+                        </button>
+                    </div>
+                    <div className="col-3">
+                        <button className="p-link" onClick={(e) => changeTheme(e, 'lara-dark-teal', 'dark')}>
+                            <img src="assets/layout/images/themes/lara-dark-teal.png" alt="Lara Dark Teal"/>
+                        </button>
+                    </div>
+                </div>
+
+                <h6>PrimeOne Design - 2021</h6>
                 <div className="grid free-themes">
                     <div className="col-3 text-center">
                         <button className="p-link" onClick={e => changeTheme(e, 'saga-blue', 'light')}>

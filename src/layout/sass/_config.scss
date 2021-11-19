@@ -35,6 +35,8 @@
         cursor: pointer;
         border-top-left-radius: $borderRadius;
         border-bottom-left-radius: $borderRadius;
+        border-bottom-right-radius: 0;
+        border-top-right-radius: 0;
         transition: background-color $transitionDuration;
 
         i {
@@ -86,6 +88,7 @@
             width: 2rem;
             border-radius: 4px;
             transition: transform .2s;
+            display: block;
 
             &:hover {
                 transform: scale(1.1);
