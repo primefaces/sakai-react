@@ -1,34 +1,34 @@
-import React, { useState, useEffect } from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import classNames from 'classnames';
-import { Route } from 'react-router-dom';
-import { CSSTransition } from 'react-transition-group';
+import {Navigate, Route, Routes, useLocation} from 'react-router-dom';
+import {CSSTransition} from 'react-transition-group';
 
-import { AppTopbar } from './AppTopbar';
-import { AppFooter } from './AppFooter';
-import { AppMenu } from './AppMenu';
-import { AppConfig } from './AppConfig';
+import {AppTopbar} from './AppTopbar';
+import {AppFooter} from './AppFooter';
+import {AppMenu} from './AppMenu';
+import {AppConfig} from './AppConfig';
 
-import { Dashboard } from './components/Dashboard';
-import { ButtonDemo } from './components/ButtonDemo';
-import { ChartDemo } from './components/ChartDemo';
-import { Documentation } from './components/Documentation';
-import { FileDemo } from './components/FileDemo';
-import { FloatLabelDemo } from './components/FloatLabelDemo';
-import { FormLayoutDemo } from './components/FormLayoutDemo';
-import { InputDemo } from './components/InputDemo';
-import { ListDemo } from './components/ListDemo';
-import { MenuDemo } from './components/MenuDemo';
-import { MessagesDemo } from './components/MessagesDemo';
-import { MiscDemo } from './components/MiscDemo';
-import { OverlayDemo } from './components/OverlayDemo';
-import { PanelDemo } from './components/PanelDemo';
-import { TableDemo } from './components/TableDemo';
-import { TreeDemo } from './components/TreeDemo';
-import { InvalidStateDemo } from './components/InvalidStateDemo';
+import {Dashboard} from './components/Dashboard';
+import {ButtonDemo} from './components/ButtonDemo';
+import {ChartDemo} from './components/ChartDemo';
+import {Documentation} from './components/Documentation';
+import {FileDemo} from './components/FileDemo';
+import {FloatLabelDemo} from './components/FloatLabelDemo';
+import {FormLayoutDemo} from './components/FormLayoutDemo';
+import {InputDemo} from './components/InputDemo';
+import {ListDemo} from './components/ListDemo';
+import {MenuDemo} from './components/MenuDemo';
+import {MessagesDemo} from './components/MessagesDemo';
+import {MiscDemo} from './components/MiscDemo';
+import {OverlayDemo} from './components/OverlayDemo';
+import {PanelDemo} from './components/PanelDemo';
+import {TableDemo} from './components/TableDemo';
+import {TreeDemo} from './components/TreeDemo';
+import {InvalidStateDemo} from './components/InvalidStateDemo';
 
-import { Crud } from './pages/Crud';
-import { EmptyPage } from './pages/EmptyPage';
-import { TimelineDemo } from './pages/TimelineDemo';
+import {Crud} from './pages/Crud';
+import {EmptyPage} from './pages/EmptyPage';
+import {TimelineDemo} from './pages/TimelineDemo';
 
 import PrimeReact from 'primereact/api';
 
@@ -39,6 +39,8 @@ import 'prismjs/themes/prism-coy.css';
 import './layout/flags/flags.css';
 import './layout/layout.scss';
 import './App.scss';
+import {Login} from "./pages/Login";
+import AuthContext from "./AuthProvider";
 
 const App = () => {
 
@@ -50,9 +52,11 @@ const App = () => {
     const [overlayMenuActive, setOverlayMenuActive] = useState(false);
     const [mobileMenuActive, setMobileMenuActive] = useState(false);
     const [mobileTopbarMenuActive, setMobileTopbarMenuActive] = useState(false);
+    const {isLoggedIn} = useContext(AuthContext);
 
     PrimeReact.ripple = true;
 
+    let location = useLocation();
     let menuClick = false;
     let mobileTopbarMenuClick = false;
 
@@ -100,18 +104,16 @@ const App = () => {
 
         if (isDesktop()) {
             if (layoutMode === 'overlay') {
-                if(mobileMenuActive === true) {
+                if (mobileMenuActive === true) {
                     setOverlayMenuActive(true);
                 }
 
                 setOverlayMenuActive((prevState) => !prevState);
                 setMobileMenuActive(false);
-            }
-            else if (layoutMode === 'static') {
+            } else if (layoutMode === 'static') {
                 setStaticMenuInactive((prevState) => !prevState);
             }
-        }
-        else {
+        } else {
             setMobileMenuActive((prevState) => !prevState);
         }
 
@@ -135,6 +137,7 @@ const App = () => {
         event.preventDefault();
     }
 
+
     const onMenuItemClick = (event) => {
         if (!event.item.items) {
             setOverlayMenuActive(false);
@@ -144,6 +147,10 @@ const App = () => {
     const isDesktop = () => {
         return window.innerWidth >= 992;
     }
+
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [location]);
 
     const menu = [
         {
@@ -177,7 +184,8 @@ const App = () => {
             items: [
                 {label: 'Crud', icon: 'pi pi-fw pi-user-edit', to: '/crud'},
                 {label: 'Timeline', icon: 'pi pi-fw pi-calendar', to: '/timeline'},
-                {label: 'Empty', icon: 'pi pi-fw pi-circle-off', to: '/empty'}
+                {label: 'Empty', icon: 'pi pi-fw pi-circle-off', to: '/empty'},
+                {label: 'Login', icon: 'pi pi-fw pi-sign-in', to: '/login'}
             ]
         },
         {
@@ -228,8 +236,16 @@ const App = () => {
         {
             label: 'Get Started',
             items: [
-                {label: 'Documentation', icon: 'pi pi-fw pi-question', command: () => {window.location = "#/documentation"}},
-                {label: 'View Source', icon: 'pi pi-fw pi-search', command: () => {window.location = "https://github.com/primefaces/sakai-react"}}
+                {
+                    label: 'Documentation', icon: 'pi pi-fw pi-question', command: () => {
+                        window.location = "#/documentation"
+                    }
+                },
+                {
+                    label: 'View Source', icon: 'pi pi-fw pi-search', command: () => {
+                        window.location = "https://github.com/primefaces/sakai-react"
+                    }
+                }
             ]
         }
     ];
@@ -259,48 +275,64 @@ const App = () => {
         'layout-theme-light': layoutColorMode === 'light'
     });
 
+
+    const layoutMainContainerClass = classNames(isLoggedIn ? 'layout-main-container' : '')
+    const layoutMainClass = classNames(isLoggedIn ? 'layout-main' : '')
+
+
+    const RequireAuth = ({children}) => {
+        if (!isLoggedIn) {
+            return <Navigate to="/login" state={{from: location}}/>;
+        }
+        return children;
+    }
+
     return (
         <div className={wrapperClass} onClick={onWrapperClick}>
-            <AppTopbar onToggleMenuClick={onToggleMenuClick} layoutColorMode={layoutColorMode}
-                       mobileTopbarMenuActive={mobileTopbarMenuActive} onMobileTopbarMenuClick={onMobileTopbarMenuClick} onMobileSubTopbarMenuClick={onMobileSubTopbarMenuClick}/>
-
-            <div className="layout-sidebar" onClick={onSidebarClick}>
-                <AppMenu model={menu} onMenuItemClick={onMenuItemClick} layoutColorMode={layoutColorMode} />
-            </div>
-
-            <div className="layout-main-container">
-                <div className="layout-main">
-                    <Route path="/" exact component={Dashboard}/>
-                    <Route path="/formlayout" component={FormLayoutDemo}/>
-                    <Route path="/input" component={InputDemo}/>
-                    <Route path="/floatlabel" component={FloatLabelDemo}/>
-                    <Route path="/invalidstate" component={InvalidStateDemo}/>
-                    <Route path="/button" component={ButtonDemo}/>
-                    <Route path="/table" component={TableDemo}/>
-                    <Route path="/list" component={ListDemo}/>
-                    <Route path="/tree" component={TreeDemo}/>
-                    <Route path="/panel" component={PanelDemo}/>
-                    <Route path="/overlay" component={OverlayDemo}/>
-                    <Route path="/menu" component={MenuDemo}/>
-                    <Route path="/messages" component={MessagesDemo}/>
-                    <Route path="/file" component={FileDemo}/>
-                    <Route path="/chart" component={ChartDemo}/>
-                    <Route path="/misc" component={MiscDemo}/>
-                    <Route path="/timeline" component={TimelineDemo}/>
-                    <Route path="/crud" component={Crud}/>
-                    <Route path="/empty" component={EmptyPage}/>
-                    <Route path="/documentation" component={Documentation}/>
+            {isLoggedIn &&
+            <>
+                <AppTopbar onToggleMenuClick={onToggleMenuClick} layoutColorMode={layoutColorMode}
+                           mobileTopbarMenuActive={mobileTopbarMenuActive} onMobileTopbarMenuClick={onMobileTopbarMenuClick} onMobileSubTopbarMenuClick={onMobileSubTopbarMenuClick}/>
+                <div className="layout-sidebar" onClick={onSidebarClick}>
+                    <AppMenu model={menu} onMenuItemClick={onMenuItemClick} layoutColorMode={layoutColorMode}/>
                 </div>
-
+            </>}
+            <div className={layoutMainContainerClass}>
+                <div className={layoutMainClass}>
+                    <Routes>
+                        <Route path="/login" element={<Login/>}/>
+                        <Route path="/" exact="true" element={<RequireAuth><Dashboard/></RequireAuth>}/>
+                        <Route path="/formlayout" element={<RequireAuth><FormLayoutDemo/></RequireAuth>}/>
+                        <Route path="/input" element={<RequireAuth> <InputDemo/> </RequireAuth>}/>
+                        <Route path="/floatlabel" element={<RequireAuth> <FloatLabelDemo/> </RequireAuth>}/>
+                        <Route path="/invalidstate" element={<RequireAuth><InvalidStateDemo/></RequireAuth>}/>
+                        <Route path="/button" element={<RequireAuth><ButtonDemo/></RequireAuth>}/>
+                        <Route path="/table" element={<RequireAuth><TableDemo/></RequireAuth>}/>
+                        <Route path="/list" element={<RequireAuth><ListDemo/></RequireAuth>}/>
+                        <Route path="/tree" element={<RequireAuth><TreeDemo/></RequireAuth>}/>
+                        <Route path="/panel" element={<RequireAuth><PanelDemo/></RequireAuth>}/>
+                        <Route path="/overlay" element={<RequireAuth><OverlayDemo/></RequireAuth>}/>
+                        <Route path="/menu" element={<RequireAuth><MenuDemo/></RequireAuth>}/>
+                        <Route path="/messages" element={<RequireAuth><MessagesDemo/></RequireAuth>}/>
+                        <Route path="/file" element={<RequireAuth><FileDemo/></RequireAuth>}/>
+                        <Route path="/chart" element={<RequireAuth><ChartDemo/></RequireAuth>}/>
+                        <Route path="/misc" element={<RequireAuth><MiscDemo/></RequireAuth>}/>
+                        <Route path="/timeline" element={<RequireAuth><TimelineDemo/></RequireAuth>}/>
+                        <Route path="/crud" element={<RequireAuth><Crud/></RequireAuth>}/>
+                        <Route path="/empty" element={<RequireAuth><EmptyPage/> </RequireAuth>}/>
+                        <Route path="/documentation" element={<RequireAuth><Documentation/> </RequireAuth>}/>
+                    </Routes>
+                </div>
                 <AppFooter layoutColorMode={layoutColorMode}/>
             </div>
-
-            <AppConfig rippleEffect={ripple} onRippleEffect={onRipple} inputStyle={inputStyle} onInputStyleChange={onInputStyleChange}
-                       layoutMode={layoutMode} onLayoutModeChange={onLayoutModeChange} layoutColorMode={layoutColorMode} onColorModeChange={onColorModeChange} />
-
-            <CSSTransition classNames="layout-mask" timeout={{ enter: 200, exit: 200 }} in={mobileMenuActive} unmountOnExit>
-                <div className="layout-mask p-component-overlay"></div>
-            </CSSTransition>
+            {isLoggedIn &&
+            <>
+                <AppConfig rippleEffect={ripple} onRippleEffect={onRipple} inputStyle={inputStyle} onInputStyleChange={onInputStyleChange}
+                           layoutMode={layoutMode} onLayoutModeChange={onLayoutModeChange} layoutColorMode={layoutColorMode} onColorModeChange={onColorModeChange}/>
+                <CSSTransition classNames="layout-mask" timeout={{enter: 200, exit: 200}} in={mobileMenuActive} unmountOnExit>
+                    <div className="layout-mask p-component-overlay"></div>
+                </CSSTransition>
+            </>}
 
         </div>
     );

@@ -601,3 +601,70 @@ pre[class*=language-] > code {
     margin-top: 1rem;
   }
 }
+
+.login-demo {
+    height: calc(100vh - 35px);
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.login-demo .login-panel {
+    width: 30%;
+    height: 100%;
+    text-align: center;
+    padding: 40px 20px;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    flex: 1 1 100%;
+}
+
+.login-demo .login-panel > input {
+    width: 85%;
+    max-width: 247px;
+    margin-bottom: 10px;
+    background-color: #F6F7F7;
+    border: 1.2px solid #D4D6D9;
+    color: #515C66;
+    padding: 12px 10px;
+}
+
+.login-demo .login-panel .p-password {
+    width: 85%;
+    max-width: 247px;
+    margin-bottom: 10px;
+    background-color: #F6F7F7;
+    color: #515C66;
+}
+
+.login-demo .p-password > input {
+    width: 100%;
+    max-width: 247px;
+    background-color: #F6F7F7;
+    color: #515C66;
+    padding: 12px 10px;
+}
+
+.login-demo .login-panel > button {
+    width: 85%;
+    max-width: 247px;
+}
+
+.login-demo .login-panel > button > span {
+    padding: 5px 20px;
+    display: block;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 16px;
+}
+
