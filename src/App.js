@@ -26,6 +26,7 @@ import { TableDemo } from './components/TableDemo';
 import { TreeDemo } from './components/TreeDemo';
 import { InvalidStateDemo } from './components/InvalidStateDemo';
 import { BlocksDemo } from './components/BlocksDemo';
+import { IconsDemo } from './components/IconsDemo';
 
 import { Crud } from './pages/Crud';
 import { EmptyPage } from './pages/EmptyPage';
@@ -303,6 +304,7 @@ const App = () => {
                     <Route path="/menu" component={MenuDemo} />
                     <Route path="/messages" component={MessagesDemo} />
                     <Route path="/blocks" component={BlocksDemo} />
+                    <Route path="/icons" component={IconsDemo} />
                     <Route path="/file" component={FileDemo} />
                     <Route path="/chart" component={ChartDemo} />
                     <Route path="/misc" component={MiscDemo} />

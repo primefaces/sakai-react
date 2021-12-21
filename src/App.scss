@@ -668,3 +668,11 @@ pre[class*="language-"] {
         }
     }
 }
+
+.icons-demo {
+    .icons-list {
+        i {
+            color: var(--text-color-secondary);
+        }
+    }
+}

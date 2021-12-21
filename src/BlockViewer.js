@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { classNames } from 'primereact/utils';
-import AppCodeHighlight from './AppCodeHighlight';
-
+import { CodeHighlight } from './components/CodeHighlight';
 
 const BlockViewer = (props) => {
 
@@ -37,9 +36,9 @@ const BlockViewer = (props) => {
                         </div>}
 
                     {blockView === 'CODE' &&
-                        <AppCodeHighlight>
+                        <CodeHighlight>
                             {props.code}
-                        </AppCodeHighlight>
+                        </CodeHighlight>
                     }
                 </div>
             </div>
