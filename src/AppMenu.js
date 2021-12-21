@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
 import classNames from 'classnames';
 import {Ripple} from "primereact/ripple";
+import { Badge } from 'primereact/badge';
 
 const AppSubmenu = (props) => {
 
@@ -35,7 +36,7 @@ const AppSubmenu = (props) => {
 
     const renderLinkContent = (item) => {
         let submenuIcon = item.items && <i className="pi pi-fw pi-angle-down menuitem-toggle-icon"></i>;
-        let badge = item.badge && <span className="menuitem-badge">{item.badge}</span>;
+        let badge = item.badge && <Badge value={item.badge} />
 
         return (
             <React.Fragment>
