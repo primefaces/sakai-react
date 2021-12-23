@@ -351,7 +351,7 @@ export const TableDemo = () => {
 
                     <DataTable value={customers2} scrollable scrollHeight="400px" loading={loading2} scrollDirection="both" className="mt-3">
                         <Column field="name" header="Name" style={{ width: '150px' }} frozen></Column>
-                        <Column field="id" header="Id" style={{ width: '100px' }} frozen={idFrozen} alignFrozen="right"></Column>
+                        <Column field="id" header="Id" style={{ width: '100px' }} frozen={idFrozen} alignFrozen="left"></Column>
                         <Column field="name" header="Name" style={{ width: '200px' }}></Column>
                         <Column field="country.name" header="Country" style={{ width: '200px' }} body={countryBodyTemplate}></Column>
                         <Column field="date" header="Date" style={{ width: '200px' }} body={dateBodyTemplate}></Column>
