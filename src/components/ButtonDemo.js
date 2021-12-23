@@ -1,8 +1,45 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from 'primereact/button';
 import { SplitButton } from 'primereact/splitbutton';
 
 export const ButtonDemo = () => {
+
+    const [loading1, setLoading1] = useState(false);
+    const [loading2, setLoading2] = useState(false);
+    const [loading3, setLoading3] = useState(false);
+    const [loading4, setLoading4] = useState(false);
+
+    const onLoadingClick1 = () => {
+        setLoading1(true);
+
+        setTimeout(() => {
+            setLoading1(false);
+        }, 2000);
+    }
+
+    const onLoadingClick2 = () => {
+        setLoading2(true);
+
+        setTimeout(() => {
+            setLoading2(false);
+        }, 2000);
+    }
+
+    const onLoadingClick3 = () => {
+        setLoading3(true);
+
+        setTimeout(() => {
+            setLoading3(false);
+        }, 2000);
+    }
+
+    const onLoadingClick4 = () => {
+        setLoading4(true);
+
+        setTimeout(() => {
+            setLoading4(false);
+        }, 2000);
+    }
 
     const items = [
         {
@@ -140,6 +177,14 @@ export const ButtonDemo = () => {
                     <Button icon="pi pi-bell" className="p-button-rounded p-button-warning p-button-outlined mr-2 mb-2" />
                     <Button icon="pi pi-heart" className="p-button-rounded p-button-help p-button-outlined mr-2 mb-2" />
                     <Button icon="pi pi-times" className="p-button-rounded p-button-danger p-button-outlined mr-2 mb-2" />
+                </div>
+
+                <div class="card">
+                    <h5>Loading</h5>
+                    <Button className="mr-2 mb-2" label="Search" icon="pi pi-search" loading={loading1} onClick={onLoadingClick1} />
+                    <Button className="mr-2 mb-2" label="Search" icon="pi pi-search" iconPos="right" loading={loading2} onClick={onLoadingClick2} />
+                    <Button className="mr-2 mb-2" icon="pi pi-search" loading={loading3} onClick={onLoadingClick3} />
+                    <Button className="mr-2 mb-2" label="Search" loading={loading4} onClick={onLoadingClick4} />
                 </div>
             </div>
         </div>
