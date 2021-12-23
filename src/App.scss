@@ -141,212 +141,6 @@
     }
 }
 
-.table-demo {
-    .p-progressbar {
-        height: .5rem;
-        background-color: #D8DADC;
-
-        .p-progressbar-value {
-            background-color: #607D8B;
-        }
-    }
-
-    .p-datatable .p-column-filter {
-        display: none;
-    }
-
-    .table-header {
-        font-size: 1.25rem;
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .p-datatable.p-datatable-customers {
-        .p-datatable-header {
-            padding: 1rem;
-            text-align: left;
-            font-size: 1.5rem;
-        }
-
-        .p-paginator {
-            padding: 1rem;
-        }
-
-        .p-datatable-thead > tr > th {
-            text-align: left;
-        }
-
-        .p-datatable-tbody > tr > td {
-            cursor: auto;
-        }
-
-        .p-dropdown-label:not(.p-placeholder) {
-            text-transform: uppercase;
-        }
-    }
-
-    /* Responsive */
-    .p-datatable-customers .p-datatable-tbody > tr > td > .p-column-title {
-        display: none;
-    }
-
-    .customer-badge {
-        border-radius: 2px;
-        padding: .25em .5rem;
-        text-transform: uppercase;
-        font-weight: 700;
-        font-size: 12px;
-        letter-spacing: .3px;
-
-        &.status-qualified {
-            background: #C8E6C9;
-            color: #256029;
-        }
-
-        &.status-unqualified {
-            background: #FFCDD2;
-            color: #C63737;
-        }
-
-        &.status-negotiation {
-            background: #FEEDAF;
-            color: #8A5340;
-        }
-
-        &.status-new {
-            background: #B3E5FC;
-            color: #23547B;
-        }
-
-        &.status-renewal {
-            background: #ECCFFF;
-            color: #694382;
-        }
-
-        &.status-proposal {
-            background: #FFD8B2;
-            color: #805B36;
-        }
-    }
-
-    .p-progressbar-value.ui-widget-header {
-        background: #607d8b;
-    }
-
-    @media (max-width: 640px) {
-        .p-progressbar {
-            margin-top: .5rem;
-        }
-    }
-
-    .product-image {
-        width: 100px;
-        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)
-    }
-
-    .orders-subtable {
-        padding: 1rem;
-    }
-
-    .product-badge {
-        border-radius: 2px;
-        padding: .25em .5rem;
-        text-transform: uppercase;
-        font-weight: 700;
-        font-size: 12px;
-        letter-spacing: .3px;
-
-        &.status-instock {
-            background: #C8E6C9;
-            color: #256029;
-        }
-
-        &.status-outofstock {
-            background: #FFCDD2;
-            color: #C63737;
-        }
-
-        &.status-lowstock {
-            background: #FEEDAF;
-            color: #8A5340;
-        }
-    }
-
-    .order-badge {
-        border-radius: 2px;
-        padding: .25em .5rem;
-        text-transform: uppercase;
-        font-weight: 700;
-        font-size: 12px;
-        letter-spacing: .3px;
-
-        &.order-delivered {
-            background: #C8E6C9;
-            color: #256029;
-        }
-
-        &.order-cancelled {
-            background: #FFCDD2;
-            color: #C63737;
-        }
-
-        &.order-pending {
-            background: #FEEDAF;
-            color: #8A5340;
-        }
-
-        &.order-returned {
-            background: #ECCFFF;
-            color: #694382;
-        }
-    }
-
-    @media screen and (max-width: 960px) {
-        .p-datatable {
-            &.p-datatable-customers {
-                .p-datatable-thead > tr > th,
-                .p-datatable-tfoot > tr > td {
-                    display: none !important;
-                }
-
-                .p-datatable-tbody > tr {
-                    > td {
-                        text-align: left;
-                        display: block;
-                        border: 0 none !important;
-                        width: 100% !important;
-                        float: left;
-                        clear: left;
-                        border: 0 none;
-
-                        .p-column-title {
-                            padding: .4rem;
-                            min-width: 30%;
-                            display: inline-block;
-                            margin: -.4rem 1rem -.4rem -.4rem;
-                            font-weight: bold;
-                        }
-
-                        .p-progressbar {
-                            margin-top: .5rem;
-                        }
-                    }
-                }
-
-                colgroup {
-                    display: none;
-                }
-            }
-
-            .p-datatable-header {
-                .table-header {
-                    flex-direction: column !important;
-                }
-            }
-        }
-    }
-}
-
 .crud-demo {
     .p-toolbar {
         flex-wrap: wrap;
@@ -425,7 +219,105 @@
     }
 }
 
-.docs {
+.table-demo {
+    .customer-badge,
+    .product-badge,
+    .order-badge {
+        border-radius: var(--border-radius);
+        padding: .25em .5rem;
+        text-transform: uppercase;
+        font-weight: 700;
+        font-size: 12px;
+        letter-spacing: .3px;
+    }
+
+    .customer-badge {
+        &.status-qualified {
+            background: #C8E6C9;
+            color: #256029;
+        }
+
+        &.status-unqualified {
+            background: #FFCDD2;
+            color: #C63737;
+        }
+
+        &.status-negotiation {
+            background: #FEEDAF;
+            color: #8A5340;
+        }
+
+        &.status-new {
+            background: #B3E5FC;
+            color: #23547B;
+        }
+
+        &.status-renewal {
+            background: #ECCFFF;
+            color: #694382;
+        }
+
+        &.status-proposal {
+            background: #FFD8B2;
+            color: #805B36;
+        }
+    }
+
+    .product-badge {
+        border-radius: var(--border-radius);
+        padding: .25em .5rem;
+        text-transform: uppercase;
+        font-weight: 700;
+        font-size: 12px;
+        letter-spacing: .3px;
+
+        &.status-instock {
+            background: #C8E6C9;
+            color: #256029;
+        }
+
+        &.status-outofstock {
+            background: #FFCDD2;
+            color: #C63737;
+        }
+
+        &.status-lowstock {
+            background: #FEEDAF;
+            color: #8A5340;
+        }
+    }
+
+    .order-badge {
+        border-radius: var(--border-radius);
+        padding: .25em .5rem;
+        text-transform: uppercase;
+        font-weight: 700;
+        font-size: 12px;
+        letter-spacing: .3px;
+
+        &.order-delivered {
+            background: #C8E6C9;
+            color: #256029;
+        }
+
+        &.order-cancelled {
+            background: #FFCDD2;
+            color: #C63737;
+        }
+
+        &.order-pending {
+            background: #FEEDAF;
+            color: #8A5340;
+        }
+
+        &.order-returned {
+            background: #ECCFFF;
+            color: #694382;
+        }
+    }
+}
+
+.docs, .icons-demo {
     i:not([class~="pi"]) {
         background-color: transparent;
         color: #2196f3;
@@ -443,45 +335,45 @@
     a {
         font-weight: 500;
     }
-}
 
-pre[class*="language-"] {
-    &:before, &:after {
-        display: none !important;
-    }
-
-    code {
-        border-left: 6px solid var(--surface-border) !important;
-        box-shadow: none !important;
-        background: var(--surface-ground) !important;
-        margin: 1em 0;
-        color: var(--text-color);
-        font-size: 14px;
-    }
-
-    .token {
-        &.tag,
-        &.keyword {
-            color: #2196F3 !important;
+    pre[class*="language-"] {
+        &:before, &:after {
+            display: none !important;
         }
 
-        &.attr-name,
-        &.attr-string {
-            color: #2196F3 !important;
-        }
-
-        &.attr-value {
-            color: #4CAF50 !important;
-        }
-
-        &.punctuation {
+        code {
+            border-left: 6px solid var(--surface-border) !important;
+            box-shadow: none !important;
+            background: var(--surface-ground) !important;
+            margin: 1em 0;
             color: var(--text-color);
+            font-size: 14px;
         }
 
-        &.operator,
-        &.variable,
-        &.string {
-            background: transparent;
+        .token {
+            &.tag,
+            &.keyword {
+                color: #2196F3 !important;
+            }
+
+            &.attr-name,
+            &.attr-string {
+                color: #2196F3 !important;
+            }
+
+            &.attr-value {
+                color: #4CAF50 !important;
+            }
+
+            &.punctuation {
+                color: var(--text-color);
+            }
+
+            &.operator,
+            &.variable,
+            &.string {
+                background: transparent;
+            }
         }
     }
 }
