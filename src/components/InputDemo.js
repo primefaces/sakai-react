@@ -15,10 +15,12 @@ import { ListBox } from 'primereact/listbox';
 import { Dropdown } from 'primereact/dropdown';
 import { ToggleButton } from 'primereact/togglebutton';
 import { MultiSelect } from 'primereact/multiselect';
+import { TreeSelect } from 'primereact/treeselect';
 import { SelectButton } from 'primereact/selectbutton';
 import { Button } from 'primereact/button';
 import { InputNumber } from 'primereact/inputnumber';
 import { CountryService } from '../service/CountryService';
+import { NodeService } from '../service/NodeService';
 
 export const InputDemo = () => {
 
@@ -43,6 +45,8 @@ export const InputDemo = () => {
     const [selectButtonValue1, setSelectButtonValue1] = useState(null);
     const [selectButtonValue2, setSelectButtonValue2] = useState(null);
     const [inputGroupValue, setInputGroupValue] = useState(false);
+    const [selectedNode, setSelectedNode] = useState(null);
+    const [treeSelectNodes, setTreeSelectNodes] = useState(null);
 
     const listboxValues = [
         { name: 'New York', code: 'NY' },
@@ -87,7 +91,9 @@ export const InputDemo = () => {
 
     useEffect(() => {
         const countryService = new CountryService();
+        const nodeService = new NodeService();
         countryService.getCountries().then(data => setAutoValue(data));
+        nodeService.getTreeNodes().then(data => setTreeSelectNodes(data));
     }, []);
 
     const searchCountry = (event) => {
@@ -280,6 +286,9 @@ export const InputDemo = () => {
                     <h5>MultiSelect</h5>
                     <MultiSelect value={multiselectValue} onChange={(e) => setMultiselectValue(e.value)} options={multiselectValues} optionLabel="name" placeholder="Select Countries" filter
                         itemTemplate={itemTemplate} selectedItemTemplate={selectedItemTemplate} className="multiselect-custom" />
+
+                    <h5>TreeSelect</h5>
+                    <TreeSelect value={selectedNode} onChange={(e) => setSelectedNode(e.value)} options={treeSelectNodes} placeholder="Select Item"></TreeSelect>
                 </div>
 
                 <div className="card">
@@ -335,6 +344,6 @@ export const InputDemo = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
