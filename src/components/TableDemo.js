@@ -84,7 +84,7 @@ export const TableDemo = () => {
     }
 
     const formatCurrency = (value) => {
-        // return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+        return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
     }
 
     const clearFilter1 = () => {
