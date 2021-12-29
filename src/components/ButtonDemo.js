@@ -121,7 +121,7 @@ export const ButtonDemo = () => {
             <div className="col-12 md:col-6">
                 <div className="card">
                     <h5>Icons</h5>
-                    <Button icon="pi pi-star" className="mr-2 mb-2"></Button>
+                    <Button icon="pi pi-star-fill" className="mr-2 mb-2"></Button>
                     <Button label="Bookmark" icon="pi pi-bookmark" className="mr-2 mb-2"></Button>
                     <Button label="Bookmark" icon="pi pi-bookmark" iconPos="right" className="mr-2 mb-2"></Button>
                 </div>
