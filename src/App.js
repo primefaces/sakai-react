@@ -21,6 +21,7 @@ import { MenuDemo } from './components/MenuDemo';
 import { MessagesDemo } from './components/MessagesDemo';
 import { MiscDemo } from './components/MiscDemo';
 import { OverlayDemo } from './components/OverlayDemo';
+import { MediaDemo } from './components/MediaDemo';
 import { PanelDemo } from './components/PanelDemo';
 import { TableDemo } from './components/TableDemo';
 import { TreeDemo } from './components/TreeDemo';
@@ -170,6 +171,7 @@ const App = () => {
                 { label: 'Tree', icon: 'pi pi-fw pi-share-alt', to: '/tree' },
                 { label: 'Panel', icon: 'pi pi-fw pi-tablet', to: '/panel' },
                 { label: 'Overlay', icon: 'pi pi-fw pi-clone', to: '/overlay' },
+                { label: "Media", icon: "pi pi-fw pi-image", to: "/media" },
                 { label: 'Menu', icon: 'pi pi-fw pi-bars', to: '/menu' },
                 { label: 'Message', icon: 'pi pi-fw pi-comment', to: '/messages' },
                 { label: 'File', icon: 'pi pi-fw pi-file', to: '/file' },
@@ -301,6 +303,7 @@ const App = () => {
                     <Route path="/tree" component={TreeDemo} />
                     <Route path="/panel" component={PanelDemo} />
                     <Route path="/overlay" component={OverlayDemo} />
+                    <Route path="/media" component={MediaDemo} />
                     <Route path="/menu" component={MenuDemo} />
                     <Route path="/messages" component={MessagesDemo} />
                     <Route path="/blocks" component={BlocksDemo} />
