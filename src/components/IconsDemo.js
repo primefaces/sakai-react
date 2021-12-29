@@ -122,11 +122,13 @@ const items = [
             </div>
             <div className="grid icons-list text-center">
                 {
-                    filteredIcons && filteredIcons.map(icon => {
-                        return (
-                            <div className="col-6 sm:col-4 lg:col-3 xl:col-2 pb-5" key={icon.properties.name}>
-                                <i className={`text-2xl mb-2 pi pi-${icon.properties.name}`}></i>
-                                <div>pi-{icon.properties.name}</div>
+                    filteredIcons && filteredIcons.map(iconMeta => {
+                        const { icon, properties } = iconMeta;
+
+                        return icon.tags.indexOf('deprecate') === -1 && (
+                            <div className="col-6 sm:col-4 lg:col-3 xl:col-2 pb-5" key={properties.name}>
+                                <i className={"text-2xl mb-2 pi pi-" + properties.name}></i>
+                                <div>pi-{properties.name}</div>
                             </div>
                         );
                     })
