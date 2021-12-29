@@ -8,7 +8,7 @@ export const Documentation = () => {
             <div className="col-12">
                 <div className="card docs">
                     <h4>Current Version</h4>
-                    <p>React 17.x and PrimeReact 6.x</p>
+                    <p>React 17.x and PrimeReact 7.x</p>
 
                     <h5>Getting Started</h5>
                     <p>Sakai is an application template for React based on the popular <a href="https://github.com/facebook/create-react-app">create-react-app</a> that allows
@@ -46,7 +46,7 @@ export const Documentation = () => {
 "primereact": "...",                    //required: PrimeReact components
 "primeicons": "...",                    //required: Icons
 "primeflex": "...",                     //optional: Sample pages
-"react-transition-group": "^4.4.1",     //required: PrimeReact animations                  
+"react-transition-group": "^4.4.1",     //required: PrimeReact animations
 `}
 </CodeHighlight>
 
