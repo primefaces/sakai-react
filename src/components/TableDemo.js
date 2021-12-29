@@ -289,7 +289,7 @@ export const TableDemo = () => {
         return (
             <React.Fragment>
                 <img alt={data.representative.name} src={`images/avatar/${data.representative.image}`} width="32" style={{ verticalAlign: 'middle' }} />
-                <span className="image-text">{data.representative.name}</span>
+                <span className="image-text font-bold">{data.representative.name}</span>
             </React.Fragment>
         );
     }
@@ -359,7 +359,7 @@ export const TableDemo = () => {
                         <Column field="status" header="Status" style={{ width: '200px' }} body={statusBodyTemplate}></Column>
                         <Column field="activity" header="Activity" style={{ width: '200px' }}></Column>
                         <Column field="representative.name" header="Representative" style={{ width: '200px' }} body={representativeBodyTemplate}></Column>
-                        <Column field="balance" header="Balance" body={balanceTemplate} style={{ width: '150px' }}  ></Column>
+                        <Column field="balance" header="Balance" body={balanceTemplate} frozen style={{ width: '150px' }} alignFrozen="right"></Column>
                     </DataTable>
                 </div>
             </div>

@@ -66,7 +66,7 @@ export const OverlayDemo = () => {
     };
 
     const basicDialogFooter = <Button type="button" label="Dismiss" onClick={() => setDisplayBasic(false)} icon="pi pi-check" className="p-button-secondary" />;
-    const imageBodyTemplate = (data) => <img src={`assets/demo/images/product/${data.image}`} alt={data.image} className="product-image" width="50" style={{ boxShadow: '0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)' }} />;
+    const imageBodyTemplate = (data) => <img src={`assets/demo/images/product/${data.image}`} alt={data.image} className="product-image" width="100" style={{ boxShadow: '0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)' }} />;
     const priceBodyTemplate = (data) => formatCurrency(data.price);
     const confirmationDialogFooter = (
         <>
@@ -88,7 +88,7 @@ export const OverlayDemo = () => {
                                 quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit
                                 in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
                                 Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                        </p>
+                            </p>
                         </Dialog>
                         <div className="grid">
                             <div className="col-12">
@@ -108,11 +108,11 @@ export const OverlayDemo = () => {
                             <div className="col-6">
                                 <Button type="button" label="DataTable" onClick={toggleDataTable} className="p-button-success" />
                                 <OverlayPanel ref={op2} appendTo={document.body} showCloseIcon id="overlay_panel" style={{ width: '450px' }}>
-                                    <DataTable value={products} selection={selectedProduct} onSelectionChange={(e) => setSelectedProduct(e.value)} selectionMode="single"
+                                    <DataTable value={products} selection={selectedProduct} onSelectionChange={(e) => setSelectedProduct(e.value)} selectionMode="single" responsiveLayout="scroll"
                                         paginator rows={5} onRowSelect={onProductSelect}>
-                                        <Column field="name" header="Name" sortable/>
-                                        <Column header="Image" body={imageBodyTemplate}/>
-                                        <Column field="price" header="Price" body={priceBodyTemplate} sortable/>
+                                        <Column field="name" header="Name" sortable headerStyle={{ minWidth: '10rem' }} />
+                                        <Column header="Image" body={imageBodyTemplate} headerStyle={{ minWidth: '10rem' }} />
+                                        <Column field="price" header="Price" body={priceBodyTemplate} sortable headerStyle={{ minWidth: '8rem' }} />
                                     </DataTable>
                                 </OverlayPanel>
                             </div>

@@ -111,10 +111,10 @@ export const Dashboard = () => {
                 <div className="card">
                     <h5>Recent Sales</h5>
                     <DataTable value={products} className="p-datatable-customers" rows={5} paginator>
-                        <Column header="Image" body={(data) => <img src={`assets/demo/images/product/${data.image}`} alt={data.image} width="50" />}/>
+                        <Column header="Image" body={(data) => <img src={`assets/demo/images/product/${data.image}`} alt={data.image} style={{width:'15%'}}/>}/>
                         <Column field="name" header="Name" sortable/>
                         <Column field="price" header="Price" sortable body={(data) => formatCurrency(data.price)}/>
-                        <Column header="View" body={() => (
+                        <Column header="View" style={{width:'15%'}} body={() => (
                             <>
                                 <Button icon="pi pi-search" type="button" className="p-button-text"/>
                             </>
