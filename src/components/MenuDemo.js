@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Menubar } from 'primereact/menubar';
 import { InputText } from 'primereact/inputtext';
 import { BreadCrumb } from 'primereact/breadcrumb';
@@ -10,13 +10,11 @@ import { Button } from 'primereact/button';
 import { ContextMenu } from 'primereact/contextmenu';
 import { MegaMenu } from 'primereact/megamenu';
 import { PanelMenu } from 'primereact/panelmenu';
-import { Route, useHistory } from 'react-router-dom';
+import { Route, useHistory, useLocation } from 'react-router-dom';
 import { PersonalDemo } from '../components/menu/PersonalDemo';
 import { ConfirmationDemo } from '../components/menu/ConfirmationDemo';
 import { PaymentDemo } from '../components/menu/PaymentDemo';
 import { SeatDemo } from '../components/menu/SeatDemo';
-
-
 
 export const MenuDemo = () => {
 
@@ -25,6 +23,30 @@ export const MenuDemo = () => {
     const menu = useRef(null);
     const contextMenu = useRef(null);
     const history = useHistory();
+    const location = useLocation();
+
+    const checkActiveIndex = useCallback(() => {
+        const paths = location.pathname.split('/');
+        const currentPath = paths[paths.length - 1];
+
+        switch (currentPath) {
+            case 'seat':
+                setActiveIndex(1);
+                break;
+            case 'payment':
+                setActiveIndex(2);
+                break;
+            case 'confirmation':
+                setActiveIndex(3);
+                break;
+            default:
+                break;
+        }
+    },[location])
+
+    useEffect(() => {
+        checkActiveIndex();
+    }, [checkActiveIndex])
 
     const nestedMenuitems = [
         {
