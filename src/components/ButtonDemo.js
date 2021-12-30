@@ -179,7 +179,7 @@ export const ButtonDemo = () => {
                     <Button icon="pi pi-times" className="p-button-rounded p-button-danger p-button-outlined mr-2 mb-2" />
                 </div>
 
-                <div class="card">
+                <div className="card">
                     <h5>Loading</h5>
                     <Button className="mr-2 mb-2" label="Search" icon="pi pi-search" loading={loading1} onClick={onLoadingClick1} />
                     <Button className="mr-2 mb-2" label="Search" icon="pi pi-search" iconPos="right" loading={loading2} onClick={onLoadingClick2} />

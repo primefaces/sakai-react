@@ -39,7 +39,7 @@ export const IconsDemo = () => {
     return (
         <div className="card icons-demo">
             <h4>Icons</h4>
-            <p>PrimeReact components internally use <a href="https://github.com/primefaces/primeicons" class="font-medium">PrimeIcons</a> library, the official icons suite from <a href="https://www.primetek.com.tr" class="font-medium">PrimeTek</a>.</p>
+            <p>PrimeReact components internally use <a href="https://github.com/primefaces/primeicons" className="font-medium">PrimeIcons</a> library, the official icons suite from <a href="https://www.primetek.com.tr" className="font-medium">PrimeTek</a>.</p>
 
             <h5>Download</h5>
             <p>PrimeIcons is available at npm, run the following command to download it to your project.</p>
@@ -115,7 +115,7 @@ const items = [
 `}
 </CodeHighlight>
             <h5>List of Icons</h5>
-            <p>Here is the current list of PrimeIcons, more icons are added periodically. You may also <a href="https://github.com/primefaces/primeicons/issues" class="font-medium">request new icons</a> at the issue tracker.</p>
+            <p>Here is the current list of PrimeIcons, more icons are added periodically. You may also <a href="https://github.com/primefaces/primeicons/issues" className="font-medium">request new icons</a> at the issue tracker.</p>
 
             <div>
                 <InputText type="text" className="w-full p-3 mt-3 mb-5" onInput={onFilter} placeholder="Search an icon" />
