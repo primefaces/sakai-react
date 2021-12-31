@@ -37,7 +37,7 @@ export const IconsDemo = () => {
     }
 
     return (
-        <div className="card icons-demo">
+        <div className="card docs">
             <h4>Icons</h4>
             <p>PrimeReact components internally use <a href="https://github.com/primefaces/primeicons" className="font-medium">PrimeIcons</a> library, the official icons suite from <a href="https://www.primetek.com.tr" className="font-medium">PrimeTek</a>.</p>
 
