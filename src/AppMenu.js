@@ -34,6 +34,13 @@ const AppSubmenu = (props) => {
         }
     }
 
+    const onKeyDown = (event) => {
+        if (event.code === 'Enter' || event.code === 'Space'){
+            event.preventDefault();
+            event.target.click();
+        }
+    }
+
     const renderLinkContent = (item) => {
         let submenuIcon = item.items && <i className="pi pi-fw pi-angle-down menuitem-toggle-icon"></i>;
         let badge = item.badge && <Badge value={item.badge} />
@@ -54,14 +61,14 @@ const AppSubmenu = (props) => {
 
         if (item.to) {
             return (
-                <NavLink className="p-ripple" activeClassName="router-link-active router-link-exact-active" to={item.to} onClick={(e) => onMenuItemClick(e, item, i)} exact target={item.target}>
+                <NavLink aria-label={item.label} onKeyDown={onKeyDown} role="menuitem" className="p-ripple" activeClassName="router-link-active router-link-exact-active" to={item.to} onClick={(e) => onMenuItemClick(e, item, i)} exact target={item.target}>
                     {content}
                 </NavLink>
             )
         }
         else {
             return (
-                <a href={item.url} className="p-ripple" onClick={(e) => onMenuItemClick(e, item, i)} target={item.target}>
+                <a tabIndex="0" aria-label={item.label} onKeyDown={onKeyDown} role="menuitem" href={item.url} className="p-ripple" onClick={(e) => onMenuItemClick(e, item, i)} target={item.target}>
                     {content}
                 </a>
             );
@@ -74,9 +81,9 @@ const AppSubmenu = (props) => {
 
         if(props.root) {
             return (
-                <li className={styleClass} key={i}>
+                <li className={styleClass} key={i} role="none">
                     {props.root === true && <React.Fragment>
-                        <div className="layout-menuitem-root-text">{item.label}</div>
+                        <div className="layout-menuitem-root-text" aria-label={item.label}>{item.label}</div>
                         <AppSubmenu items={item.items} onMenuItemClick={props.onMenuItemClick} />
                     </React.Fragment>}
                 </li>
@@ -84,7 +91,7 @@ const AppSubmenu = (props) => {
         }
         else {
             return (
-                <li className={styleClass} key={i}>
+                <li className={styleClass} key={i} role="none">
                     {renderLink(item, i)}
                     <CSSTransition classNames="layout-submenu-wrapper" timeout={{ enter: 1000, exit: 450 }} in={active} unmountOnExit>
                         <AppSubmenu items={item.items} onMenuItemClick={props.onMenuItemClick} />
@@ -94,13 +101,14 @@ const AppSubmenu = (props) => {
         }
     });
 
-    return items ? <ul className={props.className}>{items}</ul> : null;
+    return items ? <ul className={props.className} role="menu">{items}</ul> : null;
 }
 
 export const AppMenu = (props) => {
+
     return (
         <div className="layout-menu-container">
-            <AppSubmenu items={props.model} className="layout-menu" onMenuItemClick={props.onMenuItemClick} root={true} />
+            <AppSubmenu items={props.model} className="layout-menu"  onMenuItemClick={props.onMenuItemClick} root={true} role="menu" />
             <a href="https://www.primefaces.org/primeblocks-react" className="block mt-3">
                 <img alt="primeblocks" className="w-full"
                      src={props.layoutColorMode === 'light' ? 'assets/layout/images/banner-primeblocks.png' : 'assets/layout/images/banner-primeblocks-dark.png'}/>
