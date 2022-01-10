@@ -68,16 +68,9 @@ export const AppConfig = (props) => {
 
     const configClassName = classNames('layout-config', {
         'layout-config-active': active
-    });
-
-    useEffect(() => {
-        let themeElement = document.getElementById('theme-link');
-        const themeHref = 'assets/themes/' + theme + '/theme.css';
-        replaceLink(themeElement, themeHref);
-
     })
 
-    const replaceLink = (linkElement, href, callback) => {
+    const replaceLink = useCallback((linkElement, href, callback) => {
         if (isIE()) {
             linkElement.setAttribute('href', href);
 
@@ -103,7 +96,14 @@ export const AppConfig = (props) => {
                 }
             });
         }
-    }
+    },[])
+
+    useEffect(() => {
+        let themeElement = document.getElementById('theme-link');
+        const themeHref = 'assets/themes/' + theme + '/theme.css';
+        replaceLink(themeElement, themeHref);
+
+    },[theme,replaceLink])
 
     const isIE = () => {
         return /(MSIE|Trident\/|Edge\/)/i.test(window.navigator.userAgent)
