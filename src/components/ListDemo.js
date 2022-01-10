@@ -67,17 +67,20 @@ export const ListDemo = () => {
     const dataviewListItem = (data) => {
         return (
             <div className="col-12">
-                <div className="product-list-item">
-                    <img src={`assets/demo/images/product/${data.image}`} alt={data.name} />
-                    <div className="product-list-detail">
-                        <div className="product-name">{data.name}</div>
-                        <div className="product-description">{data.description}</div>
-                        <Rating value={data.rating} readonly cancel={false}></Rating>
-                        <i className="pi pi-tag product-category-icon"></i><span className="product-category">{data.category}</span>
+                <div className="flex flex-column md:flex-row align-items-center p-3 w-full">
+                    <img src={`assets/demo/images/product/${data.image}`} alt={data.name} className="my-4 md:my-0 w-9 md:w-10rem shadow-2 mr-5" />
+                    <div class="flex-1 text-center md:text-left">
+                        <div className="font-bold text-2xl">{data.name}</div>
+                        <div className="mb-3">{data.description}</div>
+                        <Rating value={data.rating} readonly cancel={false} className="mb-2"></Rating>
+                        <div class="flex align-items-center">
+                            <i class="pi pi-tag mr-2"></i>
+                            <span class="font-semibold">{data.category}</span>
+                        </div>
                     </div>
-                    <div className="product-list-action">
-                        <span className="product-price">${data.price}</span>
-                        <Button icon="pi pi-shopping-cart" label="Add to Cart" disabled={data.inventoryStatus === 'OUTOFSTOCK'}></Button>
+                    <div className="flex flex-row md:flex-column justify-content-between w-full md:w-auto align-items-center md:align-items-end mt-5 md:mt-0">
+                        <span className="text-2xl font-semibold mb-2 align-self-center md:align-self-end">${data.price}</span>
+                        <Button icon="pi pi-shopping-cart" label="Add to Cart" disabled={data.inventoryStatus === 'OUTOFSTOCK'} className="mb-2"></Button>
                         <span className={`product-badge status-${data.inventoryStatus.toLowerCase()}`}>{data.inventoryStatus}</span>
                     </div>
                 </div>
@@ -91,21 +94,21 @@ export const ListDemo = () => {
                 <div className="card m-3 border-1 surface-border">
                     <div className="flex align-items-center justify-content-between">
                         <div className="flex align-items-center">
-                            <i className="pi pi-tag mr-2"/>
+                            <i className="pi pi-tag mr-2" />
                             <span className="font-semibold">{data.category}</span>
                         </div>
                         <span className={`product-badge status-${data.inventoryStatus.toLowerCase()}`}>{data.inventoryStatus}</span>
                     </div>
                     <div className="text-center">
-                        <img src={`assets/demo/images/product/${data.image}`} alt={data.name}  className="w-9 shadow-2 my-3 mx-0"/>
+                        <img src={`assets/demo/images/product/${data.image}`} alt={data.name} className="w-9 shadow-2 my-3 mx-0" />
                         <div className="text-2xl font-bold">{data.name}</div>
                         <div className="mb-3">{data.description}</div>
-                        <Rating value={data.rating} readonly cancel={false}/>
+                        <Rating value={data.rating} readonly cancel={false} />
                     </div>
                     <div className="flex align-items-center justify-content-between">
                         <span className="text-2xl font-semibold">${data.price}</span>
-                        <Button icon="pi pi-shopping-cart" disabled={data.inventoryStatus === 'OUTOFSTOCK'}/>
-                </div>
+                        <Button icon="pi pi-shopping-cart" disabled={data.inventoryStatus === 'OUTOFSTOCK'} />
+                    </div>
                 </div>
             </div>
         );
