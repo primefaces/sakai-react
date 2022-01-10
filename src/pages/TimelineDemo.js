@@ -27,7 +27,7 @@ export const TimelineDemo = () => {
     const customizedContent = (item) => {
         return (
             <Card title={item.status} subTitle={item.date}>
-                { item.image && <img src={`assets/demo/images/product/${item.image}`} onError={(e) => e.target.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} alt={item.name} width={200} className="p-shadow-2" />}
+                { item.image && <img src={`assets/demo/images/product/${item.image}`} onError={(e) => e.target.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} alt={item.name} width={200} className="shadow-2 mb-3" />}
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt
                 quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque quas!</p>
                 <Button label="Read more" className="p-button-text"></Button>
@@ -37,14 +37,14 @@ export const TimelineDemo = () => {
 
     const customizedMarker = (item) => {
         return (
-            <span className="custom-marker p-shadow-2" style={{ backgroundColor: item.color }}>
+            <span className="flex w-2rem h-2rem align-items-center justify-content-center text-white border-circle z-1 shadow-2" style={{ backgroundColor: item.color }}>
                 <i className={classNames('marker-icon', item.icon)}></i>
             </span>
         );
     };
 
-    return <div className="p-grid timeline-demo">
-        <div className="p-col-12">
+    return <div className="grid timeline-demo">
+        <div className="col-12">
             <div className="card">
                 <h4>Timeline</h4>
 
