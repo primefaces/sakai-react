@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import classNames from 'classnames';
-import { Route } from 'react-router-dom';
+import { Route, useLocation } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
 
 import { AppTopbar } from './AppTopbar';
@@ -55,6 +55,7 @@ const App = () => {
     const [mobileMenuActive, setMobileMenuActive] = useState(false);
     const [mobileTopbarMenuActive, setMobileTopbarMenuActive] = useState(false);
     const copyTooltipRef = useRef();
+    const location = useLocation();
 
     PrimeReact.ripple = true;
 
@@ -69,6 +70,10 @@ const App = () => {
             removeClass(document.body, "body-overflow-hidden");
         }
     }, [mobileMenuActive]);
+
+    useEffect(() => {
+        copyTooltipRef && copyTooltipRef.current && copyTooltipRef.current.updateTargetEvents();
+    }, [location]);
 
     const onInputStyleChange = (inputStyle) => {
         setInputStyle(inputStyle);
@@ -159,7 +164,7 @@ const App = () => {
             }]
         },
         {
-            label: 'UI Kit', icon: 'pi pi-fw pi-sitemap',
+            label: 'UI Components', icon: 'pi pi-fw pi-sitemap',
             items: [
                 { label: 'Form Layout', icon: 'pi pi-fw pi-id-card', to: '/formlayout' },
                 { label: 'Input', icon: 'pi pi-fw pi-check-square', to: '/input' },
