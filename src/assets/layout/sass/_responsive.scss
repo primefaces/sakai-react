@@ -64,7 +64,7 @@
 
         .layout-mask {
             z-index: 998;
-            background-color: $maskBg;
+            background-color: var(--mask-bg);
 
             &.layout-mask-enter-from,
             &.layout-mask-leave-to {
