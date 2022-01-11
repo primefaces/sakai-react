@@ -314,7 +314,7 @@ const App = () => {
                     <Route path="/blocks" component={BlocksDemo} />
                     <Route path="/icons" component={IconsDemo} />
                     <Route path="/file" component={FileDemo} />
-                    <Route path="/chart" component={ChartDemo} />
+                    <Route path="/chart" render={() => <ChartDemo colorMode={layoutColorMode} />} />
                     <Route path="/misc" component={MiscDemo} />
                     <Route path="/timeline" component={TimelineDemo} />
                     <Route path="/crud" component={Crud} />
