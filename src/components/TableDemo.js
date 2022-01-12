@@ -56,8 +56,6 @@ export const TableDemo = () => {
         customerService.getCustomersLarge().then(data => { setCustomers2(getCustomers(data)); setLoading2(false); });
         customerService.getCustomersMedium().then(data => setCustomers3(data));
         productService.getProductsWithOrdersSmall().then(data => setProducts(data));
-
-        initFilters1();
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     const balanceTemplate = (rowData) => {
@@ -85,46 +83,6 @@ export const TableDemo = () => {
 
     const formatCurrency = (value) => {
         return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-    }
-
-    const clearFilter1 = () => {
-        initFilters1();
-    }
-
-    const onGlobalFilterChange1 = (e) => {
-        const value = e.target.value;
-        let _filters1 = { ...filters1 };
-        _filters1['global'].value = value;
-
-        setFilters1(_filters1);
-        setGlobalFilterValue1(value);
-    }
-
-    const initFilters1 = () => {
-        setFilters1({
-            'global': { value: null, matchMode: FilterMatchMode.CONTAINS },
-            'name': { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
-            'country.name': { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
-            'representative': { value: null, matchMode: FilterMatchMode.IN },
-            'date': { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }] },
-            'balance': { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
-            'status': { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
-            'activity': { value: null, matchMode: FilterMatchMode.BETWEEN },
-            'verified': { value: null, matchMode: FilterMatchMode.EQUALS }
-        });
-        setGlobalFilterValue1('');
-    }
-
-    const renderHeader1 = () => {
-        return (
-            <div className="flex justify-content-between flex-column sm:flex-row">
-                <Button type="button" icon="pi pi-filter-slash" label="Clear" className="p-button-outlined mb-2" onClick={clearFilter1} />
-                <span className="p-input-icon-left mb-2">
-                    <i className="pi pi-search" />
-                    <InputText value={globalFilterValue1} onChange={onGlobalFilterChange1} placeholder="Keyword Search" style={{ width: '100%' }} />
-                </span>
-            </div>
-        )
     }
 
     const countryBodyTemplate = (rowData) => {
@@ -318,7 +276,6 @@ export const TableDemo = () => {
     }
 
 
-    const header1 = renderHeader1();
 
     return (
         <div className="grid table-demo">
@@ -326,8 +283,8 @@ export const TableDemo = () => {
                 <div className="card">
                     <h5>Filter Menu</h5>
                     <DataTable value={customers1} paginator className="p-datatable-gridlines" showGridlines rows={10}
-                        dataKey="id" filters={filters1} filterDisplay="menu" loading={loading1} responsiveLayout="scroll"
-                        globalFilterFields={['name', 'country.name', 'representative.name', 'balance', 'status']} header={header1} emptyMessage="No customers found.">
+                        dataKey="id"  filterDisplay="menu" loading={loading1} responsiveLayout="scroll"
+                        emptyMessage="No customers found.">
                         <Column field="name" header="Name" filter filterPlaceholder="Search by name" style={{ minWidth: '12rem' }} />
                         <Column header="Country" filterField="country.name" style={{ minWidth: '12rem' }} body={countryBodyTemplate} filter filterPlaceholder="Search by country"
                             filterClear={filterClearTemplate} filterApply={filterApplyTemplate} />
