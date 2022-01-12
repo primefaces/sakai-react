@@ -122,7 +122,7 @@ export const AppConfig = (props) => {
             <Button className="p-button-danger layout-config-close p-button-rounded p-button-text" icon="pi pi-times" onClick={hideConfigurator}/>
 
             <div className="layout-config-content">
-                <h6 className="mt-0">Component Scale</h6>
+                <h5 className="mt-0">Component Scale</h5>
                 <div className="config-scale">
                     <Button icon="pi pi-minus" onClick={decrementScale} className="p-button-text" disabled={scale === scales[0]} />
                     {
@@ -133,7 +133,7 @@ export const AppConfig = (props) => {
                     <Button icon="pi pi-plus" onClick={incrementScale} className="p-button-text" disabled={scale === scales[scales.length - 1]} />
                 </div>
 
-                <h6>Input Style</h6>
+                <h5>Input Style</h5>
                 <div className="p-formgroup-inline">
                     <div className="field-radiobutton">
                         <RadioButton inputId="input_outlined" name="inputstyle" value="outlined" onChange={(e) => props.onInputStyleChange(e.value)} checked={props.inputStyle === 'outlined'} />
@@ -145,10 +145,10 @@ export const AppConfig = (props) => {
                     </div>
                 </div>
 
-                <h6>Ripple Effect</h6>
+                <h5>Ripple Effect</h5>
                 <InputSwitch checked={props.rippleEffect} onChange={props.onRippleEffect} />
 
-                <h6>Menu Type</h6>
+                <h5>Menu Type</h5>
                 <div className="p-formgroup-inline">
                     <div className="field-radiobutton">
                         <RadioButton inputId="static" name="layoutMode" value="static" onChange={(e) => props.onLayoutModeChange(e.value)} checked={props.layoutMode === 'static'} />
@@ -160,7 +160,8 @@ export const AppConfig = (props) => {
                     </div>
                 </div>
 
-                <h6>Bootstrap</h6>
+                <h5>Themes</h5>
+                <h6 className="mt-0">Bootstrap</h6>
                 <div className="grid free-themes">
                     <div className="col-3 text-center">
                         <button className="p-link" onClick={e => changeTheme(e, 'bootstrap4-light-blue', 'light')}>
@@ -252,42 +253,42 @@ export const AppConfig = (props) => {
 
                 <h6>PrimeOne Design - 2022</h6>
                 <div className="grid free-themes">
-                    <div className="col-3">
+                    <div className="col-3 text-center">
                         <button className="p-link" onClick={(e) => changeTheme(e, 'lara-light-indigo', 'light')}>
                             <img src="assets/layout/images/themes/lara-light-indigo.png" alt="Lara Light Indigo"/>
                         </button>
                     </div>
-                    <div className="col-3">
+                    <div className="col-3 text-center">
                         <button className="p-link" onClick={(e) => changeTheme(e, 'lara-light-blue', 'light')}>
                             <img src="assets/layout/images/themes/lara-light-blue.png" alt="Lara Light Blue"/>
                         </button>
                     </div>
-                    <div className="col-3">
+                    <div className="col-3 text-center">
                         <button className="p-link" onClick={(e) => changeTheme(e, 'lara-light-purple', 'light')}>
                             <img src="assets/layout/images/themes/lara-light-purple.png" alt="Lara Light Purple"/>
                         </button>
                     </div>
-                    <div className="col-3">
+                    <div className="col-3 text-center">
                         <button className="p-link" onClick={(e) => changeTheme(e, 'lara-light-teal', 'light')}>
                             <img src="assets/layout/images/themes/lara-light-teal.png" alt="Lara Light Teal"/>
                         </button>
                     </div>
-                    <div className="col-3">
+                    <div className="col-3 text-center">
                         <button className="p-link" onClick={(e) => changeTheme(e, 'lara-dark-indigo', 'dark')}>
                             <img src="assets/layout/images/themes/lara-dark-indigo.png" alt="Lara Dark Indigo"/>
                         </button>
                     </div>
-                    <div className="col-3">
+                    <div className="col-3 text-center">
                         <button className="p-link" onClick={(e) => changeTheme(e, 'lara-dark-blue', 'dark')}>
                             <img src="assets/layout/images/themes/lara-dark-blue.png" alt="Lara Dark Blue"/>
                         </button>
                     </div>
-                    <div className="col-3">
+                    <div className="col-3 text-center">
                         <button className="p-link" onClick={(e) => changeTheme(e, 'lara-dark-purple', 'dark')}>
                             <img src="assets/layout/images/themes/lara-dark-purple.png" alt="Lara Dark Purple"/>
                         </button>
                     </div>
-                    <div className="col-3">
+                    <div className="col-3 text-center">
                         <button className="p-link" onClick={(e) => changeTheme(e, 'lara-dark-teal', 'dark')}>
                             <img src="assets/layout/images/themes/lara-dark-teal.png" alt="Lara Dark Teal"/>
                         </button>
