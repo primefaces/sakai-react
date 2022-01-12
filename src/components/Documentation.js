@@ -78,7 +78,6 @@ export const Documentation = () => {
 $fontSize:14px;
 $borderRadius:12px;
 $transitionDuration:.2s;
-$maskBg:rgba(0, 0, 0, 0.4);
 `}
 </CodeHighlight>
                 </div>
