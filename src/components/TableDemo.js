@@ -3,7 +3,6 @@ import { classNames } from 'primereact/utils';
 import { FilterMatchMode, FilterOperator } from 'primereact/api';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
 import { InputNumber } from 'primereact/inputnumber';
 import { Button } from 'primereact/button';
@@ -21,8 +20,6 @@ export const TableDemo = () => {
     const [customers1, setCustomers1] = useState(null);
     const [customers2, setCustomers2] = useState([]);
     const [customers3, setCustomers3] = useState([]);
-    const [filters1, setFilters1] = useState(null);
-    const [globalFilterValue1, setGlobalFilterValue1] = useState('');
     const [loading1, setLoading1] = useState(true);
     const [loading2, setLoading2] = useState(true);
     const [idFrozen, setIdFrozen] = useState(false);
