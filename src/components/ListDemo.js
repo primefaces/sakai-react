@@ -69,13 +69,13 @@ export const ListDemo = () => {
             <div className="col-12">
                 <div className="flex flex-column md:flex-row align-items-center p-3 w-full">
                     <img src={`assets/demo/images/product/${data.image}`} alt={data.name} className="my-4 md:my-0 w-9 md:w-10rem shadow-2 mr-5" />
-                    <div class="flex-1 text-center md:text-left">
+                    <div className="flex-1 text-center md:text-left">
                         <div className="font-bold text-2xl">{data.name}</div>
                         <div className="mb-3">{data.description}</div>
                         <Rating value={data.rating} readonly cancel={false} className="mb-2"></Rating>
-                        <div class="flex align-items-center">
-                            <i class="pi pi-tag mr-2"></i>
-                            <span class="font-semibold">{data.category}</span>
+                        <div className="flex align-items-center">
+                            <i className="pi pi-tag mr-2"></i>
+                            <span className="font-semibold">{data.category}</span>
                         </div>
                     </div>
                     <div className="flex flex-row md:flex-column justify-content-between w-full md:w-auto align-items-center md:align-items-end mt-5 md:mt-0">
