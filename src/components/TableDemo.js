@@ -20,6 +20,7 @@ export const TableDemo = () => {
     const [customers1, setCustomers1] = useState(null);
     const [customers2, setCustomers2] = useState([]);
     const [customers3, setCustomers3] = useState([]);
+    const [filters1, setFilters1] = useState(null);
     const [loading1, setLoading1] = useState(true);
     const [loading2, setLoading2] = useState(true);
     const [idFrozen, setIdFrozen] = useState(false);
@@ -53,6 +54,8 @@ export const TableDemo = () => {
         customerService.getCustomersLarge().then(data => { setCustomers2(getCustomers(data)); setLoading2(false); });
         customerService.getCustomersMedium().then(data => setCustomers3(data));
         productService.getProductsWithOrdersSmall().then(data => setProducts(data));
+
+        initFilters1();
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     const balanceTemplate = (rowData) => {
@@ -81,6 +84,21 @@ export const TableDemo = () => {
     const formatCurrency = (value) => {
         return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
     }
+
+    const initFilters1 = () => {
+        setFilters1({
+            'global': { value: null, matchMode: FilterMatchMode.CONTAINS },
+            'name': { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
+            'country.name': { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
+            'representative': { value: null, matchMode: FilterMatchMode.IN },
+            'date': { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }] },
+            'balance': { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
+            'status': { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
+            'activity': { value: null, matchMode: FilterMatchMode.BETWEEN },
+            'verified': { value: null, matchMode: FilterMatchMode.EQUALS }
+        });
+    }
+
 
     const countryBodyTemplate = (rowData) => {
         return (
@@ -274,14 +292,15 @@ export const TableDemo = () => {
 
 
 
+
     return (
         <div className="grid table-demo">
             <div className="col-12">
                 <div className="card">
                     <h5>Filter Menu</h5>
                     <DataTable value={customers1} paginator className="p-datatable-gridlines" showGridlines rows={10}
-                        dataKey="id"  filterDisplay="menu" loading={loading1} responsiveLayout="scroll"
-                        emptyMessage="No customers found.">
+                        dataKey="id" filters={filters1} filterDisplay="menu" loading={loading1} responsiveLayout="scroll"
+                          emptyMessage="No customers found.">
                         <Column field="name" header="Name" filter filterPlaceholder="Search by name" style={{ minWidth: '12rem' }} />
                         <Column header="Country" filterField="country.name" style={{ minWidth: '12rem' }} body={countryBodyTemplate} filter filterPlaceholder="Search by country"
                             filterClear={filterClearTemplate} filterApply={filterApplyTemplate} />
@@ -304,16 +323,16 @@ export const TableDemo = () => {
                     <ToggleButton checked={idFrozen} onChange={(e) => setIdFrozen(e.value)} onIcon="pi pi-lock" offIcon="pi pi-lock-open" onLabel="Unfreeze Id" offLabel="Freeze Id" style={{ width: '10rem' }} />
 
                     <DataTable value={customers2} scrollable scrollHeight="400px" loading={loading2} scrollDirection="both" className="mt-3">
-                        <Column field="name" header="Name" style={{ width: '150px' }} frozen></Column>
-                        <Column field="id" header="Id" style={{ width: '100px' }} frozen={idFrozen} alignFrozen="left"></Column>
-                        <Column field="name" header="Name" style={{ width: '200px' }}></Column>
-                        <Column field="country.name" header="Country" style={{ width: '200px' }} body={countryBodyTemplate}></Column>
-                        <Column field="date" header="Date" style={{ width: '200px' }} body={dateBodyTemplate}></Column>
-                        <Column field="company" header="Company" style={{ width: '200px' }}></Column>
-                        <Column field="status" header="Status" style={{ width: '200px' }} body={statusBodyTemplate}></Column>
-                        <Column field="activity" header="Activity" style={{ width: '200px' }}></Column>
-                        <Column field="representative.name" header="Representative" style={{ width: '200px' }} body={representativeBodyTemplate}></Column>
-                        <Column field="balance" header="Balance" body={balanceTemplate} frozen style={{ width: '150px' }} alignFrozen="right"></Column>
+                        <Column field="name" header="Name" style={{ flexGrow: 1, flexBasis: '160px' }} frozen></Column>
+                        <Column field="id" header="Id" style={{ flexGrow: 1, flexBasis: '100px' }} frozen={idFrozen} alignFrozen="left"></Column>
+                        <Column field="name" header="Name" style={{ flexGrow: 1, flexBasis: '200px' }}></Column>
+                        <Column field="country.name" header="Country" style={{ flexGrow: 1, flexBasis: '200px' }} body={countryBodyTemplate}></Column>
+                        <Column field="date" header="Date" style={{ flexGrow: 1, flexBasis: '200px' }} body={dateBodyTemplate}></Column>
+                        <Column field="company" header="Company" style={{ flexGrow: 1, flexBasis: '200px' }}></Column>
+                        <Column field="status" header="Status" style={{ flexGrow: 1, flexBasis: '200px' }} body={statusBodyTemplate}></Column>
+                        <Column field="activity" header="Activity" style={{ flexGrow: 1, flexBasis: '200px' }}></Column>
+                        <Column field="representative.name" header="Representative" style={{ flexGrow: 1, flexBasis: '200px' }} body={representativeBodyTemplate}></Column>
+                        <Column field="balance" header="Balance" body={balanceTemplate} frozen style={{ flexGrow: 1, flexBasis: '120px' }} alignFrozen="right"></Column>
                     </DataTable>
                 </div>
             </div>
