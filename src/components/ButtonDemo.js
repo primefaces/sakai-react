@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { Button } from 'primereact/button';
 import { SplitButton } from 'primereact/splitbutton';
 
-export const ButtonDemo = () => {
-
+const ButtonDemo = () => {
     const [loading1, setLoading1] = useState(false);
     const [loading2, setLoading2] = useState(false);
     const [loading3, setLoading3] = useState(false);
@@ -190,3 +189,9 @@ export const ButtonDemo = () => {
         </div>
     )
 }
+
+const comparisonFn = function (prevProps, nextProps) {
+    return prevProps.location.pathname === nextProps.location.pathname;
+};
+
+export default React.memo(ButtonDemo, comparisonFn);

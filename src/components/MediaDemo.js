@@ -6,8 +6,7 @@ import { Image } from "primereact/image";
 import { ProductService } from '../service/ProductService';
 import { PhotoService } from '../service/PhotoService';
 
-export const MediaDemo = () => {
-
+const MediaDemo = () => {
     const [products, setProducts] = useState([]);
     const [images, setImages] = useState([]);
     const galleriaResponsiveOptions = [
@@ -109,3 +108,9 @@ export const MediaDemo = () => {
         </div>
     );
 }
+
+const comparisonFn = function (prevProps, nextProps) {
+    return prevProps.location.pathname === nextProps.location.pathname;
+};
+
+export default React.memo(MediaDemo, comparisonFn);

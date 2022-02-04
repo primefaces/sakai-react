@@ -16,8 +16,7 @@ import { ConfirmationDemo } from '../components/menu/ConfirmationDemo';
 import { PaymentDemo } from '../components/menu/PaymentDemo';
 import { SeatDemo } from '../components/menu/SeatDemo';
 
-export const MenuDemo = () => {
-
+const MenuDemo = () => {
     const [activeIndex, setActiveIndex] = useState(0);
 
     const menu = useRef(null);
@@ -584,3 +583,9 @@ export const MenuDemo = () => {
         </div>
     )
 }
+
+const comparisonFn = function (prevProps, nextProps) {
+    return prevProps.location.pathname === nextProps.location.pathname;
+};
+
+export default React.memo(MenuDemo, comparisonFn);

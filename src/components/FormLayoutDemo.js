@@ -4,8 +4,7 @@ import { Button } from 'primereact/button';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Dropdown } from 'primereact/dropdown';
 
-export const FormLayoutDemo = () => {
-
+const FormLayoutDemo = () => {
     const [dropdownItem, setDropdownItem] = useState(null);
     const dropdownItems = [
         { name: 'Option 1', code: 'Option 1' },
@@ -123,3 +122,9 @@ export const FormLayoutDemo = () => {
         </div>
     )
 }
+
+const comparisonFn = function (prevProps, nextProps) {
+    return prevProps.location.pathname === nextProps.location.pathname;
+};
+
+export default React.memo(FormLayoutDemo, comparisonFn);

@@ -1,8 +1,7 @@
 import React, { useRef } from 'react';
 import { FileUpload } from 'primereact/fileupload';
 
-export const FileDemo = () => {
-
+const FileDemo = () => {
     const toast = useRef(null);
 
     const onUpload = () => {
@@ -23,3 +22,9 @@ export const FileDemo = () => {
         </div>
     )
 }
+
+const comparisonFn = function (prevProps, nextProps) {
+    return prevProps.location.pathname === nextProps.location.pathname;
+};
+
+export default React.memo(FileDemo, comparisonFn);

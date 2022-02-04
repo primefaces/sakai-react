@@ -4,8 +4,7 @@ import { TreeTable } from 'primereact/treetable';
 import { Column } from 'primereact/column';
 import { NodeService } from '../service/NodeService';
 
-export const TreeDemo = () => {
-
+const TreeDemo = () => {
     const [treeNodes, setTreeNodes] = useState([]);
     const [selectedTreeNodeKeys, setSelectedTreeNodeKeys] = useState(null);
     const [treeTableNodes, setTreeTableNodes] = useState([]);
@@ -38,3 +37,9 @@ export const TreeDemo = () => {
         </div>
     )
 }
+
+const comparisonFn = function (prevProps, nextProps) {
+    return prevProps.location.pathname === nextProps.location.pathname;
+};
+
+export default React.memo(TreeDemo, comparisonFn);

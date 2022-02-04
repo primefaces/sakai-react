@@ -28,13 +28,10 @@ const lineData = {
     ]
 };
 
-export const Dashboard = (props) => {
-
+const Dashboard = (props) => {
     const [products, setProducts] = useState(null);
-
     const menu1 = useRef(null);
     const menu2 = useRef(null);
-
     const [lineOptions, setLineOptions] = useState(null)
 
     const applyLightTheme = () => {
@@ -349,3 +346,9 @@ export const Dashboard = (props) => {
         </div>
     );
 }
+
+const comparisonFn = function (prevProps, nextProps) {
+    return prevProps.location.pathname === nextProps.location.pathname;
+};
+
+export default React.memo(Dashboard, comparisonFn);

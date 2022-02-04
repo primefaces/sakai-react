@@ -16,7 +16,7 @@ import { Rating } from 'primereact/rating';
 import { CustomerService } from '../service/CustomerService';
 import { ProductService } from '../service/ProductService';
 
-export const TableDemo = () => {
+const TableDemo = () => {
     const [customers1, setCustomers1] = useState(null);
     const [customers2, setCustomers2] = useState([]);
     const [customers3, setCustomers3] = useState([]);
@@ -290,9 +290,6 @@ export const TableDemo = () => {
         return total;
     }
 
-
-
-
     return (
         <div className="grid table-demo">
             <div className="col-12">
@@ -368,6 +365,11 @@ export const TableDemo = () => {
                 </div>
             </div>
         </div>
-
     );
 }
+
+const comparisonFn = function (prevProps, nextProps) {
+    return prevProps.location.pathname === nextProps.location.pathname;
+};
+
+export default React.memo(TableDemo, comparisonFn);

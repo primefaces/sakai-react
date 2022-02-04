@@ -13,9 +13,7 @@ import { Splitter, SplitterPanel } from 'primereact/splitter';
 import { Password } from 'primereact/password';
 import {Menu} from "primereact/menu";
 
-
-export const PanelDemo = () => {
-
+const PanelDemo = () => {
     const menu1 = useRef(null);
     const toolbarItems = [
         {
@@ -246,3 +244,9 @@ export const PanelDemo = () => {
         </div>
     )
 }
+
+const comparisonFn = function (prevProps, nextProps) {
+    return prevProps.location.pathname === nextProps.location.pathname;
+};
+
+export default React.memo(PanelDemo, comparisonFn);

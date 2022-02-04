@@ -10,8 +10,7 @@ import { InputText } from 'primereact/inputtext';
 import { confirmPopup } from 'primereact/confirmpopup';
 import { ProductService } from '../service/ProductService';
 
-export const OverlayDemo = () => {
-
+const OverlayDemo = () => {
     const [displayBasic, setDisplayBasic] = useState(false);
     const [displayConfirmation, setDisplayConfirmation] = useState(false);
     const [visibleLeft, setVisibleLeft] = useState(false);
@@ -187,3 +186,9 @@ export const OverlayDemo = () => {
         </>
     )
 }
+
+const comparisonFn = function (prevProps, nextProps) {
+    return prevProps.location.pathname === nextProps.location.pathname;
+};
+
+export default React.memo(OverlayDemo, comparisonFn);

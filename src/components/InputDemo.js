@@ -23,7 +23,6 @@ import { CountryService } from '../service/CountryService';
 import { NodeService } from '../service/NodeService';
 
 export const InputDemo = () => {
-
     const [floatValue, setFloatValue] = useState('');
     const [autoValue, setAutoValue] = useState(null);
     const [selectedAutoValue, setSelectedAutoValue] = useState(null);
@@ -347,3 +346,9 @@ export const InputDemo = () => {
         </div >
     )
 }
+
+const comparisonFn = function (prevProps, nextProps) {
+    return prevProps.location.pathname === nextProps.location.pathname;
+};
+
+export default React.memo(InputDemo, comparisonFn);

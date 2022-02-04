@@ -14,8 +14,7 @@ import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { ProductService } from '../service/ProductService';
 
-export const Crud = () => {
-
+const Crud = () => {
     let emptyProduct = {
         id: null,
         name: '',
@@ -377,3 +376,9 @@ export const Crud = () => {
         </div>
     );
 }
+
+const comparisonFn = function (prevProps, nextProps) {
+    return prevProps.location.pathname === nextProps.location.pathname;
+};
+
+export default React.memo(Crud, comparisonFn);

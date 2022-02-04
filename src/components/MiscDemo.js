@@ -10,8 +10,7 @@ import { Skeleton } from 'primereact/skeleton';
 import { ScrollPanel } from 'primereact/scrollpanel';
 import { ScrollTop } from 'primereact/scrolltop';
 
-export const MiscDemo = () => {
-
+const MiscDemo = () => {
     const [value, setValue] = useState(0);
     const interval = useRef(null);
 
@@ -198,3 +197,9 @@ export const MiscDemo = () => {
         </div>
     )
 }
+
+const comparisonFn = function (prevProps, nextProps) {
+    return prevProps.location.pathname === nextProps.location.pathname;
+};
+
+export default React.memo(MiscDemo, comparisonFn);

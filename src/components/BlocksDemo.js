@@ -5,8 +5,7 @@ import { InputText } from 'primereact/inputtext';
 import { Checkbox } from 'primereact/checkbox';
 import BlockViewer from '../BlockViewer';
 
-export const BlocksDemo = () => {
-
+const BlocksDemo = () => {
     const [checked, setChecked] = useState(false);
 
     const block1 = `
@@ -831,3 +830,9 @@ export const BlocksDemo = () => {
         </>
     )
 }
+
+const comparisonFn = function (prevProps, nextProps) {
+    return prevProps.location.pathname === nextProps.location.pathname;
+};
+
+export default React.memo(BlocksDemo, comparisonFn);

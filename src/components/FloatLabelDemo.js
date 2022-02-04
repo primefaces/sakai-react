@@ -10,8 +10,7 @@ import {Dropdown} from 'primereact/dropdown';
 import {MultiSelect} from 'primereact/multiselect';
 import {CountryService} from '../service/CountryService';
 
-export const FloatLabelDemo = () => {
-
+const FloatLabelDemo = () => {
     const [countries, setCountries] = useState([]);
     const [filteredCountries, setFilteredCountries] = useState(null);
     const [value1, setValue1] = useState('');
@@ -128,3 +127,8 @@ export const FloatLabelDemo = () => {
     )
 }
 
+const comparisonFn = function (prevProps, nextProps) {
+    return prevProps.location.pathname === nextProps.location.pathname;
+};
+
+export default React.memo(FloatLabelDemo, comparisonFn);

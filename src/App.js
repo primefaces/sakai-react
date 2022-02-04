@@ -8,30 +8,30 @@ import { AppFooter } from './AppFooter';
 import { AppMenu } from './AppMenu';
 import { AppConfig } from './AppConfig';
 
-import { Dashboard } from './components/Dashboard';
-import { ButtonDemo } from './components/ButtonDemo';
-import { ChartDemo } from './components/ChartDemo';
-import { Documentation } from './components/Documentation';
-import { FileDemo } from './components/FileDemo';
-import { FloatLabelDemo } from './components/FloatLabelDemo';
-import { FormLayoutDemo } from './components/FormLayoutDemo';
-import { InputDemo } from './components/InputDemo';
-import { ListDemo } from './components/ListDemo';
-import { MenuDemo } from './components/MenuDemo';
-import { MessagesDemo } from './components/MessagesDemo';
-import { MiscDemo } from './components/MiscDemo';
-import { OverlayDemo } from './components/OverlayDemo';
-import { MediaDemo } from './components/MediaDemo';
-import { PanelDemo } from './components/PanelDemo';
-import { TableDemo } from './components/TableDemo';
-import { TreeDemo } from './components/TreeDemo';
-import { InvalidStateDemo } from './components/InvalidStateDemo';
-import { BlocksDemo } from './components/BlocksDemo';
-import { IconsDemo } from './components/IconsDemo';
+import Dashboard from './components/Dashboard';
+import ButtonDemo from './components/ButtonDemo';
+import ChartDemo from './components/ChartDemo';
+import Documentation from './components/Documentation';
+import FileDemo from './components/FileDemo';
+import FloatLabelDemo from './components/FloatLabelDemo';
+import FormLayoutDemo from './components/FormLayoutDemo';
+import InputDemo from './components/InputDemo';
+import ListDemo from './components/ListDemo';
+import MenuDemo from './components/MenuDemo';
+import MessagesDemo from './components/MessagesDemo';
+import MiscDemo from './components/MiscDemo';
+import OverlayDemo from './components/OverlayDemo';
+import MediaDemo from './components/MediaDemo';
+import PanelDemo from './components/PanelDemo';
+import TableDemo from './components/TableDemo';
+import TreeDemo from './components/TreeDemo';
+import InvalidStateDemo from './components/InvalidStateDemo';
+import BlocksDemo from './components/BlocksDemo';
+import IconsDemo from './components/IconsDemo';
 
-import { Crud } from './pages/Crud';
-import { EmptyPage } from './pages/EmptyPage';
-import { TimelineDemo } from './pages/TimelineDemo';
+import Crud from './pages/Crud';
+import EmptyPage from './pages/EmptyPage';
+import TimelineDemo from './pages/TimelineDemo';
 
 import PrimeReact from 'primereact/api';
 import { Tooltip } from 'primereact/tooltip';
@@ -46,7 +46,6 @@ import './assets/layout/layout.scss';
 import './App.scss';
 
 const App = () => {
-
     const [layoutMode, setLayoutMode] = useState('static');
     const [layoutColorMode, setLayoutColorMode] = useState('light')
     const [inputStyle, setInputStyle] = useState('outlined');
@@ -62,7 +61,6 @@ const App = () => {
 
     let menuClick = false;
     let mobileTopbarMenuClick = false;
-
 
     useEffect(() => {
         if (mobileMenuActive) {

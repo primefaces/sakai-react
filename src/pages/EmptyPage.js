@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const EmptyPage = () => {
+const EmptyPage = () => {
 
     return (
         <div className="grid">
@@ -13,3 +13,9 @@ export const EmptyPage = () => {
         </div>
     );
 }
+
+const comparisonFn = function (prevProps, nextProps) {
+    return prevProps.location.pathname === nextProps.location.pathname;
+};
+
+export default React.memo(EmptyPage, comparisonFn);

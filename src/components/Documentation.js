@@ -1,7 +1,7 @@
 import React from 'react';
 import { CodeHighlight } from './CodeHighlight';
 
-export const Documentation = () => {
+const Documentation = () => {
 
     return (
         <div className="grid">
@@ -85,3 +85,9 @@ $transitionDuration:.2s;
         </div>
     )
 }
+
+const comparisonFn = function (prevProps, nextProps) {
+    return prevProps.location.pathname === nextProps.location.pathname;
+};
+
+export default React.memo(Documentation, comparisonFn);

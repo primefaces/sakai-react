@@ -11,8 +11,7 @@ import { MultiSelect } from 'primereact/multiselect';
 import { Password } from 'primereact/password';
 import { CountryService } from '../service/CountryService';
 
-export const InvalidStateDemo = () => {
-
+const InvalidStateDemo = () => {
     const [countries, setCountries] = useState([]);
     const [filteredCountries, setFilteredCountries] = useState(null);
     const [value1, setValue1] = useState('');
@@ -112,3 +111,9 @@ export const InvalidStateDemo = () => {
         </div>
     )
 }
+
+const comparisonFn = function (prevProps, nextProps) {
+    return prevProps.location.pathname === nextProps.location.pathname;
+};
+
+export default React.memo(InvalidStateDemo, comparisonFn);

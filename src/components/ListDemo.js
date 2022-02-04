@@ -7,8 +7,7 @@ import { PickList } from 'primereact/picklist';
 import { OrderList } from 'primereact/orderlist';
 import { ProductService } from '../service/ProductService';
 
-export const ListDemo = () => {
-
+const ListDemo = () => {
     const listValue = [
         { name: 'San Francisco', code: 'SF' },
         { name: 'London', code: 'LDN' },
@@ -154,3 +153,9 @@ export const ListDemo = () => {
         </div>
     )
 }
+
+const comparisonFn = function (prevProps, nextProps) {
+    return prevProps.location.pathname === nextProps.location.pathname;
+};
+
+export default React.memo(ListDemo, comparisonFn);

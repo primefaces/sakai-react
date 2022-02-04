@@ -130,8 +130,7 @@ const radarData = {
     ]
 };
 
-export const ChartDemo = (props) => {
-
+const ChartDemo = (props) => {
     const [lineOptions, setLineOptions] = useState(null)
     const [barOptions, setBarOptions] = useState(null)
     const [pieOptions, setPieOptions] = useState(null)
@@ -400,3 +399,9 @@ export const ChartDemo = (props) => {
         </div>
     )
 }
+
+const comparisonFn = function (prevProps, nextProps) {
+    return prevProps.location.pathname === nextProps.location.pathname;
+};
+
+export default React.memo(ChartDemo, comparisonFn);

@@ -4,8 +4,7 @@ import { Card } from 'primereact/card';
 import { Timeline } from 'primereact/timeline';
 import classNames from 'classnames';
 
-export const TimelineDemo = () => {
-
+const TimelineDemo = () => {
     const customEvents = [
         {
             status: 'Ordered',
@@ -57,3 +56,9 @@ export const TimelineDemo = () => {
         </div>
     </div>
 }
+
+const comparisonFn = function (prevProps, nextProps) {
+    return prevProps.location.pathname === nextProps.location.pathname;
+};
+
+export default React.memo(TimelineDemo, comparisonFn);

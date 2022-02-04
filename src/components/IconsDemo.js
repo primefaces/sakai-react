@@ -3,8 +3,7 @@ import axios from 'axios';
 import { InputText } from 'primereact/inputtext';
 import { CodeHighlight } from './CodeHighlight';
 
-export const IconsDemo = () => {
-
+const IconsDemo = () => {
     const [icons, setIcons] = useState([]);
     const [filteredIcons, setFilteredIcons] = useState([]);
 
@@ -137,3 +136,9 @@ const items = [
         </div>
     )
 }
+
+const comparisonFn = function (prevProps, nextProps) {
+    return prevProps.location.pathname === nextProps.location.pathname;
+};
+
+export default React.memo(IconsDemo, comparisonFn);
