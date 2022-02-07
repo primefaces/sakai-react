@@ -296,7 +296,7 @@ const App = () => {
 
             <div className="layout-main-container">
                 <div className="layout-main">
-                    <Route path="/" exact render={() => <Dashboard colorMode={layoutColorMode} />} />
+                    <Route path="/" exact render={() => <Dashboard colorMode={layoutColorMode} location={location} />} />
                     <Route path="/formlayout" component={FormLayoutDemo} />
                     <Route path="/input" component={InputDemo} />
                     <Route path="/floatlabel" component={FloatLabelDemo} />
@@ -313,7 +313,7 @@ const App = () => {
                     <Route path="/blocks" component={BlocksDemo} />
                     <Route path="/icons" component={IconsDemo} />
                     <Route path="/file" component={FileDemo} />
-                    <Route path="/chart" render={() => <ChartDemo colorMode={layoutColorMode} />} />
+                    <Route path="/chart" render={() => <ChartDemo colorMode={layoutColorMode} location={location} />} />
                     <Route path="/misc" component={MiscDemo} />
                     <Route path="/timeline" component={TimelineDemo} />
                     <Route path="/crud" component={Crud} />
