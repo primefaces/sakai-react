@@ -1,6 +1,6 @@
 {
     "name": "sakai-react",
-    "version": "7.0.2-SNAPSHOT",
+    "version": "7.0.2",
     "homepage": ".",
     "private": false,
     "repository": {
