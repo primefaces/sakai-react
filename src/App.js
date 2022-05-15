@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, Fragment } from 'react';
 import classNames from 'classnames';
 import { Route, useLocation } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
@@ -33,7 +33,9 @@ import Crud from './pages/Crud';
 import User from './pages/User';
 import Applicant from './pages/Applicant';
 import JobVacancy from './pages/JobVacancy';
-import Login from './pages/login/Login';
+import Login from './pages/login/Index';
+import Cookies from 'js-cookie'
+
 
 
 import EmptyPage from './pages/EmptyPage';
@@ -51,6 +53,7 @@ import './assets/demo/flags/flags.css';
 import './assets/demo/Demos.scss';
 import './assets/layout/layout.scss';
 import './App.scss';
+import { Redirect } from 'react-router-dom';
 
 const App = () => {
     const [layoutMode, setLayoutMode] = useState('static');
@@ -316,63 +319,126 @@ const App = () => {
         'p-ripple-disabled': ripple === false,
         'layout-theme-light': layoutColorMode === 'light'
     });
-
-    return (
-        <div className={wrapperClass} onClick={onWrapperClick}>
-            <Tooltip ref={copyTooltipRef} target=".block-action-copy" position="bottom" content="Copied to clipboard" event="focus" />
-
-            <AppTopbar onToggleMenuClick={onToggleMenuClick} layoutColorMode={layoutColorMode}
-                mobileTopbarMenuActive={mobileTopbarMenuActive} onMobileTopbarMenuClick={onMobileTopbarMenuClick} onMobileSubTopbarMenuClick={onMobileSubTopbarMenuClick} />
-
-            <div className="layout-sidebar" onClick={onSidebarClick}>
-                <AppMenu model={menu} onMenuItemClick={onMenuItemClick} layoutColorMode={layoutColorMode} />
-            </div>
-
-            <div className="layout-main-container">
-                <div className="layout-main">
-                    <Route path="/" exact render={() => <Dashboard colorMode={layoutColorMode} location={location} />} />
-                    <Route path="/formlayout" component={FormLayoutDemo} />
-                    <Route path="/input" component={InputDemo} />
-                    <Route path="/floatlabel" component={FloatLabelDemo} />
-                    <Route path="/invalidstate" component={InvalidStateDemo} />
-                    <Route path="/button" component={ButtonDemo} />
-                    <Route path="/table" component={TableDemo} />
-                    <Route path="/list" component={ListDemo} />
-                    <Route path="/tree" component={TreeDemo} />
-                    <Route path="/panel" component={PanelDemo} />
-                    <Route path="/overlay" component={OverlayDemo} />
-                    <Route path="/media" component={MediaDemo} />
-                    <Route path="/menu" component={MenuDemo} />
-                    <Route path="/messages" component={MessagesDemo} />
-                    <Route path="/blocks" component={BlocksDemo} />
-                    <Route path="/icons" component={IconsDemo} />
-                    <Route path="/file" component={FileDemo} />
-                    <Route path="/chart" render={() => <ChartDemo colorMode={layoutColorMode} location={location} />} />
-                    <Route path="/misc" component={MiscDemo} />
-                    <Route path="/timeline" component={TimelineDemo} />
-                    <Route path="/crud" component={Crud} />
-
-                    <Route path="/user" component={User} />
-                    <Route path="/applicant" component={Applicant} />
-                    <Route path="/jobvacancy" component={JobVacancy} />
-
-                    <Route path="/empty" component={EmptyPage} />
-                    <Route path="/documentation" component={Documentation} />
-                    <Route path="/login" component={Login} />
+    const cookie = Cookies.get('user');
+    if (cookie){
+        return (
+            <div className={wrapperClass} onClick={onWrapperClick}>
+                <Tooltip ref={copyTooltipRef} target=".block-action-copy" position="bottom" content="Copied to clipboard" event="focus" />
+    
+                <AppTopbar onToggleMenuClick={onToggleMenuClick} layoutColorMode={layoutColorMode}
+                    mobileTopbarMenuActive={mobileTopbarMenuActive} onMobileTopbarMenuClick={onMobileTopbarMenuClick} onMobileSubTopbarMenuClick={onMobileSubTopbarMenuClick} />
+    
+                <div className="layout-sidebar" onClick={onSidebarClick}>
+                    <AppMenu model={menu} onMenuItemClick={onMenuItemClick} layoutColorMode={layoutColorMode} />
                 </div>
-
-                <AppFooter layoutColorMode={layoutColorMode} />
+    
+                <div className="layout-main-container">
+                    <div className="layout-main">
+                        <Route path="/" exact render={() => <Dashboard colorMode={layoutColorMode} location={location} />} />
+                        <Route path="/formlayout" component={FormLayoutDemo} />
+                        <Route path="/input" component={InputDemo} />
+                        <Route path="/floatlabel" component={FloatLabelDemo} />
+                        <Route path="/invalidstate" component={InvalidStateDemo} />
+                        <Route path="/button" component={ButtonDemo} />
+                        <Route path="/table" component={TableDemo} />
+                        <Route path="/list" component={ListDemo} />
+                        <Route path="/tree" component={TreeDemo} />
+                        <Route path="/panel" component={PanelDemo} />
+                        <Route path="/overlay" component={OverlayDemo} />
+                        <Route path="/media" component={MediaDemo} />
+                        <Route path="/menu" component={MenuDemo} />
+                        <Route path="/messages" component={MessagesDemo} />
+                        <Route path="/blocks" component={BlocksDemo} />
+                        <Route path="/icons" component={IconsDemo} />
+                        <Route path="/file" component={FileDemo} />
+                        <Route path="/chart" render={() => <ChartDemo colorMode={layoutColorMode} location={location} />} />
+                        <Route path="/misc" component={MiscDemo} />
+                        <Route path="/timeline" component={TimelineDemo} />
+                        <Route path="/crud" component={Crud} />
+    
+                        <Route path="/user" component={User} />
+                        <Route path="/applicant" component={Applicant} />
+                        <Route path="/jobvacancy" component={JobVacancy} />
+    
+                        <Route path="/empty" component={EmptyPage} />
+                        <Route path="/documentation" component={Documentation} />
+                    </div>
+    
+                    <AppFooter layoutColorMode={layoutColorMode} />
+                </div>
+    
+                <AppConfig rippleEffect={ripple} onRippleEffect={onRipple} inputStyle={inputStyle} onInputStyleChange={onInputStyleChange}
+                    layoutMode={layoutMode} onLayoutModeChange={onLayoutModeChange} layoutColorMode={layoutColorMode} onColorModeChange={onColorModeChange} />
+    
+                <CSSTransition classNames="layout-mask" timeout={{ enter: 200, exit: 200 }} in={mobileMenuActive} unmountOnExit>
+                    <div className="layout-mask p-component-overlay"></div>
+                </CSSTransition>
+    
             </div>
+        )
+    } else {
+        return(
+            <Fragment>
+                <Route path="/login" exact component={Login}></Route>
+                <Route path="*" render={() => <Redirect to="/login" />}></Route>
+            </Fragment>
+        )
+    }
+    // return (
+    //     <div className={wrapperClass} onClick={onWrapperClick}>
+    //         <Tooltip ref={copyTooltipRef} target=".block-action-copy" position="bottom" content="Copied to clipboard" event="focus" />
 
-            <AppConfig rippleEffect={ripple} onRippleEffect={onRipple} inputStyle={inputStyle} onInputStyleChange={onInputStyleChange}
-                layoutMode={layoutMode} onLayoutModeChange={onLayoutModeChange} layoutColorMode={layoutColorMode} onColorModeChange={onColorModeChange} />
+    //         <AppTopbar onToggleMenuClick={onToggleMenuClick} layoutColorMode={layoutColorMode}
+    //             mobileTopbarMenuActive={mobileTopbarMenuActive} onMobileTopbarMenuClick={onMobileTopbarMenuClick} onMobileSubTopbarMenuClick={onMobileSubTopbarMenuClick} />
 
-            <CSSTransition classNames="layout-mask" timeout={{ enter: 200, exit: 200 }} in={mobileMenuActive} unmountOnExit>
-                <div className="layout-mask p-component-overlay"></div>
-            </CSSTransition>
+    //         <div className="layout-sidebar" onClick={onSidebarClick}>
+    //             <AppMenu model={menu} onMenuItemClick={onMenuItemClick} layoutColorMode={layoutColorMode} />
+    //         </div>
 
-        </div>
-    );
+    //         <div className="layout-main-container">
+    //             <div className="layout-main">
+    //                 <Route path="/" exact render={() => <Dashboard colorMode={layoutColorMode} location={location} />} />
+    //                 <Route path="/formlayout" component={FormLayoutDemo} />
+    //                 <Route path="/input" component={InputDemo} />
+    //                 <Route path="/floatlabel" component={FloatLabelDemo} />
+    //                 <Route path="/invalidstate" component={InvalidStateDemo} />
+    //                 <Route path="/button" component={ButtonDemo} />
+    //                 <Route path="/table" component={TableDemo} />
+    //                 <Route path="/list" component={ListDemo} />
+    //                 <Route path="/tree" component={TreeDemo} />
+    //                 <Route path="/panel" component={PanelDemo} />
+    //                 <Route path="/overlay" component={OverlayDemo} />
+    //                 <Route path="/media" component={MediaDemo} />
+    //                 <Route path="/menu" component={MenuDemo} />
+    //                 <Route path="/messages" component={MessagesDemo} />
+    //                 <Route path="/blocks" component={BlocksDemo} />
+    //                 <Route path="/icons" component={IconsDemo} />
+    //                 <Route path="/file" component={FileDemo} />
+    //                 <Route path="/chart" render={() => <ChartDemo colorMode={layoutColorMode} location={location} />} />
+    //                 <Route path="/misc" component={MiscDemo} />
+    //                 <Route path="/timeline" component={TimelineDemo} />
+    //                 <Route path="/crud" component={Crud} />
+
+    //                 <Route path="/user" component={User} />
+    //                 <Route path="/applicant" component={Applicant} />
+    //                 <Route path="/jobvacancy" component={JobVacancy} />
+
+    //                 <Route path="/empty" component={EmptyPage} />
+    //                 <Route path="/documentation" component={Documentation} />
+    //             </div>
+
+    //             <AppFooter layoutColorMode={layoutColorMode} />
+    //         </div>
+
+    //         <AppConfig rippleEffect={ripple} onRippleEffect={onRipple} inputStyle={inputStyle} onInputStyleChange={onInputStyleChange}
+    //             layoutMode={layoutMode} onLayoutModeChange={onLayoutModeChange} layoutColorMode={layoutColorMode} onColorModeChange={onColorModeChange} />
+
+    //         <CSSTransition classNames="layout-mask" timeout={{ enter: 200, exit: 200 }} in={mobileMenuActive} unmountOnExit>
+    //             <div className="layout-mask p-component-overlay"></div>
+    //         </CSSTransition>
+
+    //     </div>
+    // );
 
 }
 
