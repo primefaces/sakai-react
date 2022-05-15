@@ -180,7 +180,7 @@ const Dashboard = (props) => {
 
             <div className="col-12 xl:col-6">
                 <div className="card">
-                    <h5>Recent Sales</h5>
+                    <h5>Recent Applicant</h5>
                     <DataTable value={products} rows={5} paginator responsiveLayout="scroll">
                         <Column header="Image" body={(data) => <img className="shadow-2" src={`assets/demo/images/product/${data.image}`} alt={data.image} width="50"/>}/>
                         <Column field="name" header="Name" sortable style={{width: '35%'}}/>

@@ -30,8 +30,15 @@ import BlocksDemo from './components/BlocksDemo';
 import IconsDemo from './components/IconsDemo';
 
 import Crud from './pages/Crud';
+import User from './pages/User';
+import Applicant from './pages/Applicant';
+import JobVacancy from './pages/JobVacancy';
+import Login from './pages/login/Login';
+
+
 import EmptyPage from './pages/EmptyPage';
 import TimelineDemo from './pages/TimelineDemo';
+
 
 import PrimeReact from 'primereact/api';
 import { Tooltip } from 'primereact/tooltip';
@@ -158,36 +165,63 @@ const App = () => {
     const menu = [
         {
             label: 'Home',
-            items: [{
-                label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/'
-            }]
-        },
-        {
-            label: 'UI Components', icon: 'pi pi-fw pi-sitemap',
             items: [
-                { label: 'Form Layout', icon: 'pi pi-fw pi-id-card', to: '/formlayout' },
-                { label: 'Input', icon: 'pi pi-fw pi-check-square', to: '/input' },
-                { label: "Float Label", icon: "pi pi-fw pi-bookmark", to: "/floatlabel" },
-                { label: "Invalid State", icon: "pi pi-fw pi-exclamation-circle", to: "invalidstate" },
-                { label: 'Button', icon: 'pi pi-fw pi-mobile', to: '/button' },
-                { label: 'Table', icon: 'pi pi-fw pi-table', to: '/table' },
-                { label: 'List', icon: 'pi pi-fw pi-list', to: '/list' },
-                { label: 'Tree', icon: 'pi pi-fw pi-share-alt', to: '/tree' },
-                { label: 'Panel', icon: 'pi pi-fw pi-tablet', to: '/panel' },
-                { label: 'Overlay', icon: 'pi pi-fw pi-clone', to: '/overlay' },
-                { label: "Media", icon: "pi pi-fw pi-image", to: "/media" },
-                { label: 'Menu', icon: 'pi pi-fw pi-bars', to: '/menu' },
-                { label: 'Message', icon: 'pi pi-fw pi-comment', to: '/messages' },
-                { label: 'File', icon: 'pi pi-fw pi-file', to: '/file' },
-                { label: 'Chart', icon: 'pi pi-fw pi-chart-bar', to: '/chart' },
-                { label: 'Misc', icon: 'pi pi-fw pi-circle-off', to: '/misc' },
+                { label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/' },
+                { label: 'User', icon: 'pi pi-fw pi-user', to: '/user' }
             ]
         },
         {
-            label: 'UI Blocks',
+            label: 'Recruitment', icon: 'pi pi-fw pi-sitemap',
             items: [
-                { label: 'Free Blocks', icon: 'pi pi-fw pi-eye', to: '/blocks', badge: "NEW" },
-                { label: 'All Blocks', icon: 'pi pi-fw pi-globe', url: 'https://www.primefaces.org/primeblocks-react' }
+                { label: 'Job Vacancy', icon: 'pi pi-fw pi-list', to: '/jobvacancy' },
+                { label: 'Applicant', icon: 'pi pi-fw pi-users', to: '/applicant' },
+                { label: 'Job Application', icon: 'pi pi-fw pi-envelope', to: '/jobapplication' },
+                // { label: 'Form Layout', icon: 'pi pi-fw pi-id-card', to: '/formlayout' },
+                // { label: 'Form Layout', icon: 'pi pi-fw pi-id-card', to: '/formlayout' },
+                // { label: 'Input', icon: 'pi pi-fw pi-check-square', to: '/input' },
+                // { label: "Float Label", icon: "pi pi-fw pi-bookmark", to: "/floatlabel" },
+                // { label: "Invalid State", icon: "pi pi-fw pi-exclamation-circle", to: "invalidstate" },
+                // { label: 'Button', icon: 'pi pi-fw pi-mobile', to: '/button' },
+                // { label: 'Table', icon: 'pi pi-fw pi-table', to: '/table' },
+                // { label: 'List', icon: 'pi pi-fw pi-list', to: '/list' },
+                // { label: 'Tree', icon: 'pi pi-fw pi-share-alt', to: '/tree' },
+                // { label: 'Panel', icon: 'pi pi-fw pi-tablet', to: '/panel' },
+                // { label: 'Overlay', icon: 'pi pi-fw pi-clone', to: '/overlay' },
+                // { label: "Media", icon: "pi pi-fw pi-image", to: "/media" },
+                // { label: 'Menu', icon: 'pi pi-fw pi-bars', to: '/menu' },
+                // { label: 'Message', icon: 'pi pi-fw pi-comment', to: '/messages' },
+                // { label: 'File', icon: 'pi pi-fw pi-file', to: '/file' },
+                // { label: 'Chart', icon: 'pi pi-fw pi-chart-bar', to: '/chart' },
+                // { label: 'Misc', icon: 'pi pi-fw pi-circle-off', to: '/misc' },
+            ]
+        },
+        {
+            label: 'calculation',
+            items: [
+                {
+                    label: 'Criteria', icon: 'pi pi-fw pi-bookmark',
+                    items: [
+
+                        { label: 'Criteria', icon: 'pi pi-fw pi-bookmark', to: '/criteria' },
+                        { label: 'Sub Criteria', icon: 'pi pi-fw pi-sitemap', to: '/subcriteria' },
+                    ]
+
+
+                },
+                { label: 'Alternative', icon: 'pi pi-fw pi-star', to: '/alternative' },
+                { label: 'Ratio/Comparison', icon: 'pi pi-fw pi-sort-numeric-up', to: '/ratio' },
+                { label: 'Comparison Results', icon: 'pi pi-fw pi-chart-bar', to: '/comparison' },
+                // { label: 'Free Blocks', icon: 'pi pi-fw pi-eye', to: '/blocks', badge: "NEW" },
+                // { label: 'All Blocks', icon: 'pi pi-fw pi-globe', url: 'https://www.primefaces.org/primeblocks-react' }
+            ],
+
+        },
+        {
+            label: 'Report',
+            items: [
+                { label: 'Final Report', icon: 'pi pi-fw pi-file-pdf', to: '/report' },
+                // { label: 'Free Blocks', icon: 'pi pi-fw pi-eye', to: '/blocks', badge: "NEW" },
+                // { label: 'All Blocks', icon: 'pi pi-fw pi-globe', url: 'https://www.primefaces.org/primeblocks-react' }
             ]
         },
         {
@@ -208,12 +242,12 @@ const App = () => {
             label: 'Menu Hierarchy', icon: 'pi pi-fw pi-search',
             items: [
                 {
-                    label: 'Submenu 1', icon: 'pi pi-fw pi-bookmark',
+                    label: 'AHP', icon: 'pi pi-fw pi-bookmark',
                     items: [
                         {
-                            label: 'Submenu 1.1', icon: 'pi pi-fw pi-bookmark',
+                            label: 'Criteria', icon: 'pi pi-fw pi-bookmark',
                             items: [
-                                { label: 'Submenu 1.1.1', icon: 'pi pi-fw pi-bookmark' },
+                                { label: 'Sub Criteria', icon: 'pi pi-fw pi-bookmark' },
                                 { label: 'Submenu 1.1.2', icon: 'pi pi-fw pi-bookmark' },
                                 { label: 'Submenu 1.1.3', icon: 'pi pi-fw pi-bookmark' },
                             ]
@@ -317,8 +351,14 @@ const App = () => {
                     <Route path="/misc" component={MiscDemo} />
                     <Route path="/timeline" component={TimelineDemo} />
                     <Route path="/crud" component={Crud} />
+
+                    <Route path="/user" component={User} />
+                    <Route path="/applicant" component={Applicant} />
+                    <Route path="/jobvacancy" component={JobVacancy} />
+
                     <Route path="/empty" component={EmptyPage} />
                     <Route path="/documentation" component={Documentation} />
+                    <Route path="/login" component={Login} />
                 </div>
 
                 <AppFooter layoutColorMode={layoutColorMode} />
