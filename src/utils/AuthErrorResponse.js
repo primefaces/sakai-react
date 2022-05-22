@@ -1,4 +1,4 @@
-import config from '../config.json'
+// import config from '../config.json'
 import Cookies from 'js-cookie'
 
 export default function authErrorResponse(data) {

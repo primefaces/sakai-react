@@ -30,7 +30,7 @@ import BlocksDemo from './components/BlocksDemo';
 import IconsDemo from './components/IconsDemo';
 
 import Crud from './pages/Crud';
-import User from './pages/User';
+import User from './pages/user/Index';
 import Applicant from './pages/Applicant';
 import JobVacancy from './pages/JobVacancy';
 import Login from './pages/login/Index';
