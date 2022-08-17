@@ -8,7 +8,7 @@ import BlockViewer from '../BlockViewer';
 const BlocksDemo = () => {
     const [checked, setChecked] = useState(false);
 
-    const block1 = `
+    const block1 = ` 
 <div className="grid grid-nogutter surface-section text-800">
     <div className="col-12 md:col-6 p-6 text-center md:text-left flex align-items-center ">
         <section>
