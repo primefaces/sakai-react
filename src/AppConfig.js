@@ -101,7 +101,6 @@ export const AppConfig = (props) => {
     useEffect(() => {
         let themeElement = document.getElementById("theme-link");
         const themeHref = "assets/themes/" + theme + "/theme.css";
-        console.log(themeElement);
         replaceLink(themeElement, themeHref);
     }, [theme, replaceLink]);
 

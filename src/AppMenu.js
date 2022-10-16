@@ -4,9 +4,11 @@ import { CSSTransition } from "react-transition-group";
 import classNames from "classnames";
 import { Ripple } from "primereact/ripple";
 import { Badge } from "primereact/badge";
+import { useRouter } from "next/router";
 
 const AppSubmenu = (props) => {
     const [activeIndex, setActiveIndex] = useState(null);
+    const router = useRouter();
 
     const onMenuItemClick = (event, item, index) => {
         //avoid processing disabled items
@@ -58,9 +60,9 @@ const AppSubmenu = (props) => {
 
         if (item.to) {
             // TODO: NavLink
-            console.log(activeIndex);
+            console.log(item);
             return (
-                <a aria-label={item.label} onKeyDown={onKeyDown} role="menuitem" className="p-ripple" className="router-link-active router-link-exact-active" href={item.to} onClick={(e) => onMenuItemClick(e, item, i)} exact="true" target={item.target}>
+                <a aria-label={item.label} onKeyDown={onKeyDown} role="menuitem" className={`p-ripple ${router.route === item.to ? "router-link-active router-link-exact-active" : ""}`} href={item.to} onClick={(e) => onMenuItemClick(e, item, i)} exact="true" target={item.target}>
                     {content}
                 </a>
             );

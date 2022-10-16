@@ -4,7 +4,7 @@ import "primeicons/primeicons.css";
 import "primeflex/primeflex.css";
 import "prismjs/themes/prism-dark.css";
 import "../src/assets/demo/flags/flags.css";
-// import "../src/assets/demo/Demos.scss";
+import "../src/assets/demo/Demos.scss";
 import "../src/assets/layout/layout.scss";
 // import "../public/assets/themes/lara-light-indigo/theme.css";
 import Layout from "../src/components/Layout";
