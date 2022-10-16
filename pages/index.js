@@ -4,7 +4,7 @@ import { Button } from 'primereact/button';
 import { Chart } from 'primereact/chart';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { ProductService } from '../service/ProductService';
+import { ProductService } from '../src/service/ProductService';
 
 const lineData = {
     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],

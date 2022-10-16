@@ -1,38 +1,38 @@
-import React, { useEffect, useState } from 'react';
-import { InputText } from 'primereact/inputtext';
-import { InputTextarea } from 'primereact/inputtextarea';
-import { AutoComplete } from 'primereact/autocomplete';
-import { Calendar } from 'primereact/calendar';
-import { Chips } from 'primereact/chips';
-import { Slider } from 'primereact/slider';
-import { Knob } from 'primereact/knob';
-import { Rating } from 'primereact/rating';
-import { ColorPicker } from 'primereact/colorpicker';
-import { RadioButton } from 'primereact/radiobutton';
-import { Checkbox } from 'primereact/checkbox';
-import { InputSwitch } from 'primereact/inputswitch';
-import { ListBox } from 'primereact/listbox';
-import { Dropdown } from 'primereact/dropdown';
-import { ToggleButton } from 'primereact/togglebutton';
-import { MultiSelect } from 'primereact/multiselect';
-import { TreeSelect } from 'primereact/treeselect';
-import { SelectButton } from 'primereact/selectbutton';
-import { Button } from 'primereact/button';
-import { InputNumber } from 'primereact/inputnumber';
-import { CountryService } from '../service/CountryService';
-import { NodeService } from '../service/NodeService';
+import React, { useEffect, useState } from "react";
+import { InputText } from "primereact/inputtext";
+import { InputTextarea } from "primereact/inputtextarea";
+import { AutoComplete } from "primereact/autocomplete";
+import { Calendar } from "primereact/calendar";
+import { Chips } from "primereact/chips";
+import { Slider } from "primereact/slider";
+import { Knob } from "primereact/knob";
+import { Rating } from "primereact/rating";
+import { ColorPicker } from "primereact/colorpicker";
+import { RadioButton } from "primereact/radiobutton";
+import { Checkbox } from "primereact/checkbox";
+import { InputSwitch } from "primereact/inputswitch";
+import { ListBox } from "primereact/listbox";
+import { Dropdown } from "primereact/dropdown";
+import { ToggleButton } from "primereact/togglebutton";
+import { MultiSelect } from "primereact/multiselect";
+import { TreeSelect } from "primereact/treeselect";
+import { SelectButton } from "primereact/selectbutton";
+import { Button } from "primereact/button";
+import { InputNumber } from "primereact/inputnumber";
+import { CountryService } from "../src/service/CountryService";
+import { NodeService } from "../src/service/NodeService";
 
 export const InputDemo = () => {
-    const [floatValue, setFloatValue] = useState('');
+    const [floatValue, setFloatValue] = useState("");
     const [autoValue, setAutoValue] = useState(null);
     const [selectedAutoValue, setSelectedAutoValue] = useState(null);
     const [autoFilteredValue, setAutoFilteredValue] = useState([]);
     const [calendarValue, setCalendarValue] = useState(null);
     const [inputNumberValue, setInputNumberValue] = useState(null);
     const [chipsValue, setChipsValue] = useState([]);
-    const [sliderValue, setSliderValue] = useState('');
+    const [sliderValue, setSliderValue] = useState("");
     const [ratingValue, setRatingValue] = useState(null);
-    const [colorValue, setColorValue] = useState('1976D2');
+    const [colorValue, setColorValue] = useState("1976D2");
     const [knobValue, setKnobValue] = useState(20);
     const [radioValue, setRadioValue] = useState(null);
     const [checkboxValue, setCheckboxValue] = useState([]);
@@ -48,72 +48,71 @@ export const InputDemo = () => {
     const [treeSelectNodes, setTreeSelectNodes] = useState(null);
 
     const listboxValues = [
-        { name: 'New York', code: 'NY' },
-        { name: 'Rome', code: 'RM' },
-        { name: 'London', code: 'LDN' },
-        { name: 'Istanbul', code: 'IST' },
-        { name: 'Paris', code: 'PRS' }
+        { name: "New York", code: "NY" },
+        { name: "Rome", code: "RM" },
+        { name: "London", code: "LDN" },
+        { name: "Istanbul", code: "IST" },
+        { name: "Paris", code: "PRS" },
     ];
 
     const dropdownValues = [
-        { name: 'New York', code: 'NY' },
-        { name: 'Rome', code: 'RM' },
-        { name: 'London', code: 'LDN' },
-        { name: 'Istanbul', code: 'IST' },
-        { name: 'Paris', code: 'PRS' }
+        { name: "New York", code: "NY" },
+        { name: "Rome", code: "RM" },
+        { name: "London", code: "LDN" },
+        { name: "Istanbul", code: "IST" },
+        { name: "Paris", code: "PRS" },
     ];
 
     const multiselectValues = [
-        { name: 'Australia', code: 'AU' },
-        { name: 'Brazil', code: 'BR' },
-        { name: 'China', code: 'CN' },
-        { name: 'Egypt', code: 'EG' },
-        { name: 'France', code: 'FR' },
-        { name: 'Germany', code: 'DE' },
-        { name: 'India', code: 'IN' },
-        { name: 'Japan', code: 'JP' },
-        { name: 'Spain', code: 'ES' },
-        { name: 'United States', code: 'US' }
+        { name: "Australia", code: "AU" },
+        { name: "Brazil", code: "BR" },
+        { name: "China", code: "CN" },
+        { name: "Egypt", code: "EG" },
+        { name: "France", code: "FR" },
+        { name: "Germany", code: "DE" },
+        { name: "India", code: "IN" },
+        { name: "Japan", code: "JP" },
+        { name: "Spain", code: "ES" },
+        { name: "United States", code: "US" },
     ];
 
     const selectButtonValues1 = [
-        { name: 'Option 1', code: 'O1' },
-        { name: 'Option 2', code: 'O2' },
-        { name: 'Option 3', code: 'O3' },
+        { name: "Option 1", code: "O1" },
+        { name: "Option 2", code: "O2" },
+        { name: "Option 3", code: "O3" },
     ];
 
     const selectButtonValues2 = [
-        { name: 'Option 1', code: 'O1' },
-        { name: 'Option 2', code: 'O2' },
-        { name: 'Option 3', code: 'O3' },
+        { name: "Option 1", code: "O1" },
+        { name: "Option 2", code: "O2" },
+        { name: "Option 3", code: "O3" },
     ];
 
     useEffect(() => {
         const countryService = new CountryService();
         const nodeService = new NodeService();
-        countryService.getCountries().then(data => setAutoValue(data));
-        nodeService.getTreeNodes().then(data => setTreeSelectNodes(data));
+        countryService.getCountries().then((data) => setAutoValue(data));
+        nodeService.getTreeNodes().then((data) => setTreeSelectNodes(data));
     }, []);
 
     const searchCountry = (event) => {
         setTimeout(() => {
             if (!event.query.trim().length) {
                 setAutoFilteredValue([...autoValue]);
-            }
-            else {
-                setAutoFilteredValue(autoValue.filter((country) => {
-                    return country.name.toLowerCase().startsWith(event.query.toLowerCase());
-                }));
+            } else {
+                setAutoFilteredValue(
+                    autoValue.filter((country) => {
+                        return country.name.toLowerCase().startsWith(event.query.toLowerCase());
+                    })
+                );
             }
         }, 250);
     };
 
     const onCheckboxChange = (e) => {
         let selectedValue = [...checkboxValue];
-        if (e.checked)
-            selectedValue.push(e.value);
-        else
-            selectedValue.splice(selectedValue.indexOf(e.value), 1);
+        if (e.checked) selectedValue.push(e.value);
+        else selectedValue.splice(selectedValue.indexOf(e.value), 1);
 
         setCheckboxValue(selectedValue);
     };
@@ -121,7 +120,7 @@ export const InputDemo = () => {
     const itemTemplate = (option) => {
         return (
             <div className="flex align-items-center">
-                <span className={`mr-2 flag flag-${option.code.toLowerCase()}`} style={{ width: '18px', height: '12px' }} />
+                <span className={`mr-2 flag flag-${option.code.toLowerCase()}`} style={{ width: "18px", height: "12px" }} />
                 <span>{option.name}</span>
             </div>
         );
@@ -131,13 +130,13 @@ export const InputDemo = () => {
         if (option) {
             return (
                 <div className="inline-flex align-items-center py-1 px-2 bg-primary text-primary border-round mr-2">
-                    <span className={`mr-2 flag flag-${option.code.toLowerCase()}`} style={{ width: '18px', height: '12px' }}/>
+                    <span className={`mr-2 flag flag-${option.code.toLowerCase()}`} style={{ width: "18px", height: "12px" }} />
                     <span>{option.name}</span>
                 </div>
             );
         }
 
-        return 'Select Countries';
+        return "Select Countries";
     };
 
     return (
@@ -215,7 +214,7 @@ export const InputDemo = () => {
                         </div>
                         <div className="col-12 md:col-6">
                             <h5>ColorPicker</h5>
-                            <ColorPicker value={colorValue} onChange={(e) => setColorValue(e.value)} style={{ width: '2rem' }} />
+                            <ColorPicker value={colorValue} onChange={(e) => setColorValue(e.value)} style={{ width: "2rem" }} />
                         </div>
                         <div className="col-12">
                             <h5>Knob</h5>
@@ -231,19 +230,19 @@ export const InputDemo = () => {
                     <div className="grid">
                         <div className="col-12 md:col-4">
                             <div className="field-radiobutton">
-                                <RadioButton inputId="option1" name="option" value="Chicago" checked={radioValue === 'Chicago'} onChange={(e) => setRadioValue(e.value)} />
+                                <RadioButton inputId="option1" name="option" value="Chicago" checked={radioValue === "Chicago"} onChange={(e) => setRadioValue(e.value)} />
                                 <label htmlFor="option1">Chicago</label>
                             </div>
                         </div>
                         <div className="col-12 md:col-4">
                             <div className="field-radiobutton">
-                                <RadioButton inputId="option2" name="option" value="Los Angeles" checked={radioValue === 'Los Angeles'} onChange={(e) => setRadioValue(e.value)} />
+                                <RadioButton inputId="option2" name="option" value="Los Angeles" checked={radioValue === "Los Angeles"} onChange={(e) => setRadioValue(e.value)} />
                                 <label htmlFor="option2">Los Angeles</label>
                             </div>
                         </div>
                         <div className="col-12 md:col-4">
                             <div className="field-radiobutton">
-                                <RadioButton inputId="option3" name="option" value="New York" checked={radioValue === 'New York'} onChange={(e) => setRadioValue(e.value)} />
+                                <RadioButton inputId="option3" name="option" value="New York" checked={radioValue === "New York"} onChange={(e) => setRadioValue(e.value)} />
                                 <label htmlFor="option3">New York</label>
                             </div>
                         </div>
@@ -253,19 +252,19 @@ export const InputDemo = () => {
                     <div className="grid">
                         <div className="col-12 md:col-4">
                             <div className="field-checkbox">
-                                <Checkbox inputId="checkOption1" name="option" value="Chicago" checked={checkboxValue.indexOf('Chicago') !== -1} onChange={onCheckboxChange} />
+                                <Checkbox inputId="checkOption1" name="option" value="Chicago" checked={checkboxValue.indexOf("Chicago") !== -1} onChange={onCheckboxChange} />
                                 <label htmlFor="checkOption1">Chicago</label>
                             </div>
                         </div>
                         <div className="col-12 md:col-4">
                             <div className="field-checkbox">
-                                <Checkbox inputId="checkOption2" name="option" value="Los Angeles" checked={checkboxValue.indexOf('Los Angeles') !== -1} onChange={onCheckboxChange} />
+                                <Checkbox inputId="checkOption2" name="option" value="Los Angeles" checked={checkboxValue.indexOf("Los Angeles") !== -1} onChange={onCheckboxChange} />
                                 <label htmlFor="checkOption2">Los Angeles</label>
                             </div>
                         </div>
                         <div className="col-12 md:col-4">
                             <div className="field-checkbox">
-                                <Checkbox inputId="checkOption3" name="option" value="New York" checked={checkboxValue.indexOf('New York') !== -1} onChange={onCheckboxChange} />
+                                <Checkbox inputId="checkOption3" name="option" value="New York" checked={checkboxValue.indexOf("New York") !== -1} onChange={onCheckboxChange} />
                                 <label htmlFor="checkOption3">New York</label>
                             </div>
                         </div>
@@ -283,8 +282,7 @@ export const InputDemo = () => {
                     <Dropdown value={dropdownValue} onChange={(e) => setDropdownValue(e.value)} options={dropdownValues} optionLabel="name" placeholder="Select" />
 
                     <h5>MultiSelect</h5>
-                    <MultiSelect value={multiselectValue} onChange={(e) => setMultiselectValue(e.value)} options={multiselectValues} optionLabel="name" placeholder="Select Countries" filter
-                        itemTemplate={itemTemplate} selectedItemTemplate={selectedItemTemplate} />
+                    <MultiSelect value={multiselectValue} onChange={(e) => setMultiselectValue(e.value)} options={multiselectValues} optionLabel="name" placeholder="Select Countries" filter itemTemplate={itemTemplate} selectedItemTemplate={selectedItemTemplate} />
 
                     <h5>TreeSelect</h5>
                     <TreeSelect value={selectedNode} onChange={(e) => setSelectedNode(e.value)} options={treeSelectNodes} placeholder="Select Item"></TreeSelect>
@@ -317,8 +315,12 @@ export const InputDemo = () => {
 
                         <div className="col-12 md:col-6">
                             <div className="p-inputgroup">
-                                <span className="p-inputgroup-addon"><i className="pi pi-shopping-cart"></i></span>
-                                <span className="p-inputgroup-addon"><i className="pi pi-globe"></i></span>
+                                <span className="p-inputgroup-addon">
+                                    <i className="pi pi-shopping-cart"></i>
+                                </span>
+                                <span className="p-inputgroup-addon">
+                                    <i className="pi pi-globe"></i>
+                                </span>
                                 <InputText placeholder="Price" />
                                 <span className="p-inputgroup-addon">$</span>
                                 <span className="p-inputgroup-addon">.00</span>
@@ -343,9 +345,9 @@ export const InputDemo = () => {
                     </div>
                 </div>
             </div>
-        </div >
-    )
-}
+        </div>
+    );
+};
 
 const comparisonFn = function (prevProps, nextProps) {
     return prevProps.location.pathname === nextProps.location.pathname;

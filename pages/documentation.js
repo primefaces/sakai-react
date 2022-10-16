@@ -1,5 +1,5 @@
 import React from 'react';
-import { CodeHighlight } from './CodeHighlight';
+import { CodeHighlight } from '../src/components/CodeHighlight';
 
 const Documentation = () => {
 

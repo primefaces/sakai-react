@@ -5,10 +5,10 @@ import classNames from "classnames";
 export const AppTopbar = (props) => {
     return (
         <div className="layout-topbar">
-            <Link href="/" className="layout-topbar-logo">
+            <a href="/" className="layout-topbar-logo">
                 <img src={props.layoutColorMode === "light" ? "assets/layout/images/logo-dark.svg" : "assets/layout/images/logo-white.svg"} alt="logo" />
                 <span>SAKAI</span>
-            </Link>
+            </a>
 
             <button type="button" className="p-link  layout-menu-button layout-topbar-button" onClick={props.onToggleMenuClick}>
                 <i className="pi pi-bars" />

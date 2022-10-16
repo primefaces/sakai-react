@@ -3,7 +3,7 @@ import { Button } from 'primereact/button';
 import { Chip } from 'primereact/chip';
 import { InputText } from 'primereact/inputtext';
 import { Checkbox } from 'primereact/checkbox';
-import BlockViewer from '../BlockViewer';
+import BlockViewer from '../src/BlockViewer';
 
 const BlocksDemo = () => {
     const [checked, setChecked] = useState(false);
