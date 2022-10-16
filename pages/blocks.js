@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { Button } from 'primereact/button';
-import { Chip } from 'primereact/chip';
-import { InputText } from 'primereact/inputtext';
-import { Checkbox } from 'primereact/checkbox';
-import BlockViewer from '../src/BlockViewer';
+import React, { useState } from "react";
+import { Button } from "primereact/button";
+import { Chip } from "primereact/chip";
+import { InputText } from "primereact/inputtext";
+import { Checkbox } from "primereact/checkbox";
+import BlockViewer from "../src/BlockViewer";
 
 const BlocksDemo = () => {
     const [checked, setChecked] = useState(false);
@@ -432,7 +432,7 @@ const BlocksDemo = () => {
                         </section>
                     </div>
                     <div className="col-12 md:col-6 overflow-hidden">
-                        <img src="images/blocks/hero/hero-1.png" alt="hero-1" className="md:ml-auto block md:h-full" style={{ clipPath: 'polygon(8% 0, 100% 0%, 100% 100%, 0 100%)' }} />
+                        <img src="images/blocks/hero/hero-1.png" alt="hero-1" className="md:ml-auto block md:h-full" style={{ clipPath: "polygon(8% 0, 100% 0%, 100% 100%, 0 100%)" }} />
                     </div>
                 </div>
             </BlockViewer>
@@ -446,42 +446,42 @@ const BlocksDemo = () => {
                     <div className="text-700 text-sm mb-6">Ac turpis egestas maecenas pharetra convallis posuere morbi leo urna.</div>
                     <div className="grid">
                         <div className="col-12 md:col-4 mb-4 px-5">
-                            <span className="p-3 shadow-2 mb-3 inline-block surface-card" style={{ borderRadius: '10px' }}>
+                            <span className="p-3 shadow-2 mb-3 inline-block surface-card" style={{ borderRadius: "10px" }}>
                                 <i className="pi pi-desktop text-4xl text-blue-500"></i>
                             </span>
                             <div className="text-900 mb-3 font-medium">Built for Developers</div>
                             <span className="text-700 text-sm line-height-3">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</span>
                         </div>
                         <div className="col-12 md:col-4 mb-4 px-5">
-                            <span className="p-3 shadow-2 mb-3 inline-block surface-card" style={{ borderRadius: '10px' }}>
+                            <span className="p-3 shadow-2 mb-3 inline-block surface-card" style={{ borderRadius: "10px" }}>
                                 <i className="pi pi-lock text-4xl text-blue-500"></i>
                             </span>
                             <div className="text-900 mb-3 font-medium">End-to-End Encryption</div>
                             <span className="text-700 text-sm line-height-3">Risus nec feugiat in fermentum posuere urna nec. Posuere sollicitudin aliquam ultrices sagittis.</span>
                         </div>
                         <div className="col-12 md:col-4 mb-4 px-5">
-                            <span className="p-3 shadow-2 mb-3 inline-block surface-card" style={{ borderRadius: '10px' }}>
+                            <span className="p-3 shadow-2 mb-3 inline-block surface-card" style={{ borderRadius: "10px" }}>
                                 <i className="pi pi-check-circle text-4xl text-blue-500"></i>
                             </span>
                             <div className="text-900 mb-3 font-medium">Easy to Use</div>
                             <span className="text-700 text-sm line-height-3">Ornare suspendisse sed nisi lacus sed viverra tellus. Neque volutpat ac tincidunt vitae semper.</span>
                         </div>
                         <div className="col-12 md:col-4 mb-4 px-5">
-                            <span className="p-3 shadow-2 mb-3 inline-block surface-card" style={{ borderRadius: '10px' }}>
+                            <span className="p-3 shadow-2 mb-3 inline-block surface-card" style={{ borderRadius: "10px" }}>
                                 <i className="pi pi-globe text-4xl text-blue-500"></i>
                             </span>
                             <div className="text-900 mb-3 font-medium">Fast & Global Support</div>
                             <span className="text-700 text-sm line-height-3">Fermentum et sollicitudin ac orci phasellus egestas tellus rutrum tellus.</span>
                         </div>
                         <div className="col-12 md:col-4 mb-4 px-5">
-                            <span className="p-3 shadow-2 mb-3 inline-block surface-card" style={{ borderRadius: '10px' }}>
+                            <span className="p-3 shadow-2 mb-3 inline-block surface-card" style={{ borderRadius: "10px" }}>
                                 <i className="pi pi-github text-4xl text-blue-500"></i>
                             </span>
                             <div className="text-900 mb-3 font-medium">Open Source</div>
                             <span className="text-700 text-sm line-height-3">Nec tincidunt praesent semper feugiat. Sed adipiscing diam donec adipiscing tristique risus nec feugiat. </span>
                         </div>
                         <div className="col-12 md:col-4 md:mb-4 mb-0 px-3">
-                            <span className="p-3 shadow-2 mb-3 inline-block surface-card" style={{ borderRadius: '10px' }}>
+                            <span className="p-3 shadow-2 mb-3 inline-block surface-card" style={{ borderRadius: "10px" }}>
                                 <i className="pi pi-shield text-4xl text-blue-500"></i>
                             </span>
                             <div className="text-900 mb-3 font-medium">Trusted Securitty</div>
@@ -499,7 +499,7 @@ const BlocksDemo = () => {
                     <div className="grid">
                         <div className="col-12 lg:col-4">
                             <div className="p-3 h-full">
-                                <div className="shadow-2 p-3 h-full flex flex-column surface-card" style={{ borderRadius: '6px' }}>
+                                <div className="shadow-2 p-3 h-full flex flex-column surface-card" style={{ borderRadius: "6px" }}>
                                     <div className="text-900 font-medium text-xl mb-2">Basic</div>
                                     <div className="text-600">Plan description</div>
                                     <hr className="my-3 mx-0 border-top-1 border-none surface-border" />
@@ -530,7 +530,7 @@ const BlocksDemo = () => {
 
                         <div className="col-12 lg:col-4">
                             <div className="p-3 h-full">
-                                <div className="shadow-2 p-3 h-full flex flex-column surface-card" style={{ borderRadius: '6px' }}>
+                                <div className="shadow-2 p-3 h-full flex flex-column surface-card" style={{ borderRadius: "6px" }}>
                                     <div className="text-900 font-medium text-xl mb-2">Premium</div>
                                     <div className="text-600">Plan description</div>
                                     <hr className="my-3 mx-0 border-top-1 border-none surface-border" />
@@ -565,7 +565,7 @@ const BlocksDemo = () => {
 
                         <div className="col-12 lg:col-4">
                             <div className="p-3 h-full">
-                                <div className="shadow-2 p-3 flex flex-column surface-card" style={{ borderRadius: '6px' }}>
+                                <div className="shadow-2 p-3 flex flex-column surface-card" style={{ borderRadius: "6px" }}>
                                     <div className="text-900 font-medium text-xl mb-2">Enterprise</div>
                                     <div className="text-600">Plan description</div>
                                     <hr className="my-3 mx-0 border-top-1 border-none surface-border" />
@@ -612,7 +612,9 @@ const BlocksDemo = () => {
             <BlockViewer header="Call to Action" code={block4}>
                 <div className="surface-section px-4 py-8 md:px-6 lg:px-8">
                     <div className="text-700 text-center">
-                        <div className="text-blue-600 font-bold mb-3"><i className="pi pi-discord"></i>&nbsp;POWERED BY DISCORD</div>
+                        <div className="text-blue-600 font-bold mb-3">
+                            <i className="pi pi-discord"></i>&nbsp;POWERED BY DISCORD
+                        </div>
                         <div className="text-900 font-bold text-5xl mb-3">Join Our Design Community</div>
                         <div className="text-700 text-2xl mb-5">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit numquam eligendi quos.</div>
                         <Button label="Join Now" icon="pi pi-discord" className="font-bold px-5 py-3 p-button-raised p-button-rounded white-space-nowrap"></Button>
@@ -622,14 +624,19 @@ const BlocksDemo = () => {
 
             <BlockViewer header="Banner" code={block5} containerClassName="surface-section py-8">
                 <div className="bg-bluegray-900 text-gray-100 p-3 flex justify-content-between lg:justify-content-center align-items-center flex-wrap">
-                    <div className="font-bold mr-8"><span role="img" aria-label="fire">🔥</span> Hot Deals!</div>
+                    <div className="font-bold mr-8">
+                        <span role="img" aria-label="fire">
+                            🔥
+                        </span>{" "}
+                        Hot Deals!
+                    </div>
                     <div className="align-items-center hidden lg:flex">
                         <span className="line-height-3">Libero voluptatum atque exercitationem praesentium provident odit.</span>
                     </div>
                     <button className="p-link flex align-items-center ml-2 mr-8">
                         <span className="underline font-bold">Learn More</span>
                     </button>
-                    <button className="p-ripple p-link flex align-items-center no-underline justify-content-center border-circle text-gray-50 hover:bg-bluegray-700 cursor-pointer transition-colors transition-duration-150 p-ripple" style={{ width: '2rem', height: '2rem' }}>
+                    <button className="p-ripple p-link flex align-items-center no-underline justify-content-center border-circle text-gray-50 hover:bg-bluegray-700 cursor-pointer transition-colors transition-duration-150 p-ripple" style={{ width: "2rem", height: "2rem" }}>
                         <i className="pi pi-times"></i>
                     </button>
                 </div>
@@ -684,7 +691,7 @@ const BlocksDemo = () => {
                                         <span className="block text-500 font-medium mb-3">Orders</span>
                                         <div className="text-900 font-medium text-xl">152</div>
                                     </div>
-                                    <div className="flex align-items-center justify-content-center bg-blue-100 border-round" style={{ width: '2.5rem', height: '2.5rem' }}>
+                                    <div className="flex align-items-center justify-content-center bg-blue-100 border-round" style={{ width: "2.5rem", height: "2.5rem" }}>
                                         <i className="pi pi-shopping-cart text-blue-500 text-xl"></i>
                                     </div>
                                 </div>
@@ -699,7 +706,7 @@ const BlocksDemo = () => {
                                         <span className="block text-500 font-medium mb-3">Revenue</span>
                                         <div className="text-900 font-medium text-xl">$2.100</div>
                                     </div>
-                                    <div className="flex align-items-center justify-content-center bg-orange-100 border-round" style={{ width: '2.5rem', height: '2.5rem' }}>
+                                    <div className="flex align-items-center justify-content-center bg-orange-100 border-round" style={{ width: "2.5rem", height: "2.5rem" }}>
                                         <i className="pi pi-map-marker text-orange-500 text-xl"></i>
                                     </div>
                                 </div>
@@ -714,11 +721,11 @@ const BlocksDemo = () => {
                                         <span className="block text-500 font-medium mb-3">Customers</span>
                                         <div className="text-900 font-medium text-xl">28441</div>
                                     </div>
-                                    <div className="flex align-items-center justify-content-center bg-cyan-100 border-round" style={{ width: '2.5rem', height: '2.5rem' }}>
+                                    <div className="flex align-items-center justify-content-center bg-cyan-100 border-round" style={{ width: "2.5rem", height: "2.5rem" }}>
                                         <i className="pi pi-inbox text-cyan-500 text-xl"></i>
                                     </div>
                                 </div>
-                                <span className="text-green-500 font-medium">520  </span>
+                                <span className="text-green-500 font-medium">520 </span>
                                 <span className="text-500">newly registered</span>
                             </div>
                         </div>
@@ -729,7 +736,7 @@ const BlocksDemo = () => {
                                         <span className="block text-500 font-medium mb-3">Comments</span>
                                         <div className="text-900 font-medium text-xl">152 Unread</div>
                                     </div>
-                                    <div className="flex align-items-center justify-content-center bg-purple-100 border-round" style={{ width: '2.5rem', height: '2.5rem' }}>
+                                    <div className="flex align-items-center justify-content-center bg-purple-100 border-round" style={{ width: "2.5rem", height: "2.5rem" }}>
                                         <i className="pi pi-comment text-purple-500 text-xl"></i>
                                     </div>
                                 </div>
@@ -751,15 +758,19 @@ const BlocksDemo = () => {
                     </div>
 
                     <div>
-                        <label htmlFor="email1" className="block text-900 font-medium mb-2">Email</label>
+                        <label htmlFor="email1" className="block text-900 font-medium mb-2">
+                            Email
+                        </label>
                         <InputText id="email1" type="text" className="w-full mb-3" />
 
-                        <label htmlFor="password1" className="block text-900 font-medium mb-2">Password</label>
+                        <label htmlFor="password1" className="block text-900 font-medium mb-2">
+                            Password
+                        </label>
                         <InputText id="password1" type="password" className="w-full mb-3" />
 
                         <div className="flex align-items-center justify-content-between mb-6">
                             <div className="flex align-items-center">
-                                <Checkbox inputId="rememberme1" binary className="mr-2" onChange={e => setChecked(e.checked)} checked={checked} />
+                                <Checkbox inputId="rememberme1" className="mr-2" onChange={(e) => setChecked(e.checked)} checked={checked} />
                                 <label htmlFor="rememberme1">Remember me</label>
                             </div>
                             <button className="p-link font-medium no-underline ml-2 text-blue-500 text-right cursor-pointer">Forgot password?</button>
@@ -809,9 +820,7 @@ const BlocksDemo = () => {
                         </li>
                         <li className="flex align-items-center py-3 px-2 border-top-1 border-bottom-1 surface-border flex-wrap">
                             <div className="text-500 w-6 md:w-2 font-medium">Plot</div>
-                            <div className="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3">
-                                A group of professional bank robbers start to feel the heat from police
-                                when they unknowingly leave a clue at their latest heist.</div>
+                            <div className="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3">A group of professional bank robbers start to feel the heat from police when they unknowingly leave a clue at their latest heist.</div>
                             <div className="w-6 md:w-2 flex justify-content-end">
                                 <Button label="Edit" icon="pi pi-pencil" className="p-button-text" />
                             </div>
@@ -824,12 +833,12 @@ const BlocksDemo = () => {
                 <div className="surface-card p-4 shadow-2 border-round">
                     <div className="text-3xl font-medium text-900 mb-3">Card Title</div>
                     <div className="font-medium text-500 mb-3">Vivamus id nisl interdum, blandit augue sit amet, eleifend mi.</div>
-                    <div style={{ height: '150px' }} className="border-2 border-dashed surface-border"></div>
+                    <div style={{ height: "150px" }} className="border-2 border-dashed surface-border"></div>
                 </div>
             </BlockViewer>
         </>
-    )
-}
+    );
+};
 
 const comparisonFn = function (prevProps, nextProps) {
     return prevProps.location.pathname === nextProps.location.pathname;

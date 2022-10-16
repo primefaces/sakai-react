@@ -98,13 +98,17 @@ const OverlayDemo = () => {
                         <div className="grid formgrid">
                             <div className="col-6">
                                 <Button type="button" label="Image" onClick={toggle} className="p-button-success" />
-                                <OverlayPanel ref={op} appendTo={document.body} showCloseIcon>
+                                <OverlayPanel ref={op}
+                                //  appendTo={document.body} 
+                                 showCloseIcon>
                                     <img src="images/nature/nature9.jpg" alt="nature1" />
                                 </OverlayPanel>
                             </div>
                             <div className="col-6">
                                 <Button type="button" label="DataTable" onClick={toggleDataTable} className="p-button-success" />
-                                <OverlayPanel ref={op2} appendTo={document.body} showCloseIcon id="overlay_panel" style={{ width: "450px" }}>
+                                <OverlayPanel ref={op2} 
+                                // appendTo={document.body}
+                                 showCloseIcon id="overlay_panel" style={{ width: "450px" }}>
                                     <DataTable value={products} selection={selectedProduct} onSelectionChange={(e) => setSelectedProduct(e.value)} selectionMode="single" responsiveLayout="scroll" paginator rows={5} onRowSelect={onProductSelect}>
                                         <Column field="name" header="Name" sortable headerStyle={{ minWidth: "10rem" }} />
                                         <Column header="Image" body={imageBodyTemplate} headerStyle={{ minWidth: "10rem" }} />

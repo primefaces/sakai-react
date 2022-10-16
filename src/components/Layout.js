@@ -9,30 +9,6 @@ import { AppFooter } from "../AppFooter";
 import { AppMenu } from "../AppMenu";
 import { AppConfig } from "../AppConfig";
 
-// import Dashboard from "./Dashboard";
-// import ButtonDemo from "./ButtonDemo";
-// import ChartDemo from "./ChartDemo";
-// import Documentation from "./Documentation";
-// import FileDemo from "./FileDemo";
-// import FloatLabelDemo from "./FloatLabelDemo";
-// import FormLayoutDemo from "./FormLayoutDemo";
-// import InputDemo from "./InputDemo";
-// import ListDemo from "./ListDemo";
-// import MenuDemo from "./MenuDemo";
-// import MessagesDemo from "./MessagesDemo";
-// import MiscDemo from "./MiscDemo";
-// import OverlayDemo from "./OverlayDemo";
-// import MediaDemo from "./MediaDemo";
-// import PanelDemo from "./PanelDemo";
-// import TableDemo from "./TableDemo";
-// import TreeDemo from "./TreeDemo";
-// import InvalidStateDemo from "./InvalidStateDemo";
-// import BlocksDemo from "./BlocksDemo";
-// import IconsDemo from "./IconsDemo";
-
-// import Crud from "../pages/Crud";
-// import EmptyPage from "../pages/EmptyPage";
-// import TimelineDemo from "../pages/TimelineDemo";
 
 import PrimeReact from "primereact/api";
 import { Tooltip } from "primereact/tooltip";
@@ -257,14 +233,14 @@ const App = ({ children }) => {
                     label: "Documentation",
                     icon: "pi pi-fw pi-question",
                     command: () => {
-                        window.location = "#/documentation";
+                        window.location = "/documentation";
                     },
                 },
                 {
                     label: "View Source",
                     icon: "pi pi-fw pi-search",
                     command: () => {
-                        window.location = "https://github.com/primefaces/sakai-react";
+                        window.location = "https://github.com/paakofiaidoo/sakai-next.js    ";
                     },
                 },
             ],
@@ -314,7 +290,7 @@ const App = ({ children }) => {
                 <AppFooter layoutColorMode={layoutColorMode} />
             </div>
 
-            {/* <AppConfig rippleEffect={ripple} onRippleEffect={onRipple} inputStyle={inputStyle} onInputStyleChange={onInputStyleChange} layoutMode={layoutMode} onLayoutModeChange={onLayoutModeChange} layoutColorMode={layoutColorMode} onColorModeChange={onColorModeChange} /> */}
+            <AppConfig rippleEffect={ripple} onRippleEffect={onRipple} inputStyle={inputStyle} onInputStyleChange={onInputStyleChange} layoutMode={layoutMode} onLayoutModeChange={onLayoutModeChange} layoutColorMode={layoutColorMode} onColorModeChange={onColorModeChange} />
 
             <CSSTransition classNames="layout-mask" timeout={{ enter: 200, exit: 200 }} in={mobileMenuActive} unmountOnExit>
                 <div className="layout-mask p-component-overlay"></div>

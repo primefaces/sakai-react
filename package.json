@@ -5,7 +5,7 @@
     "private": false,
     "repository": {
         "type": "git",
-        "url": "https://github.com/primefaces/sakai-react.git"
+        "url": "https://github.com/paakofiaidoo/sakai-next.js.git"
     },
     "license": "MIT",
     "dependencies": {
