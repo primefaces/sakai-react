@@ -7,6 +7,8 @@ import "../src/assets/demo/flags/flags.css";
 import "../src/assets/demo/Demos.scss";
 import "../src/assets/layout/layout.scss";
 import "../public/assets/themes/lara-light-indigo/theme.css";
+import Layout from "../src/components/Layout";
+import React from "react";
 
 export default function MyApp({ Component, pageProps: { ...pageProps } }) {
     return (
@@ -20,7 +22,8 @@ export default function MyApp({ Component, pageProps: { ...pageProps } }) {
                 <meta name="apple-mobile-web-app-capable" content="yes" />
                 <link rel="icon" type="image/x-icon" href="/favicon.ico" />
             </Head>
-            <Component {...pageProps} />
+            <Layout>
+            <Component {...pageProps} /></Layout>
         </>
     );
 }

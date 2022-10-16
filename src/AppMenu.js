@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+// import { NavLink } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
 import classNames from 'classnames';
 import {Ripple} from "primereact/ripple";
@@ -60,10 +60,11 @@ const AppSubmenu = (props) => {
         let content = renderLinkContent(item);
 
         if (item.to) {
+            // TODO: NavLink
             return (
-                <NavLink aria-label={item.label} onKeyDown={onKeyDown} role="menuitem" className="p-ripple" activeClassName="router-link-active router-link-exact-active" to={item.to} onClick={(e) => onMenuItemClick(e, item, i)} exact target={item.target}>
+                <a aria-label={item.label} onKeyDown={onKeyDown} role="menuitem" className="p-ripple" className="router-link-active router-link-exact-active" href={item.to} onClick={(e) => onMenuItemClick(e, item, i)} exact target={item.target}>
                     {content}
-                </NavLink>
+                </a>
             )
         }
         else {

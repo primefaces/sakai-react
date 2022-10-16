@@ -1,37 +1,37 @@
 import React, { useState, useEffect, useRef } from 'react';
 import classNames from 'classnames';
-import { Route, useLocation } from 'react-router-dom';
+// import { Route, useLocation } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
 
-import { AppTopbar } from './AppTopbar';
-import { AppFooter } from './AppFooter';
-import { AppMenu } from './AppMenu';
-import { AppConfig } from './AppConfig';
+import { AppTopbar } from '../AppTopbar';
+import { AppFooter } from '../AppFooter';
+import { AppMenu } from '../AppMenu';
+import { AppConfig } from '../AppConfig';
 
-import Dashboard from './components/Dashboard';
-import ButtonDemo from './components/ButtonDemo';
-import ChartDemo from './components/ChartDemo';
-import Documentation from './components/Documentation';
-import FileDemo from './components/FileDemo';
-import FloatLabelDemo from './components/FloatLabelDemo';
-import FormLayoutDemo from './components/FormLayoutDemo';
-import InputDemo from './components/InputDemo';
-import ListDemo from './components/ListDemo';
-import MenuDemo from './components/MenuDemo';
-import MessagesDemo from './components/MessagesDemo';
-import MiscDemo from './components/MiscDemo';
-import OverlayDemo from './components/OverlayDemo';
-import MediaDemo from './components/MediaDemo';
-import PanelDemo from './components/PanelDemo';
-import TableDemo from './components/TableDemo';
-import TreeDemo from './components/TreeDemo';
-import InvalidStateDemo from './components/InvalidStateDemo';
-import BlocksDemo from './components/BlocksDemo';
-import IconsDemo from './components/IconsDemo';
+import Dashboard from './Dashboard';
+import ButtonDemo from './ButtonDemo';
+import ChartDemo from './ChartDemo';
+import Documentation from './Documentation';
+import FileDemo from './FileDemo';
+import FloatLabelDemo from './FloatLabelDemo';
+import FormLayoutDemo from './FormLayoutDemo';
+import InputDemo from './InputDemo';
+import ListDemo from './ListDemo';
+import MenuDemo from './MenuDemo';
+import MessagesDemo from './MessagesDemo';
+import MiscDemo from './MiscDemo';
+import OverlayDemo from './OverlayDemo';
+import MediaDemo from './MediaDemo';
+import PanelDemo from './PanelDemo';
+import TableDemo from './TableDemo';
+import TreeDemo from './TreeDemo';
+import InvalidStateDemo from './InvalidStateDemo';
+import BlocksDemo from './BlocksDemo';
+import IconsDemo from './IconsDemo';
 
-import Crud from './pages/Crud';
-import EmptyPage from './pages/EmptyPage';
-import TimelineDemo from './pages/TimelineDemo';
+import Crud from '../pages/Crud';
+import EmptyPage from '../pages/EmptyPage';
+import TimelineDemo from '../pages/TimelineDemo';
 
 import PrimeReact from 'primereact/api';
 import { Tooltip } from 'primereact/tooltip';
@@ -296,7 +296,7 @@ const App = () => {
 
             <div className="layout-main-container">
                 <div className="layout-main">
-                    <Route path="/" exact render={() => <Dashboard colorMode={layoutColorMode} location={location} />} />
+                    {/* <Route path="/" exact render={() => <Dashboard colorMode={layoutColorMode} location={location} />} />
                     <Route path="/formlayout" component={FormLayoutDemo} />
                     <Route path="/input" component={InputDemo} />
                     <Route path="/floatlabel" component={FloatLabelDemo} />
@@ -318,7 +318,7 @@ const App = () => {
                     <Route path="/timeline" component={TimelineDemo} />
                     <Route path="/crud" component={Crud} />
                     <Route path="/empty" component={EmptyPage} />
-                    <Route path="/documentation" component={Documentation} />
+                    <Route path="/documentation" component={Documentation} /> */}
                 </div>
 
                 <AppFooter layoutColorMode={layoutColorMode} />
