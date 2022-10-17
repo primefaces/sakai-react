@@ -59,8 +59,6 @@ const AppSubmenu = (props) => {
         let content = renderLinkContent(item);
 
         if (item.to) {
-            // TODO: NavLink
-            console.log(item);
             return (
                 <a aria-label={item.label} onKeyDown={onKeyDown} role="menuitem" className={`p-ripple ${router.route === item.to ? "router-link-active router-link-exact-active" : ""}`} href={item.to} onClick={(e) => onMenuItemClick(e, item, i)} exact="true" target={item.target}>
                     {content}

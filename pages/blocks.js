@@ -5,7 +5,7 @@ import { InputText } from "primereact/inputtext";
 import { Checkbox } from "primereact/checkbox";
 import BlockViewer from "../src/BlockViewer";
 
-const BlocksDemo = () => {
+const Blocks = () => {
     const [checked, setChecked] = useState(false);
 
     const block1 = `
@@ -419,6 +419,7 @@ const BlocksDemo = () => {
 
     return (
         <>
+            <h1>hello world</h1>
             <BlockViewer header="Hero" code={block1}>
                 <div className="grid grid-nogutter surface-section text-800">
                     <div className="col-12 md:col-6 p-6 text-center md:text-left flex align-items-center ">
@@ -844,4 +845,5 @@ const comparisonFn = function (prevProps, nextProps) {
     return prevProps.location.pathname === nextProps.location.pathname;
 };
 
-export default React.memo(BlocksDemo, comparisonFn);
+// export default React.memo(BlocksDemo, comparisonFn);
+export default Blocks;

@@ -1,14 +1,13 @@
-import React, { useEffect, useRef } from 'react';
-import Prism from 'prismjs/components/prism-core';
-import 'prismjs/components/prism-clike';
-import 'prismjs/components/prism-markup';
+import React, { useEffect, useRef } from "react";
+import Prism from "prismjs/components/prism-core";
+import "prismjs/components/prism-clike";
+import "prismjs/components/prism-markup";
 import 'prismjs/components/prism-jsx';
-import 'prismjs/components/prism-javascript';
-import 'prismjs/components/prism-css';
-import 'prismjs/components/prism-scss';
+import "prismjs/components/prism-javascript";
+import "prismjs/components/prism-css";
+import "prismjs/components/prism-scss";
 
 export const CodeHighlight = (props) => {
-
     const codeElement = useRef(null);
 
     useEffect(() => {
@@ -21,12 +20,12 @@ export const CodeHighlight = (props) => {
         <pre style={props.style}>
             <code ref={codeElement} className={`language-${props.lang}`}>
                 {props.children}&nbsp;
-                </code>
+            </code>
         </pre>
     );
-}
+};
 
 CodeHighlight.defaultProps = {
-    lang: 'jsx',
-    style: null
+    lang: "jsx",
+    style: null,
 };
