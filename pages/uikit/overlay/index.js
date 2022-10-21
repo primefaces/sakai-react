@@ -67,7 +67,7 @@ const OverlayDemo = () => {
     };
 
     const basicDialogFooter = <Button type="button" label="OK" onClick={() => setDisplayBasic(false)} icon="pi pi-check" className="p-button-secondary" />;
-    const imageBodyTemplate = (data) => <img src={`${contextPath}/demo/images/product/${data.image}`} alt={data.image} className="product-image" width="100" style={{ boxShadow: '0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)' }} />;
+    const imageBodyTemplate = (data) => <img src={`${contextPath}/demo/images/product/${data.image}`} alt={data.image} className="product-image" width="60" style={{ boxShadow: '0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)' }} />;
     const priceBodyTemplate = (data) => formatCurrency(data.price);
     const confirmationDialogFooter = (
         <>
