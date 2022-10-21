@@ -57,6 +57,9 @@ const Documentation = () => {
                             <li><span class="text-primary font-medium">styles/layout</span>: SCSS files of the core layout</li>
                         </ul>
 
+                        <h5>Menu</h5>
+                        <p>Main menu is defined at <span class="text-primary font-medium">AppMenu.js</span> file based on <a href="https://www.primefaces.org/primereact/menumodel/" className="font-medium hover:underline">MenuModel API</a>.</p>
+
                         <h5>Integration with Existing NextJS Applications</h5>
                         <p>Only the folders that are related to the layout needs to move in to your project.</p>
                         <ul class="line-height-3">
