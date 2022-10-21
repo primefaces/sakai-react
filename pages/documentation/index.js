@@ -13,7 +13,7 @@ const Documentation = () => {
 
                         <h5>Getting Started</h5>
                         <p>
-                            Sakai is an application template for React based on the popular <a href="https://nextjs.org/" className="font-medium hover:underline">NextJS</a> framework. To get started, clone the <a href="https://github.com/primefaces/sakai-react-next" className="font-medium hover:underline">repository</a> from 
+                            Sakai is an application template for React based on the popular <a href="https://nextjs.org/" className="font-medium hover:underline">NextJS</a> framework. To get started, clone the <a href="https://github.com/primefaces/sakai-react" className="font-medium hover:underline">repository</a> from 
                             GitHub and install the dependencies with npm or yarn.
                         </p>
                         <CodeHighlight>
