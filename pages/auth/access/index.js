@@ -1,6 +1,6 @@
-import React from 'react';
-import { useRouter } from 'next/router';
 import getConfig from 'next/config';
+import { useRouter } from 'next/router';
+import React from 'react';
 import AppConfig from '../../../layout/AppConfig';
 import { Button } from 'primereact/button';
 
