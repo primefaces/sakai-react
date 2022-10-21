@@ -4,7 +4,7 @@ import React from 'react';
 import AppConfig from '../../../layout/AppConfig';
 import { Button } from 'primereact/button';
 
-const Error = () => {
+const ErrorPage = () => {
     const contextPath = getConfig().publicRuntimeConfig.contextPath;
     const router = useRouter();
 
@@ -24,12 +24,11 @@ const Error = () => {
                     </div>
                 </div>
             </div>
-        </div>
-       
+        </div> 
     );
 };
 
-Error.getLayout = function getLayout(page) {
+ErrorPage.getLayout = function getLayout(page) {
     return (
         <React.Fragment>
             {page}
@@ -38,4 +37,4 @@ Error.getLayout = function getLayout(page) {
     );
 }
 
-export default Error;
+export default ErrorPage;
