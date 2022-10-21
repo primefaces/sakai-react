@@ -170,7 +170,7 @@ const AppMenu = () => {
                     return !item.seperator ? <AppMenuitem item={item} root={true} index={i} key={item.label} /> : <li className="menu-separator"></li>;
                 })}
 
-                <Link href="https://www.primefaces.org/primeblocks-react" passHref>
+                <Link href="https://www.primefaces.org/primeblocks-react">
                     <a target="_blank" style={{ cursor: 'pointer' }}>
                         <img alt="Prime Blocks" className="w-full mt-3" src={`${contextPath}/layout/images/banner-primeblocks${layoutConfig.colorScheme === 'light' ? '' : '-dark'}.png`} />
                     </a>

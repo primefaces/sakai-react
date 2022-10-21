@@ -18,7 +18,7 @@ const NotFound = () => {
                             <span className="text-blue-500 font-bold text-3xl">404</span>
                             <h1 className="text-900 font-bold text-3xl lg:text-5xl mb-2">Looks like you are lost</h1>
                             <span className="text-600">Requested resource is not available.</span>
-                            <Link href={`${contextPath}/`} passHref>
+                            <Link href="/">
                                 <a className="col-12 flex align-items-center py-5 mt-6 border-300 border-bottom-1">
                                     <div className="flex justify-content-center align-items-center bg-cyan-400 border-round" style={{ height: '3.5rem', width: '3.5rem' }}>
                                         <i className="text-50 pi pi-fw pi-table text-2xl"></i>
@@ -29,7 +29,7 @@ const NotFound = () => {
                                     </div>
                                 </a>
                             </Link>
-                            <Link href={`${contextPath}/`} passHref>
+                            <Link href="/">
                                 <a className="col-12 flex align-items-center py-5 border-300 border-bottom-1">
                                     <div className="flex justify-content-center align-items-center bg-orange-400 border-round" style={{ height: '3.5rem', width: '3.5rem' }}>
                                         <i className="pi pi-fw pi-question-circle text-50 text-2xl"></i>
@@ -53,7 +53,7 @@ const NotFound = () => {
                             </Link>
                             <div className="col-12 mt-5 text-center">
                                 <i className="pi pi-fw pi-arrow-left text-blue-500 mr-2" style={{ verticalAlign: 'center' }}></i>
-                                <Link href={`${contextPath}/`} passHref>
+                                <Link href="/">
                                     <a className="text-blue-500">Go to Dashboard</a>
                                 </Link>
                             </div>

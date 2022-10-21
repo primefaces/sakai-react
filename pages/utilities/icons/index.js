@@ -39,14 +39,14 @@ const IconsDemo = () => {
             <h4>Icons</h4>
             <p>
                 PrimeReact components internally use{' '}
-                <Link href="https://github.com/primefaces/primeicons" passHref>
-                    <a className="font-medium" target={'_blank'}>
+                <Link href="https://github.com/primefaces/primeicons">
+                    <a className="font-medium hover:underline" target={'_blank'}>
                         PrimeIcons
                     </a>
                 </Link>{' '}
                 library, the official icons suite from{' '}
-                <Link href="https://www.primetek.com.tr" passHref>
-                    <a className="font-medium" target={'_blank'}>
+                <Link href="https://www.primetek.com.tr">
+                    <a className="font-medium hover:underline" target={'_blank'}>
                         PrimeTek
                     </a>
                 </Link>
@@ -130,8 +130,8 @@ const items = [
             <h5>List of Icons</h5>
             <p>
                 Here is the current list of PrimeIcons, more icons are added periodically. You may also{' '}
-                <Link href="https://github.com/primefaces/primeicons/issues" passHref>
-                    <a className="font-medium" target={'_blank'}>
+                <Link href="https://github.com/primefaces/primeicons/issues">
+                    <a className="font-medium hover:underline" target={'_blank'}>
                         request new icons
                     </a>
                 </Link>{' '}

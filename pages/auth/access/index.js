@@ -23,7 +23,7 @@ const Access = () => {
                             <img src={`${contextPath}/demo/images/access/asset-access.svg`} alt="Access denied" className="mt-5" width="80%" />
                             <div className="col-12 mt-5 text-center">
                                 <i className="pi pi-fw pi-arrow-left text-blue-500 mr-2" style={{ verticalAlign: 'center' }}></i>
-                                <Link href={`${contextPath}/`} passHref>
+                                <Link href="/">
                                     <a className="text-blue-500">Go to Dashboard</a>
                                 </Link>
                             </div>
