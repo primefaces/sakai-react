@@ -87,7 +87,7 @@ const ListDemo = () => {
             <div className="col-12">
                 <div className="flex flex-column md:flex-row align-items-center p-3 w-full">
                     <img src={`${contextPath}/demo/images/product/${data.image}`} alt={data.name} className="my-4 md:my-0 w-9 md:w-10rem shadow-2 mr-5" />
-                    <div className="flex-1 text-center md:text-left">
+                    <div className="flex-1 flex flex-column align-items-center text-center md:text-left">
                         <div className="font-bold text-2xl">{data.name}</div>
                         <div className="mb-2">{data.description}</div>
                         <Rating value={data.rating} readOnly cancel={false} className="mb-2"></Rating>
@@ -98,7 +98,7 @@ const ListDemo = () => {
                     </div>
                     <div className="flex flex-row md:flex-column justify-content-between w-full md:w-auto align-items-center md:align-items-end mt-5 md:mt-0">
                         <span className="text-2xl font-semibold mb-2 align-self-center md:align-self-end">${data.price}</span>
-                        <Button icon="pi pi-shopping-cart" label="Add to Cart" disabled={data.inventoryStatus === 'OUTOFSTOCK'} className="mb-2"></Button>
+                        <Button icon="pi pi-shopping-cart" label="Add to Cart" disabled={data.inventoryStatus === 'OUTOFSTOCK'} className="mb-2 p-button-sm"></Button>
                         <span className={`product-badge status-${data.inventoryStatus.toLowerCase()}`}>{data.inventoryStatus}</span>
                     </div>
                 </div>
@@ -108,16 +108,16 @@ const ListDemo = () => {
 
     const dataviewGridItem = (data) => {
         return (
-            <div className="col-12 md:col-4">
+            <div className="col-12 lg:col-4">
                 <div className="card m-3 border-1 surface-border">
-                    <div className="flex align-items-center justify-content-between mb-2">
+                    <div className="flex flex-wrap gap-2 align-items-center justify-content-between mb-2">
                         <div className="flex align-items-center">
                             <i className="pi pi-tag mr-2" />
                             <span className="font-semibold">{data.category}</span>
                         </div>
                         <span className={`product-badge status-${data.inventoryStatus.toLowerCase()}`}>{data.inventoryStatus}</span>
                     </div>
-                    <div className="text-center mb-3">
+                    <div className="flex flex-column align-items-center text-center mb-3">
                         <img src={`${contextPath}/demo/images/product/${data.image}`} alt={data.name} className="w-9 shadow-2 my-3 mx-0" />
                         <div className="text-2xl font-bold">{data.name}</div>
                         <div className="mb-3">{data.description}</div>
@@ -153,7 +153,7 @@ const ListDemo = () => {
                 </div>
             </div>
 
-            <div className="col-12 lg:col-8">
+            <div className="col-12 xl:col-8">
                 <div className="card">
                     <h5>PickList</h5>
                     <PickList
@@ -172,7 +172,7 @@ const ListDemo = () => {
                 </div>
             </div>
 
-            <div className="col-12 lg:col-4">
+            <div className="col-12 xl:col-4">
                 <div className="card">
                     <h5>OrderList</h5>
                     <OrderList
