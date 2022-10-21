@@ -156,7 +156,7 @@ const AppMenu = () => {
                 {
                     label: 'View Source',
                     icon: 'pi pi-fw pi-search',
-                    url: 'https://github.com/primefaces/sakai-react-next',
+                    url: 'https://github.com/primefaces/sakai-react',
                     target: '_blank'
                 }
             ]

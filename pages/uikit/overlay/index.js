@@ -81,7 +81,7 @@ const OverlayDemo = () => {
             <Toast ref={toast} />
             <div className="grid">
                 <div className="col-12 lg:col-6">
-                    <div className="card p-fluid">
+                    <div className="card">
                         <h5>Dialog</h5>
                         <Dialog header="Dialog" visible={displayBasic} style={{ width: '30vw' }} modal footer={basicDialogFooter} onHide={() => setDisplayBasic(false)}>
                             <p>
@@ -96,7 +96,7 @@ const OverlayDemo = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="card p-fluid">
+                    <div className="card">
                         <h5>Overlay Panel</h5>
                         <div className="flex flex-wrap gap-2">
                             <div>
@@ -120,7 +120,7 @@ const OverlayDemo = () => {
                 </div>
 
                 <div className="col-12 lg:col-6">
-                    <div className="card p-fluid">
+                    <div className="card">
                         <h5>Confirmation</h5>
                         <Button label="Delete" icon="pi pi-trash" className="p-button-danger" onClick={() => setDisplayConfirmation(true)} />
                         <Dialog header="Confirmation" visible={displayConfirmation} onHide={() => setDisplayConfirmation(false)} style={{ width: '350px' }} modal footer={confirmationDialogFooter}>

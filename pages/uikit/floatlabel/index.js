@@ -14,14 +14,14 @@ const FloatLabelDemo = () => {
     const [countries, setCountries] = useState([]);
     const [filteredCountries, setFilteredCountries] = useState(null);
     const [value1, setValue1] = useState('');
-    const [value2, setValue2] = useState('');
+    const [value2, setValue2] = useState(null);
     const [value3, setValue3] = useState('');
     const [value4, setValue4] = useState('');
     const [value5, setValue5] = useState('');
-    const [value6, setValue6] = useState('');
+    const [value6, setValue6] = useState([]);
     const [value7, setValue7] = useState('');
     const [value8, setValue8] = useState(null);
-    const [value9, setValue9] = useState([]);
+    const [value9, setValue9] = useState('');
     const [value10, setValue10] = useState(null);
     const [value11, setValue11] = useState(null);
     const [value12, setValue12] = useState('');

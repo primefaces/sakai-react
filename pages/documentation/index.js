@@ -39,9 +39,9 @@ const Documentation = () => {
 
                         <CodeHighlight lang="js">
                         {`
-"primereact": "...",                    //required: PrimeReact components
-"primeicons": "...",                    //required: Icons
-"primeflex": "...",                     //required: Utility CSS classes
+"primereact": "^8.6.0",                    //required: PrimeReact components
+"primeicons": "^6.0.1",                    //required: Icons
+"primeflex": "^3.2.1",                     //required: Utility CSS classes
 "react-transition-group": "^4.4.1",     //required: PrimeReact animations
 `}
                         </CodeHighlight>
