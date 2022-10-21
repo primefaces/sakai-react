@@ -51,7 +51,7 @@ const LoginPage = () => {
                                     Forgot password?
                                 </a>
                             </div>
-                            <Button label="Sign In" className="w-full p-3 text-xl "onClick={() => router.push('/')}></Button>
+                            <Button label="Sign In" className="w-full p-3 text-xl" onClick={() => router.push('/')}></Button>
                         </div>
                     </div>
                 </div>
