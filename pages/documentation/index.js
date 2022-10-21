@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-sync-scripts */
 import React from 'react';
 import { CodeHighlight } from '../../demo/components/CodeHighlight';
+import styles from './index.module.css';
 
 const Documentation = () => {
     return (
@@ -61,42 +62,11 @@ const Documentation = () => {
                         <p>Main menu is defined at <span class="text-primary font-medium">AppMenu.js</span> file based on <a href="https://www.primefaces.org/primereact/menumodel/" className="font-medium hover:underline">MenuModel API</a>.</p>
 
                         <h5>Integration with Existing NextJS Applications</h5>
-                        <p>Only the folders that are related to the layout needs to move in to your project.</p>
-                        <ul class="line-height-3">
-                            <li>Copy <span class="text-primary font-medium">./layout</span> folder to the root of your application.</li> 
-                            <li>Copy <span class="text-primary font-medium">./styles/layout</span> folder to the styles folder in your application.</li> 
-                            <li>Move <span class="text-primary font-medium">./public/layout</span> and <span class="text-primary font-medium">./public/layout/themes</span> to the public folder in your application.</li> 
-                            <li>Move <span class="text-primary font-medium">./pages/_document.js</span> to the pages folder in your application.</li>
-                            <li>Open <span class="text-primary font-medium">./pages/_app.js</span>, import the required css files and change the rendering part to use the layout.</li>
-                        </ul>
-                        <CodeHighlight lang="js">
-                        {`
-import React from 'react';
-import { LayoutProvider } from '../layout/context/layoutcontext';
-import Layout from '../layout/layout';
-import 'primereact/resources/primereact.css';
-import 'primeflex/primeflex.css';
-import 'primeicons/primeicons.css';
-
-export default function MyApp({ Component, pageProps }) {
-    if (Component.getLayout) {
-        return (
-            <LayoutProvider>
-                {Component.getLayout(<Component {...pageProps} />)}
-            </LayoutProvider>
-        )
-    } else {
-        return (
-            <LayoutProvider>
-                <Layout>
-                    <Component {...pageProps} />
-                </Layout>
-            </LayoutProvider>
-        );
-    }
-}
-`}
-                        </CodeHighlight>
+                        <p>Only the folders that are related to the layout needs to move in to your project. We've created a short tutorial with details.</p>
+                        
+                        <div className={styles['video-container']}>
+                            <iframe className={styles['video']} width="560" height="315" src="https://www.youtube.com/embed/jnm0_U6zJFY" frameborder="0" allowfullscreen></iframe>
+                        </div>
 
                         <h5>PrimeReact Theme</h5>
                         <p>
