@@ -160,17 +160,13 @@ const PanelDemo = () => {
                     <div className="grid">
                         <div className="col-5 flex align-items-center justify-content-center">
                             <div className="p-fluid">
-                                <div className="field mb-5">
-                                    <span className="p-float-label">
-                                        <InputText id="username" type="text" />
-                                        <label htmlFor="username">Username</label>
-                                    </span>
+                                <div className="field">
+                                    <label htmlFor="username">Username</label>
+                                    <InputText id="username" type="text" />
                                 </div>
-                                <div className="field mb-5">
-                                    <span className="p-float-label">
-                                        <Password id="password" type="password" />
-                                        <label htmlFor="password">Password</label>
-                                    </span>
+                                <div className="field">
+                                    <label htmlFor="password">Password</label>
+                                    <InputText id="password" type="password" />
                                 </div>
                                 <Button label="Login"></Button>
                             </div>
@@ -212,28 +208,22 @@ const PanelDemo = () => {
             <div className="col-12">
                 <div className="card">
                     <h5>Splitter</h5>
-                    <Splitter style={{ height: '300px' }} className="mb-5">
-                        <SplitterPanel size={40} minSize={10} style={{ overflow: 'auto' }}>
-                            <div className="col m-3">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
-                                id est laborum.
+                    <Splitter style={{ height: '300px' }}>
+                        <SplitterPanel size={30} minSize={10}>
+                            <div className="h-full flex align-items-center justify-content-center">
+                                Panel 1
                             </div>
                         </SplitterPanel>
-                        <SplitterPanel size={80}>
+                        <SplitterPanel size={70}>
                             <Splitter layout="vertical">
-                                <SplitterPanel size={30} style={{ overflow: 'auto' }}>
-                                    <div className="col m-3">
-                                        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt
-                                        explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Consectetur, adipisci velit, sed quia non
-                                        numquam eius modi.
+                                <SplitterPanel size={50} minSize={10}>
+                                    <div className="h-full flex align-items-center justify-content-center">
+                                        Panel 2
                                     </div>
                                 </SplitterPanel>
-                                <SplitterPanel size={70} style={{ overflow: 'auto' }}>
-                                    <div className="col m-3">
-                                        At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident,
-                                        similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio
-                                        cumque nihil impedit quo minus.
+                                <SplitterPanel size={50} minSize={10}>
+                                    <div className="h-full flex align-items-center justify-content-center">
+                                        Panel 3
                                     </div>
                                 </SplitterPanel>
                             </Splitter>
