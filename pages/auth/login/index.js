@@ -42,7 +42,7 @@ const LoginPage = () => {
 
                             <div className="flex align-items-center justify-content-between mb-5 gap-5">
                                 <div className="flex align-items-center">
-                                    <Checkbox inputid="rememberme1" value={checked} onChange={(e) => setChecked(e.checked)} className="mr-2"></Checkbox>
+                                    <Checkbox inputid="rememberme1" checked={checked} onChange={(e) => setChecked(e.checked)} className="mr-2"></Checkbox>
                                     <label htmlFor="rememberme1">
                                         Remember me
                                     </label>
