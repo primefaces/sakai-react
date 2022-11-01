@@ -114,7 +114,7 @@ const AppMenu = () => {
                             items: [
                                 { label: 'Submenu 1.1.1', icon: 'pi pi-fw pi-bookmark' },
                                 { label: 'Submenu 1.1.2', icon: 'pi pi-fw pi-bookmark' },
-                                { label: 'Submenu 1.1.3', icon: 'pi pi-fw pi-bookmark' },
+                                { label: 'Submenu 1.1.3', icon: 'pi pi-fw pi-bookmark' }
                             ]
                         },
                         {
@@ -170,7 +170,7 @@ const AppMenu = () => {
                     return !item.seperator ? <AppMenuitem item={item} root={true} index={i} key={item.label} /> : <li className="menu-separator"></li>;
                 })}
 
-                <Link href="https://www.primefaces.org/primeblocks-react">
+                <Link href="https://www.primefaces.org/primeblocks-react" legacyBehavior>
                     <a target="_blank" style={{ cursor: 'pointer' }}>
                         <img alt="Prime Blocks" className="w-full mt-3" src={`${contextPath}/layout/images/banner-primeblocks${layoutConfig.colorScheme === 'light' ? '' : '-dark'}.png`} />
                     </a>
