@@ -238,11 +238,9 @@ const TableDemo = () => {
     };
 
     const toggleAll = () => {
-        if (allExpanded)
-            collapseAll();
-        else
-            expandAll();
-    }
+        if (allExpanded) collapseAll();
+        else expandAll();
+    };
 
     const expandAll = () => {
         let _expandedRows = {};
@@ -301,14 +299,12 @@ const TableDemo = () => {
         );
     };
 
-    const header = (
-        <Button icon={allExpanded ? 'pi pi-minus' : 'pi pi-plus'} label={allExpanded ? 'Collapse All' : 'Expand All'} onClick={toggleAll} className="w-11rem"/>
-    );
+    const header = <Button icon={allExpanded ? 'pi pi-minus' : 'pi pi-plus'} label={allExpanded ? 'Collapse All' : 'Expand All'} onClick={toggleAll} className="w-11rem" />;
 
     const headerTemplate = (data) => {
         return (
             <React.Fragment>
-                <img alt={data.representative.name} src={`/demo/images/avatar/${data.representative.image}`} width="32" style={{ verticalAlign: 'middle' }} />
+                <img alt={data.representative.name} src={`${contextPath}/demo/images/avatar/${data.representative.image}`} width="32" style={{ verticalAlign: 'middle' }} />
                 <span className="font-bold ml-2">{data.representative.name}</span>
             </React.Fragment>
         );
