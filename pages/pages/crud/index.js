@@ -81,6 +81,7 @@ const Crud = () => {
                 toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Product Updated', life: 3000 });
             } else {
                 _product.id = createId();
+                _product.code = createId();
                 _product.image = 'product-placeholder.svg';
                 _products.push(_product);
                 toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Product Created', life: 3000 });
