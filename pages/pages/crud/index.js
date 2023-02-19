@@ -367,7 +367,7 @@ const Crud = () => {
                             </div>
                             <div className="field col">
                                 <label htmlFor="quantity">Quantity</label>
-                                <InputNumber id="quantity" value={product.quantity} onValueChange={(e) => onInputNumberChange(e, 'quantity')} integeronly />
+                                <InputNumber id="quantity" value={product.quantity} onValueChange={(e) => onInputNumberChange(e, 'quantity')} integeronly="true" />
                             </div>
                         </div>
                     </Dialog>
