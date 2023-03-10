@@ -373,9 +373,7 @@ const Dashboard = () => {
                     </div>
                     <div className="mt-4 mr-auto md:mt-0 md:mr-0">
                         <Link href="https://www.primefaces.org/primeblocks-react">
-                            <a className="p-button font-bold px-5 py-3 p-button-warning p-button-rounded p-button-raised">
-                                Get Started
-                            </a>
+                            <a className="p-button font-bold px-5 py-3 p-button-warning p-button-rounded p-button-raised">Get Started</a>
                         </Link>
                     </div>
                 </div>

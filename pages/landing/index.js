@@ -29,27 +29,27 @@ const LandingPage = () => {
                     <div className="align-items-center surface-0 flex-grow-1 justify-content-between hidden lg:flex absolute lg:static w-full left-0 px-6 lg:px-0 z-2" style={{ top: '100%' }}>
                         <ul className="list-none p-0 m-0 flex lg:align-items-center select-none flex-column lg:flex-row cursor-pointer">
                             <li>
-                                    <a href="#home" className="flex m-0 md:ml-5 px-0 py-3 text-900 font-medium line-height-3">
-                                        <span>Home</span>
-                                    </a>
+                                <a href="#home" className="flex m-0 md:ml-5 px-0 py-3 text-900 font-medium line-height-3">
+                                    <span>Home</span>
+                                </a>
                                 <Ripple />
                             </li>
                             <li>
-                                    <a href='#features' className="flex m-0 md:ml-5 px-0 py-3 text-900 font-medium line-height-3">
-                                        <span>Features</span>
-                                    </a>
+                                <a href="#features" className="flex m-0 md:ml-5 px-0 py-3 text-900 font-medium line-height-3">
+                                    <span>Features</span>
+                                </a>
                                 <Ripple />
                             </li>
                             <li>
-                                    <a href="#highlights" className="flex m-0 md:ml-5 px-0 py-3 text-900 font-medium line-height-3">
-                                        <span>Highlights</span>
-                                    </a>
+                                <a href="#highlights" className="flex m-0 md:ml-5 px-0 py-3 text-900 font-medium line-height-3">
+                                    <span>Highlights</span>
+                                </a>
                                 <Ripple />
                             </li>
                             <li>
-                                    <a href="#pricing" className="flex m-0 md:ml-5 px-0 py-3 text-900 font-medium line-height-3">
-                                        <span>Pricing</span>
-                                    </a>
+                                <a href="#pricing" className="flex m-0 md:ml-5 px-0 py-3 text-900 font-medium line-height-3">
+                                    <span>Pricing</span>
+                                </a>
                                 <Ripple />
                             </li>
                         </ul>
@@ -63,7 +63,8 @@ const LandingPage = () => {
                 <div
                     id="hero"
                     className="flex flex-column pt-4 px-4 lg:px-8 overflow-hidden"
-                    style={{ background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), radial-gradient(77.36% 256.97% at 77.36% 57.52%, #EEEFAF 0%, #C3E3FA 100%)', clipPath: 'ellipse(150% 87% at 93% 13%)' }}>
+                    style={{ background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), radial-gradient(77.36% 256.97% at 77.36% 57.52%, #EEEFAF 0%, #C3E3FA 100%)', clipPath: 'ellipse(150% 87% at 93% 13%)' }}
+                >
                     <div className="mx-4 md:mx-8 mt-0 md:mt-4">
                         <h1 className="text-6xl font-bold text-gray-900 line-height-2">
                             <span className="font-light block">Eu sem integer</span>eget magna fermentum
@@ -90,7 +91,8 @@ const LandingPage = () => {
                                     padding: '2px',
                                     borderRadius: '10px',
                                     background: 'linear-gradient(90deg, rgba(253, 228, 165, 0.2), rgba(187, 199, 205, 0.2)), linear-gradient(180deg, rgba(253, 228, 165, 0.2), rgba(187, 199, 205, 0.2))'
-                                }}>
+                                }}
+                            >
                                 <div className="p-3 surface-card h-full" style={{ borderRadius: '8px' }}>
                                     <div className="flex align-items-center justify-content-center bg-yellow-200 mb-3" style={{ width: '3.5rem', height: '3.5rem', borderRadius: '10px' }}>
                                         <i className="pi pi-fw pi-users text-2xl text-yellow-700"></i>
@@ -108,7 +110,8 @@ const LandingPage = () => {
                                     padding: '2px',
                                     borderRadius: '10px',
                                     background: 'linear-gradient(90deg, rgba(145,226,237,0.2),rgba(251, 199, 145, 0.2)), linear-gradient(180deg, rgba(253, 228, 165, 0.2), rgba(172, 180, 223, 0.2))'
-                                }}>
+                                }}
+                            >
                                 <div className="p-3 surface-card h-full" style={{ borderRadius: '8px' }}>
                                     <div className="flex align-items-center justify-content-center bg-cyan-200 mb-3" style={{ width: '3.5rem', height: '3.5rem', borderRadius: '10px' }}>
                                         <i className="pi pi-fw pi-palette text-2xl text-cyan-700"></i>
@@ -126,7 +129,8 @@ const LandingPage = () => {
                                     padding: '2px',
                                     borderRadius: '10px',
                                     background: 'linear-gradient(90deg, rgba(145, 226, 237, 0.2), rgba(172, 180, 223, 0.2)), linear-gradient(180deg, rgba(172, 180, 223, 0.2), rgba(246, 158, 188, 0.2))'
-                                }}>
+                                }}
+                            >
                                 <div className="p-3 surface-card h-full" style={{ borderRadius: '8px' }}>
                                     <div className="flex align-items-center justify-content-center bg-indigo-200" style={{ width: '3.5rem', height: '3.5rem', borderRadius: '10px' }}>
                                         <i className="pi pi-fw pi-map text-2xl text-indigo-700"></i>
@@ -144,7 +148,8 @@ const LandingPage = () => {
                                     padding: '2px',
                                     borderRadius: '10px',
                                     background: 'linear-gradient(90deg, rgba(187, 199, 205, 0.2),rgba(251, 199, 145, 0.2)), linear-gradient(180deg, rgba(253, 228, 165, 0.2),rgba(145, 210, 204, 0.2))'
-                                }}>
+                                }}
+                            >
                                 <div className="p-3 surface-card h-full" style={{ borderRadius: '8px' }}>
                                     <div className="flex align-items-center justify-content-center bg-bluegray-200 mb-3" style={{ width: '3.5rem', height: '3.5rem', borderRadius: '10px' }}>
                                         <i className="pi pi-fw pi-id-card text-2xl text-bluegray-700"></i>
@@ -162,7 +167,8 @@ const LandingPage = () => {
                                     padding: '2px',
                                     borderRadius: '10px',
                                     background: 'linear-gradient(90deg, rgba(187, 199, 205, 0.2),rgba(246, 158, 188, 0.2)), linear-gradient(180deg, rgba(145, 226, 237, 0.2),rgba(160, 210, 250, 0.2))'
-                                }}>
+                                }}
+                            >
                                 <div className="p-3 surface-card h-full" style={{ borderRadius: '8px' }}>
                                     <div className="flex align-items-center justify-content-center bg-orange-200 mb-3" style={{ width: '3.5rem', height: '3.5rem', borderRadius: '10px' }}>
                                         <i className="pi pi-fw pi-star text-2xl text-orange-700"></i>
@@ -180,7 +186,8 @@ const LandingPage = () => {
                                     padding: '2px',
                                     borderRadius: '10px',
                                     background: 'linear-gradient(90deg, rgba(251, 199, 145, 0.2), rgba(246, 158, 188, 0.2)), linear-gradient(180deg, rgba(172, 180, 223, 0.2), rgba(212, 162, 221, 0.2))'
-                                }}>
+                                }}
+                            >
                                 <div className="p-3 surface-card h-full" style={{ borderRadius: '8px' }}>
                                     <div className="flex align-items-center justify-content-center bg-pink-200 mb-3" style={{ width: '3.5rem', height: '3.5rem', borderRadius: '10px' }}>
                                         <i className="pi pi-fw pi-moon text-2xl text-pink-700"></i>
@@ -198,7 +205,8 @@ const LandingPage = () => {
                                     padding: '2px',
                                     borderRadius: '10px',
                                     background: 'linear-gradient(90deg, rgba(145, 210, 204, 0.2), rgba(160, 210, 250, 0.2)), linear-gradient(180deg, rgba(187, 199, 205, 0.2), rgba(145, 210, 204, 0.2))'
-                                }}>
+                                }}
+                            >
                                 <div className="p-3 surface-card h-full" style={{ borderRadius: '8px' }}>
                                     <div className="flex align-items-center justify-content-center bg-teal-200 mb-3" style={{ width: '3.5rem', height: '3.5rem', borderRadius: '10px' }}>
                                         <i className="pi pi-fw pi-shopping-cart text-2xl text-teal-700"></i>
@@ -216,7 +224,8 @@ const LandingPage = () => {
                                     padding: '2px',
                                     borderRadius: '10px',
                                     background: 'linear-gradient(90deg, rgba(145, 210, 204, 0.2), rgba(212, 162, 221, 0.2)), linear-gradient(180deg, rgba(251, 199, 145, 0.2), rgba(160, 210, 250, 0.2))'
-                                }}>
+                                }}
+                            >
                                 <div className="p-3 surface-card h-full" style={{ borderRadius: '8px' }}>
                                     <div className="flex align-items-center justify-content-center bg-blue-200 mb-3" style={{ width: '3.5rem', height: '3.5rem', borderRadius: '10px' }}>
                                         <i className="pi pi-fw pi-globe text-2xl text-blue-700"></i>
@@ -234,7 +243,8 @@ const LandingPage = () => {
                                     padding: '2px',
                                     borderRadius: '10px',
                                     background: 'linear-gradient(90deg, rgba(160, 210, 250, 0.2), rgba(212, 162, 221, 0.2)), linear-gradient(180deg, rgba(246, 158, 188, 0.2), rgba(212, 162, 221, 0.2))'
-                                }}>
+                                }}
+                            >
                                 <div className="p-3 surface-card h-full" style={{ borderRadius: '8px' }}>
                                     <div className="flex align-items-center justify-content-center bg-purple-200 mb-3" style={{ width: '3.5rem', height: '3.5rem', borderRadius: '10px' }}>
                                         <i className="pi pi-fw pi-eye text-2xl text-purple-700"></i>
@@ -247,7 +257,8 @@ const LandingPage = () => {
 
                         <div
                             className="col-12 mt-8 mb-8 p-2 md:p-8"
-                            style={{ borderRadius: '20px', background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), radial-gradient(77.36% 256.97% at 77.36% 57.52%, #EFE1AF 0%, #C3DCFA 100%)' }}>
+                            style={{ borderRadius: '20px', background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), radial-gradient(77.36% 256.97% at 77.36% 57.52%, #EFE1AF 0%, #C3DCFA 100%)' }}
+                        >
                             <div className="flex flex-column justify-content-center align-items-center text-center px-3 py-3 md:py-0">
                                 <h3 className="text-gray-900 mb-2">Joséphine Miller</h3>
                                 <span className="text-gray-600 text-2xl">Peak Interactive</span>

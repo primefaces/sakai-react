@@ -132,19 +132,19 @@ const ButtonDemo = () => {
                     <h5>Template</h5>
                     <div className="flex flex-wrap gap-2">
                         <Button className={styles.google} aria-label="Google">
-                            <span class="flex align-items-center px-2 bg-purple-700 text-white">
+                            <span className="flex align-items-center px-2 bg-purple-700 text-white">
                                 <i className="pi pi-google"></i>
                             </span>
                             <span className="px-3 py-2 flex align-items-center text-white">Google</span>
                         </Button>
                         <Button className={styles.twitter} aria-label="Twitter">
-                            <span class="flex align-items-center px-2 bg-blue-500 text-white">
+                            <span className="flex align-items-center px-2 bg-blue-500 text-white">
                                 <i className="pi pi-twitter"></i>
                             </span>
                             <span className="px-3 py-2 flex align-items-center text-white">Twitter</span>
                         </Button>
                         <Button className={styles.discord} aria-label="Discord">
-                            <span class="flex align-items-center px-2 bg-bluegray-800 text-white">
+                            <span className="flex align-items-center px-2 bg-bluegray-800 text-white">
                                 <i className="pi pi-discord"></i>
                             </span>
                             <span className="px-3 py-2 flex align-items-center text-white">Discord</span>

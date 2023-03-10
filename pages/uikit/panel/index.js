@@ -210,21 +210,15 @@ const PanelDemo = () => {
                     <h5>Splitter</h5>
                     <Splitter style={{ height: '300px' }}>
                         <SplitterPanel size={30} minSize={10}>
-                            <div className="h-full flex align-items-center justify-content-center">
-                                Panel 1
-                            </div>
+                            <div className="h-full flex align-items-center justify-content-center">Panel 1</div>
                         </SplitterPanel>
                         <SplitterPanel size={70}>
                             <Splitter layout="vertical">
                                 <SplitterPanel size={50} minSize={10}>
-                                    <div className="h-full flex align-items-center justify-content-center">
-                                        Panel 2
-                                    </div>
+                                    <div className="h-full flex align-items-center justify-content-center">Panel 2</div>
                                 </SplitterPanel>
                                 <SplitterPanel size={50} minSize={10}>
-                                    <div className="h-full flex align-items-center justify-content-center">
-                                        Panel 3
-                                    </div>
+                                    <div className="h-full flex align-items-center justify-content-center">Panel 3</div>
                                 </SplitterPanel>
                             </Splitter>
                         </SplitterPanel>

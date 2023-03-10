@@ -48,8 +48,7 @@ const ListDemo = () => {
         setGlobalFilterValue(value);
         if (value.length === 0) {
             setFilteredValue(null);
-        }
-        else {
+        } else {
             const filtered = dataViewValue.filter((product) => {
                 return product.name.toLowerCase().includes(value);
             });

@@ -382,7 +382,7 @@ const TableDemo = () => {
                     <h5>Frozen Columns</h5>
                     <ToggleButton checked={idFrozen} onChange={(e) => setIdFrozen(e.value)} onIcon="pi pi-lock" offIcon="pi pi-lock-open" onLabel="Unfreeze Id" offLabel="Freeze Id" style={{ width: '10rem' }} />
 
-                    <DataTable value={customers2} scrollable scrollHeight="400px" loading={loading2} scrollDirection="both" className="mt-3">
+                    <DataTable value={customers2} scrollable scrollHeight="400px" loading={loading2} className="mt-3">
                         <Column field="name" header="Name" style={{ flexGrow: 1, flexBasis: '160px' }} frozen className="font-bold"></Column>
                         <Column field="id" header="Id" style={{ flexGrow: 1, flexBasis: '100px' }} frozen={idFrozen} alignFrozen="left" bodyClassName={classNames({ 'font-bold': idFrozen })}></Column>
                         <Column field="country.name" header="Country" style={{ flexGrow: 1, flexBasis: '200px' }} body={countryBodyTemplate}></Column>

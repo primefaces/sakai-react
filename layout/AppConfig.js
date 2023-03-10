@@ -50,22 +50,22 @@ const AppConfig = (props) => {
         }
 
         const id = linkElement.getAttribute('id');
-            const cloneLinkElement = linkElement.cloneNode(true);
+        const cloneLinkElement = linkElement.cloneNode(true);
 
-            cloneLinkElement.setAttribute('href', href);
-            cloneLinkElement.setAttribute('id', id + '-clone');
+        cloneLinkElement.setAttribute('href', href);
+        cloneLinkElement.setAttribute('id', id + '-clone');
 
-            linkElement.parentNode.insertBefore(cloneLinkElement, linkElement.nextSibling);
+        linkElement.parentNode.insertBefore(cloneLinkElement, linkElement.nextSibling);
 
-            cloneLinkElement.addEventListener('load', () => {
-                linkElement.remove();
+        cloneLinkElement.addEventListener('load', () => {
+            linkElement.remove();
 
-                const element = document.getElementById(id); // re-check
-                element && element.remove();
+            const element = document.getElementById(id); // re-check
+            element && element.remove();
 
-                cloneLinkElement.setAttribute('id', id);
-                onComplete && onComplete();
-            });
+            cloneLinkElement.setAttribute('id', id);
+            onComplete && onComplete();
+        });
     };
 
     const decrementScale = () => {
@@ -79,7 +79,6 @@ const AppConfig = (props) => {
     const applyScale = () => {
         document.documentElement.style.fontSize = layoutConfig.scale + 'px';
     };
-
 
     useEffect(() => {
         applyScale();
@@ -103,10 +102,10 @@ const AppConfig = (props) => {
                     <Button icon="pi pi-plus" type="button" onClick={incrementScale} className="p-button-text p-button-rounded w-2rem h-2rem ml-2" disabled={layoutConfig.scale === scales[scales.length - 1]}></Button>
                 </div>
 
-                { !props.simple &&
+                {!props.simple && (
                     <>
                         <h5>Menu Type</h5>
-                        <div class="flex">
+                        <div className="flex">
                             <div className="field-radiobutton flex-1">
                                 <RadioButton name="menuMode" value={'static'} checked={layoutConfig.menuMode === 'static'} onChange={(e) => changeMenuMode(e)} inputId="mode1"></RadioButton>
                                 <label htmlFor="mode1">Static</label>
@@ -117,7 +116,7 @@ const AppConfig = (props) => {
                             </div>
                         </div>
                     </>
-                }
+                )}
 
                 <h5>Input Style</h5>
                 <div className="flex">
