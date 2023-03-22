@@ -45,10 +45,8 @@ const AppMenuitem = (props) => {
         }
 
         // toggle active state
-        if (item.items)
-            setActiveMenu(active ? props.parentKey : key);
-        else
-            setActiveMenu(key);
+        if (item.items) setActiveMenu(active ? props.parentKey : key);
+        else setActiveMenu(key);
     };
 
     const subMenu = item.items && item.visible !== false && (
@@ -74,13 +72,11 @@ const AppMenuitem = (props) => {
             ) : null}
 
             {item.to && !item.items && item.visible !== false ? (
-                <Link href={item.to} replace={item.replaceUrl} target={item.target}>
-                    <a onClick={(e) => itemClick(e)} className={classNames(item.class, 'p-ripple', { 'active-route': isActiveRoute })} target={item.target} tabIndex="0">
-                        <i className={classNames('layout-menuitem-icon', item.icon)}></i>
-                        <span className="layout-menuitem-text">{item.label}</span>
-                        {item.items && <i className="pi pi-fw pi-angle-down layout-submenu-toggler"></i>}
-                        <Ripple />
-                    </a>
+                <Link href={item.to} replace={item.replaceUrl} target={item.target} onClick={(e) => itemClick(e)} className={classNames(item.class, 'p-ripple', { 'active-route': isActiveRoute })} tabIndex={0}>
+                    <i className={classNames('layout-menuitem-icon', item.icon)}></i>
+                    <span className="layout-menuitem-text">{item.label}</span>
+                    {item.items && <i className="pi pi-fw pi-angle-down layout-submenu-toggler"></i>}
+                    <Ripple />
                 </Link>
             ) : null}
 
