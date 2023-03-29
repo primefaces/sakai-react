@@ -10,7 +10,7 @@ const Documentation = () => {
                 <div className="col-12">
                     <div className="card docs">
                         <h4>Current Version</h4>
-                        <p>React 17.x and PrimeReact 7.x</p>
+                        <p>React 18.x and PrimeReact 9.x</p>
 
                         <h5>Getting Started</h5>
                         <p>
@@ -46,7 +46,7 @@ const Documentation = () => {
 
                         <CodeHighlight lang="js">
                             {`
-"primereact": "^9.2.0",                    //required: PrimeReact components
+"primereact": "^9.2.2",                    //required: PrimeReact components
 "primeicons": "^6.0.1",                    //required: Icons
 "primeflex": "^3.3.0",                     //required: Utility CSS classes
 "react-transition-group": "^4.4.1",     //required: PrimeReact animations

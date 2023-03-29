@@ -22,7 +22,7 @@
         "sass": "^1.59.3",
         "primeflex": "3.3.0",
         "primeicons": "^6.0.1",
-        "primereact": "9.2.0",
+        "primereact": "9.2.2",
         "react-transition-group": "^4.4.1"
     },
     "devDependencies": {

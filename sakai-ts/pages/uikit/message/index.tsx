@@ -50,10 +50,10 @@ const MessagesDemo = () => {
                     <h5>Toast</h5>
                     <div className="flex flex-wrap gap-2">
                         <Toast ref={toast} />
-                        <Button type="button" onClick={showSuccess} label="Success" className="p-button-success" />
-                        <Button type="button" onClick={showInfo} label="Info" className="p-button-info" />
-                        <Button type="button" onClick={showWarn} label="Warn" className="p-button-warning" />
-                        <Button type="button" onClick={showError} label="Error" className="p-button-danger" />
+                        <Button type="button" onClick={showSuccess} label="Success" severity="success" />
+                        <Button type="button" onClick={showInfo} label="Info" severity="info" />
+                        <Button type="button" onClick={showWarn} label="Warn" severity="warning" />
+                        <Button type="button" onClick={showError} label="Error" severity="danger" />
                     </div>
                 </div>
             </div>
@@ -62,10 +62,10 @@ const MessagesDemo = () => {
                 <div className="card">
                     <h5>Messages</h5>
                     <div className="flex flex-wrap gap-2">
-                        <Button label="Success" type="button" onClick={addSuccessMessage} className="p-button-success" />
-                        <Button label="Info" type="button" onClick={addInfoMessage} className="p-button-info" />
-                        <Button label="Warn" type="button" onClick={addWarnMessage} className="p-button-warning" />
-                        <Button label="Error" type="button" onClick={addErrorMessage} className="p-button-danger" />
+                        <Button label="Success" type="button" onClick={addSuccessMessage} severity="success" />
+                        <Button label="Info" type="button" onClick={addInfoMessage} severity="info" />
+                        <Button label="Warn" type="button" onClick={addWarnMessage} severity="warning" />
+                        <Button label="Error" type="button" onClick={addErrorMessage} severity="danger" />
                     </div>
                     <Messages ref={message} />
                 </div>

@@ -72,15 +72,15 @@ const OverlayDemo = () => {
         setSelectedProduct(e.value as Demo.Product);
     };
 
-    const basicDialogFooter = <Button type="button" label="OK" onClick={() => setDisplayBasic(false)} icon="pi pi-check" className="p-button-secondary" />;
+    const basicDialogFooter = <Button type="button" label="OK" onClick={() => setDisplayBasic(false)} icon="pi pi-check" severity="secondary" />;
     const imageBodyTemplate = (data: Demo.Product) => (
         <img src={`${contextPath}/demo/images/product/${data.image}`} alt={data.image} className="product-image" width="60" style={{ boxShadow: '0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)' }} />
     );
     const priceBodyTemplate = (data: Demo.Product) => formatCurrency(data.price ?? 0);
     const confirmationDialogFooter = (
         <>
-            <Button type="button" label="No" icon="pi pi-times" onClick={() => setDisplayConfirmation(false)} className="p-button-text" />
-            <Button type="button" label="Yes" icon="pi pi-check" onClick={() => setDisplayConfirmation(false)} className="p-button-text" autoFocus />
+            <Button type="button" label="No" icon="pi pi-times" onClick={() => setDisplayConfirmation(false)} text />
+            <Button type="button" label="Yes" icon="pi pi-check" onClick={() => setDisplayConfirmation(false)} text autoFocus />
         </>
     );
 
@@ -108,13 +108,13 @@ const OverlayDemo = () => {
                         <h5>Overlay Panel</h5>
                         <div className="flex flex-wrap gap-2">
                             <div>
-                                <Button type="button" label="Image" onClick={toggle} className="p-button-success" />
+                                <Button type="button" label="Image" onClick={toggle} severity="success" />
                                 <OverlayPanel ref={op} appendTo={typeof window !== 'undefined' ? document.body : null} showCloseIcon>
                                     <img src={`${contextPath}/demo/images/nature/nature9.jpg`} alt="nature1" />
                                 </OverlayPanel>
                             </div>
                             <div>
-                                <Button type="button" label="DataTable" onClick={toggleDataTable} className="p-button-success" />
+                                <Button type="button" label="DataTable" onClick={toggleDataTable} severity="success" />
                                 <OverlayPanel ref={op2} appendTo={typeof window !== 'undefined' ? document.body : null} showCloseIcon id="overlay_panel" style={{ width: '450px' }}>
                                     <DataTable value={products} selection={selectedProduct || undefined} onSelectionChange={onSelectionChange} selectionMode="single" responsiveLayout="scroll" paginator rows={5} onRowSelect={onProductSelect}>
                                         <Column field="name" header="Name" sortable headerStyle={{ minWidth: '10rem' }} />
@@ -130,7 +130,7 @@ const OverlayDemo = () => {
                 <div className="col-12 lg:col-6">
                     <div className="card">
                         <h5>Confirmation</h5>
-                        <Button label="Delete" icon="pi pi-trash" className="p-button-danger" onClick={() => setDisplayConfirmation(true)} />
+                        <Button label="Delete" icon="pi pi-trash" severity="danger" onClick={() => setDisplayConfirmation(true)} />
                         <Dialog header="Confirmation" visible={displayConfirmation} onHide={() => setDisplayConfirmation(false)} style={{ width: '350px' }} modal footer={confirmationDialogFooter}>
                             <div className="flex align-items-center justify-content-center">
                                 <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
@@ -160,11 +160,11 @@ const OverlayDemo = () => {
                             <h1 style={{ fontWeight: 'normal' }}>Full Screen</h1>
                         </Sidebar>
 
-                        <Button type="button" icon="pi pi-arrow-right" className="p-button-warning" onClick={() => setVisibleLeft(true)} style={{ marginRight: '.25em' }} />
-                        <Button type="button" icon="pi pi-arrow-left" className="p-button-warning" onClick={() => setVisibleRight(true)} style={{ marginRight: '.25em' }} />
-                        <Button type="button" icon="pi pi-arrow-down" className="p-button-warning" onClick={() => setVisibleTop(true)} style={{ marginRight: '.25em' }} />
-                        <Button type="button" icon="pi pi-arrow-up" className="p-button-warning" onClick={() => setVisibleBottom(true)} style={{ marginRight: '.25em' }} />
-                        <Button type="button" icon="pi pi-external-link" className="p-button-warning" onClick={() => setVisibleFullScreen(true)} />
+                        <Button type="button" icon="pi pi-arrow-right" severity="warning" onClick={() => setVisibleLeft(true)} style={{ marginRight: '.25em' }} />
+                        <Button type="button" icon="pi pi-arrow-left" severity="warning" onClick={() => setVisibleRight(true)} style={{ marginRight: '.25em' }} />
+                        <Button type="button" icon="pi pi-arrow-down" severity="warning" onClick={() => setVisibleTop(true)} style={{ marginRight: '.25em' }} />
+                        <Button type="button" icon="pi pi-arrow-up" severity="warning" onClick={() => setVisibleBottom(true)} style={{ marginRight: '.25em' }} />
+                        <Button type="button" icon="pi pi-external-link" severity="warning" onClick={() => setVisibleFullScreen(true)} />
                     </div>
                 </div>
 
