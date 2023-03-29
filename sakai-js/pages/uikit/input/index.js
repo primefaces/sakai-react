@@ -269,15 +269,7 @@ export const InputDemo = () => {
                     <Dropdown value={dropdownValue} onChange={(e) => setDropdownValue(e.value)} options={dropdownValues} optionLabel="name" placeholder="Select" />
 
                     <h5>MultiSelect</h5>
-                    <MultiSelect
-                        value={multiselectValue}
-                        onChange={(e) => setMultiselectValue(e.value)}
-                        options={multiselectValues}
-                        optionLabel="name"
-                        placeholder="Select Countries"
-                        filter
-                        display="chip"
-                        itemTemplate={itemTemplate} />
+                    <MultiSelect value={multiselectValue} onChange={(e) => setMultiselectValue(e.value)} options={multiselectValues} optionLabel="name" placeholder="Select Countries" filter display="chip" itemTemplate={itemTemplate} />
 
                     <h5>TreeSelect</h5>
                     <TreeSelect value={selectedNode} onChange={(e) => setSelectedNode(e.value)} options={treeSelectNodes} placeholder="Select Item"></TreeSelect>

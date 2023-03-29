@@ -194,7 +194,7 @@ const Dashboard = () => {
                             style={{ width: '15%' }}
                             body={() => (
                                 <>
-                                    <Button icon="pi pi-search" type="button" className="p-button-text" />
+                                    <Button icon="pi pi-search" type="button" text />
                                 </>
                             )}
                         />

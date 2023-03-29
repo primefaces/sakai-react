@@ -64,7 +64,7 @@ const ButtonDemo = () => {
                     <div className="flex flex-wrap gap-2">
                         <Button label="Submit"></Button>
                         <Button label="Disabled" disabled></Button>
-                        <Button label="Link" className="p-button-link"></Button>
+                        <Button label="Link" link></Button>
                     </div>
                 </div>
 
@@ -72,25 +72,25 @@ const ButtonDemo = () => {
                     <h5>Severities</h5>
                     <div className="flex flex-wrap gap-2">
                         <Button label="Primary" />
-                        <Button label="Secondary" className="p-button-secondary" />
-                        <Button label="Success" className="p-button-success" />
-                        <Button label="Info" className="p-button-info" />
-                        <Button label="Warning" className="p-button-warning" />
-                        <Button label="Help" className="p-button-help" />
-                        <Button label="Danger" className="p-button-danger" />
+                        <Button label="Secondary" severity="secondary" />
+                        <Button label="Success" severity="success" />
+                        <Button label="Info" severity="info" />
+                        <Button label="Warning" severity="warning" />
+                        <Button label="Help" severity="help" />
+                        <Button label="Danger" severity="danger" />
                     </div>
                 </div>
 
                 <div className="card">
                     <h5>Text</h5>
                     <div className="flex flex-wrap gap-2">
-                        <Button label="Primary" className="p-button-text" />
-                        <Button label="Secondary" className="p-button-secondary p-button-text" />
-                        <Button label="Success" className="p-button-success p-button-text" />
-                        <Button label="Info" className="p-button-info p-button-text" />
-                        <Button label="Warning" className="p-button-warning p-button-text" />
-                        <Button label="Help" className="p-button-help p-button-text" />
-                        <Button label="Danger" className="p-button-danger p-button-text" />
+                        <Button label="Primary" text />
+                        <Button label="Secondary" severity="secondary" text />
+                        <Button label="Success" severity="success" text />
+                        <Button label="Info" severity="info" text />
+                        <Button label="Warning" severity="warning" text />
+                        <Button label="Help" severity="help" text />
+                        <Button label="Danger" severity="danger" text />
                         <Button label="Plain" className="p-button-plain p-button-text" />
                     </div>
                 </div>
@@ -98,13 +98,13 @@ const ButtonDemo = () => {
                 <div className="card">
                     <h5>Outlined</h5>
                     <div className="flex flex-wrap gap-2">
-                        <Button label="Primary" className="p-button-outlined" />
-                        <Button label="Secondary" className="p-button-outlined p-button-secondary" />
-                        <Button label="Success" className="p-button-outlined p-button-success" />
-                        <Button label="Info" className="p-button-outlined p-button-info" />
-                        <Button label="Warning" className="p-button-outlined p-button-warning" />
-                        <Button label="Help" className="p-button-outlined p-button-help" />
-                        <Button label="Danger" className="p-button-outlined p-button-danger" />
+                        <Button label="Primary" outlined />
+                        <Button label="Secondary" severity="secondary" outlined />
+                        <Button label="Success" severity="success" outlined />
+                        <Button label="Info" severity="info" outlined />
+                        <Button label="Warning" severity="warning" outlined />
+                        <Button label="Help" severity="help" outlined />
+                        <Button label="Danger" severity="danger" outlined />
                     </div>
                 </div>
 
@@ -120,11 +120,11 @@ const ButtonDemo = () => {
                 <div className="card">
                     <h5>SplitButton</h5>
                     <div className="flex flex-wrap gap-2">
-                        <SplitButton label="Save" icon="pi pi-check" model={items} className="p-button-secondary"></SplitButton>
-                        <SplitButton label="Save" icon="pi pi-check" model={items} className="p-button-success"></SplitButton>
-                        <SplitButton label="Save" icon="pi pi-check" model={items} className="p-button-info"></SplitButton>
-                        <SplitButton label="Save" icon="pi pi-check" model={items} className="p-button-warning"></SplitButton>
-                        <SplitButton label="Save" icon="pi pi-check" model={items} className="p-button-danger"></SplitButton>
+                        <SplitButton label="Save" icon="pi pi-check" model={items} severity="secondary"></SplitButton>
+                        <SplitButton label="Save" icon="pi pi-check" model={items} severity="success"></SplitButton>
+                        <SplitButton label="Save" icon="pi pi-check" model={items} severity="info"></SplitButton>
+                        <SplitButton label="Save" icon="pi pi-check" model={items} severity="warning"></SplitButton>
+                        <SplitButton label="Save" icon="pi pi-check" model={items} severity="danger"></SplitButton>
                     </div>
                 </div>
 
@@ -166,63 +166,66 @@ const ButtonDemo = () => {
                 <div className="card">
                     <h5>Raised</h5>
                     <div className="flex flex-wrap gap-2">
-                        <Button label="Primary" className="p-button-raised" />
-                        <Button label="Secondary" className="p-button-raised p-button-secondary" />
-                        <Button label="Success" className="p-button-raised p-button-success" />
-                        <Button label="Info" className="p-button-raised p-button-info" />
-                        <Button label="Warning" className="p-button-raised p-button-warning" />
-                        <Button label="Danger" className="p-button-raised p-button-danger" />
+                        <Button label="Primary" raised />
+                        <Button label="Secondary" raised severity="secondary" />
+                        <Button label="Success" raised severity="success" />
+                        <Button label="Info" raised severity="info" />
+                        <Button label="Warning" raised severity="warning" />
+                        <Button label="Help" raised severity="help" />
+                        <Button label="Danger" raised severity="danger" />
                     </div>
                 </div>
 
                 <div className="card">
                     <h5>Rounded</h5>
                     <div className="flex flex-wrap gap-2">
-                        <Button label="Primary" className="p-button-rounded" />
-                        <Button label="Secondary" className="p-button-rounded p-button-secondary" />
-                        <Button label="Success" className="p-button-rounded p-button-success" />
-                        <Button label="Info" className="p-button-rounded p-button-info" />
-                        <Button label="Warning" className="p-button-rounded p-button-warning" />
-                        <Button label="Danger" className="p-button-rounded p-button-danger" />
+                        <Button label="Primary" rounded />
+                        <Button label="Secondary" severity="secondary" rounded />
+                        <Button label="Success" severity="success" rounded />
+                        <Button label="Info" severity="info" rounded />
+                        <Button label="Warning" severity="warning" rounded />
+                        <Button label="Help" severity="help" rounded />
+                        <Button label="Danger" severity="danger" rounded />
                     </div>
                 </div>
 
                 <div className="card">
                     <h5>Rounded Icons</h5>
                     <div className="flex flex-wrap gap-2">
-                        <Button icon="pi pi-star" className="p-button-rounded" />
-                        <Button icon="pi pi-bookmark" className="p-button-rounded p-button-secondary" />
-                        <Button icon="pi pi-check" className="p-button-rounded p-button-success" />
-                        <Button icon="pi pi-search" className="p-button-rounded p-button-info" />
-                        <Button icon="pi pi-user" className="p-button-rounded p-button-warning" />
-                        <Button icon="pi pi-sign-out" className="p-button-rounded p-button-danger" />
+                        <Button icon="pi pi-check" rounded />
+                        <Button icon="pi pi-bookmark" rounded severity="secondary" />
+                        <Button icon="pi pi-search" rounded severity="success" />
+                        <Button icon="pi pi-user" rounded severity="info" />
+                        <Button icon="pi pi-bell" rounded severity="warning" />
+                        <Button icon="pi pi-heart" rounded severity="help" />
+                        <Button icon="pi pi-times" rounded severity="danger" />
                     </div>
                 </div>
 
                 <div className="card">
                     <h5>Rounded Text</h5>
                     <div className="flex flex-wrap gap-2">
-                        <Button icon="pi pi-check" className="p-button-rounded p-button-text" />
-                        <Button icon="pi pi-bookmark" className="p-button-rounded p-button-secondary p-button-text" />
-                        <Button icon="pi pi-search" className="p-button-rounded p-button-success p-button-text" />
-                        <Button icon="pi pi-user" className="p-button-rounded p-button-info p-button-text" />
-                        <Button icon="pi pi-bell" className="p-button-rounded p-button-warning p-button-text" />
-                        <Button icon="pi pi-heart" className="p-button-rounded p-button-help p-button-text" />
-                        <Button icon="pi pi-times" className="p-button-rounded p-button-danger p-button-text" />
-                        <Button icon="pi pi-filter" className="p-button-rounded p-button-plain p-button-text" />
+                        <Button icon="pi pi-check" rounded text />
+                        <Button icon="pi pi-bookmark" rounded severity="secondary" text />
+                        <Button icon="pi pi-search" rounded severity="success" text />
+                        <Button icon="pi pi-user" rounded severity="info" text />
+                        <Button icon="pi pi-bell" rounded severity="warning" text />
+                        <Button icon="pi pi-heart" rounded severity="help" text />
+                        <Button icon="pi pi-times" rounded severity="danger" text />
+                        <Button icon="pi pi-filter" rounded text className="p-button-plain" />
                     </div>
                 </div>
 
                 <div className="card">
                     <h5>Rounded Outlined</h5>
                     <div className="flex flex-wrap gap-2">
-                        <Button icon="pi pi-check" className="p-button-rounded p-button-outlined" />
-                        <Button icon="pi pi-bookmark" className="p-button-rounded p-button-secondary p-button-outlined" />
-                        <Button icon="pi pi-search" className="p-button-rounded p-button-success p-button-outlined" />
-                        <Button icon="pi pi-user" className="p-button-rounded p-button-info p-button-outlined" />
-                        <Button icon="pi pi-bell" className="p-button-rounded p-button-warning p-button-outlined" />
-                        <Button icon="pi pi-heart" className="p-button-rounded p-button-help p-button-outlined" />
-                        <Button icon="pi pi-times" className="p-button-rounded p-button-danger p-button-outlined" />
+                        <Button outlined rounded icon="pi pi-check" />
+                        <Button rounded outlined severity="secondary" icon="pi pi-bookmark" />
+                        <Button outlined rounded severity="success" icon="pi pi-search" />
+                        <Button rounded outlined severity="info" icon="pi pi-user" />
+                        <Button icon="pi pi-bell" rounded outlined severity="warning" />
+                        <Button icon="pi pi-heart" rounded outlined severity="help" />
+                        <Button icon="pi pi-times" rounded outlined severity="danger" />
                     </div>
                 </div>
 

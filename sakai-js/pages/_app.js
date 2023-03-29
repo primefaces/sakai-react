@@ -9,11 +9,7 @@ import '../styles/demo/Demos.scss';
 
 export default function MyApp({ Component, pageProps }) {
     if (Component.getLayout) {
-        return (
-            <LayoutProvider>
-                {Component.getLayout(<Component {...pageProps} />)}
-            </LayoutProvider>
-        )
+        return <LayoutProvider>{Component.getLayout(<Component {...pageProps} />)}</LayoutProvider>;
     } else {
         return (
             <LayoutProvider>

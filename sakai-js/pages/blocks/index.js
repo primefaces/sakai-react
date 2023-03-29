@@ -18,8 +18,8 @@ const BlocksDemo = () => {
             <div className="text-6xl text-primary font-bold mb-3">your visitors deserve to see</div>
             <p className="mt-0 mb-4 text-700 line-height-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
 
-            <Button label="Learn More" type="button" className="mr-3 p-button-raised"></Button>
-            <Button label="Live Demo" type="button" className="p-button-outlined"></Button>
+            <Button label="Learn More" raised className="mr-3"></Button>
+            <Button label="Live Demo" className="p-button-outlined"></Button>
         </section>
     </div>
     <div className="col-12 md:col-6 overflow-hidden">
@@ -206,7 +206,7 @@ const BlocksDemo = () => {
         <div className="text-blue-600 font-bold mb-3"><i className="pi pi-discord"></i>&nbsp;POWERED BY DISCORD</div>
         <div className="text-900 font-bold text-5xl mb-3">Join Our Design Community</div>
         <div className="text-700 text-2xl mb-5">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit numquam eligendi quos.</div>
-        <Button label="Join Now" icon="pi pi-discord" className="font-bold px-5 py-3 p-button-raised p-button-rounded white-space-nowrap"></Button>
+        <Button label="Join Now" icon="pi pi-discord" rounded raised className="font-bold px-5 py-3 white-space-nowrap"></Button>
     </div>
 </div>
     `;
@@ -429,8 +429,8 @@ const BlocksDemo = () => {
                             <div className="text-6xl text-primary font-bold mb-3">your visitors deserve to see</div>
                             <p className="mt-0 mb-4 text-700 line-height-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
 
-                            <Button label="Learn More" type="button" className="mr-3 p-button-raised"></Button>
-                            <Button label="Live Demo" type="button" className="p-button-outlined"></Button>
+                            <Button label="Learn More" type="button" raised className="mr-3 "></Button>
+                            <Button label="Live Demo" type="button" outlined></Button>
                         </section>
                     </div>
                     <div className="col-12 md:col-6 overflow-hidden">
@@ -619,7 +619,7 @@ const BlocksDemo = () => {
                         </div>
                         <div className="text-900 font-bold text-5xl mb-3">Join Our Design Community</div>
                         <div className="text-700 text-2xl mb-5">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit numquam eligendi quos.</div>
-                        <Button label="Join Now" icon="pi pi-discord" className="font-bold px-5 py-3 p-button-raised p-button-rounded white-space-nowrap"></Button>
+                        <Button label="Join Now" icon="pi pi-discord" rounded raised className="font-bold px-5 py-3 white-space-nowrap"></Button>
                     </div>
                 </div>
             </BlockViewer>

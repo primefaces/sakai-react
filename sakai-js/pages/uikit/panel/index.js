@@ -38,13 +38,13 @@ const PanelDemo = () => {
         return (
             <>
                 <Button label="New" icon="pi pi-plus" style={{ marginRight: '.5em' }} />
-                <Button label="Open" icon="pi pi-folder-open" className="p-button-secondary" />
+                <Button label="Open" icon="pi pi-folder-open" severity="secondary" />
 
                 <i className="pi pi-bars p-toolbar-separator" style={{ marginRight: '.5em' }}></i>
 
-                <Button icon="pi pi-check" className="p-button-success" style={{ marginRight: '.5em' }} />
-                <Button icon="pi pi-trash" className="p-button-warning" style={{ marginRight: '.5em' }} />
-                <Button icon="pi pi-print" className="p-button-danger" />
+                <Button icon="pi pi-check" severity="sucess" style={{ marginRight: '.5em' }} />
+                <Button icon="pi pi-trash" severity="warning" style={{ marginRight: '.5em' }} />
+                <Button icon="pi pi-print" severity="danger" />
             </>
         );
     };
@@ -52,7 +52,7 @@ const PanelDemo = () => {
     const cardHeader = (
         <div className="flex align-items-center justify-content-between mb-0 p-3 pb-0">
             <h5 className="m-0">Card</h5>
-            <Button icon="pi pi-plus" className="p-button-text" onClick={(event) => menu1.current.toggle(event)} />
+            <Button icon="pi pi-plus" text onClick={(event) => menu1.current.toggle(event)} />
             <Menu
                 ref={menu1}
                 popup
@@ -193,7 +193,7 @@ const PanelDemo = () => {
                             </p>
 
                             <Divider align="right">
-                                <Button label="Button" icon="pi pi-search" className="p-button-outlined"></Button>
+                                <Button label="Button" icon="pi pi-search" outlined></Button>
                             </Divider>
 
                             <p>
@@ -210,21 +210,15 @@ const PanelDemo = () => {
                     <h5>Splitter</h5>
                     <Splitter style={{ height: '300px' }}>
                         <SplitterPanel size={30} minSize={10}>
-                            <div className="h-full flex align-items-center justify-content-center">
-                                Panel 1
-                            </div>
+                            <div className="h-full flex align-items-center justify-content-center">Panel 1</div>
                         </SplitterPanel>
                         <SplitterPanel size={70}>
                             <Splitter layout="vertical">
                                 <SplitterPanel size={50} minSize={10}>
-                                    <div className="h-full flex align-items-center justify-content-center">
-                                        Panel 2
-                                    </div>
+                                    <div className="h-full flex align-items-center justify-content-center">Panel 2</div>
                                 </SplitterPanel>
                                 <SplitterPanel size={50} minSize={10}>
-                                    <div className="h-full flex align-items-center justify-content-center">
-                                        Panel 3
-                                    </div>
+                                    <div className="h-full flex align-items-center justify-content-center">Panel 3</div>
                                 </SplitterPanel>
                             </Splitter>
                         </SplitterPanel>

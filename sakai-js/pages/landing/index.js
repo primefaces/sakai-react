@@ -52,8 +52,8 @@ const LandingPage = () => {
                             </li>
                         </ul>
                         <div className="flex justify-content-between lg:block border-top-1 lg:border-top-none surface-border py-3 lg:py-0 mt-3 lg:mt-0">
-                            <Button label="Login" className="p-button-text p-button-rounded border-none font-light line-height-2 text-blue-500"></Button>
-                            <Button label="Register" className="p-button-rounded border-none ml-5 font-light line-height-2 bg-blue-500 text-white"></Button>
+                            <Button label="Login" text rounded className="border-none font-light line-height-2 text-blue-500"></Button>
+                            <Button label="Register" rounded className="border-none ml-5 font-light line-height-2 bg-blue-500 text-white"></Button>
                         </div>
                     </div>
                 </div>
@@ -68,7 +68,7 @@ const LandingPage = () => {
                             <span className="font-light block">Eu sem integer</span>eget magna fermentum
                         </h1>
                         <p className="font-normal text-2xl line-height-3 md:mt-3 text-gray-700">Sed blandit libero volutpat sed cras. Fames ac turpis egestas integer. Placerat in egestas erat... </p>
-                        <Button type="button" label="Get Started" className="p-button-rounded text-xl border-none mt-3 bg-blue-500 font-normal line-height-3 px-3 text-white"></Button>
+                        <Button label="Get Started" rounded className="text-xl border-none mt-3 bg-blue-500 font-normal line-height-3 px-3 text-white"></Button>
                     </div>
                     <div className="flex justify-content-center md:justify-content-end">
                         <img src={`${contextPath}/demo/images/landing/screen-1.png`} alt="Hero Image" className="w-9 md:w-auto" />
@@ -323,7 +323,7 @@ const LandingPage = () => {
                                 <div className="my-5 text-center">
                                     <span className="text-5xl font-bold mr-2 text-900">$0</span>
                                     <span className="text-600">per month</span>
-                                    <Button label="Get Started" className="block mx-auto mt-4 p-button-rounded border-none ml-3 font-light line-height-2 bg-blue-500 text-white"></Button>
+                                    <Button label="Get Started" rounded className="block mx-auto mt-4 border-none ml-3 font-light line-height-2 bg-blue-500 text-white"></Button>
                                 </div>
                                 <Divider className="w-full bg-surface-200"></Divider>
                                 <ul className="my-5 list-none p-0 flex text-900 flex-column">
@@ -354,7 +354,7 @@ const LandingPage = () => {
                                 <div className="my-5 text-center">
                                     <span className="text-5xl font-bold mr-2 text-900">$1</span>
                                     <span className="text-600">per month</span>
-                                    <Button label="Try Free" className="block mx-auto mt-4 p-button-rounded border-none ml-3 font-light line-height-2 bg-blue-500 text-white"></Button>
+                                    <Button label="Try Free" rounded className="block mx-auto mt-4 border-none ml-3 font-light line-height-2 bg-blue-500 text-white"></Button>
                                 </div>
                                 <Divider className="w-full bg-surface-200"></Divider>
                                 <ul className="my-5 list-none p-0 flex text-900 flex-column">
@@ -385,7 +385,7 @@ const LandingPage = () => {
                                 <div className="my-5 text-center">
                                     <span className="text-5xl font-bold mr-2 text-900">$999</span>
                                     <span className="text-600">per month</span>
-                                    <Button label="Get a Quote" className="block mx-auto mt-4 p-button-rounded border-none ml-3 font-light line-height-2 bg-blue-500 text-white"></Button>
+                                    <Button label="Get a Quote" rounded className="block mx-auto mt-4 border-none ml-3 font-light line-height-2 bg-blue-500 text-white"></Button>
                                 </div>
                                 <Divider className="w-full bg-surface-200"></Divider>
                                 <ul className="my-5 list-none p-0 flex text-900 flex-column">
