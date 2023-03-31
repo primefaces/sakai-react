@@ -10,7 +10,7 @@
 
 **Implemented New Features and Enhancements**
 
--   Upgrade to PrimeReact 9.2.0
+-   Upgrade to PrimeReact 9.2.2
 -   Upgrade to PrimeFlex 3.3.0
 -   Upgrade to Next 13.2.3
 -   Update other dependencies

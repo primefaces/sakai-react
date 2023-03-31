@@ -10,7 +10,7 @@ const Documentation = () => {
                 <div className="col-12">
                     <div className="card docs">
                         <h4>Current Version</h4>
-                        <p>React 18.x and PrimeReact 9.x</p>
+                        <p>Next v13, React v18 with PrimeReact v9</p>
 
                         <h5>Getting Started</h5>
                         <p>
