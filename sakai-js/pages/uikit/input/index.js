@@ -89,10 +89,8 @@ export const InputDemo = () => {
     ];
 
     useEffect(() => {
-        const countryService = new CountryService();
-        const nodeService = new NodeService();
-        countryService.getCountries().then((data) => setAutoValue(data));
-        nodeService.getTreeNodes().then((data) => setTreeSelectNodes(data));
+        CountryService.getCountries().then((data) => setAutoValue(data));
+        NodeService.getTreeNodes().then((data) => setTreeSelectNodes(data));
     }, []);
 
     const searchCountry = (event) => {

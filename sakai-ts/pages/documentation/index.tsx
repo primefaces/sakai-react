@@ -24,34 +24,40 @@ const Documentation = () => {
                             </a>{' '}
                             from GitHub and install the dependencies with npm or yarn.
                         </p>
-                        <CodeHighlight>
-                            {`
+                        <pre className="app-code">
+                            <code>
+                                {`
 "npm install" or "yarn"
 `}
-                        </CodeHighlight>
+                            </code>
+                        </pre>
 
                         <p>
                             Next step is running the application using the start script and navigate to <b>http://localhost:3000/</b> to view the application. That is it, you may now start with the development of your application using the Sakai
                             template.
                         </p>
 
-                        <CodeHighlight>
-                            {`
+                        <pre className="app-code">
+                            <code>
+                                {`
 "npm run dev" or "yarn dev"
 `}
-                        </CodeHighlight>
+                            </code>
+                        </pre>
 
                         <h5>Dependencies</h5>
                         <p>Dependencies of Sakai are listed below and needs to be defined at package.json.</p>
 
-                        <CodeHighlight lang="js">
-                            {`
+                        <pre className="app-code" lang="js">
+                            <code>
+                                {`
 "primereact": "^9.2.2",                    //required: PrimeReact components
 "primeicons": "^6.0.1",                    //required: Icons
 "primeflex": "^3.3.0",                     //required: Utility CSS classes
 "react-transition-group": "^4.4.1",     //required: PrimeReact animations
 `}
-                        </CodeHighlight>
+                            </code>
+                        </pre>
 
                         <h5>Structure</h5>
                         <p>Sakai consists of a couple folders, demos and core has been separated so that you can easily remove what is not necessary for your application.</p>
@@ -92,7 +98,7 @@ const Documentation = () => {
                         <p>Only the folders that are related to the layout needs to move in to your project. We&#39;ve created a short tutorial with details.</p>
 
                         <div className={styles['video-container']}>
-                            <iframe className={styles['video']} width="560" height="315" src="https://www.youtube.com/embed/jnm0_U6zJFY" frameBorder="0" allowFullScreen></iframe>
+                            <iframe className={styles['video']} width="560" height="315" src="https://www.youtube.com/embed/jnm0_U6zJFY" style={{ border: 'none' }} allowFullScreen></iframe>
                         </div>
 
                         <h5>PrimeReact Theme</h5>
@@ -106,14 +112,16 @@ const Documentation = () => {
                         </p>
 
                         <h6>src/layout/_variables.scss</h6>
-                        <CodeHighlight lang="scss">
-                            {`
+                        <pre className="app-code" lang="scss">
+                            <code>
+                                {`
 /* General */
 $scale:14px;                    /* initial font size */ 
 $borderRadius:12px;             /* border radius of layout element e.g. card, sidebar */ 
 $transitionDuration:.2s;        /* transition duration of layout elements e.g. sidebar */ 
 `}
-                        </CodeHighlight>
+                            </code>
+                        </pre>
                     </div>
                 </div>
             </div>

@@ -36,8 +36,7 @@ const FloatLabelDemo = () => {
     ];
 
     useEffect(() => {
-        const countryService = new CountryService();
-        countryService.getCountries().then((countries) => {
+        CountryService.getCountries().then((countries) => {
             setCountries(countries);
         });
     }, []);

@@ -9,7 +9,6 @@ import { OverlayPanel } from 'primereact/overlaypanel';
 import { InputText } from 'primereact/inputtext';
 import { confirmPopup, ConfirmPopup } from 'primereact/confirmpopup';
 import { ProductService } from '../../../demo/service/ProductService';
-import getConfig from 'next/config';
 
 const OverlayDemo = () => {
     const [displayBasic, setDisplayBasic] = useState(false);
@@ -24,7 +23,6 @@ const OverlayDemo = () => {
     const op = useRef(null);
     const op2 = useRef(null);
     const toast = useRef(null);
-    const contextPath = getConfig().publicRuntimeConfig.contextPath;
 
     const accept = () => {
         toast.current.show({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted', life: 3000 });
@@ -45,8 +43,7 @@ const OverlayDemo = () => {
     };
 
     useEffect(() => {
-        const productService = new ProductService();
-        productService.getProductsSmall().then((data) => setProducts(data));
+        ProductService.getProductsSmall().then((data) => setProducts(data));
     }, []);
 
     const toggle = (event) => {
@@ -67,7 +64,7 @@ const OverlayDemo = () => {
     };
 
     const basicDialogFooter = <Button type="button" label="OK" onClick={() => setDisplayBasic(false)} icon="pi pi-check" severity="secondary" />;
-    const imageBodyTemplate = (data) => <img src={`${contextPath}/demo/images/product/${data.image}`} alt={data.image} className="product-image" width="60" style={{ boxShadow: '0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)' }} />;
+    const imageBodyTemplate = (data) => <img src={`/demo/images/product/${data.image}`} alt={data.image} className="product-image" width="60" style={{ boxShadow: '0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)' }} />;
     const priceBodyTemplate = (data) => formatCurrency(data.price);
     const confirmationDialogFooter = (
         <>
@@ -102,7 +99,7 @@ const OverlayDemo = () => {
                             <div>
                                 <Button type="button" label="Image" onClick={toggle} severity="success" />
                                 <OverlayPanel ref={op} appendTo={typeof window !== 'undefined' ? document.body : null} showCloseIcon>
-                                    <img src={`${contextPath}/demo/images/nature/nature9.jpg`} alt="nature1" />
+                                    <img src="/demo/images/nature/nature9.jpg" alt="nature1" />
                                 </OverlayPanel>
                             </div>
                             <div>

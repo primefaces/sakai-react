@@ -11,9 +11,8 @@ const TreeDemo = () => {
     const [selectedTreeTableNodeKeys, setSelectedTreeTableNodeKeys] = useState([]);
 
     useEffect(() => {
-        const nodeService = new NodeService();
-        nodeService.getTreeNodes().then((data) => setTreeNodes(data));
-        nodeService.getTreeTableNodes().then((data) => setTreeTableNodes(data));
+        NodeService.getTreeNodes().then((data) => setTreeNodes(data));
+        NodeService.getTreeTableNodes().then((data) => setTreeTableNodes(data));
     }, []);
 
     return (

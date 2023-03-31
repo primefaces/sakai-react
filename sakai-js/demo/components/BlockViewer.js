@@ -40,7 +40,11 @@ const BlockViewer = (props) => {
                         </div>
                     )}
 
-                    {blockView === 'CODE' && <CodeHighlight>{props.code}</CodeHighlight>}
+                    {blockView === 'CODE' && (
+                        <pre className="app-code">
+                            <code>{props.code}</code>
+                        </pre>
+                    )}
                 </div>
             </div>
         </div>

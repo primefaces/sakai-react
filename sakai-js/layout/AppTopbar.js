@@ -1,4 +1,3 @@
-import getConfig from 'next/config';
 import Link from 'next/link';
 import Router, { useRouter } from 'next/router';
 import { classNames } from 'primereact/utils';
@@ -10,7 +9,6 @@ const AppTopbar = forwardRef((props, ref) => {
     const menubuttonRef = useRef(null);
     const topbarmenuRef = useRef(null);
     const topbarmenubuttonRef = useRef(null);
-    const contextPath = getConfig().publicRuntimeConfig.contextPath;
 
     useImperativeHandle(ref, () => ({
         menubutton: menubuttonRef.current,
@@ -21,7 +19,7 @@ const AppTopbar = forwardRef((props, ref) => {
     return (
         <div className="layout-topbar">
             <Link href="/" className="layout-topbar-logo">
-                <img src={`${contextPath}/layout/images/logo-${layoutConfig.colorScheme !== 'light' ? 'white' : 'dark'}.svg`} width="47.22px" height={'35px'} widt={'true'} alt="logo" />
+                <img src={`/layout/images/logo-${layoutConfig.colorScheme !== 'light' ? 'white' : 'dark'}.svg`} width="47.22px" height={'35px'} widt={'true'} alt="logo" />
                 <span>SAKAI</span>
             </Link>
 

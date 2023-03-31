@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import getConfig from 'next/config';
+
 import React, { useContext } from 'react';
 import AppMenuitem from './AppMenuitem';
 import { LayoutContext } from './context/layoutcontext';
@@ -9,7 +9,7 @@ import { AppMenuItem } from '../types/types';
 
 const AppMenu = () => {
     const { layoutConfig } = useContext(LayoutContext);
-    const contextPath = getConfig().publicRuntimeConfig.contextPath;
+
     const model: AppMenuItem[] = [
         {
             label: 'Home',
@@ -173,7 +173,7 @@ const AppMenu = () => {
                 })}
 
                 <Link href="https://www.primefaces.org/primeblocks-react" target="_blank" style={{ cursor: 'pointer' }}>
-                    <img alt="Prime Blocks" className="w-full mt-3" src={`${contextPath}/layout/images/banner-primeblocks${layoutConfig.colorScheme === 'light' ? '' : '-dark'}.png`} />
+                    <img alt="Prime Blocks" className="w-full mt-3" src={`/layout/images/banner-primeblocks${layoutConfig.colorScheme === 'light' ? '' : '-dark'}.png`} />
                 </Link>
             </ul>
         </MenuProvider>

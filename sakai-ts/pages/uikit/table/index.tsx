@@ -16,7 +16,7 @@ import { ToggleButton } from 'primereact/togglebutton';
 import { Rating } from 'primereact/rating';
 import { CustomerService } from '../../../demo/service/CustomerService';
 import { ProductService } from '../../../demo/service/ProductService';
-import getConfig from 'next/config';
+
 import { InputText } from 'primereact/inputtext';
 import { Demo } from '../../../types/types';
 
@@ -32,7 +32,6 @@ const TableDemo = () => {
     const [globalFilterValue1, setGlobalFilterValue1] = useState('');
     const [expandedRows, setExpandedRows] = useState<any[] | DataTableExpandedRows>([]);
     const [allExpanded, setAllExpanded] = useState(false);
-    const contextPath = getConfig().publicRuntimeConfig.contextPath;
 
     interface Represenative {
         name: string;
@@ -53,9 +52,6 @@ const TableDemo = () => {
     ];
 
     const statuses = ['unqualified', 'qualified', 'new', 'negotiation', 'renewal', 'proposal'];
-
-    const customerService = new CustomerService();
-    const productService = new ProductService();
 
     const clearFilter1 = () => {
         initFilters1();
@@ -85,16 +81,16 @@ const TableDemo = () => {
     useEffect(() => {
         setLoading2(true);
 
-        customerService.getCustomersLarge().then((data) => {
+        CustomerService.getCustomersLarge().then((data) => {
             setCustomers1(getCustomers(data));
             setLoading1(false);
         });
-        customerService.getCustomersLarge().then((data) => {
+        CustomerService.getCustomersLarge().then((data) => {
             setCustomers2(getCustomers(data));
             setLoading2(false);
         });
-        customerService.getCustomersMedium().then((data) => setCustomers3(data));
-        productService.getProductsWithOrdersSmall().then((data) => setProducts(data));
+        CustomerService.getCustomersMedium().then((data) => setCustomers3(data));
+        ProductService.getProductsWithOrdersSmall().then((data) => setProducts(data));
 
         initFilters1();
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -144,7 +140,7 @@ const TableDemo = () => {
     const countryBodyTemplate = (rowData: Demo.Customer) => {
         return (
             <React.Fragment>
-                <img alt="flag" src={`${contextPath}/demo/images/flag/flag_placeholder.png`} className={`flag flag-${rowData.country?.code}`} width={30} />
+                <img alt="flag" src={`/demo/images/flag/flag_placeholder.png`} className={`flag flag-${rowData.country?.code}`} width={30} />
                 <span style={{ marginLeft: '.5em', verticalAlign: 'middle' }}>{rowData.country?.name}</span>
             </React.Fragment>
         );
@@ -164,7 +160,7 @@ const TableDemo = () => {
             <React.Fragment>
                 <img
                     alt={representative.name}
-                    src={`${contextPath}/demo/images/avatar/${representative.image}`}
+                    src={`/demo/images/avatar/${representative.image}`}
                     onError={(e) => (e.currentTarget.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png')}
                     width={32}
                     style={{ verticalAlign: 'middle' }}
@@ -186,7 +182,7 @@ const TableDemo = () => {
     const representativesItemTemplate = (option: Represenative) => {
         return (
             <div className="p-multiselect-representative-option">
-                <img alt={option.name} src={`${contextPath}/demo/images/avatar/${option.image}`} width={32} style={{ verticalAlign: 'middle' }} />
+                <img alt={option.name} src={`/demo/images/avatar/${option.image}`} width={32} style={{ verticalAlign: 'middle' }} />
                 <span style={{ marginLeft: '.5em', verticalAlign: 'middle' }}>{option.name}</span>
             </div>
         );
@@ -275,7 +271,7 @@ const TableDemo = () => {
     };
 
     const imageBodyTemplate = (rowData: Demo.Product) => {
-        return <img src={`${contextPath}/demo/images/product/${rowData.image}`} onError={(e) => (e.currentTarget.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png')} alt={rowData.image} className="shadow-2" width={100} />;
+        return <img src={`/demo/images/product/${rowData.image}`} onError={(e) => (e.currentTarget.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png')} alt={rowData.image} className="shadow-2" width={100} />;
     };
 
     const priceBodyTemplate = (rowData: Demo.Product) => {
@@ -311,7 +307,7 @@ const TableDemo = () => {
     const headerTemplate = (data: Demo.Customer) => {
         return (
             <React.Fragment>
-                <img alt={data.representative.name} src={`${contextPath}/demo/images/avatar/${data.representative.image}`} width="32" style={{ verticalAlign: 'middle' }} />
+                <img alt={data.representative.name} src={`/demo/images/avatar/${data.representative.image}`} width="32" style={{ verticalAlign: 'middle' }} />
                 <span className="font-bold ml-2">{data.representative.name}</span>
             </React.Fragment>
         );

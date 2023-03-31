@@ -1,4 +1,3 @@
-import getConfig from 'next/config';
 import { Button } from 'primereact/button';
 import { Chart } from 'primereact/chart';
 import { Column } from 'primereact/column';
@@ -36,7 +35,6 @@ const Dashboard = () => {
     const menu2 = useRef(null);
     const [lineOptions, setLineOptions] = useState(null);
     const { layoutConfig } = useContext(LayoutContext);
-    const contextPath = getConfig().publicRuntimeConfig.contextPath;
 
     const applyLightTheme = () => {
         const lineOptions = {
@@ -103,8 +101,7 @@ const Dashboard = () => {
     };
 
     useEffect(() => {
-        const productService = new ProductService();
-        productService.getProductsSmall().then((data) => setProducts(data));
+        ProductService.getProductsSmall().then((data) => setProducts(data));
     }, []);
 
     useEffect(() => {
@@ -186,7 +183,7 @@ const Dashboard = () => {
                 <div className="card">
                     <h5>Recent Sales</h5>
                     <DataTable value={products} rows={5} paginator responsiveLayout="scroll">
-                        <Column header="Image" body={(data) => <img className="shadow-2" src={`${contextPath}/demo/images/product/${data.image}`} alt={data.image} width="50" />} />
+                        <Column header="Image" body={(data) => <img className="shadow-2" src={`/demo/images/product/${data.image}`} alt={data.image} width="50" />} />
                         <Column field="name" header="Name" sortable style={{ width: '35%' }} />
                         <Column field="price" header="Price" sortable style={{ width: '35%' }} body={(data) => formatCurrency(data.price)} />
                         <Column

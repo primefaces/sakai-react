@@ -9,12 +9,10 @@ import { Chip } from 'primereact/chip';
 import { Skeleton } from 'primereact/skeleton';
 import { ScrollPanel } from 'primereact/scrollpanel';
 import { ScrollTop } from 'primereact/scrolltop';
-import getConfig from 'next/config';
 
 const MiscDemo = () => {
     const [value, setValue] = useState(0);
     const interval = useRef(null);
-    const contextPath = getConfig().publicRuntimeConfig.contextPath;
 
     useEffect(() => {
         let val = value;
@@ -97,11 +95,11 @@ const MiscDemo = () => {
                     <h4>Avatar</h4>
                     <h5>Avatar Group</h5>
                     <AvatarGroup className="mb-3">
-                        <Avatar image={`${contextPath}/demo/images/avatar/amyelsner.png`} size="large" shape="circle"></Avatar>
-                        <Avatar image={`${contextPath}/demo/images/avatar/asiyajavayant.png`} size="large" shape="circle"></Avatar>
-                        <Avatar image={`${contextPath}/demo/images/avatar/onyamalimba.png`} size="large" shape="circle"></Avatar>
-                        <Avatar image={`${contextPath}/demo/images/avatar/ionibowcher.png`} size="large" shape="circle"></Avatar>
-                        <Avatar image={`${contextPath}/demo/images/avatar/xuxuefeng.png`} size="large" shape="circle"></Avatar>
+                        <Avatar image={`/demo/images/avatar/amyelsner.png`} size="large" shape="circle"></Avatar>
+                        <Avatar image={`/demo/images/avatar/asiyajavayant.png`} size="large" shape="circle"></Avatar>
+                        <Avatar image={`/demo/images/avatar/onyamalimba.png`} size="large" shape="circle"></Avatar>
+                        <Avatar image={`/demo/images/avatar/ionibowcher.png`} size="large" shape="circle"></Avatar>
+                        <Avatar image={`/demo/images/avatar/xuxuefeng.png`} size="large" shape="circle"></Avatar>
                         <Avatar label="+2" shape="circle" size="large" style={{ backgroundColor: '#9c27b0', color: '#ffffff' }}></Avatar>
                     </AvatarGroup>
 
@@ -183,18 +181,18 @@ const MiscDemo = () => {
 
                     <h5>Image</h5>
                     <div className="flex align-items-center flex-wrap gap-1">
-                        <Chip label="Amy Elsner" image={`${contextPath}/demo/images/avatar/amyelsner.png`} />
-                        <Chip label="Asiya Javayant" image={`${contextPath}/demo/images/avatar/asiyajavayant.png`} />
-                        <Chip label="Onyama Limba" image={`${contextPath}/demo/images/avatar/onyamalimba.png`} />
-                        <Chip label="Xuxue Feng" image={`${contextPath}/demo/images/avatar/xuxuefeng.png`} removable />
+                        <Chip label="Amy Elsner" image={`/demo/images/avatar/amyelsner.png`} />
+                        <Chip label="Asiya Javayant" image={`/demo/images/avatar/asiyajavayant.png`} />
+                        <Chip label="Onyama Limba" image={`/demo/images/avatar/onyamalimba.png`} />
+                        <Chip label="Xuxue Feng" image={`/demo/images/avatar/xuxuefeng.png`} removable />
                     </div>
 
                     <h5>Styling</h5>
                     <div className="flex align-items-center flex-wrap gap-1 custom-chip">
                         <Chip label="Action" />
                         <Chip label="Apple" icon="pi pi-apple" />
-                        <Chip label="Onyama Limba" image={`${contextPath}/demo/images/avatar/onyamalimba.png`} />
-                        <Chip label="Xuxue Feng" image={`${contextPath}/demo/images/avatar/xuxuefeng.png`} removable />
+                        <Chip label="Onyama Limba" image={`/demo/images/avatar/onyamalimba.png`} />
+                        <Chip label="Xuxue Feng" image={`/demo/images/avatar/xuxuefeng.png`} removable />
                     </div>
                 </div>
 

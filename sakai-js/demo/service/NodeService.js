@@ -1,19 +1,13 @@
-import getConfig from 'next/config';
-
-export class NodeService {
-    constructor() {
-        this.contextPath = getConfig().publicRuntimeConfig.contextPath;
-    }
-
+export const NodeService = {
     getTreeNodes() {
-        return fetch(this.contextPath + '/demo/data/treenodes.json', { headers: { 'Cache-Control': 'no-cache' } })
+        return fetch('/demo/data/treenodes.json', { headers: { 'Cache-Control': 'no-cache' } })
             .then((res) => res.json())
             .then((d) => d.root);
-    }
+    },
 
     getTreeTableNodes() {
-        return fetch(this.contextPath + '/demo/data/treetablenodes.json', { headers: { 'Cache-Control': 'no-cache' } })
+        return fetch('/demo/data/treetablenodes.json', { headers: { 'Cache-Control': 'no-cache' } })
             .then((res) => res.json())
             .then((d) => d.root);
     }
-}
+};

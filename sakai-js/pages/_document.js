@@ -1,4 +1,3 @@
-import getConfig from 'next/config';
 import Document, { Head, Html, Main, NextScript } from 'next/document';
 
 class MyDocument extends Document {
@@ -8,12 +7,10 @@ class MyDocument extends Document {
     }
 
     render() {
-        const contextPath = getConfig().publicRuntimeConfig.contextPath;
-
         return (
             <Html lang="en">
                 <Head>
-                    <link id="theme-css" href={`${contextPath}/themes/lara-light-indigo/theme.css`} rel="stylesheet"></link>
+                    <link id="theme-css" href={`/themes/lara-light-indigo/theme.css`} rel="stylesheet"></link>
                 </Head>
                 <body>
                     <Main />

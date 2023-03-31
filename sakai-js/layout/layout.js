@@ -1,4 +1,3 @@
-import getConfig from 'next/config';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEventListener, useUnmountEffect } from 'primereact/hooks';
@@ -15,7 +14,7 @@ const Layout = (props) => {
     const { layoutConfig, layoutState, setLayoutState } = useContext(LayoutContext);
     const topbarRef = useRef(null);
     const sidebarRef = useRef(null);
-    const contextPath = getConfig().publicRuntimeConfig.contextPath;
+
     const router = useRouter();
     const [bindMenuOutsideClickListener, unbindMenuOutsideClickListener] = useEventListener({
         type: 'click',
@@ -117,7 +116,7 @@ const Layout = (props) => {
                 <meta property="og:description" content="The ultimate collection of design-agnostic, flexible and accessible React UI Components." />
                 <meta property="og:image" content="https://www.primefaces.org/static/social/sakai-nextjs.png"></meta>
                 <meta property="og:ttl" content="604800"></meta>
-                <link rel="icon" href={`${contextPath}/favicon.ico`} type="image/x-icon"></link>
+                <link rel="icon" href={`/favicon.ico`} type="image/x-icon"></link>
             </Head>
 
             <div className={containerClass}>

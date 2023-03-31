@@ -1,5 +1,5 @@
 import React from 'react';
-import getConfig from 'next/config';
+
 import Document, { Html, Head, Main, NextScript, DocumentInitialProps, DocumentContext } from 'next/document';
 
 export default class MyDocument extends Document {
@@ -9,12 +9,10 @@ export default class MyDocument extends Document {
     }
 
     render() {
-        const contextPath = getConfig().publicRuntimeConfig.contextPath;
-
         return (
             <Html lang="en">
                 <Head>
-                    <link id="theme-css" href={`${contextPath}/themes/lara-light-indigo/theme.css`} rel="stylesheet"></link>
+                    <link id="theme-css" href={`/themes/lara-light-indigo/theme.css`} rel="stylesheet"></link>
                 </Head>
                 <body>
                     <Main />
