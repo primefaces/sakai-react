@@ -1,6 +1,5 @@
 /* eslint-disable @next/next/no-sync-scripts */
 import React from 'react';
-import { CodeHighlight } from '../../demo/components/CodeHighlight';
 import styles from './index.module.css';
 
 const Documentation = () => {
@@ -41,8 +40,7 @@ const Documentation = () => {
                         <p>Dependencies of Sakai are listed below and needs to be defined at package.json.</p>
 
                         <pre className="app-code">
-                            <code>{`
-"primereact": "^9.2.2",                    //required: PrimeReact components
+                            <code>{`"primereact": "^9.2.2",                    //required: PrimeReact components
 "primeicons": "^6.0.1",                    //required: Icons
 "primeflex": "^3.3.0",                     //required: Utility CSS classes
 "react-transition-group": "^4.4.1",     //required: PrimeReact animations
@@ -50,10 +48,10 @@ const Documentation = () => {
                         </pre>
 
                         <h5>Structure</h5>
-                        <p>Sakai consists of a couple folders, demos and core has been separated so that you can easily remove what is not necessary for your application.</p>
+                        <p>Sakai consist of a couple of folders where demos and core layout have been separated.</p>
                         <ul className="line-height-3">
                             <li>
-                                <span className="text-primary font-medium">layout</span>: Main layout files, needs to be present
+                                <span className="text-primary font-medium">layout</span>: Main layout files
                             </li>
                             <li>
                                 <span className="text-primary font-medium">demo</span>: Contains demo related utilities and helpers
@@ -65,15 +63,39 @@ const Documentation = () => {
                                 <span className="text-primary font-medium">public/demo</span>: Assets used in demos
                             </li>
                             <li>
-                                <span className="text-primary font-medium">public/layout</span>: Assets used in layout such as logo
+                                <span className="text-primary font-medium">public/layout</span>: Assets used in layout such as a logo
                             </li>
                             <li>
-                                <span className="text-primary font-medium">styles/demo</span>: CSS files only used in demos
+                                <span className="text-primary font-medium">styles/demo</span>: Styles used in demos only
                             </li>
                             <li>
                                 <span className="text-primary font-medium">styles/layout</span>: SCSS files of the core layout
                             </li>
                         </ul>
+
+                        <h5>Default Configuration</h5>
+                        <p>
+                            Initial layout configuration can be defined at the <span className="text-primary font-medium">layout/context/layoutcontext.js</span> file, this step is optional and only necessary when customizing the defaults.
+                        </p>
+
+            <pre className="app-code">
+                <code>
+                    {`import React, { useState } from 'react';
+import Head from 'next/head';
+export const LayoutContext = React.createContext();
+
+export const LayoutProvider = (props) => {
+    const [layoutConfig, setLayoutConfig] = useState({
+        ripple: false,                          //toggles ripple on and off
+        inputStyle: 'outlined',                 //default style for input elements
+        menuMode: 'static',                     //layout mode of the menu, valid values are "static" or "overlay"
+        colorScheme: 'light',                   //color scheme of the template, valid values are "light", "dim" and "dark"
+        theme: 'lara-light-indigo',             //default component theme for PrimeReact
+        scale: 14                               //size of the body font size to scale the whole application
+    });
+}`}
+                </code>
+            </pre>
 
                         <h5>Menu</h5>
                         <p>
