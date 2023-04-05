@@ -43,7 +43,6 @@ const Documentation = () => {
                             <code>{`"primereact": "^9.2.2",                    //required: PrimeReact components
 "primeicons": "^6.0.1",                    //required: Icons
 "primeflex": "^3.3.0",                     //required: Utility CSS classes
-"react-transition-group": "^4.4.1",     //required: PrimeReact animations
 `}</code>
                         </pre>
 
@@ -78,9 +77,9 @@ const Documentation = () => {
                             Initial layout configuration can be defined at the <span className="text-primary font-medium">layout/context/layoutcontext.js</span> file, this step is optional and only necessary when customizing the defaults.
                         </p>
 
-            <pre className="app-code">
-                <code>
-                    {`import React, { useState } from 'react';
+                        <pre className="app-code">
+                            <code>
+                                {`import React, { useState } from 'react';
 import Head from 'next/head';
 export const LayoutContext = React.createContext();
 
@@ -94,8 +93,8 @@ export const LayoutProvider = (props) => {
         scale: 14                               //size of the body font size to scale the whole application
     });
 }`}
-                </code>
-            </pre>
+                            </code>
+                        </pre>
 
                         <h5>Menu</h5>
                         <p>

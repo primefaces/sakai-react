@@ -37,11 +37,7 @@ const AppConfig = (props: AppConfigProps) => {
     };
 
     const changeTheme = (theme: string, colorScheme: string) => {
-        const themeLink = document.getElementById('theme-css') as HTMLLinkElement;
-        const themeHref = themeLink ? themeLink.getAttribute('href') : null;
-        const newHref = themeHref ? themeHref.replace(layoutConfig.theme, theme) : null;
-
-        replaceLink(themeLink, newHref, () => {
+        PrimeReact.changeTheme(layoutConfig.theme, theme, 'theme-css', () => {
             setLayoutConfig((prevState: LayoutConfig) => ({ ...prevState, theme, colorScheme }));
         });
     };

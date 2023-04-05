@@ -33,36 +33,8 @@ const AppConfig = (props) => {
     };
 
     const changeTheme = (theme, colorScheme) => {
-        const themeLink = document.getElementById('theme-css');
-        const themeHref = themeLink ? themeLink.getAttribute('href') : null;
-        const newHref = themeHref ? themeHref.replace(layoutConfig.theme, theme) : null;
-
-        replaceLink(themeLink, newHref, () => {
+        PrimeReact.changeTheme(layoutConfig.theme, theme, 'theme-css', () => {
             setLayoutConfig((prevState) => ({ ...prevState, theme, colorScheme }));
-        });
-    };
-
-    const replaceLink = (linkElement, href, onComplete) => {
-        if (!linkElement || !href) {
-            return;
-        }
-
-        const id = linkElement.getAttribute('id');
-        const cloneLinkElement = linkElement.cloneNode(true);
-
-        cloneLinkElement.setAttribute('href', href);
-        cloneLinkElement.setAttribute('id', id + '-clone');
-
-        linkElement.parentNode.insertBefore(cloneLinkElement, linkElement.nextSibling);
-
-        cloneLinkElement.addEventListener('load', () => {
-            linkElement.remove();
-
-            const element = document.getElementById(id); // re-check
-            element && element.remove();
-
-            cloneLinkElement.setAttribute('id', id);
-            onComplete && onComplete();
         });
     };
 
