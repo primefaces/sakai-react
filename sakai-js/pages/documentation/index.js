@@ -78,9 +78,9 @@ const Documentation = () => {
                             Initial layout configuration can be defined at the <span className="text-primary font-medium">layout/context/layoutcontext.js</span> file, this step is optional and only necessary when customizing the defaults.
                         </p>
 
-                        <pre className="app-code">
-                            <code>
-                                {`import React, { useState } from 'react';
+            <pre className="app-code">
+                <code>
+                    {`import React, { useState } from 'react';
 import Head from 'next/head';
 export const LayoutContext = React.createContext();
 
@@ -94,8 +94,8 @@ export const LayoutProvider = (props) => {
         scale: 14                               //size of the body font size to scale the whole application
     });
 }`}
-                            </code>
-                        </pre>
+                </code>
+            </pre>
 
                         <h5>Menu</h5>
                         <p>

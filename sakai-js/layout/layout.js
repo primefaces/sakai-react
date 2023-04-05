@@ -62,14 +62,6 @@ const Layout = (props) => {
         DomHandler.removeClass('blocked-scroll');
     };
 
-    const onThemeChange = (event) => {
-        // if (event.theme.startsWith('md')) {
-        //     setRipple(true);
-        // }
-
-        props.onThemeChange(event.theme, event.dark);
-    };
-
     useEffect(() => {
         if (layoutState.overlayMenuActive || layoutState.staticMenuMobileActive) {
             bindMenuOutsideClickListener();
@@ -134,7 +126,7 @@ const Layout = (props) => {
                     <div className="layout-main">{props.children}</div>
                     <AppFooter />
                 </div>
-                <AppConfig onThemeChange={onThemeChange} />
+                <AppConfig />
                 <div className="layout-mask"></div>
             </div>
         </React.Fragment>
