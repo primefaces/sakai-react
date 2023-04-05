@@ -1,12 +1,20 @@
 # Changelog
 
+## 9.1.0
+
+**Implemented New Features and Enhancements**
+
+- Add typescript support
+
 ## 9.0.0
 
-###### \* Brings support to PrimeReact 9.x
+**Implemented New Features and Enhancements**
+
+- Updates PrimeReact to v9
 
 **Migration Guide**
 
--   Update theme files and layout files
+-   Update ./layout folder and ./public/layout assets
 
 **Implemented New Features and Enhancements**
 
