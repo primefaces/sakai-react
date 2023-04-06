@@ -106,7 +106,7 @@ export const LayoutProvider = (props) => {
                         </p>
 
                         <h5>Integration with Existing NextJS Applications</h5>
-                        <p>Only the folders that are related to the layout needs to move in to your project. We've created a short tutorial with details.</p>
+                        <p>Only the folders that are related to the layout needs to move in to your project. We&apos;ve created a short tutorial with details.</p>
 
                         <div className={styles['video-container']}>
                             <iframe className={styles['video']} width="560" height="315" src="https://www.youtube.com/embed/jnm0_U6zJFY" style={{ border: 'none' }} allowFullScreen></iframe>

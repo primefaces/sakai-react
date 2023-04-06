@@ -42,30 +42,6 @@ const AppConfig = (props: AppConfigProps) => {
         });
     };
 
-    const replaceLink = (linkElement: HTMLLinkElement, href: string | null, onComplete: Function) => {
-        if (!linkElement || !href) {
-            return;
-        }
-
-        const id = linkElement.getAttribute('id') as string;
-        const cloneLinkElement = linkElement.cloneNode(true) as HTMLLinkElement;
-
-        cloneLinkElement.setAttribute('href', href);
-        cloneLinkElement.setAttribute('id', id + '-clone');
-
-        linkElement.parentNode?.insertBefore(cloneLinkElement, linkElement.nextSibling);
-
-        cloneLinkElement.addEventListener('load', () => {
-            linkElement.remove();
-
-            const element = document.getElementById(id); // re-check
-            element && element.remove();
-
-            cloneLinkElement.setAttribute('id', id);
-            onComplete && onComplete();
-        });
-    };
-
     const decrementScale = () => {
         setLayoutConfig((prevState: LayoutConfig) => ({ ...prevState, scale: prevState.scale - 1 }));
     };
