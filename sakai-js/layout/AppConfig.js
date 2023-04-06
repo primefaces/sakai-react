@@ -61,19 +61,19 @@ const AppConfig = (props) => {
             </button>
 
             <Sidebar visible={layoutState.configSidebarVisible} onHide={onConfigSidebarHide} position="right" className="layout-config-sidebar w-20rem">
-                <h5>Scale</h5>
-                <div className="flex align-items-center">
-                    <Button icon="pi pi-minus" type="button" onClick={decrementScale} rounded text className="w-2rem h-2rem mr-2" disabled={layoutConfig.scale === scales[0]}></Button>
-                    <div className="flex gap-2 align-items-center">
-                        {scales.map((item) => {
-                            return <i className={classNames('pi pi-circle-fill', { 'text-primary-500': item === layoutConfig.scale, 'text-300': item !== layoutConfig.scale })} key={item}></i>;
-                        })}
-                    </div>
-                    <Button icon="pi pi-plus" type="button" onClick={incrementScale} rounded text className="w-2rem h-2rem ml-2" disabled={layoutConfig.scale === scales[scales.length - 1]}></Button>
-                </div>
-
                 {!props.simple && (
                     <>
+                        <h5>Scale</h5>
+                        <div className="flex align-items-center">
+                            <Button icon="pi pi-minus" type="button" onClick={decrementScale} rounded text className="w-2rem h-2rem mr-2" disabled={layoutConfig.scale === scales[0]}></Button>
+                            <div className="flex gap-2 align-items-center">
+                                {scales.map((item) => {
+                                    return <i className={classNames('pi pi-circle-fill', { 'text-primary-500': item === layoutConfig.scale, 'text-300': item !== layoutConfig.scale })} key={item}></i>;
+                                })}
+                            </div>
+                            <Button icon="pi pi-plus" type="button" onClick={incrementScale} rounded text className="w-2rem h-2rem ml-2" disabled={layoutConfig.scale === scales[scales.length - 1]}></Button>
+                        </div>
+
                         <h5>Menu Type</h5>
                         <div className="flex">
                             <div className="field-radiobutton flex-1">
@@ -85,23 +85,23 @@ const AppConfig = (props) => {
                                 <label htmlFor="mode2">Overlay</label>
                             </div>
                         </div>
+
+                        <h5>Input Style</h5>
+                        <div className="flex">
+                            <div className="field-radiobutton flex-1">
+                                <RadioButton name="inputStyle" value={'outlined'} checked={layoutConfig.inputStyle === 'outlined'} onChange={(e) => changeInputStyle(e)} inputId="outlined_input"></RadioButton>
+                                <label htmlFor="outlined_input">Outlined</label>
+                            </div>
+                            <div className="field-radiobutton flex-1">
+                                <RadioButton name="inputStyle" value={'filled'} checked={layoutConfig.inputStyle === 'filled'} onChange={(e) => changeInputStyle(e)} inputId="filled_input"></RadioButton>
+                                <label htmlFor="filled_input">Filled</label>
+                            </div>
+                        </div>
+
+                        <h5>Ripple Effect</h5>
+                        <InputSwitch checked={layoutConfig.ripple} onChange={(e) => changeRipple(e)}></InputSwitch>
                     </>
                 )}
-
-                <h5>Input Style</h5>
-                <div className="flex">
-                    <div className="field-radiobutton flex-1">
-                        <RadioButton name="inputStyle" value={'outlined'} checked={layoutConfig.inputStyle === 'outlined'} onChange={(e) => changeInputStyle(e)} inputId="outlined_input"></RadioButton>
-                        <label htmlFor="outlined_input">Outlined</label>
-                    </div>
-                    <div className="field-radiobutton flex-1">
-                        <RadioButton name="inputStyle" value={'filled'} checked={layoutConfig.inputStyle === 'filled'} onChange={(e) => changeInputStyle(e)} inputId="filled_input"></RadioButton>
-                        <label htmlFor="filled_input">Filled</label>
-                    </div>
-                </div>
-
-                <h5>Ripple Effect</h5>
-                <InputSwitch checked={layoutConfig.ripple} onChange={(e) => changeRipple(e)}></InputSwitch>
 
                 <h5>Bootstrap</h5>
                 <div className="grid">
