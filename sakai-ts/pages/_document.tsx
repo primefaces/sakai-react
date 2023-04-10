@@ -1,5 +1,4 @@
 import React from 'react';
-
 import Document, { Html, Head, Main, NextScript, DocumentInitialProps, DocumentContext } from 'next/document';
 
 export default class MyDocument extends Document {
