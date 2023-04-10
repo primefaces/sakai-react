@@ -1,5 +1,11 @@
 # Changelog
 
+## 9.1.1
+
+**Implemented New Features and Enhancements**
+
+- Add loading screen
+
 ## 9.1.0
 
 **Implemented New Features and Enhancements**
