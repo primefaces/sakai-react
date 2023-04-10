@@ -450,7 +450,7 @@ const LandingPage: Page = () => {
                                     <a className="line-height-3 text-xl block cursor-pointer mb-2 text-700">Discord</a>
                                     <a className="line-height-3 text-xl block cursor-pointer mb-2 text-700">
                                         Events
-                                        <img src="/demo/images/landing/new-badge.svg" className="ml-2" alt="new-badge" />
+                                        <img src="/demo/images/landing/new-badge.svg" className="ml-2" alt="badge" />
                                     </a>
                                     <a className="line-height-3 text-xl block cursor-pointer mb-2 text-700">FAQ</a>
                                     <a className="line-height-3 text-xl block cursor-pointer text-700">Blog</a>
