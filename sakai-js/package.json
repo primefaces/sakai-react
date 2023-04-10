@@ -1,21 +1,16 @@
 {
     "name": "sakai-react",
-    "version": "9.1.1",
+    "version": "9.1.2",
     "private": false,
     "scripts": {
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
-        "export": "next build && next export",
-        "lint": "next lint",
-        "format": "prettier --write \"**/**/*.{js,ts,tsx}\""
+        "lint": "next lint"
     },
     "dependencies": {
-        "@fullcalendar/core": "6.1.4",
-        "@fullcalendar/daygrid": "6.1.4",
-        "@fullcalendar/interaction": "6.1.4",
-        "@fullcalendar/react": "6.1.4",
-        "@fullcalendar/timegrid": "6.1.4",
+        "eslint": "8.38.0",
+        "eslint-config-next": "13.3.0",
         "chart.js": "4.2.1",
         "next": "13.2.3",
         "primeflex": "3.3.0",
@@ -25,9 +20,6 @@
         "react-dom": "18.2.0"
     },
     "devDependencies": {
-        "eslint": "8.35.0",
-        "eslint-config-next": "13.2.3",
-        "prettier": "2.8.4",
         "sass": "^1.58.3"
     }
 }
