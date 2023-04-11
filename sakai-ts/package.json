@@ -21,7 +21,7 @@
         "chart.js": "4.2.1",
         "primeflex": "3.3.0",
         "primeicons": "^6.0.1",
-        "primereact": "9.2.2",
+        "primereact": "9.2.3",
         "typescript": "5.0.4"
     },
     "devDependencies": {
