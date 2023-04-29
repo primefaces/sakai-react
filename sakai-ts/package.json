@@ -1,0 +1,30 @@
+{
+    "name": "sakai-react-typescript",
+    "version": "9.1.2",
+    "private": false,
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint"
+    },
+    "dependencies": {
+        "@types/node": "18.15.11",
+        "@types/react": "18.0.34",
+        "@types/react-dom": "18.0.11",
+        "@types/react-transition-group": "^4.4.1",
+        "eslint": "8.38.0",
+        "eslint-config-next": "13.3.0",
+        "next": "13.2.3",
+        "react": "18.2.0",
+        "react-dom": "18.2.0",
+        "chart.js": "4.2.1",
+        "primeflex": "3.3.0",
+        "primeicons": "^6.0.1",
+        "primereact": "9.2.3",
+        "typescript": "5.0.4"
+    },
+    "devDependencies": {
+        "sass": "^1.58.3"
+    }
+}

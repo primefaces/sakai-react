@@ -1,0 +1,25 @@
+{
+    "name": "sakai-react",
+    "version": "9.1.2",
+    "private": false,
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint"
+    },
+    "dependencies": {
+        "eslint": "8.38.0",
+        "eslint-config-next": "13.3.0",
+        "chart.js": "4.2.1",
+        "next": "13.2.3",
+        "primeflex": "3.3.0",
+        "primeicons": "^6.0.1",
+        "primereact": "9.2.3",
+        "react": "18.2.0",
+        "react-dom": "18.2.0"
+    },
+    "devDependencies": {
+        "sass": "^1.58.3"
+    }
+}
