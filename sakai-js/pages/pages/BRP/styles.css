@@ -1,0 +1,130 @@
+
+  
+  body {
+  
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  
+
+  
+  .box h2 {
+    margin: 0 0 30px;
+    padding: 0;
+    color: #010000;
+
+  }
+
+  
+  
+  
+
+  
+  input, textarea, select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 16px;
+  }
+
+
+  body {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+}
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: bold;
+}
+
+/* Paragraphs */
+p {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* Button */
+.button {
+    background-color: #00549e;
+    border: none;
+    color: #fff;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    line-height: 1;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  /* BMW-style outline */
+  .button.bmw-outline {
+    border: 2px solid #00549e;
+    background-color: transparent;
+  }
+  
+  /* Hover effect */
+  .button:hover {
+    background-color: #fff;
+    color: #00549e;
+  }
+  
+  /* Hover effect for outlined button */
+  .button.bmw-outline:hover {
+    background-color: #00549e;
+    color: #fff;
+  }
+  .surface-0 {
+    background-color: #fff;
+    padding: 24px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.12), 0 2px 2px rgba(0,0,0,0.24);
+  }
+  
+  .box {
+    border: 1px solid #ccc;
+  }
+  
+  .button {
+    background-color: #0070f3;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 16px;
+    cursor: pointer;
+  }
+  
+  .button:hover {
+    background-color: #0060df;
+  }
+  
+  
+  input[type="text"]::placeholder,
+  input[type="tel"]::placeholder,
+  input[type="email"]::placeholder,
+  input[type="number"]::placeholder,
+  textarea::placeholder,
+  select::placeholder {
+    color: #8f8f8f;
+  }
+  
+  
+  label {
+    font-weight: bold;
+  
+  }
+  
+  .error-message {
+    color: red;
+  }

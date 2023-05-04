@@ -9,15 +9,20 @@
         "lint": "next lint"
     },
     "dependencies": {
+        "chart.js": "4.2.1",
         "eslint": "8.38.0",
         "eslint-config-next": "13.3.0",
-        "chart.js": "4.2.1",
+        "final-form": "^4.20.9",
         "next": "13.2.3",
         "primeflex": "3.3.0",
         "primeicons": "^6.0.1",
         "primereact": "9.2.3",
         "react": "18.2.0",
-        "react-dom": "18.2.0"
+        "react-dom": "18.2.0",
+        "react-final-form": "^6.5.9",
+        "react-hook-form": "^7.43.9",
+        "semantic-ui-css": "^2.5.0",
+        "semantic-ui-react": "^2.1.4"
     },
     "devDependencies": {
         "sass": "^1.58.3"
