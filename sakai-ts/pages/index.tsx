@@ -218,7 +218,7 @@ const Dashboard = () => {
                         </div>
                     </div>
                     <ul className="list-none p-0 m-0">
-                        <li className="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                        <li className="flex flex-column sm:flex-row sm:align-items-center sm:justify-content-between mb-4">
                             <div>
                                 <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Space T-Shirt</span>
                                 <div className="mt-1 text-600">Clothing</div>
@@ -230,7 +230,7 @@ const Dashboard = () => {
                                 <span className="text-orange-500 ml-3 font-medium">%50</span>
                             </div>
                         </li>
-                        <li className="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                        <li className="flex flex-column sm:flex-row sm:align-items-center sm:justify-content-between mb-4">
                             <div>
                                 <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Portal Sticker</span>
                                 <div className="mt-1 text-600">Accessories</div>
@@ -242,7 +242,7 @@ const Dashboard = () => {
                                 <span className="text-cyan-500 ml-3 font-medium">%16</span>
                             </div>
                         </li>
-                        <li className="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                        <li className="flex flex-column sm:flex-row sm:align-items-center sm:justify-content-between mb-4">
                             <div>
                                 <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Supernova Sticker</span>
                                 <div className="mt-1 text-600">Accessories</div>
@@ -254,7 +254,7 @@ const Dashboard = () => {
                                 <span className="text-pink-500 ml-3 font-medium">%67</span>
                             </div>
                         </li>
-                        <li className="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                        <li className="flex flex-column sm:flex-row sm:align-items-center sm:justify-content-between mb-4">
                             <div>
                                 <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Wonders Notebook</span>
                                 <div className="mt-1 text-600">Office</div>
@@ -266,7 +266,7 @@ const Dashboard = () => {
                                 <span className="text-green-500 ml-3 font-medium">%35</span>
                             </div>
                         </li>
-                        <li className="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                        <li className="flex flex-column sm:flex-row sm:align-items-center sm:justify-content-between mb-4">
                             <div>
                                 <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Mat Black Case</span>
                                 <div className="mt-1 text-600">Accessories</div>
@@ -278,7 +278,7 @@ const Dashboard = () => {
                                 <span className="text-purple-500 ml-3 font-medium">%75</span>
                             </div>
                         </li>
-                        <li className="flex flex-column md:flex-row md:align-items-center md:justify-content-between mb-4">
+                        <li className="flex flex-column sm:flex-row sm:align-items-center sm:justify-content-between mb-4">
                             <div>
                                 <span className="text-900 font-medium mr-2 mb-1 md:mb-0">Robots T-Shirt</span>
                                 <div className="mt-1 text-600">Clothing</div>
