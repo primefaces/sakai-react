@@ -360,7 +360,7 @@ const Dashboard = () => {
                         </li>
                     </ul>
                 </div>
-                <div
+                {/* <div
                     className="px-4 py-5 shadow-2 flex flex-column md:flex-row md:align-items-center justify-content-between mb-3"
                     style={{ borderRadius: '1rem', background: 'linear-gradient(0deg, rgba(0, 123, 255, 0.5), rgba(0, 123, 255, 0.5)), linear-gradient(92.54deg, #1C80CF 47.88%, #FFFFFF 100.01%)' }}
                 >
@@ -373,7 +373,7 @@ const Dashboard = () => {
                             Get Started
                         </Link>
                     </div>
-                </div>
+                </div> */}
             </div>
         </div>
     );

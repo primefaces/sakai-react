@@ -20,7 +20,7 @@ const AppTopbar = forwardRef((props, ref) => {
         <div className="layout-topbar">
             <Link href="/" className="layout-topbar-logo">
                 <img src={`/layout/images/logo-${layoutConfig.colorScheme !== 'light' ? 'white' : 'dark'}.svg`} width="47.22px" height={'35px'} widt={'true'} alt="logo" />
-                <span>SAKAI</span>
+                <span>Bersii</span>
             </Link>
 
             <button ref={menubuttonRef} type="button" className="p-link layout-menu-button layout-topbar-button" onClick={onMenuToggle}>
@@ -50,5 +50,7 @@ const AppTopbar = forwardRef((props, ref) => {
         </div>
     );
 });
+
+AppTopbar.displayName = 'AppTopbar';
 
 export default AppTopbar;

@@ -149,7 +149,7 @@ const ListDemo = () => {
                 </div>
             </div>
 
-            <div className="col-12 xl:col-8">
+            {/* <div className="col-12 xl:col-8">
                 <div className="card">
                     <h5>PickList</h5>
                     <PickList
@@ -166,9 +166,9 @@ const ListDemo = () => {
                         targetStyle={{ height: '200px' }}
                     ></PickList>
                 </div>
-            </div>
+            </div> */}
 
-            <div className="col-12 xl:col-4">
+            {/* <div className="col-12 xl:col-4">
                 <div className="card">
                     <h5>OrderList</h5>
                     <OrderList
@@ -181,7 +181,7 @@ const ListDemo = () => {
                         onChange={(e) => setOrderlistValue(e.value)}
                     ></OrderList>
                 </div>
-            </div>
+            </div> */}
         </div>
     );
 };
