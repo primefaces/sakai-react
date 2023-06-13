@@ -7,8 +7,8 @@ export const LayoutProvider = (props) => {
         ripple: false,
         inputStyle: 'outlined',
         menuMode: 'static',
-        colorScheme: 'light',
-        theme: 'lara-light-indigo',
+        colorScheme: 'dark',
+        theme: 'dark-theme',
         scale: 14
     });
 
