@@ -1,5 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable @next/next/no-img-element */
+"use client";
 
 import PrimeReact from 'primereact/api';
 import { Button } from 'primereact/button';
