@@ -10,7 +10,6 @@ import { ProductService } from "../../../../demo/service/ProductService";
 import { InputText } from "primereact/inputtext";
 
 import { Demo, LayoutType, SortOrderType } from "../../../../types/types";
-import { ObjectUtils } from "primereact/utils";
 
 const ListDemo = () => {
   const listValue = [

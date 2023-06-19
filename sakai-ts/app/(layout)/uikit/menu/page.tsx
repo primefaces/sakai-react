@@ -14,16 +14,14 @@ import { MegaMenu } from "primereact/megamenu";
 import { PanelMenu } from "primereact/panelmenu";
 import { useRouter } from "next/navigation";
 import { ChildContainerProps } from "../../../../types/types";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 const MenuDemo = ({ children }: ChildContainerProps) => {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
   const [activeIndex, setActiveIndex] = useState(0);
   const menu = useRef<Menu>(null);
   const contextMenu = useRef<ContextMenu>(null);
   const router = useRouter();
+  const pathname = usePathname();
   const checkActiveIndex = useCallback(() => {
     const paths = pathname.split("/");
     const currentPath = paths[paths.length - 1];
@@ -41,7 +39,7 @@ const MenuDemo = ({ children }: ChildContainerProps) => {
       default:
         break;
     }
-  }, [pathname, searchParams]);
+  }, [pathname]);
 
   useEffect(() => {
     checkActiveIndex();

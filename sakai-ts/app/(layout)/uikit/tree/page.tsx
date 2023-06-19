@@ -8,7 +8,7 @@ import {
 import { TreeTable, TreeTableSelectionKeysType } from "primereact/treetable";
 import { Column } from "primereact/column";
 import { NodeService } from "../../../../demo/service/NodeService";
-import TreeNode from "primereact/treenode";
+import { TreeNode } from "primereact/treenode";
 
 const TreeDemo = () => {
   const [treeNodes, setTreeNodes] = useState<TreeNode[]>([]);

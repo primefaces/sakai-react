@@ -1,4 +1,4 @@
-import TreeNode from 'primereact/treenode';
+import { TreeNode } from 'primereact/treenode';
 
 export const NodeService = {
     getTreeNodes() {

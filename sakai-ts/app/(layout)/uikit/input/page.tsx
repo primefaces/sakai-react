@@ -26,14 +26,14 @@ import { InputNumber } from "primereact/inputnumber";
 import { CountryService } from "../../../../demo/service/CountryService";
 import { NodeService } from "../../../../demo/service/NodeService";
 import { Demo } from "../../../../types/types";
-import TreeNode from "primereact/treenode";
+import { TreeNode } from "primereact/treenode";
 
 interface InputValue {
   name: string;
   code: string;
 }
 
-export const InputDemo = () => {
+const InputDemo = () => {
   const [floatValue, setFloatValue] = useState("");
   const [autoValue, setAutoValue] = useState<Demo.Country[]>([]);
   const [selectedAutoValue, setSelectedAutoValue] = useState(null);
