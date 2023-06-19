@@ -1,8 +1,7 @@
 import React from "react";
 import Link from "next/link";
-import { Page } from "../../../../types/types";
 
-const NotFoundPage: Page = () => {
+const NotFoundPage = () => {
   return (
     <div className="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
       <div className="flex flex-column align-items-center justify-content-center">

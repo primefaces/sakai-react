@@ -3,9 +3,8 @@
 import { useRouter } from "next/navigation";
 import React from "react";
 import { Button } from "primereact/button";
-import type { Page } from "../../../../types/types";
 
-const AccessDeniedPage: Page = () => {
+const AccessDeniedPage = () => {
   const router = useRouter();
 
   return (

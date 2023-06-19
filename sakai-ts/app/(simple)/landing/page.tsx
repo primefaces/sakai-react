@@ -8,10 +8,10 @@ import { Button } from "primereact/button";
 import { Ripple } from "primereact/ripple";
 import { Divider } from "primereact/divider";
 import { LayoutContext } from "../../../layout/context/layoutcontext";
-import { NodeRef, Page } from "../../../types/types";
+import { NodeRef } from "../../../types/types";
 import { classNames } from "primereact/utils";
 
-const LandingPage: Page = () => {
+const LandingPage = () => {
   const [isHidden, setIsHidden] = useState(false);
   const { layoutConfig } = useContext(LayoutContext);
   const menuRef = useRef<HTMLElement | null>(null);

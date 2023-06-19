@@ -3,11 +3,6 @@ import { NextPage } from 'next';
 import { Demo } from './demo';
 import { Toast } from 'primereact/toast';
 
-/* Next & Layout Types */
-type Page<P = {}> = NextPage<P> & {
-    getLayout?: (page: ReactElement) => ReactNode;
-};
-
 /* Breadcrumb Types */
 export interface AppBreadcrumbProps {
     className?: string;

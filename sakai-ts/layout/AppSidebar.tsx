@@ -1,7 +1,6 @@
-import { Page } from '../types/types';
 import AppMenu from './AppMenu';
 
-const AppSidebar: Page = () => {
+const AppSidebar = () => {
     return <AppMenu />;
 };
 

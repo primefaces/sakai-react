@@ -8,9 +8,8 @@ import { Password } from "primereact/password";
 import { LayoutContext } from "../../../../layout/context/layoutcontext";
 import { InputText } from "primereact/inputtext";
 import { classNames } from "primereact/utils";
-import { Page } from "../../../../types/types";
 
-const LoginPage: Page = () => {
+const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [checked, setChecked] = useState(false);
   const { layoutConfig } = useContext(LayoutContext);
