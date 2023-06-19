@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import { LayoutProvider } from "../layout/context/layoutcontext";
-import Layout from "../layout/layout";
 
 import "primereact/resources/primereact.css";
 import "primeflex/primeflex.css";
@@ -34,7 +33,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <link
           id="theme-css"
@@ -43,9 +42,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         ></link>
       </head>
       <body>
-        <LayoutProvider>
-          <Layout>{children}</Layout>
-        </LayoutProvider>
+        <LayoutProvider>{children}</LayoutProvider>
       </body>
     </html>
   );
