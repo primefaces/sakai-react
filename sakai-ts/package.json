@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "format": "prettier --write \"{components,app,service,api-generator}/**/*.{js,ts,tsx,d.ts}\"",
     "lint": "next lint"
   },
   "dependencies": {

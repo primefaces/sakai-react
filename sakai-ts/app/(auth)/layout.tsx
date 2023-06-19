@@ -1,11 +1,11 @@
 import AppConfig from "@/layout/AppConfig";
 import React from "react";
 
-interface NotFoundLayoutProps {
+interface AuthLayoutProps {
   children: React.ReactNode;
 }
 
-export default function NotFoundLayout({ children }: NotFoundLayoutProps) {
+export default function AuthLayout({ children }: AuthLayoutProps) {
   return (
     <html lang="en">
       <head>

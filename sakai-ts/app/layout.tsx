@@ -1,8 +1,6 @@
-
 import { Metadata } from "next";
 import { LayoutProvider } from "../layout/context/layoutcontext";
 import Layout from "../layout/layout";
-
 
 import "primereact/resources/primereact.css";
 import "primeflex/primeflex.css";
@@ -11,9 +9,8 @@ import "../styles/layout/layout.scss";
 import "../styles/demo/Demos.scss";
 
 interface RootLayoutProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
-
 
 export const metadata: Metadata = {
   title: "Sakai by PrimeReact | Free Admin Template for NextJS",
@@ -35,10 +32,7 @@ export const metadata: Metadata = {
   },
 };
 
-
-export default function RootLayout({children}:RootLayoutProps) {
- 
-
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en">
       <head>
