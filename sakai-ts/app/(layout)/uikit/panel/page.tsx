@@ -94,8 +94,8 @@ const PanelDemo = () => {
         <div className="card">
           <h5>Toolbar</h5>
           <Toolbar
-            left={toolbarLeftTemplate}
-            right={toolbarRightTemplate}
+            start={toolbarLeftTemplate}
+            end={toolbarRightTemplate}
           ></Toolbar>
         </div>
       </div>

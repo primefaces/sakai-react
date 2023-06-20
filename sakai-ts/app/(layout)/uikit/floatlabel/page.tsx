@@ -12,7 +12,7 @@ import { Calendar } from "primereact/calendar";
 import { Chips } from "primereact/chips";
 import { Dropdown } from "primereact/dropdown";
 import { MultiSelect } from "primereact/multiselect";
-import { CountryService } from "../../../../demo/service/CountryService";
+import { CountryService } from "../../../demo/service/CountryService";
 import { Demo } from "../../../../types/types";
 
 const FloatLabelDemo = () => {

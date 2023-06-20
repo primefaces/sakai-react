@@ -5,8 +5,8 @@ import { Carousel } from "primereact/carousel";
 import { Galleria } from "primereact/galleria";
 import { Button } from "primereact/button";
 import { Image } from "primereact/image";
-import { ProductService } from "../../../../demo/service/ProductService";
-import { PhotoService } from "../../../../demo/service/PhotoService";
+import { ProductService } from "../../../demo/service/ProductService";
+import { PhotoService } from "../../../demo/service/PhotoService";
 import { Demo } from "../../../../types/types";
 
 const MediaDemo = () => {

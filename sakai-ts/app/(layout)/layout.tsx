@@ -1,4 +1,4 @@
-import Layout from "../../layout/layout";
+import Layout from "../layout/layout";
 
 interface AppLayoutProps {
   children: React.ReactNode;

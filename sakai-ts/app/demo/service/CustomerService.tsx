@@ -1,4 +1,4 @@
-import { Demo } from '../../types/types';
+import { Demo } from '../../../types/types';
 
 export const CustomerService = {
     getCustomersMedium() {
