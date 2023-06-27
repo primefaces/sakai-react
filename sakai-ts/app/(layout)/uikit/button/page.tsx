@@ -173,7 +173,7 @@ const ButtonDemo = () => {
                 Twitter
               </span>
             </Button>
-            <Button className={styles.discord} aria-label="Discord">
+            <Button className={styles.discord}  aria-label="Discord">
               <span className="flex align-items-center px-2 bg-bluegray-800 text-white">
                 <i className="pi pi-discord"></i>
               </span>
