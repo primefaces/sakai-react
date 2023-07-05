@@ -1,4 +1,6 @@
-.google {
+.p-button{
+    padding: 0%;
+&.google {
     background: linear-gradient(to left, var(--purple-600) 50%, var(--purple-700) 50%);
     background-size: 200% 100%;
     background-position: right bottom;
@@ -7,6 +9,7 @@
     display: flex;
     align-items: stretch;
     padding: 0;
+
 
     &:enabled:hover {
         background: linear-gradient(to left, var(--purple-600) 50%, var(--purple-700) 50%);
@@ -20,7 +23,7 @@
     }
 }
 
-.twitter {
+&.twitter {
     background: linear-gradient(to left, var(--blue-400) 50%, var(--blue-500) 50%);
     background-size: 200% 100%;
     background-position: right bottom;
@@ -42,7 +45,7 @@
     }
 }
 
-.discord {
+&.discord {
     background: linear-gradient(to left, var(--bluegray-700) 50%, var(--bluegray-800) 50%);
     background-size: 200% 100%;
     background-position: right bottom;
@@ -144,4 +147,5 @@
    -button .p-buttonset .p-button {
         margin-bottom: 0;
     }
+}
 }

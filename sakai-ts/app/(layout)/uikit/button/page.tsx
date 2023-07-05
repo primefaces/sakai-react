@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Button } from "primereact/button";
 import { SplitButton } from "primereact/splitbutton";
 import styles from "./index.module.scss";
+import { classNames } from "primereact/utils";
 
 const ButtonDemo = () => {
   const [loading1, setLoading1] = useState<boolean>(false);
@@ -157,7 +158,8 @@ const ButtonDemo = () => {
         <div className="card">
           <h5>Template</h5>
           <div className="flex flex-wrap gap-2">
-            <Button className={styles.google} aria-label="Google">
+          <Button className={classNames(styles["p-button"],styles["google"])} aria-label="Google">
+
               <span className="flex align-items-center px-2 bg-purple-700 text-white">
                 <i className="pi pi-google"></i>
               </span>
@@ -165,7 +167,7 @@ const ButtonDemo = () => {
                 Google
               </span>
             </Button>
-            <Button className={styles.twitter} aria-label="Twitter">
+            <Button className={classNames(styles["p-button"],styles["twitter"])}  aria-label="Twitter">
               <span className="flex align-items-center px-2 bg-blue-500 text-white">
                 <i className="pi pi-twitter"></i>
               </span>
@@ -173,7 +175,7 @@ const ButtonDemo = () => {
                 Twitter
               </span>
             </Button>
-            <Button className={styles.discord}  aria-label="Discord">
+            <Button className={classNames(styles["p-button"],styles["discord"])}  aria-label="Discord">
               <span className="flex align-items-center px-2 bg-bluegray-800 text-white">
                 <i className="pi pi-discord"></i>
               </span>
