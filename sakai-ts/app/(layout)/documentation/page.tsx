@@ -20,7 +20,14 @@ const Documentation = () => {
               >
                 NextJS
               </a>{" "}
-              framework. To get started, clone the{" "}
+              framework with new
+              {" "} 
+              <a
+                href="https://nextjs.org/docs/app"
+                className="font-medium hover:underline"
+              >
+                App Router
+              </a>. To get started, clone the{" "}
               <a
                 href="https://github.com/primefaces/sakai-react"
                 className="font-medium hover:underline"
@@ -51,7 +58,7 @@ const Documentation = () => {
             </p>
 
             <pre className="app-code">
-              <code>{`"primereact": "^9.2.2",                    //required: PrimeReact components
+              <code>{`"primereact": "^9.6.0",                    //required: PrimeReact components
 "primeicons": "^6.0.1",                    //required: Icons
 "primeflex": "^3.3.0",                     //required: Utility CSS classes
 `}</code>
@@ -60,20 +67,22 @@ const Documentation = () => {
             <h5>Structure</h5>
             <p>
               Sakai consist of a couple of folders where demos and core layout
-              have been separated.
+              have been separated. There is layout group under app folder that contains the layout related files and demo group under app folder that contains the demo pages. There are also two grouped layout folders under app folder, <span className="text-primary font-medium">{`(layout)`}</span> for the pages with layout elements and <span className="text-primary font-medium">{`(simple)`}</span> for the pages without layout elements.
             </p>
             <ul className="line-height-3">
               <li>
-                <span className="text-primary font-medium">layout</span>: Main
+                <span className="text-primary font-medium">app/layout</span>: Main
                 layout files
               </li>
               <li>
-                <span className="text-primary font-medium">demo</span>: Contains
+                <span className="text-primary font-medium">app/demo</span>: Contains
                 demo related utilities and helpers
               </li>
               <li>
-                <span className="text-primary font-medium">pages</span>: Demo
-                pages
+                <span className="text-primary font-medium">app/{`(layout)`}</span>: Demos with layout elements
+              </li>
+              <li>
+                <span className="text-primary font-medium">app/{`(simple)`}</span>: Demos without layout elements
               </li>
               <li>
                 <span className="text-primary font-medium">public/demo</span>:
@@ -84,20 +93,26 @@ const Documentation = () => {
                 Assets used in layout such as a logo
               </li>
               <li>
-                <span className="text-primary font-medium">styles/demo</span>:
+                <span className="text-primary font-medium">app/styles/demo</span>:
                 Styles used in demos only
               </li>
               <li>
-                <span className="text-primary font-medium">styles/layout</span>:
+                <span className="text-primary font-medium">app/styles/layout</span>:
                 SCSS files of the core layout
               </li>
             </ul>
+
+            <h5>Hierarchy for Layout</h5>
+            <p>
+              In Sakai with app directory, apart from the root layout in <span className="text-primary font-medium">app/layout.tsx</span> the pages grouped with
+              layout elements under <span className="text-primary font-medium">{`(layout)`}</span> folder and pages without layout elements under <span className="text-primary font-medium">{`(simple)`}</span> folder. To add a new page with layout elements, simply create a new folder under <span className="text-primary font-medium">{`(layout)`}</span> and place the page there.
+            </p>
 
             <h5>Default Configuration</h5>
             <p>
               Initial layout configuration can be defined at the{" "}
               <span className="text-primary font-medium">
-                layout/context/layoutcontext.js
+                app/layout/context/layoutcontext.js
               </span>{" "}
               file, this step is optional and only necessary when customizing
               the defaults.
@@ -105,7 +120,8 @@ const Documentation = () => {
 
             <pre className="app-code">
               <code>
-                {`import React, { useState } from 'react';
+                {`"use client";
+import React, { useState } from 'react';
 import Head from 'next/head';
 export const LayoutContext = React.createContext();
 
