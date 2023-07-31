@@ -1,5 +1,11 @@
 # Changelog
 
+## 10.0.0
+
+- Upgrade to Next 13.4.8
+- Migrate to Next App Roter
+- Update other dependencies
+
 ## 9.1.2
 
 - Refactored project files
