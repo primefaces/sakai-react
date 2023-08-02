@@ -6379,6 +6379,10 @@
     border: 2px solid #ffffff;
 }
 
+.p-avatar-circle {
+  border-radius: 50%;
+}
+
 .p-chip {
     background-color: #e5e9f0;
     color: #4c566a;
