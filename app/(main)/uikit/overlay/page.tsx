@@ -15,7 +15,7 @@ import {
 import { OverlayPanel } from "primereact/overlaypanel";
 import { InputText } from "primereact/inputtext";
 import { confirmPopup, ConfirmPopup } from "primereact/confirmpopup";
-import { ProductService } from "../../../demo/service/ProductService";
+import { ProductService } from "../../../../demo/service/ProductService";
 
 import { Demo } from "../../../../types/types";
 type ButtonEvent = React.MouseEventHandler<HTMLButtonElement>;

@@ -23,8 +23,8 @@ import { Slider } from "primereact/slider";
 import { TriStateCheckbox } from "primereact/tristatecheckbox";
 import { ToggleButton } from "primereact/togglebutton";
 import { Rating } from "primereact/rating";
-import { CustomerService } from "../../../demo/service/CustomerService";
-import { ProductService } from "../../../demo/service/ProductService";
+import { CustomerService } from "../../../../demo/service/CustomerService";
+import { ProductService } from "../../../../demo/service/ProductService";
 
 import { InputText } from "primereact/inputtext";
 import { Demo } from "../../../../types/types";

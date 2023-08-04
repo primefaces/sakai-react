@@ -23,8 +23,8 @@ import { TreeSelect, TreeSelectSelectionKeysType } from "primereact/treeselect";
 import { SelectButton } from "primereact/selectbutton";
 import { Button } from "primereact/button";
 import { InputNumber } from "primereact/inputnumber";
-import { CountryService } from "../../../demo/service/CountryService";
-import { NodeService } from "../../../demo/service/NodeService";
+import { CountryService } from "../../../../demo/service/CountryService";
+import { NodeService } from "../../../../demo/service/NodeService";
 import { Demo } from "../../../../types/types";
 import { TreeNode } from "primereact/treenode";
 

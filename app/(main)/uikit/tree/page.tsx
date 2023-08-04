@@ -7,7 +7,7 @@ import {
 } from "primereact/tree";
 import { TreeTable, TreeTableSelectionKeysType } from "primereact/treetable";
 import { Column } from "primereact/column";
-import { NodeService } from "../../../demo/service/NodeService";
+import { NodeService } from "../../../../demo/service/NodeService";
 import { TreeNode } from "primereact/treenode";
 
 const TreeDemo = () => {

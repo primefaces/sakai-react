@@ -2,7 +2,7 @@
 import { ChartData, ChartOptions } from "chart.js";
 import { Chart } from "primereact/chart";
 import React, { useContext, useEffect, useState } from "react";
-import { LayoutContext } from "../../../layout/context/layoutcontext";
+import { LayoutContext } from "../../../../layout/context/layoutcontext";
 import { ChartDataState, ChartOptionsState } from "../../../../types/types";
 
 const ChartDemo = () => {

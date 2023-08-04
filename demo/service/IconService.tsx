@@ -1,4 +1,4 @@
-import { Demo } from '../../../types/types';
+import { Demo } from '../../types/types';
 
 let icons: Demo.Icon[] = [];
 let selectedIcon: Demo.Icon | undefined;
