@@ -1,6 +1,6 @@
 {
   "name": "sakai-react",
-  "version": "10.0.0-SNAPSHOT",
+  "version": "10.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
