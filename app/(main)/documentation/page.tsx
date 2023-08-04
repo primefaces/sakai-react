@@ -67,22 +67,33 @@ const Documentation = () => {
             <h5>Structure</h5>
             <p>
               Sakai consist of a couple of folders where demos and core layout
-              have been separated. There is layout group under app folder that contains the layout related files and demo group under app folder that contains the demo pages. There are also two grouped layout folders under app folder, <span className="text-primary font-medium">{`(layout)`}</span> for the pages with layout elements and <span className="text-primary font-medium">{`(simple)`}</span> for the pages without layout elements.
+              have been separated.
             </p>
+            <p>
+        There are two{" "}
+        <a
+          href="https://nextjs.org/docs/app/building-your-application/routing/route-groups"
+          className="font-medium hover:underline"
+        >
+          root groups
+        </a>{" "}
+        under the app folder;{" "}
+        <span className="text-primary font-medium">{`(main)`}</span>{" "}
+        represents the pages that reside in the main dashboard layout whereas{" "}
+        <span className="text-primary font-medium">{`(full-page)`}</span> groups
+        the pages with full page content such as landing page or a login page.
+      </p>
             <ul className="line-height-3">
               <li>
-                <span className="text-primary font-medium">app/layout</span>: Main
+                <span className="text-primary font-medium">layout/</span>: Main
                 layout files
               </li>
               <li>
-                <span className="text-primary font-medium">app/demo</span>: Contains
+                <span className="text-primary font-medium">demo/</span>: Contains
                 demo related utilities and helpers
               </li>
               <li>
-                <span className="text-primary font-medium">app/{`(layout)`}</span>: Demos with layout elements
-              </li>
-              <li>
-                <span className="text-primary font-medium">app/{`(simple)`}</span>: Demos without layout elements
+                <span className="text-primary font-medium">app/</span>: Demo pages
               </li>
               <li>
                 <span className="text-primary font-medium">public/demo</span>:
@@ -93,26 +104,118 @@ const Documentation = () => {
                 Assets used in layout such as a logo
               </li>
               <li>
-                <span className="text-primary font-medium">app/styles/demo</span>:
+                <span className="text-primary font-medium">styles/demo</span>:
                 Styles used in demos only
               </li>
               <li>
-                <span className="text-primary font-medium">app/styles/layout</span>:
+                <span className="text-primary font-medium">styles/layout</span>:
                 SCSS files of the core layout
               </li>
             </ul>
+            <h5>Route Groups</h5>
+      <p>
+        Root Layout is the main of the application and it is defined at{" "}
+        <span className="text-primary font-medium">app/layout.tsx</span> file.
+        It contains the style imports and layout context provider.
+      </p>
+      <pre className="app-code">
+        <code>
+          {`import { Metadata } from "next";
+import { LayoutProvider } from "./layout/context/layoutcontext";
 
-            <h5>Hierarchy for Layout</h5>
-            <p>
-              In Sakai with app directory, apart from the root layout in <span className="text-primary font-medium">app/layout.tsx</span> the pages grouped with
-              layout elements under <span className="text-primary font-medium">{`(layout)`}</span> folder and pages without layout elements under <span className="text-primary font-medium">{`(simple)`}</span> folder. To add a new page with layout elements, simply create a new folder under <span className="text-primary font-medium">{`(layout)`}</span> and place the page there.
-            </p>
+import "primereact/resources/primereact.css";
 
+...
+import "./styles/layout/layout.scss";
+import "./styles/demo/Demos.scss";
+
+interface RootLayoutProps {
+  children: React.ReactNode;
+}
+
+export const metadata: Metadata = {
+  title: "Sakai by PrimeReact | Free Admin Template for NextJS",
+  ...
+};
+
+export default function RootLayout({ children }: RootLayoutProps) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <link
+          id="theme-css"
+          href={\`/themes/lara-light-indigo/theme.css\`}
+          rel="stylesheet"
+        ></link>
+      </head>
+      <body>
+        <LayoutProvider>{children}</LayoutProvider>
+      </body>
+    </html>
+  );
+}
+
+`}
+        </code>
+      </pre>
+      <p>
+        The pages that are using the layout elements need to be defined under
+        the <span className="text-primary font-medium">app/{"(main)"}/</span>{" "}
+        folder. Those pages use the{" "}
+        <span className="text-primary font-medium">
+          app/{"(main)"}/layout.tsx
+        </span>{" "}
+        as the root layout.
+      </p>
+      <pre className="app-code">
+        <code>
+          {`import Layout from "../../layout/layout";
+
+interface MainLayoutProps {
+  children: React.ReactNode;
+}
+
+export default function MainLayout({ children }: MainLayoutProps) {
+  return <Layout>{children}</Layout>;
+}
+`}
+        </code>
+      </pre>
+      <p>
+        Only the pages that are using config sidebar wihout layout elements need
+        to be defined under the{" "}
+        <span className="text-primary font-medium">app/{"(full-page)"}/</span>{" "}
+        folder. Those pages use the{" "}
+        <span className="text-primary font-medium">
+          app/{"(full-page)"}/layout.tsx
+        </span>{" "}
+        as the root layout.
+      </p>
+      <pre className="app-code">
+        <code>
+          {`import AppConfig from "../../layout/AppConfig";
+import React from "react";
+
+interface FullPageLayoutProps {
+  children: React.ReactNode;
+}
+
+export default function FullPageLayout({ children }: FullPageLayoutProps) {
+  return (
+    <React.Fragment>
+      {children}
+      <AppConfig minimal />
+    </React.Fragment>
+  );
+}
+`}
+        </code>
+      </pre>
             <h5>Default Configuration</h5>
             <p>
               Initial layout configuration can be defined at the{" "}
               <span className="text-primary font-medium">
-                app/layout/context/layoutcontext.js
+                layout/context/layoutcontext.js
               </span>{" "}
               file, this step is optional and only necessary when customizing
               the defaults.
@@ -153,21 +256,12 @@ export const LayoutProvider = (props) => {
             </p>
 
             <h5>Integration with Existing NextJS Applications</h5>
-            <p>
-              Only the folders that are related to the layout needs to move in
-              to your project. We&apos;ve created a short tutorial with details.
-            </p>
-
-            <div className={styles["video-container"]}>
-              <iframe
-                className={styles["video"]}
-                width="560"
-                height="315"
-                src="https://www.youtube.com/embed/jnm0_U6zJFY"
-                style={{ border: "none" }}
-                allowFullScreen
-              ></iframe>
-            </div>
+             <p>
+            Only the folders related to the layout need to be moved into your
+            project. Integration of pages involves moving the files under those
+            folders. Make sure that the using page is defined under the related
+            group layout.
+          </p>
 
             <h5>PrimeReact Theme</h5>
             <p>
@@ -178,11 +272,11 @@ export const LayoutProvider = (props) => {
             <h5>SASS Variables</h5>
             <p>
               In case you&apos;d like to customize the main layout variables,
-              open <b>_variables.scss</b> file under src/layout folder. Saving
+              open <b>_variables.scss</b> file under layout folder. Saving
               the changes will be reflected instantly at your browser.
             </p>
 
-            <h6>src/layout/_variables.scss</h6>
+            <h6>layout/_variables.scss</h6>
             <pre className="app-code" lang="scss">
               <code>
                 {`
