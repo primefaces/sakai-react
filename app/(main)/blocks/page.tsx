@@ -760,7 +760,6 @@ const BlocksDemo = () => {
         </div>
       </BlockViewer>
 
-      <div className="block-category-title">Application UI</div>
       <BlockViewer
         header="Page Heading"
         code={block6}
