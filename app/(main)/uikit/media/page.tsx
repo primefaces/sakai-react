@@ -1,13 +1,13 @@
-/* eslint-disable @next/next/no-img-element */
 'use client';
-import React, { useEffect, useState } from 'react';
+
+import { Button } from 'primereact/button';
 import { Carousel } from 'primereact/carousel';
 import { Galleria } from 'primereact/galleria';
-import { Button } from 'primereact/button';
 import { Image } from 'primereact/image';
-import { ProductService } from '../../../../demo/service/ProductService';
+import React, { useEffect, useState } from 'react';
 import { PhotoService } from '../../../../demo/service/PhotoService';
-import { Demo } from '../../../../types/types';
+import { ProductService } from '../../../../demo/service/ProductService';
+import type { Demo } from '../../../../types/types';
 
 const MediaDemo = () => {
     const [products, setProducts] = useState<Demo.Product[]>([]);
@@ -66,9 +66,9 @@ const MediaDemo = () => {
                     <h6 className="mt-0 mb-3">${product.price}</h6>
                     <span className={`product-badge status-${product.inventoryStatus?.toLowerCase()}`}>{product.inventoryStatus}</span>
                     <div className="car-buttons mt-5">
-                        <Button rounded className="mr-2" icon="pi pi-search"></Button>
-                        <Button rounded severity="success" className="mr-2" icon="pi pi-star"></Button>
-                        <Button rounded severity="help" icon="pi pi-cog"></Button>
+                        <Button type="button" className="mr-2" rounded icon="pi pi-search"></Button>
+                        <Button type="button" className="mr-2" severity="success" rounded icon="pi pi-star"></Button>
+                        <Button type="button" severity="help" rounded icon="pi pi-cog"></Button>
                     </div>
                 </div>
             </div>
@@ -89,17 +89,17 @@ const MediaDemo = () => {
 
             <div className="col-12">
                 <div className="card">
-                    <h5>Galleria</h5>
-                    <Galleria value={images} responsiveOptions={galleriaResponsiveOptions} numVisible={7} circular style={{ maxWidth: '800px', margin: 'auto' }} item={galleriaItemTemplate} thumbnail={galleriaThumbnailTemplate}></Galleria>
+                    <h5>Image</h5>
+                    <div className="flex justify-content-center">
+                        <Image src={`/demo/images/galleria/galleria10.jpg`} alt="Image" width="250" preview />
+                    </div>
                 </div>
             </div>
 
             <div className="col-12">
                 <div className="card">
-                    <h5>Image</h5>
-                    <div className="flex justify-content-center">
-                        <Image src={`/demo/images/galleria/galleria11.jpg`} alt="galleria" width="250" preview />
-                    </div>
+                    <h5>Galleria</h5>
+                    <Galleria value={images} responsiveOptions={galleriaResponsiveOptions} numVisible={7} circular style={{ maxWidth: '800px', margin: 'auto' }} item={galleriaItemTemplate} thumbnail={galleriaThumbnailTemplate}></Galleria>
                 </div>
             </div>
         </div>

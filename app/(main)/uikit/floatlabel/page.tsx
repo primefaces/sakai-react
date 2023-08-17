@@ -10,7 +10,7 @@ import { Chips } from 'primereact/chips';
 import { Dropdown } from 'primereact/dropdown';
 import { MultiSelect } from 'primereact/multiselect';
 import { CountryService } from '../../../../demo/service/CountryService';
-import { Demo } from '../../../../types/types';
+import type { Demo } from '../../../../types/types';
 
 const FloatLabelDemo = () => {
     const [countries, setCountries] = useState<Demo.Country[]>([]);
@@ -19,7 +19,7 @@ const FloatLabelDemo = () => {
     const [value2, setValue2] = useState(null);
     const [value3, setValue3] = useState('');
     const [value4, setValue4] = useState('');
-    const [value5, setValue5] = useState(new Date());
+    const [value5, setValue5] = useState<string | Date | Date[] | null>(null);
     const [value6, setValue6] = useState<any[]>([]);
     const [value7, setValue7] = useState('');
     const [value8, setValue8] = useState<number | null>(null);
@@ -43,7 +43,7 @@ const FloatLabelDemo = () => {
     }, []);
 
     const searchCountry = (event: AutoCompleteCompleteEvent) => {
-        const filtered: Demo.Country[] = [];
+        const filtered = [];
         const query = event.query;
         for (let i = 0; i < countries.length; i++) {
             const country = countries[i];
@@ -57,6 +57,9 @@ const FloatLabelDemo = () => {
     return (
         <div className="card">
             <h5>Float Label</h5>
+            <p>
+                All input text components support floating labels by adding (<mark>.p-float-label</mark>) to wrapper class.
+            </p>
             <div className="grid p-fluid mt-3">
                 <div className="field col-12 md:col-4">
                     <span className="p-float-label">
@@ -86,7 +89,7 @@ const FloatLabelDemo = () => {
                 </div>
                 <div className="field col-12 md:col-4">
                     <span className="p-float-label">
-                        <Calendar inputId="calendar" value={value5} onChange={(e) => setValue5(e.value as Date)}></Calendar>
+                        <Calendar inputId="calendar" value={value5} onChange={(e) => setValue5(e.value ?? '')}></Calendar>
                         <label htmlFor="calendar">Calendar</label>
                     </span>
                 </div>
@@ -98,7 +101,7 @@ const FloatLabelDemo = () => {
                 </div>
                 <div className="field col-12 md:col-4">
                     <span className="p-float-label">
-                        <InputMask id="inputmask" mask="99/99/9999" slotChar="mm/dd/yyyy" value={value7} onChange={(e) => setValue7(e.value ?? '')}></InputMask>
+                        <InputMask id="inputmask" mask="99/99/9999" value={value7} onChange={(e) => setValue7(e.value ?? '')}></InputMask>
                         <label htmlFor="inputmask">InputMask</label>
                     </span>
                 </div>
@@ -133,7 +136,7 @@ const FloatLabelDemo = () => {
                 </div>
                 <div className="field col-12 md:col-4">
                     <span className="p-float-label">
-                        <InputTextarea id="textarea" rows={3} value={value12} onChange={(e) => setValue12(e.target.value)} autoResize></InputTextarea>
+                        <InputTextarea id="textarea" rows={3} value={value12} onChange={(e) => setValue12(e.target.value)}></InputTextarea>
                         <label htmlFor="textarea">Textarea</label>
                     </span>
                 </div>

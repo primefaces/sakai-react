@@ -1,20 +1,19 @@
-/* eslint-disable @next/next/no-img-element */
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
-import { Dialog } from 'primereact/dialog';
 import { Button } from 'primereact/button';
+import { Column } from 'primereact/column';
+import { confirmPopup, ConfirmPopup } from 'primereact/confirmpopup';
+import { DataTable, DataTableSelectEvent } from 'primereact/datatable';
+import { Dialog } from 'primereact/dialog';
+import { InputText } from 'primereact/inputtext';
+import { OverlayPanel } from 'primereact/overlaypanel';
 import { Sidebar } from 'primereact/sidebar';
 import { Toast } from 'primereact/toast';
-import { Column } from 'primereact/column';
-import { DataTable, DataTableSelectionChangeEvent, DataTableSelectEvent } from 'primereact/datatable';
-import { OverlayPanel } from 'primereact/overlaypanel';
-import { InputText } from 'primereact/inputtext';
-import { confirmPopup, ConfirmPopup } from 'primereact/confirmpopup';
+import React, { useEffect, useRef, useState } from 'react';
 import { ProductService } from '../../../../demo/service/ProductService';
+import type { Demo } from '../../../../types/types';
 
-import { Demo } from '../../../../types/types';
-type ButtonEvent = React.MouseEventHandler<HTMLButtonElement>;
+type ButtonEvent = React.MouseEvent<HTMLButtonElement>;
 const OverlayDemo = () => {
     const [displayBasic, setDisplayBasic] = useState(false);
     const [displayConfirmation, setDisplayConfirmation] = useState(false);
@@ -47,7 +46,7 @@ const OverlayDemo = () => {
         });
     };
 
-    const confirm: ButtonEvent = (event) => {
+    const confirm = (event: React.MouseEvent<HTMLButtonElement>) => {
         confirmPopup({
             target: event.currentTarget,
             message: 'Are you sure you want to proceed?',
@@ -61,16 +60,16 @@ const OverlayDemo = () => {
         ProductService.getProductsSmall().then((data) => setProducts(data));
     }, []);
 
-    const toggle: ButtonEvent = (event) => {
+    const toggle = (event: ButtonEvent) => {
         op.current?.toggle(event);
     };
 
-    const toggleDataTable: ButtonEvent = (event) => {
+    const toggleDataTable = (event: ButtonEvent) => {
         op2.current?.toggle(event);
     };
 
     const formatCurrency = (value: number) => {
-        return value?.toLocaleString('en-US', {
+        return value.toLocaleString('en-US', {
             style: 'currency',
             currency: 'USD'
         });
@@ -86,11 +85,11 @@ const OverlayDemo = () => {
         });
     };
 
-    const onSelectionChange = (e: DataTableSelectionChangeEvent<Demo.Product[]>): void => {
+    const onSelectionChange = (e: any): void => {
         setSelectedProduct(e.value as Demo.Product);
     };
 
-    const basicDialogFooter = <Button type="button" label="OK" onClick={() => setDisplayBasic(false)} icon="pi pi-check" severity="secondary" />;
+    const basicDialogFooter = <Button type="button" label="OK" onClick={() => setDisplayBasic(false)} icon="pi pi-check" outlined />;
     const imageBodyTemplate = (data: Demo.Product) => (
         <img
             src={`/demo/images/product/${data.image}`}
@@ -126,7 +125,7 @@ const OverlayDemo = () => {
                         </Dialog>
                         <div className="grid">
                             <div className="col-12">
-                                <Button type="button" label="Show" icon="pi pi-external-link" onClick={() => setDisplayBasic(true)} />
+                                <Button outlined type="button" label="Show" icon="pi pi-external-link" onClick={() => setDisplayBasic(true)} />
                             </div>
                         </div>
                     </div>
@@ -134,13 +133,13 @@ const OverlayDemo = () => {
                         <h5>Overlay Panel</h5>
                         <div className="flex flex-wrap gap-2">
                             <div>
-                                <Button type="button" label="Image" onClick={toggle} severity="success" />
+                                <Button type="button" label="Image" onClick={toggle} outlined />
                                 <OverlayPanel ref={op} appendTo={typeof window !== 'undefined' ? document.body : null} showCloseIcon>
                                     <img src="/demo/images/nature/nature9.jpg" alt="nature1" />
                                 </OverlayPanel>
                             </div>
                             <div>
-                                <Button type="button" label="DataTable" onClick={toggleDataTable} severity="success" />
+                                <Button type="button" label="DataTable" onClick={toggleDataTable} outlined />
                                 <OverlayPanel ref={op2} appendTo={typeof window !== 'undefined' ? document.body : null} showCloseIcon id="overlay_panel" style={{ width: '450px' }}>
                                     <DataTable value={products} selection={selectedProduct || undefined} onSelectionChange={onSelectionChange} selectionMode="single" responsiveLayout="scroll" paginator rows={5} onRowSelect={onProductSelect}>
                                         <Column field="name" header="Name" sortable headerStyle={{ minWidth: '10rem' }} />

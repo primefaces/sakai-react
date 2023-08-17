@@ -7,14 +7,14 @@ import { NodeService } from '../../../../demo/service/NodeService';
 import { TreeNode } from 'primereact/treenode';
 
 const TreeDemo = () => {
-    const [treeNodes, setTreeNodes] = useState<TreeNode[]>([]);
-    const [selectedTreeNodeKeys, setSelectedTreeNodeKeys] = useState<string | TreeMultipleSelectionKeys | TreeCheckboxSelectionKeys | null>(null);
-    const [treeTableNodes, setTreeTableNodes] = useState<TreeNode[]>([]);
-    const [selectedTreeTableNodeKeys, setSelectedTreeTableNodeKeys] = useState<TreeTableSelectionKeysType | null>(null);
+    const [files, setFiles] = useState<TreeNode[]>([]);
+    const [files2, setFiles2] = useState<TreeNode[]>([]);
+    const [selectedFileKeys, setSelectedFileKeys] = useState<string | TreeMultipleSelectionKeys | TreeCheckboxSelectionKeys | null>(null);
+    const [selectedFileKeys2, setSelectedFileKeys2] = useState<TreeTableSelectionKeysType | null>(null);
 
     useEffect(() => {
-        NodeService.getTreeNodes().then((data) => setTreeNodes(data));
-        NodeService.getTreeTableNodes().then((data) => setTreeTableNodes(data));
+        NodeService.getFiles().then((files) => setFiles(files));
+        NodeService.getFilesystem().then((files) => setFiles2(files));
     }, []);
 
     return (
@@ -22,13 +22,13 @@ const TreeDemo = () => {
             <div className="col-12">
                 <div className="card">
                     <h5>Tree</h5>
-                    <Tree value={treeNodes} selectionMode="checkbox" selectionKeys={selectedTreeNodeKeys} onSelectionChange={(e) => setSelectedTreeNodeKeys(e.value)} />
+                    <Tree value={files} selectionMode="checkbox" selectionKeys={selectedFileKeys} onSelectionChange={(e) => setSelectedFileKeys(e.value)} />
                 </div>
             </div>
             <div className="col-12">
                 <div className="card">
                     <h5>TreeTable</h5>
-                    <TreeTable value={treeTableNodes} header="FileSystem" selectionMode="checkbox" selectionKeys={selectedTreeTableNodeKeys} onSelectionChange={(e) => setSelectedTreeTableNodeKeys(e.value)}>
+                    <TreeTable value={files2} selectionMode="checkbox" selectionKeys={selectedFileKeys2} onSelectionChange={(e) => setSelectedFileKeys2(e.value)}>
                         <Column field="name" header="Name" expander />
                         <Column field="size" header="Size" />
                         <Column field="type" header="Type" />

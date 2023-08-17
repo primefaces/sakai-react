@@ -1,46 +1,43 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import { AutoComplete, AutoCompleteCompleteEvent } from 'primereact/autocomplete';
+import { Button } from 'primereact/button';
+import { Calendar } from 'primereact/calendar';
+import { Checkbox, CheckboxChangeEvent } from 'primereact/checkbox';
+import { Chips } from 'primereact/chips';
+import { ColorPicker, ColorPickerHSBType, ColorPickerRGBType } from 'primereact/colorpicker';
+import { Dropdown } from 'primereact/dropdown';
+import { InputNumber } from 'primereact/inputnumber';
+import { InputSwitch } from 'primereact/inputswitch';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
-import { AutoComplete, AutoCompleteCompleteEvent } from 'primereact/autocomplete';
-import { Calendar } from 'primereact/calendar';
-import { Chips } from 'primereact/chips';
-import { Slider } from 'primereact/slider';
 import { Knob } from 'primereact/knob';
-import { Rating } from 'primereact/rating';
-import { ColorPicker } from 'primereact/colorpicker';
-import { RadioButton } from 'primereact/radiobutton';
-import { Checkbox, CheckboxChangeEvent } from 'primereact/checkbox';
-import { InputSwitch } from 'primereact/inputswitch';
 import { ListBox } from 'primereact/listbox';
-import { Dropdown } from 'primereact/dropdown';
-import { ToggleButton } from 'primereact/togglebutton';
 import { MultiSelect } from 'primereact/multiselect';
-import { TreeSelect, TreeSelectSelectionKeysType } from 'primereact/treeselect';
+import { RadioButton } from 'primereact/radiobutton';
+import { Rating } from 'primereact/rating';
 import { SelectButton } from 'primereact/selectbutton';
-import { Button } from 'primereact/button';
-import { InputNumber } from 'primereact/inputnumber';
+import { Slider } from 'primereact/slider';
+import { ToggleButton } from 'primereact/togglebutton';
+import React, { useEffect, useState } from 'react';
 import { CountryService } from '../../../../demo/service/CountryService';
-import { NodeService } from '../../../../demo/service/NodeService';
-import { Demo } from '../../../../types/types';
-import { TreeNode } from 'primereact/treenode';
+import type { Demo, Page } from '../../../../types/types';
 
 interface InputValue {
     name: string;
     code: string;
 }
 
-const InputDemo = () => {
+const InputDemo: Page = () => {
     const [floatValue, setFloatValue] = useState('');
     const [autoValue, setAutoValue] = useState<Demo.Country[]>([]);
     const [selectedAutoValue, setSelectedAutoValue] = useState(null);
     const [autoFilteredValue, setAutoFilteredValue] = useState<Demo.Country[]>([]);
-    const [calendarValue, setCalendarValue] = useState(new Date());
+    const [calendarValue, setCalendarValue] = useState<string | Date | Date[] | null>(null);
     const [inputNumberValue, setInputNumberValue] = useState<number | null>(null);
     const [chipsValue, setChipsValue] = useState<any[]>([]);
-    const [sliderValue, setSliderValue] = useState<number | string>(50);
-    const [ratingValue, setRatingValue] = useState<number | undefined>(undefined);
-    const [colorValue, setColorValue] = useState('1976D2');
+    const [sliderValue, setSliderValue] = useState<number | string>('');
+    const [ratingValue, setRatingValue] = useState<number | null>(null);
+    const [colorValue, setColorValue] = useState<string | ColorPickerRGBType | ColorPickerHSBType>('1976D2');
     const [knobValue, setKnobValue] = useState(20);
     const [radioValue, setRadioValue] = useState(null);
     const [checkboxValue, setCheckboxValue] = useState<string[]>([]);
@@ -52,8 +49,6 @@ const InputDemo = () => {
     const [selectButtonValue1, setSelectButtonValue1] = useState(null);
     const [selectButtonValue2, setSelectButtonValue2] = useState(null);
     const [inputGroupValue, setInputGroupValue] = useState(false);
-    const [selectedNode, setSelectedNode] = useState<TreeSelectSelectionKeysType | null>(null);
-    const [treeSelectNodes, setTreeSelectNodes] = useState<TreeNode[]>([]);
 
     const listboxValues: InputValue[] = [
         { name: 'New York', code: 'NY' },
@@ -90,7 +85,7 @@ const InputDemo = () => {
         { name: 'Option 3', code: 'O3' }
     ];
 
-    const selectButtonValues2 = [
+    const selectButtonValues2: InputValue[] = [
         { name: 'Option 1', code: 'O1' },
         { name: 'Option 2', code: 'O2' },
         { name: 'Option 3', code: 'O3' }
@@ -98,7 +93,6 @@ const InputDemo = () => {
 
     useEffect(() => {
         CountryService.getCountries().then((data) => setAutoValue(data));
-        NodeService.getTreeNodes().then((data) => setTreeSelectNodes(data));
     }, []);
 
     const searchCountry = (event: AutoCompleteCompleteEvent) => {
@@ -126,14 +120,20 @@ const InputDemo = () => {
     const itemTemplate = (option: InputValue) => {
         return (
             <div className="flex align-items-center">
-                <span className={`mr-2 flag flag-${option.code.toLowerCase()}`} style={{ width: '18px', height: '12px' }} />
-                <span>{option.name}</span>
+                <img
+                    alt={option.name}
+                    src={`/demo/images/flag/flag_placeholder.png`}
+                    onError={(e) => (e.currentTarget.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png')}
+                    className={`flag flag-${option.code.toLowerCase()}`}
+                    style={{ width: '21px' }}
+                />
+                <span className="ml-2">{option.name}</span>
             </div>
         );
     };
 
     return (
-        <div className="grid p-fluid">
+        <div className="grid p-fluid input-demo">
             <div className="col-12 md:col-6">
                 <div className="card">
                     <h5>InputText</h5>
@@ -179,13 +179,13 @@ const InputDemo = () => {
                     </span>
 
                     <h5>Textarea</h5>
-                    <InputTextarea placeholder="Your Message" autoResize rows={3} cols={30} />
+                    <InputTextarea placeholder="Your Message" rows={5} cols={30} />
 
                     <h5>AutoComplete</h5>
                     <AutoComplete placeholder="Search" id="dd" dropdown multiple value={selectedAutoValue} onChange={(e) => setSelectedAutoValue(e.value)} suggestions={autoFilteredValue} completeMethod={searchCountry} field="name" />
 
                     <h5>Calendar</h5>
-                    <Calendar showIcon showButtonBar value={calendarValue} onChange={(e) => setCalendarValue(e.value as Date)}></Calendar>
+                    <Calendar showIcon showButtonBar value={calendarValue} onChange={(e) => setCalendarValue(e.value ?? null)} />
 
                     <h5>InputNumber</h5>
                     <InputNumber value={inputNumberValue} onValueChange={(e) => setInputNumberValue(e.value ?? null)} showButtons mode="decimal"></InputNumber>
@@ -198,16 +198,16 @@ const InputDemo = () => {
                     <div className="grid">
                         <div className="col-12">
                             <h5>Slider</h5>
-                            <InputText value={sliderValue as string} onChange={(e) => setSliderValue(parseInt(e.target.value))} />
+                            <InputText value={sliderValue as string} onChange={(e) => setSliderValue(parseInt(e.target.value, 10))} />
                             <Slider value={sliderValue as number} onChange={(e) => setSliderValue(e.value as number)} />
                         </div>
                         <div className="col-12 md:col-6">
                             <h5>Rating</h5>
-                            <Rating value={ratingValue} onChange={(e) => setRatingValue(e.value as number)} />
+                            <Rating value={ratingValue as number} onChange={(e) => setRatingValue(e.value ?? 0)} />
                         </div>
                         <div className="col-12 md:col-6">
                             <h5>ColorPicker</h5>
-                            <ColorPicker value={colorValue} onChange={(e) => setColorValue(e.value as string)} style={{ width: '2rem' }} />
+                            <ColorPicker value={colorValue} onChange={(e) => setColorValue(e.value ?? '')} style={{ width: '2rem' }} />
                         </div>
                         <div className="col-12">
                             <h5>Knob</h5>
@@ -275,10 +275,17 @@ const InputDemo = () => {
                     <Dropdown value={dropdownValue} onChange={(e) => setDropdownValue(e.value)} options={dropdownValues} optionLabel="name" placeholder="Select" />
 
                     <h5>MultiSelect</h5>
-                    <MultiSelect value={multiselectValue} onChange={(e) => setMultiselectValue(e.value)} options={multiselectValues} optionLabel="name" placeholder="Select Countries" filter display="chip" itemTemplate={itemTemplate} />
-
-                    <h5>TreeSelect</h5>
-                    <TreeSelect value={selectedNode} onChange={(e) => setSelectedNode(e.value as TreeSelectSelectionKeysType)} options={treeSelectNodes} placeholder="Select Item"></TreeSelect>
+                    <MultiSelect
+                        value={multiselectValue}
+                        onChange={(e) => setMultiselectValue(e.value)}
+                        options={multiselectValues}
+                        itemTemplate={itemTemplate}
+                        optionLabel="name"
+                        placeholder="Select Countries"
+                        filter
+                        className="multiselect-custom"
+                        display="chip"
+                    />
                 </div>
 
                 <div className="card">

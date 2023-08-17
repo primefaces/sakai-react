@@ -1,4 +1,5 @@
 'use client';
+
 import React, { useState, useEffect } from 'react';
 import { DataView, DataViewLayoutOptions } from 'primereact/dataview';
 import { Button } from 'primereact/button';
@@ -8,8 +9,7 @@ import { PickList } from 'primereact/picklist';
 import { OrderList } from 'primereact/orderlist';
 import { ProductService } from '../../../../demo/service/ProductService';
 import { InputText } from 'primereact/inputtext';
-
-import { Demo, LayoutType, SortOrderType } from '../../../../types/types';
+import type { Demo } from '../../../../types/types';
 
 const ListDemo = () => {
     const listValue = [
@@ -27,10 +27,10 @@ const ListDemo = () => {
     const [orderlistValue, setOrderlistValue] = useState(listValue);
     const [dataViewValue, setDataViewValue] = useState<Demo.Product[]>([]);
     const [globalFilterValue, setGlobalFilterValue] = useState('');
-    const [filteredValue, setFilteredValue] = useState<Demo.Product[]>([]);
-    const [layout, setLayout] = useState<LayoutType>('grid');
+    const [filteredValue, setFilteredValue] = useState<Demo.Product[] | null>(null);
+    const [layout, setLayout] = useState<'grid' | 'list' | (string & Record<string, unknown>)>('grid');
     const [sortKey, setSortKey] = useState(null);
-    const [sortOrder, setSortOrder] = useState<SortOrderType>(0);
+    const [sortOrder, setSortOrder] = useState<0 | 1 | -1 | null>(null);
     const [sortField, setSortField] = useState('');
 
     const sortOptions = [
@@ -39,10 +39,12 @@ const ListDemo = () => {
     ];
 
     useEffect(() => {
-        ProductService.getProducts().then((data) => {
-            setDataViewValue(data);
-            setFilteredValue(data);
-        });
+        ProductService.getProducts().then((data) => setDataViewValue(data));
+        setGlobalFilterValue('');
+    }, []);
+
+    useEffect(() => {
+        ProductService.getProducts().then((data) => setDataViewValue(data));
         setGlobalFilterValue('');
     }, []);
 
@@ -50,15 +52,14 @@ const ListDemo = () => {
         const value = e.target.value;
         setGlobalFilterValue(value);
         if (value.length === 0) {
-            setFilteredValue([]);
-        }
-        if (!dataViewValue) {
-            setFilteredValue([]);
+            setFilteredValue(null);
         } else {
-            console.log(dataViewValue);
-            const filtered = dataViewValue!.filter((product) => {
-                return product.name.toLowerCase().includes(value);
+            const filtered = dataViewValue?.filter((product) => {
+                const productNameLowercase = product.name.toLowerCase();
+                const searchValueLowercase = value.toLowerCase();
+                return productNameLowercase.includes(searchValueLowercase);
             });
+
             setFilteredValue(filtered);
         }
     };
@@ -84,7 +85,7 @@ const ListDemo = () => {
                 <i className="pi pi-search" />
                 <InputText value={globalFilterValue} onChange={onFilter} placeholder="Search by Name" />
             </span>
-            <DataViewLayoutOptions layout={layout} onChange={(e) => setLayout(e.value as LayoutType)} />
+            <DataViewLayoutOptions layout={layout} onChange={(e) => setLayout(e.value)} />
         </div>
     );
 
@@ -138,7 +139,7 @@ const ListDemo = () => {
         );
     };
 
-    const itemTemplate = (data: Demo.Product, layout: LayoutType) => {
+    const itemTemplate = (data: Demo.Product, layout: 'grid' | 'list' | (string & Record<string, unknown>)) => {
         if (!data) {
             return;
         }
@@ -151,7 +152,7 @@ const ListDemo = () => {
     };
 
     return (
-        <div className="grid list-demo">
+        <div className="grid">
             <div className="col-12">
                 <div className="card">
                     <h5>DataView</h5>

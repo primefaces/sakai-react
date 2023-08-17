@@ -6,13 +6,13 @@ import { InputTextarea } from 'primereact/inputtextarea';
 import { InputMask } from 'primereact/inputmask';
 import { InputNumber } from 'primereact/inputnumber';
 import { AutoComplete, AutoCompleteCompleteEvent } from 'primereact/autocomplete';
-import { Calendar } from 'primereact/calendar';
+import { Calendar, CalendarChangeEvent } from 'primereact/calendar';
 import { Chips } from 'primereact/chips';
 import { Dropdown } from 'primereact/dropdown';
 import { MultiSelect } from 'primereact/multiselect';
 import { Password } from 'primereact/password';
 import { CountryService } from '../../../../demo/service/CountryService';
-import { Demo } from '../../../../types/types';
+import type { Demo } from '../../../../types/types';
 
 const InvalidStateDemo = () => {
     const [countries, setCountries] = useState<Demo.Country[]>([]);
@@ -20,10 +20,10 @@ const InvalidStateDemo = () => {
     const [value1, setValue1] = useState('');
     const [value2, setValue2] = useState(null);
     const [value3, setValue3] = useState<Date | Date[] | string | null>(null);
-    const [value4, setValue4] = useState<string[]>([]);
+    const [value4, setValue4] = useState<any[]>([]);
     const [value5, setValue5] = useState('');
     const [value6, setValue6] = useState('');
-    const [value7, setValue7] = useState<number | null>(null);
+    const [value7, setValue7] = useState(0);
     const [value8, setValue8] = useState(null);
     const [value9, setValue9] = useState(null);
     const [value10, setValue10] = useState('');
@@ -43,6 +43,8 @@ const InvalidStateDemo = () => {
     }, []);
 
     const searchCountry = (event: AutoCompleteCompleteEvent) => {
+        // in a real application, make a request to a remote url with the query and
+        // return filtered results, for demo we filter at client side
         const filtered = [];
         const query = event.query;
         for (let i = 0; i < countries.length; i++) {
@@ -52,6 +54,10 @@ const InvalidStateDemo = () => {
             }
         }
         setFilteredCountries(filtered);
+    };
+
+    const onCalendarChange = (e: CalendarChangeEvent) => {
+        setValue3(e.value!);
     };
 
     return (
@@ -69,7 +75,7 @@ const InvalidStateDemo = () => {
                     </div>
                     <div className="field">
                         <label htmlFor="calendar">Calendar</label>
-                        <Calendar inputId="calendar" value={value3} onChange={(e) => setValue3(e.value ?? '')} className="p-invalid" showIcon />
+                        <Calendar inputId="calendar" value={value3} onChange={onCalendarChange} className="p-invalid" showIcon />
                     </div>
                     <div className="field">
                         <label htmlFor="chips">Chips</label>
@@ -84,11 +90,11 @@ const InvalidStateDemo = () => {
                 <div className="col-12 md:col-6">
                     <div className="field mt-3">
                         <label htmlFor="inputmask">InputMask</label>
-                        <InputMask id="inputmask" mask="99/99/9999" slotChar="mm/dd/yyyy" value={value6} onChange={(e) => setValue6(e.value as string)} className="p-invalid" />
+                        <InputMask id="inputmask" mask="99/99/9999" value={value6} onChange={(e) => setValue6(e.value ?? '')} className="p-invalid" />
                     </div>
                     <div className="field">
                         <label htmlFor="inputnumber">InputNumber</label>
-                        <InputNumber id="inputnumber" value={value7} onValueChange={(e) => setValue7(e.target.value as number)} className="p-invalid" />
+                        <InputNumber id="inputnumber" value={value7} onValueChange={(e) => setValue7(e.target.value ?? 0)} className="p-invalid" />
                     </div>
                     <div className="field">
                         <label htmlFor="dropdown">Dropdown</label>

@@ -1,15 +1,15 @@
 'use client';
 import React, { useState } from 'react';
-import { Button } from 'primereact/button';
 import { SplitButton } from 'primereact/splitbutton';
+import { Button } from 'primereact/button';
 import styles from './index.module.scss';
 import { classNames } from 'primereact/utils';
 
 const ButtonDemo = () => {
-    const [loading1, setLoading1] = useState<boolean>(false);
-    const [loading2, setLoading2] = useState<boolean>(false);
-    const [loading3, setLoading3] = useState<boolean>(false);
-    const [loading4, setLoading4] = useState<boolean>(false);
+    const [loading1, setLoading1] = useState(false);
+    const [loading2, setLoading2] = useState(false);
+    const [loading3, setLoading3] = useState(false);
+    const [loading4, setLoading4] = useState(false);
 
     const onLoadingClick1 = () => {
         setLoading1(true);
@@ -93,7 +93,7 @@ const ButtonDemo = () => {
                         <Button label="Warning" severity="warning" text />
                         <Button label="Help" severity="help" text />
                         <Button label="Danger" severity="danger" text />
-                        <Button label="Plain" className="p-button-plain p-button-text" />
+                        <Button label="Plain" className="p-button-plain" text />
                     </div>
                 </div>
 
@@ -182,12 +182,12 @@ const ButtonDemo = () => {
                     <h5>Rounded</h5>
                     <div className="flex flex-wrap gap-2">
                         <Button label="Primary" rounded />
-                        <Button label="Secondary" severity="secondary" rounded />
-                        <Button label="Success" severity="success" rounded />
-                        <Button label="Info" severity="info" rounded />
-                        <Button label="Warning" severity="warning" rounded />
-                        <Button label="Help" severity="help" rounded />
-                        <Button label="Danger" severity="danger" rounded />
+                        <Button label="Secondary" rounded severity="secondary" />
+                        <Button label="Success" rounded severity="success" />
+                        <Button label="Info" rounded severity="info" />
+                        <Button label="Warning" rounded severity="warning" />
+                        <Button label="Help" rounded severity="help" />
+                        <Button label="Danger" rounded severity="danger" />
                     </div>
                 </div>
 
@@ -208,12 +208,12 @@ const ButtonDemo = () => {
                     <h5>Rounded Text</h5>
                     <div className="flex flex-wrap gap-2">
                         <Button icon="pi pi-check" rounded text />
-                        <Button icon="pi pi-bookmark" rounded severity="secondary" text />
-                        <Button icon="pi pi-search" rounded severity="success" text />
-                        <Button icon="pi pi-user" rounded severity="info" text />
-                        <Button icon="pi pi-bell" rounded severity="warning" text />
-                        <Button icon="pi pi-heart" rounded severity="help" text />
-                        <Button icon="pi pi-times" rounded severity="danger" text />
+                        <Button icon="pi pi-bookmark" rounded text severity="secondary" />
+                        <Button icon="pi pi-search" rounded text severity="success" />
+                        <Button icon="pi pi-user" rounded text severity="info" />
+                        <Button icon="pi pi-bell" rounded text severity="warning" />
+                        <Button icon="pi pi-heart" rounded text severity="help" />
+                        <Button icon="pi pi-times" rounded text severity="danger" />
                         <Button icon="pi pi-filter" rounded text className="p-button-plain" />
                     </div>
                 </div>
@@ -221,10 +221,10 @@ const ButtonDemo = () => {
                 <div className="card">
                     <h5>Rounded Outlined</h5>
                     <div className="flex flex-wrap gap-2">
-                        <Button outlined rounded icon="pi pi-check" />
-                        <Button rounded outlined severity="secondary" icon="pi pi-bookmark" />
-                        <Button outlined rounded severity="success" icon="pi pi-search" />
-                        <Button rounded outlined severity="info" icon="pi pi-user" />
+                        <Button icon="pi pi-check" rounded outlined />
+                        <Button icon="pi pi-bookmark" rounded outlined severity="secondary" />
+                        <Button icon="pi pi-search" rounded outlined severity="success" />
+                        <Button icon="pi pi-user" rounded outlined severity="info" />
                         <Button icon="pi pi-bell" rounded outlined severity="warning" />
                         <Button icon="pi pi-heart" rounded outlined severity="help" />
                         <Button icon="pi pi-times" rounded outlined severity="danger" />

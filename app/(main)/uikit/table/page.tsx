@@ -1,24 +1,23 @@
 'use client';
-import React, { useState, useEffect } from 'react';
-import { classNames } from 'primereact/utils';
-import { FilterMatchMode, FilterOperator } from 'primereact/api';
-import { DataTable, DataTableExpandedRows, DataTableFilterMeta } from 'primereact/datatable';
-import { Column, ColumnFilterApplyTemplateOptions, ColumnFilterClearTemplateOptions, ColumnFilterElementTemplateOptions } from 'primereact/column';
-import { Dropdown } from 'primereact/dropdown';
-import { InputNumber } from 'primereact/inputnumber';
-import { Button } from 'primereact/button';
-import { ProgressBar } from 'primereact/progressbar';
-import { Calendar } from 'primereact/calendar';
-import { MultiSelect } from 'primereact/multiselect';
-import { Slider } from 'primereact/slider';
-import { TriStateCheckbox } from 'primereact/tristatecheckbox';
-import { ToggleButton } from 'primereact/togglebutton';
-import { Rating } from 'primereact/rating';
 import { CustomerService } from '../../../../demo/service/CustomerService';
 import { ProductService } from '../../../../demo/service/ProductService';
-
+import { FilterMatchMode, FilterOperator } from 'primereact/api';
+import { Button } from 'primereact/button';
+import { Calendar } from 'primereact/calendar';
+import { Column, ColumnFilterApplyTemplateOptions, ColumnFilterClearTemplateOptions, ColumnFilterElementTemplateOptions } from 'primereact/column';
+import { DataTable, DataTableExpandedRows, DataTableFilterMeta } from 'primereact/datatable';
+import { Dropdown } from 'primereact/dropdown';
+import { InputNumber } from 'primereact/inputnumber';
 import { InputText } from 'primereact/inputtext';
-import { Demo } from '../../../../types/types';
+import { MultiSelect } from 'primereact/multiselect';
+import { ProgressBar } from 'primereact/progressbar';
+import { Rating } from 'primereact/rating';
+import { Slider } from 'primereact/slider';
+import { ToggleButton } from 'primereact/togglebutton';
+import { TriStateCheckbox } from 'primereact/tristatecheckbox';
+import { classNames } from 'primereact/utils';
+import React, { useEffect, useState } from 'react';
+import type { Demo } from '../../../../types/types';
 
 const TableDemo = () => {
     const [customers1, setCustomers1] = useState<Demo.Customer[]>([]);
@@ -33,12 +32,7 @@ const TableDemo = () => {
     const [expandedRows, setExpandedRows] = useState<any[] | DataTableExpandedRows>([]);
     const [allExpanded, setAllExpanded] = useState(false);
 
-    interface Represenative {
-        name: string;
-        image: string;
-    }
-
-    const representatives: Represenative[] = [
+    const representatives = [
         { name: 'Amy Elsner', image: 'amyelsner.png' },
         { name: 'Anna Fali', image: 'annafali.png' },
         { name: 'Asiya Javayant', image: 'asiyajavayant.png' },
@@ -57,7 +51,7 @@ const TableDemo = () => {
         initFilters1();
     };
 
-    const onGlobalFilterChange1: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    const onGlobalFilterChange1 = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         let _filters1 = { ...filters1 };
         (_filters1['global'] as any).value = value;
@@ -93,7 +87,7 @@ const TableDemo = () => {
         ProductService.getProductsWithOrdersSmall().then((data) => setProducts(data));
 
         initFilters1();
-    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    }, []);
 
     const balanceTemplate = (rowData: Demo.Customer) => {
         return (
@@ -119,7 +113,7 @@ const TableDemo = () => {
     };
 
     const formatCurrency = (value: number) => {
-        return value?.toLocaleString('en-US', {
+        return value.toLocaleString('en-US', {
             style: 'currency',
             currency: 'USD'
         });
@@ -158,8 +152,8 @@ const TableDemo = () => {
     const countryBodyTemplate = (rowData: Demo.Customer) => {
         return (
             <React.Fragment>
-                <img alt="flag" src={`/demo/images/flag/flag_placeholder.png`} className={`flag flag-${rowData.country?.code}`} width={30} />
-                <span style={{ marginLeft: '.5em', verticalAlign: 'middle' }}>{rowData.country?.name}</span>
+                <img alt="flag" src={`/demo/images/flag/flag_placeholder.png`} className={`flag flag-${rowData.country.code}`} width={30} />
+                <span style={{ marginLeft: '.5em', verticalAlign: 'middle' }}>{rowData.country.name}</span>
             </React.Fragment>
         );
     };
@@ -179,7 +173,7 @@ const TableDemo = () => {
                 <img
                     alt={representative.name}
                     src={`/demo/images/avatar/${representative.image}`}
-                    onError={(e) => (e.currentTarget.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png')}
+                    onError={(e) => ((e.target as HTMLImageElement).src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png')}
                     width={32}
                     style={{ verticalAlign: 'middle' }}
                 />
@@ -197,7 +191,7 @@ const TableDemo = () => {
         );
     };
 
-    const representativesItemTemplate = (option: Represenative) => {
+    const representativesItemTemplate = (option: any) => {
         return (
             <div className="p-multiselect-representative-option">
                 <img alt={option.name} src={`/demo/images/avatar/${option.image}`} width={32} style={{ verticalAlign: 'middle' }} />
@@ -230,7 +224,7 @@ const TableDemo = () => {
         return <Dropdown value={options.value} options={statuses} onChange={(e) => options.filterCallback(e.value, options.index)} itemTemplate={statusItemTemplate} placeholder="Select a Status" className="p-column-filter" showClear />;
     };
 
-    const statusItemTemplate = (option: React.ReactNode) => {
+    const statusItemTemplate = (option: any) => {
         return <span className={`customer-badge status-${option}`}>{option}</span>;
     };
 
@@ -296,7 +290,7 @@ const TableDemo = () => {
     };
 
     const imageBodyTemplate = (rowData: Demo.Product) => {
-        return <img src={`/demo/images/product/${rowData.image}`} onError={(e) => (e.currentTarget.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png')} alt={rowData.image} className="shadow-2" width={100} />;
+        return <img src={`/demo/images/product/${rowData.image}`} onError={(e) => ((e.target as HTMLImageElement).src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png')} alt={rowData.image} className="shadow-2" width={100} />;
     };
 
     const priceBodyTemplate = (rowData: Demo.Product) => {

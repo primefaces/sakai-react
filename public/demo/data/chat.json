@@ -1,0 +1,124 @@
+{
+    "data": [
+        {
+            "id": 1,
+            "name": "Ioni Bowcher",
+            "image": "ionibowcher.png",
+            "status": "active",
+            "messages": [
+                {
+                    "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+                    "ownerId": 1,
+                    "createdAt": 1652646338240
+                },
+                {
+                    "text": "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+                    "ownerId": 1,
+                    "createdAt": 1652646368718
+                },
+                {
+                    "text": "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+                    "ownerId": 123,
+                    "createdAt": 1652646368718
+                }
+            ],
+            "lastSeen": "2d"
+        },
+        {
+            "id": 2,
+            "name": "Stephen Shaw",
+            "image": "stephenshaw.png",
+            "status": "away",
+            "messages": [
+                {
+                    "text":  "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat",
+                    "ownerId": 1,
+                    "createdAt": 1652646338240
+                },
+                {
+                    "text": "Consequat mauris nunc congue nisi vitae suscipit.",
+                    "ownerId": 1,
+                    "createdAt": 1652646368718
+                },
+                {
+                    "text": "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+                    "ownerId": 123,
+                    "createdAt": 1652646368718
+                }
+            ],
+            "lastSeen": "2d"
+        },
+        {
+            "id": 3,
+            "name": "Xuxue Feng",
+            "image": "xuxuefeng.png",
+            "status": "busy",
+            "messages": [
+                {
+                    "text":  "Duis aute irure dolor in reprehenderit",
+                    "ownerId": 1,
+                    "createdAt": 1652646338240
+                },
+                {
+                    "text": "Adipiscing tristique risus nec feugiat in fermentum posuere urna nec.",
+                    "ownerId": 1,
+                    "createdAt": 1652646368718
+                },
+                {
+                    "text": "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+                    "ownerId": 123,
+                    "createdAt": 1652646368718
+                }
+            ],
+            "lastSeen": "2d"
+        },
+        {
+            "id": 4,
+            "name": "Ivan Magalhaes",
+            "image": "ivanmagalhaes.png",
+            "status": "active",
+            "messages": [
+                {
+                    "text":  "Ut enim ad minim veniam",
+                    "ownerId": 1,
+                    "createdAt": 1652646338240
+                },
+                {
+                    "text": "Quis nostrud exercitation ullamco laboris nisi ut",
+                    "ownerId": 1,
+                    "createdAt": 1652646368718
+                },
+                {
+                    "text": "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+                    "ownerId": 123,
+                    "createdAt": 1652646368718
+                }
+            ],
+            "lastSeen": "2d"
+        },
+        {
+            "id": 4,
+            "name": "Onyama Limba",
+            "image": "onyamalimba.png",
+            "status": "busy",
+            "messages": [
+                {
+                    "text":  "Culpa qui officia deserunt mollit anim id est laborum",
+                    "ownerId": 1,
+                    "createdAt": 1652646338240
+                },
+                {
+                    "text": "Excepteur sint occaecat cupidatat non proident",
+                    "ownerId": 1,
+                    "createdAt": 1652646368718
+                },
+                {
+                    "text": "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+                    "ownerId": 123,
+                    "createdAt": 1652646368718
+                }
+            ],
+            "lastSeen": "2d"
+        }
+    ]
+}

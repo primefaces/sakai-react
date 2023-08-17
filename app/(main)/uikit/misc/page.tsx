@@ -14,27 +14,23 @@ import { ScrollTop } from 'primereact/scrolltop';
 
 const MiscDemo = () => {
     const [value, setValue] = useState(0);
-    const interval: { current: NodeJS.Timeout | null } = useRef<ReturnType<typeof setInterval>>(null);
+    const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
     useEffect(() => {
-        let val = value;
-        interval.current = setInterval(() => {
-            val += Math.floor(Math.random() * 10) + 1;
-
-            if (val >= 100) {
-                val = 100;
-                clearInterval(interval.current as NodeJS.Timeout);
-            }
-            setValue(val);
+        const interval = setInterval(() => {
+            setValue((prevValue) => {
+                const newVal = prevValue + Math.floor(Math.random() * 10) + 1;
+                return newVal >= 100 ? 100 : newVal;
+            });
         }, 2000);
 
+        intervalRef.current = interval;
+
         return () => {
-            if (interval.current) {
-                clearInterval(interval.current);
-                interval.current = null;
-            }
+            clearInterval(intervalRef.current as NodeJS.Timeout);
+            intervalRef.current = null;
         };
-    }, [value]);
+    }, []);
 
     return (
         <div className="grid">

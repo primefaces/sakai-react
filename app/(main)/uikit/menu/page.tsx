@@ -1,5 +1,4 @@
 'use client';
-
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Menubar } from 'primereact/menubar';
 import { InputText } from 'primereact/inputtext';
@@ -13,15 +12,15 @@ import { ContextMenu } from 'primereact/contextmenu';
 import { MegaMenu } from 'primereact/megamenu';
 import { PanelMenu } from 'primereact/panelmenu';
 import { useRouter } from 'next/navigation';
-import { ChildContainerProps } from '../../../../types/types';
 import { usePathname } from 'next/navigation';
 
-const MenuDemo = ({ children }: ChildContainerProps) => {
+const MenuDemo = ({ children }: any) => {
     const [activeIndex, setActiveIndex] = useState(0);
     const menu = useRef<Menu>(null);
     const contextMenu = useRef<ContextMenu>(null);
     const router = useRouter();
     const pathname = usePathname();
+
     const checkActiveIndex = useCallback(() => {
         const paths = pathname.split('/');
         const currentPath = paths[paths.length - 1];
@@ -470,11 +469,11 @@ const MenuDemo = ({ children }: ChildContainerProps) => {
         }
     ];
 
-    const toggleMenu: React.MouseEventHandler<HTMLButtonElement> | undefined = (event) => {
+    const toggleMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
         menu.current?.toggle(event);
     };
 
-    const onContextRightClick: React.MouseEventHandler<HTMLDivElement> | undefined = (event) => {
+    const onContextRightClick = (event: React.MouseEvent<HTMLDivElement>) => {
         contextMenu.current?.show(event);
     };
 
@@ -558,17 +557,17 @@ const MenuDemo = ({ children }: ChildContainerProps) => {
                 <div className="card" onContextMenu={onContextRightClick}>
                     <h5>ContextMenu</h5>
                     Right click to display.
-                    <ContextMenu ref={contextMenu} model={contextMenuItems} />
+                    <ContextMenu ref={contextMenu} model={contextMenuItems} breakpoint="767px" />
                 </div>
             </div>
 
             <div className="col-12 md:col-6">
                 <div className="card">
                     <h5>MegaMenu - Horizontal</h5>
-                    <MegaMenu model={megamenuItems} />
+                    <MegaMenu model={megamenuItems} breakpoint="767px" />
 
                     <h5 style={{ marginTop: '1.55em' }}>MegaMenu - Vertical</h5>
-                    <MegaMenu model={megamenuItems} orientation="vertical" />
+                    <MegaMenu model={megamenuItems} orientation="vertical" breakpoint="767px" />
                 </div>
             </div>
 
