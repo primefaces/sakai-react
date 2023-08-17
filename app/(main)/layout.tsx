@@ -1,10 +1,9 @@
-
-import Layout from "../../layout/layout";
+import Layout from '../../layout/layout';
 
 interface AppLayoutProps {
-  children: React.ReactNode;
+    children: React.ReactNode;
 }
 
 export default function AppLayout({ children }: AppLayoutProps) {
-  return <Layout>{children}</Layout>;
+    return <Layout>{children}</Layout>;
 }
