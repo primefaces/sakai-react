@@ -209,7 +209,7 @@ const Dashboard = () => {
                     <div className="flex justify-content-between align-items-center mb-5">
                         <h5>Best Selling Products</h5>
                         <div>
-                            <Button type="button" icon="pi pi-ellipsis-v" className="p-button-rounded p-button-text p-button-plain" onClick={(event) => menu1.current?.toggle(event)} />
+                            <Button type="button" icon="pi pi-ellipsis-v" rounded text className="p-button-plain" onClick={(event) => menu1.current?.toggle(event)} />
                             <Menu
                                 ref={menu1}
                                 popup
@@ -307,7 +307,7 @@ const Dashboard = () => {
                     <div className="flex align-items-center justify-content-between mb-4">
                         <h5>Notifications</h5>
                         <div>
-                            <Button type="button" icon="pi pi-ellipsis-v" className="p-button-rounded p-button-text p-button-plain" onClick={(event) => menu2.current?.toggle(event)} />
+                            <Button type="button" icon="pi pi-ellipsis-v" rounded text className="p-button-plain" onClick={(event) => menu2.current?.toggle(event)} />
                             <Menu
                                 ref={menu2}
                                 popup

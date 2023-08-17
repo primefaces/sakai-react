@@ -105,7 +105,7 @@ const ListDemo = () => {
                     </div>
                     <div className="flex flex-row md:flex-column justify-content-between w-full md:w-auto align-items-center md:align-items-end mt-5 md:mt-0">
                         <span className="text-2xl font-semibold mb-2 align-self-center md:align-self-end">${data.price}</span>
-                        <Button icon="pi pi-shopping-cart" label="Add to Cart" disabled={data.inventoryStatus === 'OUTOFSTOCK'} className="mb-2 p-button-sm"></Button>
+                        <Button icon="pi pi-shopping-cart" label="Add to Cart" disabled={data.inventoryStatus === 'OUTOFSTOCK'} size='small' className="mb-2"></Button>
                         <span className={`product-badge status-${data.inventoryStatus?.toLowerCase()}`}>{data.inventoryStatus}</span>
                     </div>
                 </div>

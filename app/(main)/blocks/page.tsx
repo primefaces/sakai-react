@@ -17,8 +17,8 @@ const BlocksDemo = () => {
                 <div className="text-6xl text-primary font-bold mb-3">your visitors deserve to see</div>
                 <p className="mt-0 mb-4 text-700 line-height-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
     
-                <Button label="Learn More" type="button" className="mr-3 p-button-raised" />
-                <Button label="Live Demo" type="button" className="p-button-outlined" />
+                <Button label="Learn More" type="button" className="mr-3" raised />
+                <Button label="Live Demo" type="button" outlined />
             </section>
         </div>
         <div className="col-12 md:col-6 overflow-hidden">
@@ -191,7 +191,7 @@ const BlocksDemo = () => {
                             </li>
                         </ul>
                         <hr className="mb-3 mx-0 border-top-1 border-bottom-none border-300" />
-                        <Button label="Buy Now" className="p-3 w-full p-button-outlined" />
+                        <Button label="Buy Now" className="p-3 w-full" outlined />
                     </div>
                 </div>
             </div>
@@ -204,7 +204,7 @@ const BlocksDemo = () => {
         <div className="text-blue-600 font-bold mb-3"><i className="pi pi-discord"></i>&nbsp;POWERED BY DISCORD</div>
         <div className="text-900 font-bold text-5xl mb-3">Join Our Design Community</div>
         <div className="text-700 text-2xl mb-5">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit numquam eligendi quos.</div>
-        <Button label="Join Now" icon="pi pi-discord" className="font-bold px-5 py-3 p-button-raised p-button-rounded white-space-nowrap" />
+        <Button label="Join Now" icon="pi pi-discord" className="font-bold px-5 py-3 white-space-nowrap" rounded raised />
     </div>
         `;
 
@@ -255,7 +255,7 @@ const BlocksDemo = () => {
                 </div>
             </div>
             <div className="mt-3 lg:mt-0">
-                <Button label="Add" className="p-button-outlined mr-2" icon="pi pi-user-plus" />
+                <Button label="Add" className="mr-2" icon="pi pi-user-plus" outlined />
                 <Button label="Save" icon="pi pi-check" />
             </div>
         </div>
@@ -367,7 +367,7 @@ const BlocksDemo = () => {
                 <div className="text-500 w-6 md:w-2 font-medium">Title</div>
                 <div className="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">Heat</div>
                 <div className="w-6 md:w-2 flex justify-content-end">
-                    <Button label="Edit" icon="pi pi-pencil" className="p-button-text" />
+                    <Button label="Edit" icon="pi pi-pencil" text />
                 </div>
             </li>
             <li className="flex align-items-center py-3 px-2 border-top-1 border-300 flex-wrap">
@@ -378,21 +378,21 @@ const BlocksDemo = () => {
                     <Chip label="Thriller" />
                 </div>
                 <div className="w-6 md:w-2 flex justify-content-end">
-                    <Button label="Edit" icon="pi pi-pencil" className="p-button-text" />
+                    <Button label="Edit" icon="pi pi-pencil" text />
                 </div>
             </li>
             <li className="flex align-items-center py-3 px-2 border-top-1 border-300 flex-wrap">
                 <div className="text-500 w-6 md:w-2 font-medium">Director</div>
                 <div className="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">Michael Mann</div>
                 <div className="w-6 md:w-2 flex justify-content-end">
-                    <Button label="Edit" icon="pi pi-pencil" className="p-button-text" />
+                    <Button label="Edit" icon="pi pi-pencil" text />
                 </div>
             </li>
             <li className="flex align-items-center py-3 px-2 border-top-1 border-300 flex-wrap">
                 <div className="text-500 w-6 md:w-2 font-medium">Actors</div>
                 <div className="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">Robert De Niro, Al Pacino</div>
                 <div className="w-6 md:w-2 flex justify-content-end">
-                    <Button label="Edit" icon="pi pi-pencil" className="p-button-text" />
+                    <Button label="Edit" icon="pi pi-pencil" text />
                 </div>
             </li>
             <li className="flex align-items-center py-3 px-2 border-top-1 border-bottom-1 border-300 flex-wrap">
@@ -401,7 +401,7 @@ const BlocksDemo = () => {
                     A group of professional bank robbers start to feel the heat from police
                     when they unknowingly leave a clue at their latest heist.</div>
                 <div className="w-6 md:w-2 flex justify-content-end">
-                    <Button label="Edit" icon="pi pi-pencil" className="p-button-text" />
+                    <Button label="Edit" icon="pi pi-pencil" text />
                 </div>
             </li>
         </ul>
@@ -426,8 +426,8 @@ const BlocksDemo = () => {
                             <div className="text-6xl text-primary font-bold mb-3">your visitors deserve to see</div>
                             <p className="mt-0 mb-4 text-700 line-height-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
 
-                            <Button label="Learn More" type="button" className="mr-3 p-button-raised" />
-                            <Button label="Live Demo" type="button" className="p-button-outlined" />
+                            <Button label="Learn More" type="button" className="mr-3" raised />
+                            <Button label="Live Demo" type="button" outlined />
                         </section>
                     </div>
                     <div className="col-12 md:col-6 overflow-hidden">
@@ -600,7 +600,7 @@ const BlocksDemo = () => {
                                         </li>
                                     </ul>
                                     <hr className="mb-3 mx-0 border-top-1 border-bottom-none border-300" />
-                                    <Button label="Buy Now" className="p-3 w-full p-button-outlined" />
+                                    <Button label="Buy Now" className="p-3 w-full" outlined />
                                 </div>
                             </div>
                         </div>
@@ -615,7 +615,7 @@ const BlocksDemo = () => {
                     </div>
                     <div className="text-900 font-bold text-5xl mb-3">Join Our Design Community</div>
                     <div className="text-700 text-2xl mb-5">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit numquam eligendi quos.</div>
-                    <Button label="Join Now" icon="pi pi-discord" className="font-bold px-5 py-3 p-button-raised p-button-rounded white-space-nowrap" />
+                    <Button label="Join Now" icon="pi pi-discord" className="font-bold px-5 py-3 white-space-nowrap" raised rounded />
                 </div>
             </BlockViewer>
 
@@ -666,7 +666,7 @@ const BlocksDemo = () => {
                             </div>
                         </div>
                         <div className="mt-3 lg:mt-0">
-                            <Button label="Add" className="p-button-outlined mr-2" icon="pi pi-user-plus" />
+                            <Button label="Add" className="mr-2" outlined icon="pi pi-user-plus" />
                             <Button label="Save" icon="pi pi-check" />
                         </div>
                     </div>
@@ -784,7 +784,7 @@ const BlocksDemo = () => {
                             <div className="text-500 w-6 md:w-2 font-medium">Title</div>
                             <div className="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">Heat</div>
                             <div className="w-6 md:w-2 flex justify-content-end">
-                                <Button label="Edit" icon="pi pi-pencil" className="p-button-text" />
+                                <Button label="Edit" icon="pi pi-pencil" text />
                             </div>
                         </li>
                         <li className="flex align-items-center py-3 px-2 border-top-1 border-300 flex-wrap">
@@ -795,28 +795,28 @@ const BlocksDemo = () => {
                                 <Chip label="Thriller" />
                             </div>
                             <div className="w-6 md:w-2 flex justify-content-end">
-                                <Button label="Edit" icon="pi pi-pencil" className="p-button-text" />
+                                <Button label="Edit" icon="pi pi-pencil" text />
                             </div>
                         </li>
                         <li className="flex align-items-center py-3 px-2 border-top-1 border-300 flex-wrap">
                             <div className="text-500 w-6 md:w-2 font-medium">Director</div>
                             <div className="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">Michael Mann</div>
                             <div className="w-6 md:w-2 flex justify-content-end">
-                                <Button label="Edit" icon="pi pi-pencil" className="p-button-text" />
+                                <Button label="Edit" icon="pi pi-pencil" text />
                             </div>
                         </li>
                         <li className="flex align-items-center py-3 px-2 border-top-1 border-300 flex-wrap">
                             <div className="text-500 w-6 md:w-2 font-medium">Actors</div>
                             <div className="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">Robert De Niro, Al Pacino</div>
                             <div className="w-6 md:w-2 flex justify-content-end">
-                                <Button label="Edit" icon="pi pi-pencil" className="p-button-text" />
+                                <Button label="Edit" icon="pi pi-pencil" text />
                             </div>
                         </li>
                         <li className="flex align-items-center py-3 px-2 border-top-1 border-bottom-1 border-300 flex-wrap">
                             <div className="text-500 w-6 md:w-2 font-medium">Plot</div>
                             <div className="text-900 w-full md:w-8 md:flex-order-0 flex-order-1 line-height-3">A group of professional bank robbers start to feel the heat from police when they unknowingly leave a clue at their latest heist.</div>
                             <div className="w-6 md:w-2 flex justify-content-end">
-                                <Button label="Edit" icon="pi pi-pencil" className="p-button-text" />
+                                <Button label="Edit" icon="pi pi-pencil" text />
                             </div>
                         </li>
                     </ul>
