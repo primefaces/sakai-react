@@ -43,7 +43,7 @@ const Documentation = () => {
                         <p>Dependencies of Sakai are listed below and needs to be defined at package.json.</p>
 
                         <pre className="app-code">
-                            <code>{`"primereact": "^9.6.0",                    //required: PrimeReact components
+                            <code>{`"primereact": "^9.6.2",                    //required: PrimeReact components
 "primeicons": "^6.0.1",                    //required: Icons
 "primeflex": "^3.3.0",                     //required: Utility CSS classes
 `}</code>
