@@ -1,6 +1,5 @@
 /* eslint-disable @next/next/no-sync-scripts */
 import React from 'react';
-import styles from './index.module.css';
 
 const Documentation = () => {
     return (
@@ -89,11 +88,10 @@ const Documentation = () => {
                         </p>
                         <pre className="app-code">
                             <code>
-                                {`import { Metadata } from "next";
+                                {`"use client"
 import { LayoutProvider } from "./layout/context/layoutcontext";
-
+import { PrimeReactProvider } from "primereact/api";
 import "primereact/resources/primereact.css";
-
 ...
 import "../styles/layout/layout.scss";
 import "../styles/demo/Demos.scss";
@@ -101,11 +99,6 @@ import "../styles/demo/Demos.scss";
 interface RootLayoutProps {
   children: React.ReactNode;
 }
-
-export const metadata: Metadata = {
-  title: "Sakai by PrimeReact | Free Admin Template for NextJS",
-  ...
-};
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
@@ -118,7 +111,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
         ></link>
       </head>
       <body>
-        <LayoutProvider>{children}</LayoutProvider>
+        <PrimeReactProvider>
+            <LayoutProvider>{children}</LayoutProvider>
+        </PrimeReactProvider>
       </body>
     </html>
   );
@@ -133,11 +128,17 @@ export default function RootLayout({ children }: RootLayoutProps) {
                         </p>
                         <pre className="app-code">
                             <code>
-                                {`import Layout from "../../layout/layout";
+                                {`import { Metadata } from 'next';
+import Layout from "../../layout/layout";
 
 interface MainLayoutProps {
   children: React.ReactNode;
 }
+
+export const metadata: Metadata = {
+    title: "Sakai by PrimeReact | Free Admin Template for NextJS",
+    ...
+  };
 
 export default function MainLayout({ children }: MainLayoutProps) {
   return <Layout>{children}</Layout>;
@@ -151,12 +152,18 @@ export default function MainLayout({ children }: MainLayoutProps) {
                         </p>
                         <pre className="app-code">
                             <code>
-                                {`import AppConfig from "../../layout/AppConfig";
+                                {`import { Metadata } from 'next';
+import AppConfig from "../../layout/AppConfig";
 import React from "react";
 
 interface FullPageLayoutProps {
   children: React.ReactNode;
 }
+
+export const metadata: Metadata = {
+    title: "Sakai by PrimeReact | Free Admin Template for NextJS",
+    ...
+  };
 
 export default function FullPageLayout({ children }: FullPageLayoutProps) {
   return (
