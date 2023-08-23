@@ -16,21 +16,6 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Structure
-
-<p>Sakai consists of a couple folders, demos and core has been separated so that you can easily remove what is not necessary for your application.</p>
-            <p>
-                There are two
-                <a href="https://nextjs.org/docs/app/building-your-application/routing/route-groups" className="font-medium hover:underline">
-                    root groups
-                </a>
-                under the app folder;
-                <span className="text-primary font-medium"> (main) </span>
-                represents the pages that reside in the main dashboard layout whereas
-                <span className="text-primary font-medium"> (full-page) </span> groups
-                the pages with full page content such as landing page or a login page.
-            </p>
-
 ## Integration with Existing Next.js Applications
 
 Only the folders related to the layout need to be moved into your project. Integration of pages involves moving the files under those folders. Make sure that the using page is defined under the related group layout.
