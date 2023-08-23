@@ -17,6 +17,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ProductService } from '../../../../demo/service/ProductService';
 import { Demo } from '../../../../types/types';
 
+/* @todo Used 'as any' for types here. Will fix in next version due to onSelectionChange event type issue. */
 const Crud = () => {
     let emptyProduct: Demo.Product = {
         id: '',
@@ -30,19 +31,19 @@ const Crud = () => {
         inventoryStatus: 'INSTOCK'
     };
 
-    const [products, setProducts] = useState<Demo.Product[]>([]);
+    const [products, setProducts] = useState(null);
     const [productDialog, setProductDialog] = useState(false);
     const [deleteProductDialog, setDeleteProductDialog] = useState(false);
     const [deleteProductsDialog, setDeleteProductsDialog] = useState(false);
     const [product, setProduct] = useState<Demo.Product>(emptyProduct);
-    const [selectedProducts, setSelectedProducts] = useState<Demo.Product[]>([]);
+    const [selectedProducts, setSelectedProducts] = useState(null);
     const [submitted, setSubmitted] = useState(false);
     const [globalFilter, setGlobalFilter] = useState('');
     const toast = useRef<Toast>(null);
-    const dt = useRef<DataTable<Demo.Product[]>>(null);
+    const dt = useRef<DataTable<any>>(null);
 
     useEffect(() => {
-        ProductService.getProducts().then((data) => setProducts(data));
+        ProductService.getProducts().then((data) => setProducts(data as any));
     }, []);
 
     const formatCurrency = (value: number) => {
@@ -75,7 +76,7 @@ const Crud = () => {
         setSubmitted(true);
 
         if (product.name.trim()) {
-            let _products = [...products];
+            let _products = [...(products as any)];
             let _product = { ...product };
             if (product.id) {
                 const index = findIndexById(product.id);
@@ -99,7 +100,7 @@ const Crud = () => {
                 });
             }
 
-            setProducts(_products);
+            setProducts(_products as any);
             setProductDialog(false);
             setProduct(emptyProduct);
         }
@@ -116,7 +117,7 @@ const Crud = () => {
     };
 
     const deleteProduct = () => {
-        let _products = products.filter((val) => val.id !== product.id);
+        let _products = (products as any)?.filter((val: any) => val.id !== product.id);
         setProducts(_products);
         setDeleteProductDialog(false);
         setProduct(emptyProduct);
@@ -130,8 +131,8 @@ const Crud = () => {
 
     const findIndexById = (id: string) => {
         let index = -1;
-        for (let i = 0; i < products.length; i++) {
-            if (products[i].id === id) {
+        for (let i = 0; i < (products as any)?.length; i++) {
+            if ((products as any)[i].id === id) {
                 index = i;
                 break;
             }
@@ -158,10 +159,10 @@ const Crud = () => {
     };
 
     const deleteSelectedProducts = () => {
-        let _products = products.filter((val) => !selectedProducts?.includes(val));
+        let _products = (products as any)?.filter((val: any) => !(selectedProducts as any)?.includes(val));
         setProducts(_products);
         setDeleteProductsDialog(false);
-        setSelectedProducts([]);
+        setSelectedProducts(null);
         toast.current?.show({
             severity: 'success',
             summary: 'Successful',
@@ -197,7 +198,7 @@ const Crud = () => {
             <React.Fragment>
                 <div className="my-2">
                     <Button label="New" icon="pi pi-plus" severity="success" className=" mr-2" onClick={openNew} />
-                    <Button label="Delete" icon="pi pi-trash" severity="danger" onClick={confirmDeleteSelected} disabled={!selectedProducts || !selectedProducts.length} />
+                    <Button label="Delete" icon="pi pi-trash" severity="danger" onClick={confirmDeleteSelected} disabled={!selectedProducts || !(selectedProducts as any).length} />
                 </div>
             </React.Fragment>
         );
@@ -324,7 +325,7 @@ const Crud = () => {
                         ref={dt}
                         value={products}
                         selection={selectedProducts}
-                        onSelectionChange={(e) => setSelectedProducts(e.value as Demo.Product[])}
+                        onSelectionChange={(e) => setSelectedProducts(e.value as any)}
                         dataKey="id"
                         paginator
                         rows={10}
