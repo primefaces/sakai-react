@@ -3,7 +3,7 @@
   "version": "10.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3002",
     "build": "next build",
     "start": "next start",
     "format": "prettier --write \"{components,app,service,api-generator}/**/*.{js,ts,tsx,d.ts}\"",

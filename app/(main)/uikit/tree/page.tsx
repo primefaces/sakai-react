@@ -20,8 +20,15 @@ const TreeDemo = () => {
     useState<TreeTableSelectionKeysType | null>(null);
 
   useEffect(() => {
-    NodeService.getTreeNodes().then((data) => setTreeNodes(data));
-    NodeService.getTreeTableNodes().then((data) => setTreeTableNodes(data));
+    NodeService.getTreeNodes().then((data) => {
+      setTreeNodes(data)
+      console.log(data)
+    });
+     
+    NodeService.getTreeTableNodes().then((data) => {
+      setTreeTableNodes(data)
+      console.log(data)
+    });
   }, []);
 
   return (
