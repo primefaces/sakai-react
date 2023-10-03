@@ -1,31 +1,34 @@
 {
-  "name": "sakai-react",
-  "version": "10.1.0-SNAPSHOT",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "format": "prettier --write \"{components,app,service,api-generator}/**/*.{js,ts,tsx,d.ts}\"",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "@types/node": "20.3.1",
-    "@types/react": "18.2.12",
-    "@types/react-dom": "18.2.5",
-    "chart.js": "4.2.1",
-    "next": "13.4.8",
-    "primeflex": "^3.3.1",
-    "primeicons": "^6.0.1",
-    "primereact": "^9.6.2",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "typescript": "5.1.3"
-  },
-  "devDependencies": {
-    "eslint": "8.43.0",
-    "eslint-config-next": "13.4.6",
-    "prettier": "^2.8.8",
-    "sass": "^1.63.4"
-  }
+    "name": "sakai-react",
+    "version": "8.0.1-SNAPSHOT",
+    "private": false,
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "export": "next build && next export",
+        "lint": "next lint",
+        "format": "prettier --write \"**/**/*.{js,ts,tsx}\""
+    },
+    "dependencies": {
+        "@fullcalendar/core": "^5.11.2",
+        "@fullcalendar/daygrid": "^5.11.2",
+        "@fullcalendar/interaction": "^5.11.2",
+        "@fullcalendar/react": "^5.11.2",
+        "@fullcalendar/timegrid": "^5.11.2",
+        "chart.js": "^3.9.1",
+        "next": "12.3.1",
+        "primeflex": "^3.2.1",
+        "primeicons": "^6.0.1",
+        "primereact": "^8.6.1",
+        "react": "17.0.2",
+        "react-dom": "17.0.2",
+        "react-transition-group": "^4.4.5"
+    },
+    "devDependencies": {
+        "eslint": "8.21.0",
+        "eslint-config-next": "12.2.4",
+        "prettier": "2.7.1",
+        "sass": "^1.54.4"
+    }
 }
