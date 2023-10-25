@@ -1,5 +1,6 @@
 'use client'
 import React, { useEffect, useState } from 'react'
+import Link from 'next/link'
 
 import { FilterMatchMode, FilterOperator } from 'primereact/api'
 
@@ -12,75 +13,30 @@ import { DataTable } from 'primereact/datatable'
 const NonePerformingLoanList = () => {
   const [customers1, setCustomers1] = useState([
     {
-      ma_nv: 'NV00001',
-      ten_nv: 'Lê Văn Bằng',
+      ma_kh: 'KH00001',
+      ten_kh: 'Lê Văn Bằng',
       sdt: '0123456789',
       cccd: '066202011111',
-      date_cccd: '27/09/2020',
-      address_cccd: 'Đăk Lăk',
-      email: 'levanbang111@gmail.com',
-      role: 'Nhân viên',
-      department: 'Thu hồi nợ'
+      nhom_no: '3',
+      so_ngay_qua_han: '100',
+      tong_du_no_hien_tai: '1.000.000.000',
+      so_tien_da_thanh_toan: '100.000.000'
     },
     {
-      ma_nv: 'NV00002',
-      ten_nv: 'Lê Văn Bằng 2',
+      ma_kh: 'KH00002',
+      ten_kh: 'Lê Văn Bằng 2',
       sdt: '0123456789',
       cccd: '066202011111',
-      date_cccd: '27/09/2020',
-      address_cccd: 'Đăk Lăk',
-      email: 'levanbang111@gmail.com',
-      role: 'Nhân viên',
-      department: 'Thu hồi nợ'
-    },
-    {
-      ma_nv: 'NV00003',
-      ten_nv: 'Lê Văn Bằng 3',
-      sdt: '0123456789',
-      cccd: '066202011111',
-      date_cccd: '27/09/2020',
-      address_cccd: 'Đăk Lăk',
-      email: 'levanbang111@gmail.com',
-      role: 'Nhân viên',
-      department: 'Thu hồi nợ'
+      nhom_no: '3',
+      so_ngay_qua_han: '100',
+      tong_du_no_hien_tai: '1.000.000.000',
+      so_tien_da_thanh_toan: '100.000.000'
     }
   ])
   const [filters1, setFilters1] = useState({})
   const [loading1, setLoading1] = useState(false)
   const [globalFilterValue1, setGlobalFilterValue1] = useState('')
-  const [onAddStaff, setOnAddStaff] = useState(false)
   const [onConfirm, setOnConfirm] = useState('')
-  const [staffForm, setStaffForm] = useState({
-    ten_nv: '',
-    sdt: '',
-    cccd: '',
-    date_cccd: '',
-    address_cccd: '',
-    email: '',
-    role: '',
-    department: ''
-  })
-
-  const handleChange = (field, value) => {
-    setStaffForm({ ...staffForm, [field]: value })
-  }
-
-  const onCancel = () => {
-    setStaffForm({
-      ma_nv: '',
-      ten_nv: '',
-      sdt: '',
-      cccd: '',
-      role: '',
-      department: ''
-    })
-    setOnAddStaff(false)
-  }
-
-  const handleAddStaff = () => {
-    setCustomers1([...customers1, staffForm])
-    onCancel()
-  }
 
   const onGlobalFilterChange1 = e => {
     const value = e.target.value
@@ -138,19 +94,19 @@ const NonePerformingLoanList = () => {
   }
 
   const handleDeleteStaff = id => {
-    setCustomers1(customers1.filter(item => item.ma_nv !== id))
+    setCustomers1(customers1.filter(item => item.ma_kh !== id))
     setOnConfirm('')
   }
 
   const renderAction = rowData => {
     return (
       <React.Fragment>
-        <div className='cursor-pointer text-primary' onClick={() => setOnConfirm(rowData.ma_nv)}>
+        <div className='cursor-pointer text-primary' onClick={() => setOnConfirm(rowData.ma_kh)}>
           Xóa
         </div>
         <Dialog
-          header='Xóa nhân viên'
-          visible={rowData.ma_nv === onConfirm}
+          header='Xóa khách hàng nợ xấu'
+          visible={rowData.ma_kh === onConfirm}
           onHide={() => setOnConfirm('')}
           style={{ width: '350px' }}
           modal
@@ -159,7 +115,7 @@ const NonePerformingLoanList = () => {
             <div className='flex align-items-center justify-content-center'>
               <i className='pi pi-exclamation-triangle mr-3' style={{ fontSize: '2rem' }} />
               <span>
-                Bạn có chắc chắn muốn xóa nhân viên <b>{rowData.ten_nv}</b> không?
+                Bạn có chắc chắn muốn xóa khách hàng <b>{rowData.ten_kh}</b> không?
               </span>
             </div>
 
@@ -174,7 +130,7 @@ const NonePerformingLoanList = () => {
               <Button
                 label='Xóa'
                 style={{ width: '80px', height: '36px', marginLeft: '16px' }}
-                onClick={() => handleDeleteStaff(rowData.ma_nv)}
+                onClick={() => handleDeleteStaff(rowData.ma_kh)}
               />
             </div>
           </div>
@@ -183,71 +139,8 @@ const NonePerformingLoanList = () => {
     )
   }
 
-  const renderAddStaffContent = () => {
-    return (
-      <div className='p-fluid'>
-        <div className='field'>
-          <label htmlFor='ten_nv'>Tên nhân viên</label>
-          <InputText
-            id='ten_nv'
-            type='text'
-            placeholder='Tên nhân viên'
-            value={staffForm.ten_nv}
-            onChange={e => handleChange('ten_nv', e.target.value)}
-          />
-        </div>
-
-        <div className='field'>
-          <label htmlFor='sdt'>Số điện thoại</label>
-          <InputText
-            id='sdt'
-            type='text'
-            placeholder='Số điện thoại'
-            value={staffForm.sdt}
-            onChange={e => handleChange('sdt', e.target.value)}
-          />
-        </div>
-
-        <div className='field'>
-          <label htmlFor='role'>Chức danh</label>
-          <InputText
-            id='role'
-            type='text'
-            placeholder='Chức danh'
-            value={staffForm.role}
-            onChange={e => handleChange('role', e.target.value)}
-          />
-        </div>
-
-        <div className='field'>
-          <label htmlFor='department'>Phòng ban</label>
-          <InputText
-            id='department'
-            type='text'
-            placeholder='Phòng ban'
-            value={staffForm.department}
-            onChange={e => handleChange('department', e.target.value)}
-          />
-        </div>
-
-        <div>
-          <div className='flex justify-content-center mt-5'>
-            <Button
-              label='Hủy'
-              severity='primary'
-              outlined
-              style={{ width: '80px', height: '36px' }}
-              onClick={() => onCancel()}
-            />
-            <Button
-              label='Thêm'
-              style={{ width: '80px', height: '36px', marginLeft: '16px' }}
-              onClick={() => handleAddStaff()}
-            />
-          </div>
-        </div>
-      </div>
-    )
+  const renderCustomerId = rowData => {
+    return <Link href='/no-xau/chi-tiet'>{rowData.ma_kh}</Link>
   }
 
   const header1 = renderHeader1()
@@ -261,16 +154,7 @@ const NonePerformingLoanList = () => {
       <div className='flex justify-content-between align-items-center mb-3'>
         <div className='font-bold text-xl'>Danh sách khách hàng nợ xấu</div>
         <div>
-          <Button label='Thêm khách hàng nợ xấu' outlined onClick={() => setOnAddStaff(true)} />
-          <Dialog
-            header='Thêm khách hàng nợ xấu'
-            visible={onAddStaff}
-            style={{ maxWidth: '400px', width: '90%' }}
-            modal
-            onHide={() => onCancel()}
-          >
-            {renderAddStaffContent()}
-          </Dialog>
+          <Button label='Thêm khách hàng nợ xấu' outlined />
         </div>
       </div>
 
@@ -286,15 +170,17 @@ const NonePerformingLoanList = () => {
           filterDisplay='menu'
           loading={loading1}
           responsiveLayout='scroll'
-          emptyMessage='Không tìm thấy nhân viên nào'
+          emptyMessage='Không tìm thấy khách hàng nợ xấu nào'
           header={header1}
         >
-          <Column field='ma_nv' header='Mã khách hàng' style={{ minWidth: '10rem' }} />
-          <Column field='ten_nv' header='Họ và tên' style={{ minWidth: '12rem' }} />
+          <Column header='Mã khách hàng' style={{ minWidth: '10rem' }} body={renderCustomerId} />
+          <Column field='ten_kh' header='Họ và tên' style={{ minWidth: '12rem' }} sortable />
           <Column field='cccd' header='Căn cước công dân' style={{ minWidth: '11rem' }} />
           <Column field='sdt' header='Số điện thoại' style={{ minWidth: '9rem' }} />
-          <Column field='sdt' header='Nhóm nợ' style={{ minWidth: '4rem' }} />
-          <Column field='sdt' header='Số ngày quá hạn' style={{ minWidth: '10rem' }} />
+          <Column field='nhom_no' header='Nhóm nợ' style={{ minWidth: '7rem' }} />
+          <Column field='so_ngay_qua_han' header='Số ngày quá hạn' style={{ minWidth: '10rem' }} />
+          <Column field='tong_du_no_hien_tai' header='Tổng dư nợ hiện tại' style={{ minWidth: '12rem' }} />
+          <Column field='so_tien_da_thanh_toan' header='Số tiền đã thanh toán' style={{ minWidth: '13rem' }} />
           <Column style={{ minWidth: '1rem' }} body={renderAction} />
         </DataTable>
       </div>
