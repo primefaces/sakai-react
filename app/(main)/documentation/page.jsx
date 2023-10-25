@@ -97,13 +97,13 @@ const Documentation = () => {
             <pre className='app-code'>
               <code>
                 {`'use client'
-import { LayoutProvider } from '../layout/context/layoutcontext'
+import { LayoutProvider } from '@/layout/context/layoutcontext'
 import { PrimeReactProvider } from 'primereact/api'
 import 'primereact/resources/primereact.css'
 import 'primeflex/primeflex.css'
 import 'primeicons/primeicons.css'
-import '../styles/layout/layout.scss'
-import '../styles/demo/Demos.scss'
+import '@/styles/layout/layout.scss'
+import '@/styles/demo/Demos.scss'
 
 export default function RootLayout({ children }) {
   return (
@@ -128,7 +128,7 @@ export default function RootLayout({ children }) {
             </p>
             <pre className='app-code'>
               <code>
-                {`import Layout from '../../layout/layout'
+                {`import Layout from '@/layout/layout'
 
 export const metadata = {
   title: 'PrimeReact Sakai',
@@ -147,7 +147,7 @@ export default function AppLayout({ children }) {
             </p>
             <pre className='app-code'>
               <code>
-                {`import AppConfig from '../../layout/AppConfig'
+                {`import AppConfig from '@/layout/AppConfig'
 import React from 'react'
 
 export const metadata = {

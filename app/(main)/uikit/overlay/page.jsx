@@ -9,7 +9,7 @@ import { OverlayPanel } from 'primereact/overlaypanel'
 import { Sidebar } from 'primereact/sidebar'
 import { Toast } from 'primereact/toast'
 import React, { useEffect, useRef, useState } from 'react'
-import { ProductService } from '../../../../demo/service/ProductService'
+import { ProductService } from '@/demo/service/ProductService'
 const OverlayDemo = () => {
   const [displayBasic, setDisplayBasic] = useState(false)
   const [displayConfirmation, setDisplayConfirmation] = useState(false)
