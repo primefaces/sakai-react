@@ -1,9 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 
 import React, { useContext } from 'react'
-import AppMenuitem from './AppMenuitem'
-import { LayoutContext } from './context/layoutcontext'
-import { MenuProvider } from './context/menucontext'
+import AppMenuItem from './AppMenuItem'
+import { LayoutContext } from './context/LayoutContext'
+import { MenuProvider } from './context/MenuContext'
 import Link from 'next/link'
 
 const AppMenu = () => {
@@ -214,7 +214,7 @@ const AppMenu = () => {
       <ul className='layout-menu'>
         {model.map((item, i) => {
           return !item?.seperator ? (
-            <AppMenuitem item={item} root={true} index={i} key={item.label} />
+            <AppMenuItem item={item} root={true} index={i} key={item.label} />
           ) : (
             <li className='menu-separator'></li>
           )

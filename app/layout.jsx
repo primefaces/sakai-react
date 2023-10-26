@@ -1,5 +1,5 @@
 'use client'
-import { LayoutProvider } from '@/layout/context/layoutcontext'
+import { LayoutProvider } from '@/layout/context/LayoutContext'
 import { PrimeReactProvider } from 'primereact/api'
 import 'primereact/resources/primereact.css'
 import 'primeflex/primeflex.css'

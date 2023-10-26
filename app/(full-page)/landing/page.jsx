@@ -7,7 +7,7 @@ import { StyleClass } from 'primereact/styleclass'
 import { Button } from 'primereact/button'
 import { Ripple } from 'primereact/ripple'
 import { Divider } from 'primereact/divider'
-import { LayoutContext } from '@/layout/context/layoutcontext'
+import { LayoutContext } from '@/layout/context/LayoutContext'
 import { classNames } from 'primereact/utils'
 
 const LandingPage = () => {

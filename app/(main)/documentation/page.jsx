@@ -128,7 +128,7 @@ export default function RootLayout({ children }) {
             </p>
             <pre className='app-code'>
               <code>
-                {`import Layout from '@/layout/layout'
+                {`import Layout from '@/layout/Layout'
 
 export const metadata = {
   title: 'PrimeReact Sakai',
