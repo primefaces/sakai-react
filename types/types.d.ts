@@ -10,7 +10,6 @@ import {
     LayoutConfig,
     LayoutState,
     AppBreadcrumbState,
-    Breadcrumb,
     LayoutContextProps,
     MailContextProps,
     MenuContextProps,
@@ -24,6 +23,11 @@ import {
     AppMenuItem
 } from './layout';
 import { Demo, LayoutType, SortOrderType, CustomEvent, ChartDataState, ChartOptionsState, AppMailSidebarItem, AppMailReplyProps, AppMailProps } from './demo';
+import {
+    CompanyModule,
+    Company,
+    Financial
+} from './company';
 
 type ChildContainerProps = {
     children: ReactNode;
@@ -38,7 +42,6 @@ export type {
     MenuModel,
     LayoutConfig,
     LayoutState,
-    Breadcrumb,
     LayoutContextProps,
     MailContextProps,
     MenuContextProps,
@@ -58,5 +61,5 @@ export type {
     AppMailSidebarItem,
     AppMailReplyProps,
     AppMailProps,
-    AppMenuItem
+    AppMenuItem,
 };
