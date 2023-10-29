@@ -12,7 +12,6 @@ const FileDemo = () => {
     const toast = useRef<Toast | null>(null);
 
     const onUpload = (event:FileUploadSelectEvent) => {
-        CompanyService.handleFileChange(event.files[0])
         toast.current?.show({
             severity: 'info',
             summary: 'Success',
