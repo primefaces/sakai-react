@@ -1,4 +1,6 @@
 'use client'
+import Link from 'next/link'
+
 import PersonalInformation from '@/components/customerDetail/personalInformation/PersonalInformation'
 import Caseworker from '@/components/customerDetail/caseworker/Caseworker'
 import LegalRecord from '@/components/customerDetail/legalRecord/LegalRecord'
@@ -12,6 +14,19 @@ import LawsuitProgressAndExecute from '@/components/customerDetail/lawsuitProgre
 const NonePerformingLoanDetail = () => {
   return (
     <div>
+      <div className='flex justify-content-end'>
+        <Link href='/no-xau/chi-tiet/chinh-sua' style={{ color: '#ffffff', fontWeight: '600', marginBottom: '1rem' }}>
+          <div
+            className='flex justify-content-center align-items-center border-solid border-1 border-primary border-round-md bg-primary'
+            style={{
+              width: '86px',
+              height: '40px'
+            }}
+          >
+            Chỉnh sửa
+          </div>
+        </Link>
+      </div>
       <div className='grid'>
         <div className='xl:col-7 lg:col-12 pb-0'>
           <PersonalInformation />
