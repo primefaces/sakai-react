@@ -15,6 +15,48 @@ const AppMenu = () => {
       items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/' }]
     },
     {
+      label: 'Danh mục',
+      items: [
+        {
+          label: 'Hành động thu hồi',
+          icon: 'pi pi-fw pi-box'
+        },
+        {
+          label: 'Kết quả thu hồi',
+          icon: 'pi pi-fw pi-inbox'
+        },
+        {
+          label: 'Biểu mẫu',
+          icon: 'pi pi-fw pi-paperclip'
+        },
+        {
+          label: 'Nhân viên',
+          icon: 'pi pi-fw pi-users'
+        }
+      ]
+    },
+    {
+      label: 'Danh sách',
+      items: [
+        {
+          label: 'Khách hàng',
+          icon: 'pi pi-fw pi-users'
+        },
+        {
+          label: 'Hành động thu hồi',
+          icon: 'pi pi-fw pi-list'
+        },
+        {
+          label: 'Tờ trình',
+          icon: 'pi pi-fw pi-file-edit',
+          items: [
+            { label: 'Khởi kiện', icon: 'pi pi-fw pi-file' },
+            { label: 'Miễn giảm', icon: 'pi pi-fw pi-file' }
+          ]
+        }
+      ]
+    },
+    {
       label: 'UI Components',
       items: [
         {
