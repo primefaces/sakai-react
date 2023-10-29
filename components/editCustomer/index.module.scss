@@ -32,20 +32,6 @@
   background-color: #6366f1;
   cursor: pointer;
 }
-.datePickerStyle {
-  > div {
-    border-radius: 6px;
-  }
-  input {
-    height: 41px;
-    width: 203px;
-    padding: 10.5px;
-    font-size: 1rem;
-    color: #495057;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif,
-      'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-  }
-}
 
 @media only screen and (max-width: 576px) {
   .inputText {
@@ -54,20 +40,5 @@
   .inputTextDisable {
     width: 100%;
     background-color: #e6e6e6 !important;
-  }
-  .datePickerStyle {
-    width: 100%;
-    > div {
-      border-radius: 6px;
-    }
-    input {
-      height: 41px;
-      width: calc(100% - 47px);
-      padding: 10.5px;
-      font-size: 1rem;
-      color: #495057;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif,
-        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-    }
   }
 }

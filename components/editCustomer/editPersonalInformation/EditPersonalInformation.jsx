@@ -1,14 +1,15 @@
+import React, { useState } from 'react'
+
 import { InputText } from 'primereact/inputtext'
 
 import { Button } from 'primereact/button'
-
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+import { Calendar } from 'primereact/calendar'
 
 import styles from '../index.module.scss'
 
 const EditPersonalInformation = () => {
+  const [birthday, setBirthday] = useState(null)
+
   return (
     <div>
       <div className='field grid'>
@@ -43,9 +44,7 @@ const EditPersonalInformation = () => {
           <label htmlFor='birthday'>Ngày sinh:</label>
         </div>
         <div className='col-12 md:col-9 sm:col-8'>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker className={styles.datePickerStyle} />
-          </LocalizationProvider>
+          <Calendar value={birthday} className={styles.inputText} />
         </div>
       </div>
 
