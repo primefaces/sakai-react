@@ -19,3 +19,5 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_BILANCO_B85AA }}'
           channelId: live
           projectId: bilanco-b85aa
+        env:
+          FIREBASE_CLI_EXPERIMENTS: webframeworks
