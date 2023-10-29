@@ -1,10 +1,10 @@
 'use client'
 import { TabView, TabPanel } from 'primereact/tabview'
 
-import EditPersonalInformation from '@/components/editCustomer/editPersonalInformation/EditPersonalInformation'
-import EditCaseworker from '@/components/editCustomer/editCaseworker/EditCaseworker'
-import EditDebtInformation from '@/components/editCustomer/editDebtInformation/EditDebtInformation'
-import EditLegalRecord from '@/components/editCustomer/editLegalRecord/EditLegalRecord'
+import EditPersonalInformation from 'components/editCustomer/editPersonalInformation/EditPersonalInformation'
+import EditCaseworker from 'components/editCustomer/editCaseworker/EditCaseworker'
+import EditDebtInformation from 'components/editCustomer/editDebtInformation/EditDebtInformation'
+import EditLegalRecord from 'components/editCustomer/editLegalRecord/EditLegalRecord'
 
 const EditNonePerformingLoan = () => {
   return (
