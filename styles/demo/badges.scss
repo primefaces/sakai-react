@@ -1,81 +1,81 @@
 .customer-badge,
 .product-badge,
 .order-badge {
-    border-radius: var(--border-radius);
-    padding: .25em .5rem;
-    text-transform: uppercase;
-    font-weight: 700;
-    font-size: 12px;
-    letter-spacing: .3px;
+  border-radius: var(--border-radius);
+  padding: 0.25em 0.5rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.3px;
 }
 
 .product-badge {
-    &.status-instock {
-        background: #C8E6C9;
-        color: #256029;
-    }
+  &.status-instock {
+    background: #c8e6c9;
+    color: #256029;
+  }
 
-    &.status-outofstock {
-        background: #FFCDD2;
-        color: #C63737;
-    }
+  &.status-outofstock {
+    background: #ffcdd2;
+    color: #c63737;
+  }
 
-    &.status-lowstock {
-        background: #FEEDAF;
-        color: #8A5340;
-    }
+  &.status-lowstock {
+    background: #feedaf;
+    color: #8a5340;
+  }
 }
 
 .customer-badge {
-    &.status-qualified {
-        background: #C8E6C9;
-        color: #256029;
-    }
+  &.status-qualified {
+    background: #c8e6c9;
+    color: #256029;
+  }
 
-    &.status-unqualified {
-        background: #FFCDD2;
-        color: #C63737;
-    }
+  &.status-unqualified {
+    background: #ffcdd2;
+    color: #c63737;
+  }
 
-    &.status-negotiation {
-        background: #FEEDAF;
-        color: #8A5340;
-    }
+  &.status-negotiation {
+    background: #feedaf;
+    color: #8a5340;
+  }
 
-    &.status-new {
-        background: #B3E5FC;
-        color: #23547B;
-    }
+  &.status-new {
+    background: #b3e5fc;
+    color: #23547b;
+  }
 
-    &.status-renewal {
-        background: #ECCFFF;
-        color: #694382;
-    }
+  &.status-renewal {
+    background: #eccfff;
+    color: #694382;
+  }
 
-    &.status-proposal {
-        background: #FFD8B2;
-        color: #805B36;
-    }
+  &.status-proposal {
+    background: #ffd8b2;
+    color: #805b36;
+  }
 }
 
 .order-badge {
-    &.order-delivered {
-        background: #C8E6C9;
-        color: #256029;
-    }
+  &.order-delivered {
+    background: #c8e6c9;
+    color: #256029;
+  }
 
-    &.order-cancelled {
-        background: #FFCDD2;
-        color: #C63737;
-    }
+  &.order-cancelled {
+    background: #ffcdd2;
+    color: #c63737;
+  }
 
-    &.order-pending {
-        background: #FEEDAF;
-        color: #8A5340;
-    }
+  &.order-pending {
+    background: #feedaf;
+    color: #8a5340;
+  }
 
-    &.order-returned {
-        background: #ECCFFF;
-        color: #694382;
-    }
+  &.order-returned {
+    background: #eccfff;
+    color: #694382;
+  }
 }

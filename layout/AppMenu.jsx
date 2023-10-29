@@ -1,9 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 
 import React, { useContext } from 'react'
-import AppMenuitem from './AppMenuitem'
-import { LayoutContext } from './context/layoutcontext'
-import { MenuProvider } from './context/menucontext'
+import AppMenuItem from './AppMenuItem'
+import { LayoutContext } from './context/LayoutContext'
+import { MenuProvider } from './context/MenuContext'
 import Link from 'next/link'
 
 const AppMenu = () => {
@@ -16,6 +16,48 @@ const AppMenu = () => {
         { label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/' },
         { label: 'Danh sách nhân viên', icon: 'pi pi-fw pi-user', to: '/nhan-vien' },
         { label: 'Danh sách nợ xấu', icon: 'pi pi-fw pi-dollar', to: '/no-xau' }
+      ]
+    },
+    {
+      label: 'Danh mục',
+      items: [
+        {
+          label: 'Hành động thu hồi',
+          icon: 'pi pi-fw pi-box'
+        },
+        {
+          label: 'Kết quả thu hồi',
+          icon: 'pi pi-fw pi-inbox'
+        },
+        {
+          label: 'Biểu mẫu',
+          icon: 'pi pi-fw pi-paperclip'
+        },
+        {
+          label: 'Nhân viên',
+          icon: 'pi pi-fw pi-users'
+        }
+      ]
+    },
+    {
+      label: 'Danh sách',
+      items: [
+        {
+          label: 'Khách hàng',
+          icon: 'pi pi-fw pi-users'
+        },
+        {
+          label: 'Hành động thu hồi',
+          icon: 'pi pi-fw pi-list'
+        },
+        {
+          label: 'Tờ trình',
+          icon: 'pi pi-fw pi-file-edit',
+          items: [
+            { label: 'Khởi kiện', icon: 'pi pi-fw pi-file' },
+            { label: 'Miễn giảm', icon: 'pi pi-fw pi-file' }
+          ]
+        }
       ]
     },
     {
@@ -218,7 +260,7 @@ const AppMenu = () => {
       <ul className='layout-menu'>
         {model.map((item, i) => {
           return !item?.seperator ? (
-            <AppMenuitem item={item} root={true} index={i} key={item.label} />
+            <AppMenuItem item={item} root={true} index={i} key={item.label} />
           ) : (
             <li className='menu-separator'></li>
           )

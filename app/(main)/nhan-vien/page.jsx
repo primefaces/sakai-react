@@ -13,7 +13,7 @@ const StaffList = () => {
   const [customers1, setCustomers1] = useState([
     {
       ma_nv: 'NV00001',
-      ten_nv: 'Lê Văn Bằng',
+      ten_nv: 'Lê Văn Bằng 1',
       sdt: '0123456789',
       cccd: '066202011111',
       date_cccd: '27/09/2020',
