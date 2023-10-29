@@ -4,10 +4,10 @@ import { Ripple } from 'primereact/ripple'
 import { classNames } from 'primereact/utils'
 import React, { useEffect, useContext } from 'react'
 import { CSSTransition } from 'react-transition-group'
-import { MenuContext } from './context/menucontext'
+import { MenuContext } from './context/MenuContext'
 import { usePathname, useSearchParams } from 'next/navigation'
 
-const AppMenuitem = props => {
+const AppMenuItem = props => {
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const { activeMenu, setActiveMenu } = useContext(MenuContext)
@@ -52,7 +52,7 @@ const AppMenuitem = props => {
     >
       <ul>
         {item.items.map((child, i) => {
-          return <AppMenuitem item={child} index={i} className={child.badgeClass} parentKey={key} key={child.label} />
+          return <AppMenuItem item={child} index={i} className={child.badgeClass} parentKey={key} key={child.label} />
         })}
       </ul>
     </CSSTransition>
@@ -104,4 +104,4 @@ const AppMenuitem = props => {
   )
 }
 
-export default AppMenuitem
+export default AppMenuItem

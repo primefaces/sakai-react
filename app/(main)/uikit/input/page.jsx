@@ -19,7 +19,7 @@ import { SelectButton } from 'primereact/selectbutton'
 import { Slider } from 'primereact/slider'
 import { ToggleButton } from 'primereact/togglebutton'
 import React, { useEffect, useState } from 'react'
-import { CountryService } from '../../../../demo/service/CountryService'
+import { CountryService } from '@/demo/service/CountryService'
 
 const InputDemo = () => {
   const [floatValue, setFloatValue] = useState('')

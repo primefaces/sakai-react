@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { Tree } from 'primereact/tree'
 import { TreeTable } from 'primereact/treetable'
 import { Column } from 'primereact/column'
-import { NodeService } from '../../../../demo/service/NodeService'
+import { NodeService } from '@/demo/service/NodeService'
 
 const TreeDemo = () => {
   const [files, setFiles] = useState([])
