@@ -5,7 +5,7 @@ import {Financial} from "../../../types/financial";
 import {Company} from "../../../types/company";
 import {FinancialLine} from "../../../types/financialLine";
 
-export const runtime = 'edge'; // 'nodejs' is the default
+export const runtime = 'nodejs'; // 'nodejs' is the default
 
 function extractMap(pdfData: Output) {
     let retVal = '';
