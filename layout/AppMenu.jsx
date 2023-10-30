@@ -12,7 +12,11 @@ const AppMenu = () => {
   const model = [
     {
       label: 'Home',
-      items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/' }]
+      items: [
+        { label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/' },
+        { label: 'Danh sách nhân viên', icon: 'pi pi-fw pi-user', to: '/nhan-vien' },
+        { label: 'Danh sách nợ xấu', icon: 'pi pi-fw pi-dollar', to: '/no-xau' }
+      ]
     },
     {
       label: 'Danh mục',
