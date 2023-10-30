@@ -1,4 +1,4 @@
-import {BeyannameCodes} from "../../../demo/service/FinancialService";
+import {BeyannameCodes} from "../demo/service/FinancialService";
 
 export class FinancialLine {
     constructor(value: number, code: string, accountCode?: string) {

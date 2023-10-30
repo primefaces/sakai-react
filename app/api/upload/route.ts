@@ -1,10 +1,11 @@
 import {NextRequest, NextResponse} from 'next/server'; // To handle the request and response
 import PDFParser, {Output} from 'pdf2json';
 import {BeyannameCodes} from "../../../demo/service/FinancialService";
-import {Financial} from "./financial";
-import {Company} from "./company";
-import {FinancialLine} from "./financialLine";
+import {Financial} from "../../../types/financial";
+import {Company} from "../../../types/company";
+import {FinancialLine} from "../../../types/financialLine";
 
+export const runtime = 'edge'; // 'nodejs' is the default
 
 function extractMap(pdfData: Output) {
     let retVal = '';
@@ -132,8 +133,6 @@ function createFinancial(list: any[]) {
 
     return {financialPrev, financial};
 }
-
-export const runtime = 'edge'; // 'nodejs' is the default
 
 export async function POST(req: NextRequest) {
     const formData: FormData = await req.formData();
