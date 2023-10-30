@@ -7,19 +7,21 @@ import { Calendar } from 'primereact/calendar'
 
 import styles from '../index.module.scss'
 
-const EditPersonalInformation = () => {
+const EditPersonalInformation = props => {
   const [birthday, setBirthday] = useState(null)
 
   return (
     <div>
-      <div className='field grid'>
-        <div className='col-12 mb-2 md:col-3 sm:col-4 sm:mb-0 sm:flex sm:justify-content-end sm:align-items-center'>
-          <label className=' '>Mã khách hàng:</label>
+      {!props.isAdding && (
+        <div className='field grid'>
+          <div className='col-12 mb-2 md:col-3 sm:col-4 sm:mb-0 sm:flex sm:justify-content-end sm:align-items-center'>
+            <label className=' '>Mã khách hàng:</label>
+          </div>
+          <div className='col-12 md:col-9 sm:col-8'>
+            <InputText type='text' disabled className={styles.inputTextDisable} />
+          </div>
         </div>
-        <div className='col-12 md:col-9 sm:col-8'>
-          <InputText type='text' disabled className={styles.inputTextDisable} />
-        </div>
-      </div>
+      )}
 
       <div className='field grid'>
         <div className='col-12 mb-2 md:col-3 sm:col-4 sm:mb-0 sm:flex sm:justify-content-end sm:align-items-center'>
@@ -136,7 +138,11 @@ const EditPersonalInformation = () => {
           style={{ width: '90px', marginRight: '16px' }}
           onClick={() => window.history.back()}
         />
-        <Button label='Lưu' style={{ width: '90px' }} />
+        {props.isAdding ? (
+          <Button label='Thêm' style={{ width: '90px' }} />
+        ) : (
+          <Button label='Lưu' style={{ width: '90px' }} />
+        )}
       </div>
     </div>
   )

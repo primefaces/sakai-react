@@ -153,8 +153,15 @@ const NonePerformingLoanList = () => {
     <div className='card'>
       <div className='flex justify-content-between align-items-center mb-3'>
         <div className='font-bold text-xl'>Danh sách khách hàng nợ xấu</div>
-        <div>
-          <Button label='Thêm khách hàng nợ xấu' outlined />
+        <div className='flex'>
+          <div>
+            <Link href='/no-xau/them-no-xau'>
+              <Button label='Thêm khách hàng nợ xấu' outlined />
+            </Link>
+          </div>
+          <div className='ml-3'>
+            <Button label='Xuất excel' />
+          </div>
         </div>
       </div>
 
