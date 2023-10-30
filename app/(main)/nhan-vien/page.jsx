@@ -150,7 +150,7 @@ const StaffList = () => {
         </div>
         <Dialog
           header='Xóa nhân viên'
-          visible={rowData.ma_nv === onConfirm}
+          visible={rowData.ma_nv !== '' && rowData.ma_nv === onConfirm}
           onHide={() => setOnConfirm('')}
           style={{ width: '350px' }}
           modal
@@ -198,6 +198,17 @@ const StaffList = () => {
         </div>
 
         <div className='field'>
+          <label htmlFor='email'>Email</label>
+          <InputText
+            id='email'
+            type='text'
+            placeholder='Email'
+            value={staffForm.email}
+            onChange={e => handleChange('email', e.target.value)}
+          />
+        </div>
+
+        <div className='field'>
           <label htmlFor='sdt'>Số điện thoại</label>
           <InputText
             id='sdt'
@@ -240,7 +251,7 @@ const StaffList = () => {
               onClick={() => onCancel()}
             />
             <Button
-              label='Thêm'
+              label='Tạo'
               style={{ width: '80px', height: '36px', marginLeft: '16px' }}
               onClick={() => handleAddStaff()}
             />
@@ -261,9 +272,9 @@ const StaffList = () => {
       <div className='flex justify-content-between align-items-center mb-3'>
         <div className='font-bold text-xl'>Danh sách nhân viên</div>
         <div>
-          <Button label='Thêm nhân viên' outlined onClick={() => setOnAddStaff(true)} />
+          <Button label='Tạo tài khoản nhân viên' outlined onClick={() => setOnAddStaff(true)} />
           <Dialog
-            header='Thêm nhân viên'
+            header='Tạo tài khoản nhân viên'
             visible={onAddStaff}
             style={{ maxWidth: '400px', width: '90%' }}
             modal
@@ -291,6 +302,7 @@ const StaffList = () => {
         >
           <Column field='ma_nv' header='Mã nhân viên' style={{ minWidth: '9rem' }} />
           <Column field='ten_nv' header='Tên nhân viên' style={{ minWidth: '12rem' }} />
+          <Column field='email' header='Email' style={{ minWidth: '12rem' }} />
           <Column field='sdt' header='Số điện thoại' style={{ minWidth: '9rem' }} />
           <Column field='cccd' header='Căn cước công dân' style={{ minWidth: '11rem' }} />
           <Column field='date_cccd' header='Ngày cấp' style={{ minWidth: '7rem' }} />
