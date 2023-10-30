@@ -133,6 +133,8 @@ function createFinancial(list: any[]) {
     return {financialPrev, financial};
 }
 
+export const runtime = 'edge'; // 'nodejs' is the default
+
 export async function POST(req: NextRequest) {
     const formData: FormData = await req.formData();
     const uploadedFiles = formData.getAll('cenk1');
