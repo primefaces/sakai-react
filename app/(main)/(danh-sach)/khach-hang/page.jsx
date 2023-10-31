@@ -140,7 +140,7 @@ const NonePerformingLoanList = () => {
   }
 
   const renderCustomerId = rowData => {
-    return <Link href='/no-xau/chi-tiet'>{rowData.ma_kh}</Link>
+    return <Link href='/khach-hang/chi-tiet'>{rowData.ma_kh}</Link>
   }
 
   const header1 = renderHeader1()
@@ -155,7 +155,7 @@ const NonePerformingLoanList = () => {
         <div className='font-bold text-xl'>Danh sách khách hàng nợ xấu</div>
         <div className='flex'>
           <div>
-            <Link href='/no-xau/them-no-xau'>
+            <Link href='/khach-hang/them-moi'>
               <Button label='Thêm khách hàng nợ xấu' outlined />
             </Link>
           </div>

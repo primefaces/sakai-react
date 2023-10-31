@@ -15,7 +15,10 @@ const NonePerformingLoanDetail = () => {
   return (
     <div>
       <div className='flex justify-content-end'>
-        <Link href='/no-xau/chi-tiet/chinh-sua' style={{ color: '#ffffff', fontWeight: '600', marginBottom: '1rem' }}>
+        <Link
+          href='/khach-hang/chi-tiet/chinh-sua'
+          style={{ color: '#ffffff', fontWeight: '600', marginBottom: '1rem' }}
+        >
           <div
             className='flex justify-content-center align-items-center border-solid border-1 border-primary border-round-md bg-primary'
             style={{
