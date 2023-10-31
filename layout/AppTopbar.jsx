@@ -61,7 +61,7 @@ const AppTopbar = forwardRef((props, ref) => {
             <span>Settings</span>
           </button>
         </Link>
-        <Link href='/profile'>
+        <Link href='/thong-tin-tai-khoan'>
           <button type='button' className='p-link layout-topbar-button'>
             <i className='pi pi-user'></i>
             <span>Profile</span>
