@@ -5,7 +5,7 @@ import { InputText } from 'primereact/inputtext'
 import { Password } from 'primereact/password'
 import { Toast } from 'primereact/toast'
 
-import styles from '../index.module.scss'
+import styles from './index.module.scss'
 
 const ProfileChangePassword = () => {
   const [oldPassword, setOldPassword] = useState('')

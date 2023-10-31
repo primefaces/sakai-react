@@ -1,7 +1,7 @@
 import { Button } from 'primereact/button'
 import { InputText } from 'primereact/inputtext'
 
-import styles from '../index.module.scss'
+import styles from './index.module.scss'
 
 const ProfilePersonalInfo = () => {
   return (

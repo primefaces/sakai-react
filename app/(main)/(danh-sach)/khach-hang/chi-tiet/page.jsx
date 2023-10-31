@@ -1,15 +1,15 @@
 'use client'
 import Link from 'next/link'
 
-import PersonalInformation from '@/components/customerDetail/personalInformation/PersonalInformation'
-import Caseworker from '@/components/customerDetail/caseworker/Caseworker'
-import LegalRecord from '@/components/customerDetail/legalRecord/LegalRecord'
-import DepositAccount from '@/components/customerDetail/depositAccount/DepositAccount'
-import DebtInformation from '@/components/customerDetail/debtInformation/DebtInformation'
-import ProgressTable from '@/components/customerDetail/progressTable/ProgressTable'
-import DebtRecoveryProgress from '@/components/customerDetail/debtRecoveryProgress/DebtRecoveryProgress'
-import LawsuitReportTable from '@/components/customerDetail/lawsuitReportTable/LawsuitReportTable'
-import LawsuitProgressAndExecute from '@/components/customerDetail/lawsuitProgressAndExecute/LawsuitProgressAndExecute'
+import Caseworker from '@/components/customerDetail/caseworker'
+import DebtInformation from '@/components/customerDetail/debt-information'
+import DebtRecoveryProgress from '@/components/customerDetail/debt-recovery-progress'
+import DepositAccount from '@/components/customerDetail/deposit-account'
+import LawsuitProgressAndExecute from '@/components/customerDetail/lawsuit-progress-and-execute'
+import LawsuitReportTable from '@/components/customerDetail/lawsuit-report-table'
+import LegalRecord from '@/components/customerDetail/legal-record'
+import PersonalInformation from '@/components/customerDetail/personal-information'
+import ProgressTable from '@/components/customerDetail/progress-table'
 
 const NonePerformingLoanDetail = () => {
   return (

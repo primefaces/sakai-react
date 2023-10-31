@@ -1,8 +1,8 @@
 'use client'
 import { Accordion, AccordionTab } from 'primereact/accordion'
 
-import ProfilePersonalInfo from '@/components/profile/profilePersonalInfo/ProfilePersonalInfo'
-import ProfileChangePassword from '@/components/profile/profileChangePassword/ProfileChangePassword'
+import ProfileChangePassword from '@/components/profile/profile-change-password'
+import ProfilePersonalInfo from '@/components/profile/profile-personal-info'
 
 const Profile = () => {
   return (
