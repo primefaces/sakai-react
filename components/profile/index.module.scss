@@ -1,0 +1,27 @@
+.inputText {
+  width: 250px;
+  line-height: 20px;
+}
+.inputTextDisable {
+  width: 250px;
+  background-color: #e6e6e6 !important;
+}
+.updateBtnContainer {
+  width: 250px;
+  margin-left: 75px;
+}
+@media only screen and (max-width: 576px) {
+  .inputText {
+    width: 100%;
+  }
+  .inputTextDisable {
+    width: 100%;
+    background-color: #e6e6e6 !important;
+  }
+  .updateBtnContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-left: 0;
+  }
+}
