@@ -9,7 +9,6 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import { ProductService } from '@/demo/service/ProductService'
 import { LayoutContext } from '@/layout/context/LayoutContext'
 import Link from 'next/link'
-import supabase from 'app/(services)/supabase_init'
 const lineData = {
   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
   datasets: [
@@ -121,16 +120,6 @@ const Dashboard = () => {
       currency: 'USD'
     })
   }
-  // Testing API
-  // const [data, setData] = useState(null)
-  // useEffect(() => {
-  //   const fetcher = async () => {
-  //     let { data: KhachHang, error } = await supabase.from('KhachHang').select('CCCD')
-  //     setData(KhachHang)
-  //     console.log(data)
-  //   }
-  //   fetcher()
-  // }, [])
   return (
     <div className='grid'>
       <div className='col-12 lg:col-6 xl:col-3'>
