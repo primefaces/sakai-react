@@ -5,7 +5,7 @@ import { InputText } from 'primereact/inputtext'
 import { Button } from 'primereact/button'
 import { Calendar } from 'primereact/calendar'
 
-import styles from '../index.module.scss'
+import styles from './index.module.scss'
 
 const EditPersonalInformation = props => {
   const [birthday, setBirthday] = useState(null)

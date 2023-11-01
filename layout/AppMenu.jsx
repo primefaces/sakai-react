@@ -12,11 +12,7 @@ const AppMenu = () => {
   const model = [
     {
       label: 'Home',
-      items: [
-        { label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/' },
-        { label: 'Danh sách nhân viên', icon: 'pi pi-fw pi-user', to: '/nhan-vien' },
-        { label: 'Danh sách nợ xấu', icon: 'pi pi-fw pi-dollar', to: '/no-xau' }
-      ]
+      items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/' }]
     },
     {
       label: 'Danh mục',
@@ -35,7 +31,8 @@ const AppMenu = () => {
         },
         {
           label: 'Nhân viên',
-          icon: 'pi pi-fw pi-users'
+          icon: 'pi pi-fw pi-users',
+          to: '/nhan-vien'
         }
       ]
     },
@@ -44,7 +41,8 @@ const AppMenu = () => {
       items: [
         {
           label: 'Khách hàng',
-          icon: 'pi pi-fw pi-users'
+          icon: 'pi pi-fw pi-users',
+          to: '/khach-hang'
         },
         {
           label: 'Hành động thu hồi',
