@@ -3,7 +3,7 @@
 import { Button } from 'primereact/button'
 import { InputText } from 'primereact/inputtext'
 
-const Search = () => {
+const LawsuitSearch = () => {
   return (
     <div>
       <div className='grid'>
@@ -141,4 +141,4 @@ const Search = () => {
   )
 }
 
-export default Search
+export default LawsuitSearch
