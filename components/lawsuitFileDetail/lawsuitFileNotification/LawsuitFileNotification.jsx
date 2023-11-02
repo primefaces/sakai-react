@@ -82,7 +82,7 @@ const LawsuitFileNotification = props => {
 
   return (
     <div className='mt-3'>
-      <div className='flex justify-content-between mb-3 align-items-end'>
+      <div className='flex justify-content-between mb-3 align-items-end' style={{ height: '41px' }}>
         <div className='font-bold text-xl'>Thông báo/Quyết định</div>
         {props.checkedList.length > 0 && <Button label='Xóa' style={{ width: '80px' }} />}
       </div>

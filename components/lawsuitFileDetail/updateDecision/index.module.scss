@@ -1,7 +1,4 @@
 .inputContainer {
-  .disabledInput {
-    background-color: #e6e6e6 !important;
-  }
   input {
     width: 80% !important;
   }
@@ -9,9 +6,6 @@
 
 @media screen and (max-width: 768px) {
   .inputContainer {
-    .disabledInput {
-      background-color: #e6e6e6 !important;
-    }
     input {
       width: 100% !important;
     }

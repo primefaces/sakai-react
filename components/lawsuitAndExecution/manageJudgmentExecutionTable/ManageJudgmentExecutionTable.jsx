@@ -45,6 +45,10 @@ const ManageJudgmentExecutionTable = props => {
     )
   }
 
+  const renderDetailBtn = () => {
+    return <Link href='quan-ly-thi-hanh-an/ho-so'>Chi tiết</Link>
+  }
+
   return (
     <div>
       <DataTable
@@ -72,6 +76,7 @@ const ManageJudgmentExecutionTable = props => {
         <Column field='phu_trach_2' header='Tỉnh/Thành phố' style={{ minWidth: '10rem' }} />
         <Column field='phu_trach_2' header='Quận/huyện' style={{ minWidth: '9rem' }} />
         <Column field='phu_trach_2' header='Ngày tạo khởi kiện' style={{ minWidth: '12rem' }} />
+        <Column header='' style={{ minWidth: '5.5rem' }} body={renderDetailBtn} />
       </DataTable>
     </div>
   )

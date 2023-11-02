@@ -9,46 +9,58 @@ const AuthorizedStaffInfo = () => {
     <div>
       <div className='font-bold text-xl mb-3 mt-3'>Thông tin người được ủy quyền</div>
       <div className='grid ml-0'>
-        <div className='col-12 xl:col-4 lg:col-6'>
+        <div className='col-12 xl:col-4 lg:col-6 pl-0'>
           <div className='mb-2'>
             <label>Người được UQ</label>
           </div>
-          <InputText disabled className={styles.disabledInput} />
+          <div className={styles.inputContainer}>
+            <InputText disabled className={styles.disabledInput} />
+          </div>
         </div>
 
-        <div className='col-12 xl:col-4 lg:col-6'>
+        <div className='col-12 xl:col-4 lg:col-6 pl-0'>
           <div className='mb-2'>
             <label>CCCD người được UQ</label>
           </div>
-          <InputText disabled className={styles.disabledInput} />
+          <div className={styles.inputContainer}>
+            <InputText disabled className={styles.disabledInput} />
+          </div>
         </div>
 
-        <div className='col-12 xl:col-4 lg:col-6'>
+        <div className='col-12 xl:col-4 lg:col-6 pl-0'>
           <div className='mb-2'>
             <label>Ngày cấp CCCD người được UQ</label>
           </div>
-          <InputText disabled className={styles.disabledInput} />
+          <div className={styles.inputContainer}>
+            <InputText disabled className={styles.disabledInput} />
+          </div>
         </div>
 
-        <div className='col-12 xl:col-4 lg:col-6'>
+        <div className='col-12 xl:col-4 lg:col-6 pl-0'>
           <div className='mb-2'>
             <label>Nơi cấp CCCD người được UQ</label>
           </div>
-          <InputText disabled className={styles.disabledInput} />
+          <div className={styles.inputContainer}>
+            <InputText disabled className={styles.disabledInput} />
+          </div>
         </div>
 
-        <div className='col-12 xl:col-4 lg:col-6'>
+        <div className='col-12 xl:col-4 lg:col-6 pl-0'>
           <div className='mb-2'>
             <label>Chức danh người được UQ</label>
           </div>
-          <InputText disabled className={styles.disabledInput} />
+          <div className={styles.inputContainer}>
+            <InputText disabled className={styles.disabledInput} />
+          </div>
         </div>
 
-        <div className='col-12 xl:col-4 lg:col-6'>
+        <div className='col-12 xl:col-4 lg:col-6 pl-0'>
           <div className='mb-2'>
             <label>Số điện thoại người được UQ</label>
           </div>
-          <InputText disabled className={styles.disabledInput} />
+          <div className={styles.inputContainer}>
+            <InputText disabled className={styles.disabledInput} />
+          </div>
         </div>
       </div>
     </div>
