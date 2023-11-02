@@ -16,9 +16,9 @@ const LawsuitFile = () => {
 
   return (
     <div className='card'>
-      <div className='flex'>
-        <div>Trạng thái hồ sơ: </div>
-        <div>Nhập mới</div>
+      <div className='flex mb-3'>
+        <div className='font-bold text-xl mr-2'>Trạng thái hồ sơ: </div>
+        <div className='font-bold text-xl text-primary'>Nhập mới</div>
       </div>
       <LawsuitFileCustomerInfo />
       <LawsuitFileCreditInfo />
