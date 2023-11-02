@@ -145,7 +145,7 @@ const StaffList = () => {
   const renderAction = rowData => {
     return (
       <React.Fragment>
-        <div className='cursor-pointer text-primary' onClick={() => setOnConfirm(rowData.ma_nv)}>
+        <div className='cursor-pointer' onClick={() => setOnConfirm(rowData.ma_nv)} style={{ color: 'red' }}>
           Xóa
         </div>
         <Dialog

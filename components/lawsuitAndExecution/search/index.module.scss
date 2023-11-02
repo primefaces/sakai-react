@@ -1,0 +1,13 @@
+.inputContainer {
+  input {
+    width: 80%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .inputContainer {
+    input {
+      width: 100%;
+    }
+  }
+}

@@ -59,6 +59,31 @@ const AppMenu = () => {
       ]
     },
     {
+      label: 'Khởi kiện và thi hành án',
+      items: [
+        {
+          label: 'Quản lý khởi kiện',
+          icon: 'pi pi-fw pi-users',
+          to: '/quan-ly-khoi-kien'
+        },
+        {
+          label: 'Quản lý lịch hẹn',
+          icon: 'pi pi-fw pi-list',
+          to: '/quan-ly-lich-hen'
+        },
+        {
+          label: 'Quản lý tạm ứng án phí',
+          icon: 'pi pi-fw pi-file-edit',
+          to: '/quan-ly-tam-ung-an-phi'
+        },
+        {
+          label: 'Quản lý thi hành án',
+          icon: 'pi pi-fw pi-file-edit',
+          to: '/quan-ly-thi-hanh-an'
+        }
+      ]
+    },
+    {
       label: 'UI Components',
       items: [
         {
