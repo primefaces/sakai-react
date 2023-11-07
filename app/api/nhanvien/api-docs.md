@@ -1,7 +1,6 @@
 - [nhanvien](#nhanvien)
   - [GET /api/nhanvien](#get-apinhanvien)
   - [GET /api/nhanvien/:id](#get-apinhanvienid)
-  - [PATCH /api/nhanvien](#patch-apinhanvien)
   - [POST /api/nhanvien](#post-apinhanvien)
   - [DELETE /api/nhanvien/:id](#delete-apinhanvienid)
   - [PUT /api/nhanvien/:id](#put-apinhanvienid)
@@ -87,47 +86,6 @@ GET /api/nhanvien/10001
   }
 }
 ```
----
-
-## PATCH /api/nhanvien
-
-Updates an employee record in the database.
-
-**Query Parameters**
-
-- **ma_nv** (required): Employee ID to update
-
-**Body**
-
-Pass an object with the employee fields to update
-
-**Response**
-
-- 204 No Content: When employee record is updated successfully
-- 400 Bad Request: When invalid parameters are passed
-- 500 Internal Server Error: When update query fails
-
-**Example**
-
-```json
-PATCH /api/nhanvien?ma_nv=10001
-
-{
-  "TenNhanVien": "Jane Doe",
-  "ChucVu": "Manager"
-}
-```
-
-This endpoint allows updating an employee record by passing the employee ID in the query parameter ma_nv and an object containing the fields to update in the request body.
-
-It validates:
-
-- At least ma_nv is provided
-- ma_nv is a valid integer
-- Request body contains fields to update
-
-If validation passes, it runs an update query and returns 204 No Content on success.
-
 ---
 ## POST /api/nhanvien
 
