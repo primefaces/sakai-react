@@ -1,5 +1,6 @@
 import { supabase } from 'utils/supabaseClient'
 import { NextResponse, NextRequest } from 'next/server'
+import checkLogicParams from './helpers'
 
 export async function GET(request) {
   const { searchParams } = new URL(request.url)
@@ -14,10 +15,10 @@ export async function GET(request) {
         body: JSON.stringify(error)
       })
     }
-    // Sort return data by MaNhanVien
+    // Sort ascending data by MaNhanVien
     data.sort((a, b) => a.MaNhanVien - b.MaNhanVien)
 
-    return NextResponse.json({ count: count, next: null, previous: null, results: data })
+    return NextResponse.json({ count: count, results: data })
   } else {
     if (obj['queryAll'] !== 'false') {
       return NextResponse.json({
@@ -33,259 +34,100 @@ export async function GET(request) {
   }
 }
 
-function checkStringIsNumber(string) {
-  if (typeof string === 'string') {
-    return !isNaN(string)
-  }
-  return false
-}
-function checkStringIsCharacters(string) {
-  if (typeof string === 'string') {
-    // Use a regular expression to check for only letters (a-zA-Z) and whitespace
-    const regex = /^[a-zA-Z\s]+$/
-    return regex.test(string)
-  }
-  return false
-}
+// export async function PUT(request) {
+//   try {
+//     const res = await request.json()
+//     const dataToUpdate = res.body
+//     /*
+//     res.body sent from FE and we have
+//     dataToUpdate = {
+//       MaNhanVien: '',
+//       HoTen: '',
+//       SDT: '',
+//       CCCD: '',
+//       ChucDanh: '',
+//       PhongBan: ''
+//     }
+//     */
+//     const objLength = Object.keys(dataToUpdate).length
+//     // If object has no params
+//     if (objLength <= 1) {
+//       return NextResponse.json({ body: 'Invalid or missing parameters' }, { status: 400 })
+//     }
 
-function checkPhoneNumber(x) {
-  const regex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/
-  return regex.test(x)
-}
+//     // Check logic MaNhanVien
+//     if (!dataToUpdate.MaNhanVien || isNaN(parseInt(dataToUpdate.MaNhanVien))) {
+//       return NextResponse.json({ body: 'Invalid or missing "ma_nv" parameter' }, { status: 400 })
+//     }
 
-const checkLogicParams = obj => {
-  const columnsToUpdate = {}
-  const { ten_nv, sdt, cccd, role, department } = obj
-  if (ten_nv) {
-    if (checkStringIsCharacters(ten_nv)) {
-      columnsToUpdate.HoTen = ten_nv
-    } else {
-      return {
-        errorResponse: {
-          status: 400,
-          body: 'Invalid "ten_nv" parameter'
-        }
-      }
-    }
-  }
+//     try {
+//       const checkLogic = checkLogicParams(dataToUpdate)
+//     } catch (error) {
+//       return error
+//     }
 
-  if (sdt) {
-    if (checkPhoneNumber(sdt)) {
-      columnsToUpdate.SDT = sdt
-    } else {
-      return {
-        errorResponse: {
-          status: 400,
-          body: 'Invalid "sdt" parameter'
-        }
-      }
-    }
-  }
+//     const { error } = await supabase.from('NhanVien').update(dataToUpdate).eq('MaNhanVien', dataToUpdate.MaNhanVien)
 
-  if (cccd) {
-    if (checkStringIsNumber(cccd)) {
-      columnsToUpdate.CCCD = cccd
-    } else {
-      return {
-        errorResponse: {
-          status: 400,
-          body: 'Invalid "cccd" parameter'
-        }
-      }
-    }
-  }
+//     if (error) {
+//       return NextResponse.json({ body: JSON.stringify(error) }, { status: 500 })
+//     }
 
-  if (department) {
-    if (checkStringIsCharacters(department)) {
-      columnsToUpdate.PhongBan = department
-    } else {
-      return {
-        errorResponse: {
-          status: 400,
-          body: 'Invalid "department" parameter'
-        }
-      }
-    }
-  }
+//     return NextResponse.json({ body: 'Updated' }, { status: 200 })
+//   } catch (error) {
+//     let error_response = {
+//       body: error.message
+//     }
+//     return NextResponse.json(JSON.stringify(error_response), {
+//       status: 500
+//     })
+//   }
+// }
 
-  if (role) {
-    if (checkStringIsCharacters(role)) {
-      columnsToUpdate.ChucDanh = role
-    } else {
-      return {
-        errorResponse: {
-          status: 400,
-          body: 'Invalid "role" parameter'
-        }
-      }
-    }
-  }
-
-  return columnsToUpdate
-}
-
-export async function PATCH(request) {
+export async function POST(request) {
   try {
-    const { searchParams } = new URL(request.url)
-    const obj = Object.fromEntries(searchParams.entries())
-    const objLength = Object.keys(obj).length
-    const { ma_nv } = obj
-
+    const res = await request.json()
+    const dataToCreate = res.body
+    /* 
+    res.body sent from FE and we have
+    dataToCreate = {
+      MaNhanVien: '',
+      HoTen: '', 
+      SDT: '', 
+      CCCD: '', 
+      ChucDanh: '', 
+      PhongBan: ''
+    }
+    */
+    const objLength = Object.keys(dataToCreate).length
     // If object has no params
-    if (objLength === 0) {
-      return NextResponse.json({
-        status: 400,
-        body: 'Invalid or missing parameters'
-      })
+    if (objLength <= 1) {
+      return NextResponse.json({ body: 'Invalid or missing parameters' }, { status: 400 })
     }
 
-    // Check logic ma_nv
-    if (!ma_nv || isNaN(parseInt(ma_nv))) {
-      return NextResponse.json({
-        status: 400,
-        body: 'Invalid or missing "MaNhanVien" parameter'
-      })
+    // Check logic MaNhanVien
+    if (!dataToCreate['MaNhanVien'] || isNaN(parseInt(dataToCreate['MaNhanVien']))) {
+      return NextResponse.json({ body: 'Invalid or missing "MaNhanVien" parameter' }, { status: 400 })
     }
 
-    // If object has only ma_nv param
-    if (objLength === 1) {
-      return NextResponse.json({
-        status: 400,
-        body: 'Invalid or missing parameters'
-      })
+    try {
+      const checkLogic = checkLogicParams(dataToCreate)
+    } catch (error) {
+      return error
     }
 
-    const columnsToUpdate = checkLogicParams(obj)
-    if (columnsToUpdate.errorResponse) {
-      return NextResponse.json(columnsToUpdate.errorResponse)
-    }
-
-    const { error } = await supabase.from('NhanVien').update(columnsToUpdate).eq('MaNhanVien', ma_nv)
+    const { error } = await supabase.from('NhanVien').insert(dataToCreate)
 
     if (error) {
-      return NextResponse.json({
-        status: 500,
-        body: JSON.stringify(error)
-      })
+      return NextResponse.json({ body: JSON.stringify(error) }, { status: 500 })
     }
 
-    // console.log(JSON.stringify(data))
-    return NextResponse.json({
-      status: 204,
-      statusText: 'Updated'
-    })
+    return NextResponse.json({ body: 'Inserted' }, { status: 200 })
   } catch (error) {
     let error_response = {
-      status: 'error',
-      message: error.message
+      body: error.message
     }
     return NextResponse.json(JSON.stringify(error_response), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' }
-    })
-  }
-}
-
-export async function POST() {
-  return NextResponse.json(
-    {
-      error: 'Method Not Allowed',
-      message: 'The requested method is not allowed for the resource.'
-    },
-    {
-      status: 405
-    }
-  )
-}
-
-export async function PUT(request) {
-  try {
-    const { searchParams } = new URL(request.url)
-    const obj = Object.fromEntries(searchParams.entries())
-    const objLength = Object.keys(obj).length
-    const { ma_nv } = obj
-
-    // If object has no params
-    if (objLength === 0) {
-      return NextResponse.json({
-        status: 400,
-        body: 'Invalid or missing parameters'
-      })
-    }
-
-    // Check logic ma_nv
-    if (!ma_nv || isNaN(parseInt(ma_nv))) {
-      return NextResponse.json({
-        status: 400,
-        body: 'Invalid or missing "MaNhanVien" parameter'
-      })
-    }
-
-    // If object has only ma_nv param
-    if (objLength === 1) {
-      return NextResponse.json({
-        status: 400,
-        body: 'Invalid or missing parameters'
-      })
-    }
-
-    const columnsToInsert = checkLogicParams(obj)
-    if (columnsToInsert.errorResponse) {
-      return NextResponse.json(columnsToInsert.errorResponse)
-    }
-    columnsToInsert.MaNhanVien = ma_nv
-
-    const { error } = await supabase.from('NhanVien').insert(columnsToInsert)
-
-    if (error) {
-      return NextResponse.json({
-        status: 500,
-        body: JSON.stringify(error)
-      })
-    }
-    return NextResponse.json({ status: 201, statusText: 'Created' })
-  } catch (error) {
-    let error_response = {
-      status: 'error',
-      message: error.message
-    }
-    return NextResponse.json(JSON.stringify(error_response), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' }
-    })
-  }
-}
-
-export async function DELETE(request) {
-  try {
-    const { searchParams } = new URL(request.url)
-    const obj = Object.fromEntries(searchParams.entries())
-
-    const idToDelete = obj.ma_nv
-    if (!idToDelete || isNaN(parseInt(idToDelete))) {
-      return NextResponse.json({
-        status: 400,
-        body: 'Invalid or missing "MaNhanVien" parameter'
-      })
-    }
-    // Construct and execute the Supabase delete query
-    const { error } = await supabase.from('NhanVien').delete().eq('MaNhanVien', parseInt(idToDelete)) //
-
-    if (error) {
-      return NextResponse.json({
-        status: 500,
-        body: JSON.stringify(error)
-      })
-    }
-
-    return NextResponse.json({
-      status: 200,
-      body: JSON.stringify({ message: 'Record deleted successfully' })
-    })
-  } catch (error) {
-    return NextResponse.json({
-      status: 500,
-      body: JSON.stringify({ error: 'Internal server error' })
+      status: 500
     })
   }
 }

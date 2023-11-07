@@ -1,5 +1,14 @@
-# nhanvien
+- [nhanvien](#nhanvien)
+  - [GET /api/nhanvien](#get-apinhanvien)
+  - [GET /api/nhanvien/:id](#get-apinhanvienid)
+  - [PATCH /api/nhanvien](#patch-apinhanvien)
+  - [POST /api/nhanvien](#post-apinhanvien)
+  - [DELETE /api/nhanvien/:id](#delete-apinhanvienid)
+  - [PUT /api/nhanvien/:id](#put-apinhanvienid)
+  - [PATCH /api/nhanvien/:id](#patch-apinhanvienid)
 
+
+# nhanvien
 ## GET /api/nhanvien
 
 Retrieves employee data from the database.
@@ -10,9 +19,9 @@ Retrieves employee data from the database.
 
 **Response**
 
-- 200 OK: When queryAll=false
 - 400 Bad Request: When queryAll is invalid
 - 500 Internal Server Error: When database query fails
+- 200 OK: When queryAll=false
 - 200 OK: When queryAll=true
   - Returns JSON object with:
     - count (number): Total number of employee records
@@ -45,6 +54,39 @@ GET /api/nhanvien?queryAll=true
 
 This endpoint allows retrieving paginated employee data from the database by specifying queryAll=true. Results are sorted by employee id and metadata like total count, next/previous page is included.
 
+---
+
+## GET /api/nhanvien/:id
+
+Retrieves a specific employee record by ID.
+
+**Path Parameters**
+
+- **id** (required): Employee ID to fetch
+
+**Response**
+
+- 200 OK: Returns requested employee object
+- 400 Bad Request: If invalid ID is passed
+- 500 Internal Server Error: If database query fails
+
+**JSON contains**
+
+- count (number): Number of results (1 for single object)
+- results (object): Employee data
+
+```json
+GET /api/nhanvien/10001
+
+{
+  "count": 1,
+  "results": {
+    "MaNhanVien": 10001,
+    "TenNhanVien": "John Doe",
+    ...
+  }
+}
+```
 ---
 
 ## PATCH /api/nhanvien
@@ -87,62 +129,42 @@ It validates:
 If validation passes, it runs an update query and returns 204 No Content on success.
 
 ---
-
 ## POST /api/nhanvien
 
-Method not allowed. Use to create new employee records.
+Create a new employee record in the database.
 
-**Response**
-405 Method Not Allowed
-
-**JSON object**:
-
-- error: 'Method Not Allowed'
-- message: 'The requested method is not allowed for the resource.'
-
-This endpoint returns a 405 status code to indicate the POST method is not supported for creating new employee records. The /api/nhanvien resource only supports GET and PATCH methods.
-
-To add new employees, a different endpoint should be used that properly handles validation, required parameters, etc.
-
----
-
-## PUT /api/nhanvien
-
-Creates a new employee record in the database.
-
-**Query Parameters**
-
-- **ma_nv** (required): Employee ID to create
-
-**Body**
-Pass employee object with required fields to insert
-
-**Response**
-
-- 201 Created: When new employee record is inserted successfully
-- 400 Bad Request: When invalid parameters are passed
-- 500 Internal Server Error: When insert query fails
-
-**Example**
-
+**Request Body**
+- Employee object containing all fields
+- **"MaNhanVien"**: Employee ID is **required**
+- Request body must have more than one field. 
 ```json
-PUT api/nhanvien?ma_nv=20001&ten_nv=Pham Van Bang&sdt=1234567890&role=Staff
-
 {
-  "status": 201,
-  "statusText": "Created"
+  "body": 
+  {
+    "MaNhanVien": 10001,
+    "HoTen": "John Doe",
+    "SDT": "0123456789",
+    "CCCD": "123456789",
+    "ChucDanh": "Staff",
+    "PhongBan": "Sales"
+  }
+  
 }
 ```
 
+**Response**
+- 200 Created: When new employee record is inserted
+- 400 Bad Request: If invalid data is passed
+- 500 Internal Server Error: If insert query fails
 ---
 
-## DELETE /api/nhanvien
+## DELETE /api/nhanvien/:id
 
 Deletes an employee record from the database.
 
 **Query Parameters**
 
-- **ma_nv** (required): Employee ID to delete
+- **id** (required): Employee ID to delete
 
 **Response**
 
@@ -155,18 +177,70 @@ Deletes an employee record from the database.
 **Example**
 
 ```json
-DELETE /api/nhanvien?ma_nv=10001
+DELETE /api/nhanvien/10001
 
 {
   "message": "Record deleted successfully"
 }
+Return status 200
+```
+---
+## PUT /api/nhanvien/:id
+Update an employee record by ID with new data.
+
+**Path Parameters**
+- **id** (required): Employee ID to update
+
+**Request Body**
+- JSON object containing fields to update. It's somewhat like this:
+  ```json
+  {
+    "body": 
+    {
+      "HoTen": "", 
+      "SDT": "", 
+      "CCCD": "", 
+      "ChucDanh": "", 
+      "PhongBan": ""
+    }
+  }
+  ```
+Example:
+```json
+PUT /api/nhanvien/10001
+
+{
+  "HoTen": "Jane Doe",
+  "SDT": "01234567",
+  "CCCD": "123456789",
+  "ChucDanh": "Manager",
+  "PhongBan": "Sales"
+}
+
+Returns 200 OK and message: "Updated" on success
 ```
 
-This endpoint allows deleting an employee record by passing the employee ID in the query parameter ma_nv.
+---
+## PATCH /api/nhanvien/:id
 
-It validates:
+Update an employee record by ID with one new data.
 
-- ma_nv is provided
-- ma_nv is a valid integer
+**Path Parameters**
+- **id** (required): Employee ID to update
 
-If valid, it runs a delete query and returns 200 OK on success.
+**Request Body**
+- JSON object containing fields to update. It's somewhat like this:
+  ```json
+  {
+    "body": 
+    {
+      "HoTen": "", 
+      "SDT": "", 
+      "CCCD": "", 
+      "ChucDanh": "", 
+      "PhongBan": ""
+    }
+  }
+  ```
+
+>**Note:** **PATCH** will be used when you need to update one value. If you need to update more than one, consider using **PUT**.
