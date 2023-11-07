@@ -125,7 +125,6 @@ export async function DELETE(request, { params }) {
   try {
     const idToDelete = params.id
 
-    // const idToDelete = obj.ma_nv
     if (!idToDelete || isNaN(parseInt(idToDelete))) {
       return NextResponse.json({
         status: 400,
