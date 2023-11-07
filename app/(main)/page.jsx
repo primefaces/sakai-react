@@ -9,6 +9,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import { ProductService } from '@/demo/service/ProductService'
 import { LayoutContext } from '@/layout/context/LayoutContext'
 import Link from 'next/link'
+
 const lineData = {
   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
   datasets: [
@@ -120,6 +121,7 @@ const Dashboard = () => {
       currency: 'USD'
     })
   }
+
   return (
     <div className='grid'>
       <div className='col-12 lg:col-6 xl:col-3'>
