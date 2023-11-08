@@ -2,6 +2,7 @@
 'use client'
 import { useRouter } from 'next/navigation'
 import React, { useContext, useState } from 'react'
+import { connect } from 'react-redux'
 import { Checkbox } from 'primereact/checkbox'
 import { Button } from 'primereact/button'
 import { Password } from 'primereact/password'
@@ -9,8 +10,10 @@ import { LayoutContext } from '@/layout/context/LayoutContext'
 import { InputText } from 'primereact/inputtext'
 import { classNames } from 'primereact/utils'
 
-const LoginPage = () => {
+const LoginPage = props => {
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [errMess, setErrMess] = useState('')
   const [checked, setChecked] = useState(false)
   const { layoutConfig } = useContext(LayoutContext)
 
@@ -20,6 +23,19 @@ const LoginPage = () => {
     { 'p-input-filled': layoutConfig.inputStyle === 'filled' }
   )
 
+  const handleSignIn = () => {
+    if (email === 'quanly@gmail.com' && password === '123456') {
+      localStorage.setItem('user', JSON.stringify({ role: 'Manager' }))
+      props.setUser({ role: 'Manager' })
+      router.push('/nhan-vien')
+      return
+    }
+    if (email === 'nhanvien@gmail.com' && password === '123456') {
+      router.push('/')
+      return
+    }
+    setErrMess('Email không tồn tại')
+  }
   return (
     <div className={containerClassName}>
       <div className='flex flex-column align-items-center justify-content-center'>
@@ -49,6 +65,11 @@ const LoginPage = () => {
               <InputText
                 id='email1'
                 type='text'
+                value={email}
+                onChange={e => {
+                  setEmail(e.target.value)
+                  setErrMess('')
+                }}
                 placeholder='Email address'
                 className='w-full md:w-30rem mb-5'
                 style={{ padding: '1rem' }}
@@ -63,9 +84,11 @@ const LoginPage = () => {
                 onChange={e => setPassword(e.target.value)}
                 placeholder='Password'
                 toggleMask
-                className='w-full mb-5'
+                className={`w-full ${errMess ? 'mb-3' : 'mb-5'}`}
                 inputClassName='w-full p-3 md:w-30rem'
               ></Password>
+
+              {errMess && <div style={{ color: 'red', marginBottom: '1rem' }}>{errMess}</div>}
 
               <div className='flex align-items-center justify-content-between mb-5 gap-5'>
                 <div className='flex align-items-center'>
@@ -84,7 +107,7 @@ const LoginPage = () => {
                   Forgot password?
                 </a>
               </div>
-              <Button label='Sign In' className='w-full p-3 text-xl' onClick={() => router.push('/')}></Button>
+              <Button label='Sign In' className='w-full p-3 text-xl' onClick={() => handleSignIn()}></Button>
             </div>
           </div>
         </div>
@@ -93,4 +116,10 @@ const LoginPage = () => {
   )
 }
 
-export default LoginPage
+const mapDispatchToProps = dispatch => {
+  return {
+    setUser: user => dispatch({ type: 'SET_USER', payload: user })
+  }
+}
+
+export default connect(null, mapDispatchToProps)(LoginPage)

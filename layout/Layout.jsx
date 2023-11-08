@@ -3,6 +3,8 @@
 import { useEventListener, useMountEffect, useUnmountEffect } from 'primereact/hooks'
 import React, { useContext, useEffect, useRef } from 'react'
 import { classNames } from 'primereact/utils'
+import { connect } from 'react-redux'
+import { useRouter } from 'next/navigation'
 import AppFooter from './AppFooter'
 import AppSidebar from './AppSidebar'
 import AppTopbar from './AppTopbar'
@@ -11,7 +13,11 @@ import { LayoutContext } from './context/LayoutContext'
 import { PrimeReactContext } from 'primereact/api'
 import { usePathname, useSearchParams } from 'next/navigation'
 
-const Layout = ({ children }) => {
+const Layout = props => {
+  const router = useRouter()
+  if (Object.keys(props.user).length === 0) {
+    router.push('/auth/login')
+  }
   const { layoutConfig, layoutState, setLayoutState } = useContext(LayoutContext)
   const { setRipple } = useContext(PrimeReactContext)
   const topbarRef = useRef(null)
@@ -134,7 +140,7 @@ const Layout = ({ children }) => {
           <AppSidebar />
         </div>
         <div className='layout-main-container'>
-          <div className='layout-main'>{children}</div>
+          <div className='layout-main'>{props.children}</div>
           <AppFooter />
         </div>
         <AppConfig />
@@ -144,4 +150,10 @@ const Layout = ({ children }) => {
   )
 }
 
-export default Layout
+const mapStateToProps = state => {
+  return {
+    user: state.user
+  }
+}
+
+export default connect(mapStateToProps)(Layout)
