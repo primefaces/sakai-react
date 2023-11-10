@@ -12,6 +12,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.7",
     "@supabase/supabase-js": "^2.38.4",
+    "axios": "^1.6.0",
     "chart.js": "4.2.1",
     "next": "13.4.8",
     "primeflex": "^3.3.1",
