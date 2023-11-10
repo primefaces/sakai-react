@@ -11,24 +11,30 @@ async function queryAll() {
   return NextResponse.json({ count: count, next: null, previous: null, results: data })
 }
 
-async function queryCustomerID(id) {
-  const { data, error } = await supabase.from('ThongTinDuNo').eq('IDKhachHang', id)
+export async function queryCustomerID(id) {
+  const { count, data, error } = await supabase
+    .from('ThongTinDuNo')
+    .select('*', { count: 'exact' })
+    .eq('IDKhachHang', id)
 
   if (error) {
     return NextResponse.json(error)
   }
 
-  return NextResponse.json({ count: null, next: null, previous: null, results: data })
+  return NextResponse.json({ count: count, next: null, previous: null, results: data })
 }
 
-async function queryEmployeeID(id) {
-  const { data, error } = await supabase.from('ThongTinDuNo').eq('NhanVienCapNhat', id)
+export async function queryEmployeeID(id) {
+  const { count, data, error } = await supabase
+    .from('ThongTinDuNo')
+    .select('*', { count: 'exact' })
+    .eq('NhanVienCapNhat', id)
 
   if (error) {
     return NextResponse.json(error)
   }
 
-  return NextResponse.json({ count: null, next: null, previous: null, results: data })
+  return NextResponse.json({ count: count, next: null, previous: null, results: data })
 }
 
 async function mutateHandler() {
@@ -42,3 +48,5 @@ async function mutateHandler() {
     }
   )
 }
+
+export { queryAll as GET, mutateHandler as POST }

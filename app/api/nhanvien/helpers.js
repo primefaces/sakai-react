@@ -8,7 +8,7 @@ function checkStringIsNumber(string) {
 function checkStringIsCharacters(string) {
   if (typeof string === 'string') {
     // Use a regular expression to check for only letters (a-zA-Z) and whitespace
-    const regex = /^[a-zA-Z\s]+$/
+    const regex = /^[\p{L}\s]+$/u
     return regex.test(string)
   }
   return false
