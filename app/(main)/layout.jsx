@@ -1,7 +1,9 @@
 import Layout from '@/layout/Layout'
 
+import ReduxProvider from 'store/ReduxProvider'
+
 export const metadata = {
-  title: 'PrimeReact Sakai',
+  title: 'DebtProcess',
   description: 'The ultimate collection of design-agnostic, flexible and accessible React UI Components.',
   robots: { index: false, follow: false },
   viewport: { initialScale: 1, width: 'device-width' },
@@ -19,5 +21,9 @@ export const metadata = {
 }
 
 export default function AppLayout({ children }) {
-  return <Layout>{children}</Layout>
+  return (
+    <ReduxProvider>
+      <Layout>{children}</Layout>
+    </ReduxProvider>
+  )
 }

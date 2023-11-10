@@ -5,6 +5,7 @@ import React, { forwardRef, useContext, useImperativeHandle, useRef, useState } 
 import { LayoutContext } from './context/LayoutContext'
 import { Dialog } from 'primereact/dialog'
 import { Button } from 'primereact/button'
+import { connect } from 'react-redux'
 
 const AppTopbar = forwardRef((props, ref) => {
   const { layoutConfig, layoutState, onMenuToggle, showProfileSidebar } = useContext(LayoutContext)
@@ -18,6 +19,11 @@ const AppTopbar = forwardRef((props, ref) => {
     topbarmenu: topbarmenuRef.current,
     topbarmenubutton: topbarmenubuttonRef.current
   }))
+
+  const handleLogOut = () => {
+    props.setUser({})
+    localStorage.setItem('user', JSON.stringify({}))
+  }
 
   return (
     <div className='layout-topbar'>
@@ -81,7 +87,7 @@ const AppTopbar = forwardRef((props, ref) => {
           <div className='flex justify-content-center mt-4'>
             <Button label='Hủy bỏ' outlined className='mr-3' onClick={() => setConfirmSignOut(false)} />
             <Link href='/auth/login'>
-              <Button label='Đồng ý' />
+              <Button label='Đồng ý' onClick={() => handleLogOut()} />
             </Link>
           </div>
         </Dialog>
@@ -96,4 +102,10 @@ const AppTopbar = forwardRef((props, ref) => {
 
 AppTopbar.displayName = 'AppTopbar'
 
-export default AppTopbar
+const mapDispatchToProps = dispatch => {
+  return {
+    setUser: user => dispatch({ type: 'SET_USER', payload: user })
+  }
+}
+
+export default connect(null, mapDispatchToProps)(AppTopbar)
