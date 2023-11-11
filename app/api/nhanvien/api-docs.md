@@ -102,6 +102,7 @@ Create a new employee record in the database.
     "MaNhanVien": 10001,
     "HoTen": "John Doe",
     "SDT": "0123456789",
+    "Email": "demo@gmail.com",
     "CCCD": "123456789",
     "ChucDanh": "Staff",
     "PhongBan": "Sales"

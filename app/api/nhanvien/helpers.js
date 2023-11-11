@@ -13,17 +13,20 @@ function checkStringIsCharacters(string) {
   }
   return false
 }
-
+function validateEmail(inputText) {
+  var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+  return mailformat.test(inputText) ? true : false
+}
 function checkPhoneNumber(x) {
   const regex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/
   return regex.test(x)
 }
 
 const checkLogicParams = obj => {
-  const { HoTen, SDT, CCCD, ChucDanh, PhongBan } = obj
+  const { HoTen, SDT, CCCD, ChucDanh, PhongBan, Email } = obj
   if (HoTen) {
     if (!checkStringIsCharacters(HoTen)) {
-      console.log(HoTen)
+      // console.log(HoTen)
       throw NextResponse.json(
         {
           body: 'Invalid "HoTen" parameter'
@@ -41,7 +44,14 @@ const checkLogicParams = obj => {
       { status: 400 }
     )
   }
-
+  if (Email && !validateEmail(Email)) {
+    throw NextResponse.json(
+      {
+        body: 'Invalid "Email" parameter'
+      },
+      { status: 400 }
+    )
+  }
   if (CCCD && !checkStringIsNumber(CCCD)) {
     throw NextResponse.json(
       {
