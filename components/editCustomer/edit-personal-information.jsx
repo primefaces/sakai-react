@@ -12,23 +12,33 @@ const EditPersonalInformation = props => {
 
   return (
     <div>
-      {!props.isAdding && (
-        <div className='field grid'>
-          <div className='col-12 mb-2 md:col-3 sm:col-4 sm:mb-0 sm:flex sm:justify-content-end sm:align-items-center'>
-            <label className=' '>Mã khách hàng:</label>
-          </div>
-          <div className='col-12 md:col-9 sm:col-8'>
-            <InputText type='text' disabled className={styles.inputTextDisable} />
-          </div>
+      <div className='field grid'>
+        <div className='col-12 mb-2 md:col-3 sm:col-4 sm:mb-0 sm:flex sm:justify-content-end sm:align-items-center'>
+          <label className=' '>Mã khách hàng:</label>
         </div>
-      )}
+        <div className='col-12 md:col-9 sm:col-8'>
+          <InputText
+            type='text'
+            disabled={props.isAdding ? false : true}
+            className={props.isAdding ? styles.inputText : styles.inputTextDisable}
+            onChange={e => props.handleChange('IDKhachHang', e.target.value)}
+            value={props.customerForm.IDKhachHang}
+          />
+        </div>
+      </div>
 
       <div className='field grid'>
         <div className='col-12 mb-2 md:col-3 sm:col-4 sm:mb-0 sm:flex sm:justify-content-end sm:align-items-center'>
           <label htmlFor='name'>Họ và tên:</label>
         </div>
         <div className='col-12 md:col-9 sm:col-8'>
-          <InputText id='name' type='text' className={styles.inputText} />
+          <InputText
+            id='name'
+            type='text'
+            className={styles.inputText}
+            onChange={e => props.handleChange('Ho_ten', e.target.value)}
+            value={props.customerForm.Ho_ten}
+          />
         </div>
       </div>
 
@@ -37,7 +47,13 @@ const EditPersonalInformation = props => {
           <label htmlFor='cccd'>Căn cước công dân:</label>
         </div>
         <div className='col-12 md:col-9 sm:col-8'>
-          <InputText id='cccd' type='text' className={styles.inputText} />
+          <InputText
+            id='cccd'
+            type='text'
+            className={styles.inputText}
+            onChange={e => props.handleChange('CCCD', e.target.value)}
+            value={props.customerForm.CCCD}
+          />
         </div>
       </div>
 
@@ -55,7 +71,13 @@ const EditPersonalInformation = props => {
           <label htmlFor='dc_thuong_tru'>Địa chỉ thường trú:</label>
         </div>
         <div className='col-12 md:col-9 sm:col-8'>
-          <InputText id='dc_thuong_tru' type='text' className={styles.inputText} />
+          <InputText
+            id='dc_thuong_tru'
+            type='text'
+            className={styles.inputText}
+            onChange={e => props.handleChange('DiaChiThuongTru', e.target.value)}
+            value={props.customerForm.DiaChiThuongTru}
+          />
         </div>
       </div>
 
@@ -64,7 +86,13 @@ const EditPersonalInformation = props => {
           <label htmlFor='dc_tam_tru'>Địa chỉ tạm trú:</label>
         </div>
         <div className='col-12 md:col-9 sm:col-8'>
-          <InputText id='dc_tam_tru' type='text' className={styles.inputText} />
+          <InputText
+            id='dc_tam_tru'
+            type='text'
+            className={styles.inputText}
+            onChange={e => props.handleChange('DiaChiTamTru', e.target.value)}
+            value={props.customerForm.DiaChiTamTru}
+          />
         </div>
       </div>
 
@@ -73,7 +101,13 @@ const EditPersonalInformation = props => {
           <label htmlFor='sdt'>Số điện thoại:</label>
         </div>
         <div className='col-12 md:col-9 sm:col-8'>
-          <InputText id='sdt' type='text' className={styles.inputText} />
+          <InputText
+            id='sdt'
+            type='text'
+            className={styles.inputText}
+            onChange={e => props.handleChange('SDT', e.target.value)}
+            value={props.customerForm.SDT}
+          />
         </div>
       </div>
 
@@ -82,7 +116,13 @@ const EditPersonalInformation = props => {
           <label htmlFor='email'>Email:</label>
         </div>
         <div className='col-12 md:col-9 sm:col-8'>
-          <InputText id='email' type='text' className={styles.inputText} />
+          <InputText
+            id='email'
+            type='text'
+            className={styles.inputText}
+            onChange={e => props.handleChange('Email', e.target.value)}
+            value={props.customerForm.Email}
+          />
         </div>
       </div>
 
@@ -91,7 +131,13 @@ const EditPersonalInformation = props => {
           <label htmlFor='company_name'>Tên công ty:</label>
         </div>
         <div className='col-12 md:col-9 sm:col-8'>
-          <InputText id='company_name' type='text' className={styles.inputText} />
+          <InputText
+            id='company_name'
+            type='text'
+            className={styles.inputText}
+            onChange={e => props.handleChange('TenCongTy', e.target.value)}
+            value={props.customerForm.TenCongTy}
+          />
         </div>
       </div>
 
@@ -100,7 +146,13 @@ const EditPersonalInformation = props => {
           <label htmlFor='company_address'>Địa chỉ công ty:</label>
         </div>
         <div className='col-12 md:col-9 sm:col-8'>
-          <InputText id='company_address' type='text' className={styles.inputText} />
+          <InputText
+            id='company_address'
+            type='text'
+            className={styles.inputText}
+            onChange={e => props.handleChange('DiaChiCongTy', e.target.value)}
+            value={props.customerForm.DiaChiCongTy}
+          />
         </div>
       </div>
 
@@ -135,13 +187,13 @@ const EditPersonalInformation = props => {
         <Button
           label='Hủy'
           outlined
-          style={{ width: '90px', marginRight: '16px' }}
+          style={{ width: '90px', marginRight: '16px', height: '36px' }}
           onClick={() => window.history.back()}
         />
         {props.isAdding ? (
-          <Button label='Thêm' style={{ width: '90px' }} />
+          <Button label='Thêm' style={{ width: '90px', height: '36px' }} onClick={props.handleAddCustomer} />
         ) : (
-          <Button label='Lưu' style={{ width: '90px' }} />
+          <Button label='Lưu' style={{ width: '90px', height: '36px' }} onClick={props.handleEditCustomer} />
         )}
       </div>
     </div>

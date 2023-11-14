@@ -1,4 +1,5 @@
 'use client'
+import React, { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 
 import Caseworker from '@/components/customerDetail/caseworker'
@@ -11,12 +12,44 @@ import LegalRecord from '@/components/customerDetail/legal-record'
 import PersonalInformation from '@/components/customerDetail/personal-information'
 import ProgressTable from '@/components/customerDetail/progress-table'
 
+import { Toast } from 'primereact/toast'
+
+import { getDetailCustomer } from 'actions/customer/Customer'
+
 const NonePerformingLoanDetail = () => {
+  const toast = useRef(null)
+  const url = window.location.href
+  const id = url.slice(url.indexOf('id=') + 3)
+  const [customer, setCustomer] = useState({})
+
+  const getCustomerInfo = () => {
+    getDetailCustomer(id).then(res => {
+      setCustomer(res.results[0])
+    })
+  }
+
+  const informEditSuccessfully = () => {
+    toast.current?.show({
+      severity: 'success',
+      detail: 'Chỉnh sửa thông tin khách hàng thành công',
+      life: 3000
+    })
+    localStorage.removeItem('editCustomer')
+  }
+
+  useEffect(() => {
+    getCustomerInfo()
+    if (localStorage.getItem('editCustomer') === 'success') {
+      informEditSuccessfully()
+    }
+  }, [])
+
   return (
     <div>
+      <Toast ref={toast} />
       <div className='flex justify-content-end'>
         <Link
-          href='/khach-hang/chi-tiet/chinh-sua'
+          href={`/khach-hang/chi-tiet/chinh-sua?id=${id}`}
           style={{ color: '#ffffff', fontWeight: '600', marginBottom: '1rem' }}
         >
           <div
@@ -32,7 +65,7 @@ const NonePerformingLoanDetail = () => {
       </div>
       <div className='grid'>
         <div className='xl:col-7 lg:col-12 pb-0'>
-          <PersonalInformation />
+          <PersonalInformation customer={customer} />
           <DebtInformation />
         </div>
         <div className='xl:col-5 lg:col-12 pb-0'>

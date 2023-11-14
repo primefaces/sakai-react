@@ -4,7 +4,7 @@ import { Button } from 'primereact/button'
 
 import styles from './index.module.scss'
 
-const EditDebtInformation = () => {
+const EditDebtInformation = props => {
   return (
     <div>
       <div className='field grid'>
@@ -182,10 +182,14 @@ const EditDebtInformation = () => {
         <Button
           label='Hủy'
           outlined
-          style={{ width: '90px', marginRight: '16px' }}
+          style={{ width: '90px', marginRight: '16px', height: '36px' }}
           onClick={() => window.history.back()}
         />
-        <Button label='Lưu' style={{ width: '90px' }} />
+        {props.isAdding ? (
+          <Button label='Thêm' style={{ width: '90px', height: '36px' }} onClick={() => console.log(customerForm)} />
+        ) : (
+          <Button label='Lưu' style={{ width: '90px', height: '36px' }} />
+        )}
       </div>
     </div>
   )
