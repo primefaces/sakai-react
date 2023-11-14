@@ -93,6 +93,7 @@ export async function POST(request) {
       MaNhanVien: '',
       HoTen: '', 
       SDT: '', 
+      Email: '',
       CCCD: '', 
       ChucDanh: '', 
       PhongBan: ''

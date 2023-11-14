@@ -127,10 +127,7 @@ export async function DELETE(request, { params }) {
     const idToDelete = params.id
 
     if (!idToDelete || isNaN(parseInt(idToDelete))) {
-      return NextResponse.json({
-        status: 400,
-        body: 'Invalid or missing "IDKhachHang" parameter'
-      })
+      return NextResponse.json({ body: 'Invalid or missing "IDKhachHang" parameter' }, { status: 400 })
     }
     // Construct and execute the Supabase delete query
     const { error } = await supabase.from('KhachHang').delete().eq('IDKhachHang', idToDelete) //

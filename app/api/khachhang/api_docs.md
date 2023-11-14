@@ -1,14 +1,14 @@
-- [nhanvien](#nhanvien)
-  - [GET /api/nhanvien](#get-apinhanvien)
-  - [GET /api/nhanvien/:id](#get-apinhanvienid)
-  - [POST /api/nhanvien](#post-apinhanvien)
-  - [DELETE /api/nhanvien/:id](#delete-apinhanvienid)
-  - [PUT /api/nhanvien/:id](#put-apinhanvienid)
-  - [PATCH /api/nhanvien/:id](#patch-apinhanvienid)
+- [khachhang](#khachhang)
+  - [GET /api/khachhang](#get-apikhachhang)
+  - [GET /api/khachhang/:id](#get-apikhachhangid)
+  - [POST /api/khachhang](#post-apikhachhang)
+  - [DELETE /api/khachhang/:id](#delete-apikhachhangid)
+  - [PUT /api/khachhang/:id](#put-apikhachhangid)
+  - [PATCH /api/khachhang/:id](#patch-apikhachhangid)
 
 
-# nhanvien
-## GET /api/nhanvien
+# khachhang
+## GET /api/khachhang
 
 Retrieves employee data from the database.
 
@@ -26,26 +26,25 @@ Retrieves employee data from the database.
     - count (number): Total number of employee records
     - next (string|null): Next page URL (null if no more pages)
     - previous (string|null): Previous page URL (null if no previous page)
-    - results (array): Array of employee objects sorted by MaNhanVien
+    - results (array): Array of employee objects sorted by IDKhachHang
 
 **Example**
 
 ```json
-GET /api/nhanvien?queryAll=true
+GET /api/khachhang?queryAll=true
 
 {
     "count": 2,
-    "next": null,
-    "previous": null,
     "results": [
     {
-        "MaNhanVien": 1,
-        "TenNhanVien": "John Doe",
+        "IDKhachHang": 1,
+        "Ho_ten": "John Doe",
+        // etc
     },
     {
-        "MaNhanVien": 2,
-        "TenNhanVien": "Jane Doe",
-
+        "IDKhachHang": 2,
+        "Ho_ten": "Jane Doe",
+        // etc
     }
     ]
 }
@@ -55,7 +54,7 @@ This endpoint allows retrieving paginated employee data from the database by spe
 
 ---
 
-## GET /api/nhanvien/:id
+## GET /api/khachhang/:id
 
 Retrieves a specific employee record by ID.
 
@@ -75,37 +74,39 @@ Retrieves a specific employee record by ID.
 - results (object): Employee data
 
 ```json
-GET /api/nhanvien/10001
+GET /api/khachhang/10001
 
 {
   "count": 1,
   "results": {
-    "MaNhanVien": 10001,
-    "TenNhanVien": "John Doe",
-    ...
+    "IDKhachHang": 10001,
+    "Ho_ten": "John Doe",
+    // etc
   }
 }
 ```
 ---
-## POST /api/nhanvien
+## POST /api/khachhang
 
 Create a new employee record in the database.
 
 **Request Body**
 - Employee object containing all fields
-- **"MaNhanVien"**: Employee ID is **required**
+- **"IDKhachHang"**: Employee ID is **required**
 - Request body must have more than one field. 
 ```json
 {
   "body": 
   {
-    "MaNhanVien": 10001,
+    "IDKhachHang": 10001,
     "HoTen": "John Doe",
     "SDT": "0123456789",
     "Email": "demo@gmail.com",
     "CCCD": "123456789",
-    "ChucDanh": "Staff",
-    "PhongBan": "Sales"
+    "DiaChiThuongTru": "",
+    "DiaChiTamTru": "",
+    "TenCongTy": "",
+    "DiaChiCongTy": ""
   }
   
 }
@@ -117,7 +118,7 @@ Create a new employee record in the database.
 - 500 Internal Server Error: If insert query fails
 ---
 
-## DELETE /api/nhanvien/:id
+## DELETE /api/khachhang/:id
 
 Deletes an employee record from the database.
 
@@ -136,7 +137,7 @@ Deletes an employee record from the database.
 **Example**
 
 ```json
-DELETE /api/nhanvien/10001
+DELETE /api/khachhang/10001
 
 {
   "message": "Record deleted successfully"
@@ -144,7 +145,7 @@ DELETE /api/nhanvien/10001
 Return status 200
 ```
 ---
-## PUT /api/nhanvien/:id
+## PUT /api/khachhang/:id
 Update an employee record by ID with new data.
 
 **Path Parameters**
@@ -159,28 +160,33 @@ Update an employee record by ID with new data.
       "HoTen": "", 
       "SDT": "", 
       "CCCD": "", 
-      "ChucDanh": "", 
-      "PhongBan": ""
+      "Email": "",
+      "DiaChiThuongTru": "",
+      "DiaChiTamTru": "",
+      "TenCongTy": "",
+      "DiaChiCongTy": ""
     }
   }
   ```
 Example:
 ```json
-PUT /api/nhanvien/10001
+PUT /api/khachhang/10001
 
 {
-  "HoTen": "Jane Doe",
-  "SDT": "01234567",
-  "CCCD": "123456789",
-  "ChucDanh": "Manager",
-  "PhongBan": "Sales"
+    "body": 
+    {
+        "HoTen": "Jane Doe",
+        "SDT": "01234567",
+        "CCCD": "123456789",
+        // etc
+    }
 }
 
 Returns 200 OK and message: "Updated" on success
 ```
 
 ---
-## PATCH /api/nhanvien/:id
+## PATCH /api/khachhang/:id
 
 Update an employee record by ID with one new data.
 
