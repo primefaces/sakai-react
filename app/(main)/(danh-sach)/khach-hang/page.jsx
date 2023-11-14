@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import Link from 'next/link'
 
 import { FilterMatchMode, FilterOperator } from 'primereact/api'
@@ -9,34 +9,24 @@ import { Button } from 'primereact/button'
 import { InputText } from 'primereact/inputtext'
 import { Column } from 'primereact/column'
 import { DataTable } from 'primereact/datatable'
+import { Toast } from 'primereact/toast'
+
+import { getListCustomer, deleteCustomer } from 'actions/customer/Customer'
 
 const NonePerformingLoanList = () => {
-  const [customers1, setCustomers1] = useState([
-    {
-      ma_kh: 'KH00001',
-      ten_kh: 'Lê Văn Bằng',
-      sdt: '0123456789',
-      cccd: '066202011111',
-      nhom_no: '3',
-      so_ngay_qua_han: '100',
-      tong_du_no_hien_tai: '1.000.000.000',
-      so_tien_da_thanh_toan: '100.000.000'
-    },
-    {
-      ma_kh: 'KH00002',
-      ten_kh: 'Lê Văn Bằng 2',
-      sdt: '0123456789',
-      cccd: '066202011111',
-      nhom_no: '3',
-      so_ngay_qua_han: '100',
-      tong_du_no_hien_tai: '1.000.000.000',
-      so_tien_da_thanh_toan: '100.000.000'
-    }
-  ])
+  const [customers, setCustomers] = useState([])
   const [filters1, setFilters1] = useState({})
-  const [loading1, setLoading1] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [globalFilterValue1, setGlobalFilterValue1] = useState('')
   const [onConfirm, setOnConfirm] = useState('')
+  const toast = useRef(null)
+
+  const getCustomers = () => {
+    getListCustomer('queryAll=true').then(res => {
+      setCustomers(res.results)
+      setLoading(false)
+    })
+  }
 
   const onGlobalFilterChange1 = e => {
     const value = e.target.value
@@ -93,20 +83,34 @@ const NonePerformingLoanList = () => {
     initFilters1()
   }
 
+  const informDeleteSuccessfully = () => {
+    toast.current?.show({
+      severity: 'success',
+      detail: 'Xóa khách hàng thành công',
+      life: 3000
+    })
+  }
+
   const handleDeleteStaff = id => {
-    setCustomers1(customers1.filter(item => item.ma_kh !== id))
+    deleteCustomer(id).then(res => {
+      if (res.body === 'Record deleted successfully') {
+        setCustomers(customers.filter(item => item.IDKhachHang !== id))
+        informDeleteSuccessfully()
+      }
+    })
+    setCustomers(customers.filter(item => item.IDKhachHang !== id))
     setOnConfirm('')
   }
 
   const renderAction = rowData => {
     return (
       <React.Fragment>
-        <div className='cursor-pointer text-primary' onClick={() => setOnConfirm(rowData.ma_kh)}>
+        <div className='cursor-pointer' onClick={() => setOnConfirm(rowData.IDKhachHang)} style={{ color: 'red' }}>
           Xóa
         </div>
         <Dialog
           header='Xóa khách hàng nợ xấu'
-          visible={rowData.ma_kh === onConfirm}
+          visible={rowData.IDKhachHang === onConfirm}
           onHide={() => setOnConfirm('')}
           style={{ width: '350px' }}
           modal
@@ -115,7 +119,7 @@ const NonePerformingLoanList = () => {
             <div className='flex align-items-center justify-content-center'>
               <i className='pi pi-exclamation-triangle mr-3' style={{ fontSize: '2rem' }} />
               <span>
-                Bạn có chắc chắn muốn xóa khách hàng <b>{rowData.ten_kh}</b> không?
+                Bạn có chắc chắn muốn xóa khách hàng <b>{rowData.Ho_ten}</b> không?
               </span>
             </div>
 
@@ -130,7 +134,7 @@ const NonePerformingLoanList = () => {
               <Button
                 label='Xóa'
                 style={{ width: '80px', height: '36px', marginLeft: '16px' }}
-                onClick={() => handleDeleteStaff(rowData.ma_kh)}
+                onClick={() => handleDeleteStaff(rowData.IDKhachHang)}
               />
             </div>
           </div>
@@ -140,13 +144,26 @@ const NonePerformingLoanList = () => {
   }
 
   const renderCustomerId = rowData => {
-    return <Link href='/khach-hang/chi-tiet'>{rowData.ma_kh}</Link>
+    return <Link href={`/khach-hang/chi-tiet?id=${rowData.IDKhachHang}`}>{rowData.IDKhachHang}</Link>
+  }
+
+  const informAddSuccessfully = () => {
+    toast.current?.show({
+      severity: 'success',
+      detail: 'Thêm khách hàng thành công',
+      life: 3000
+    })
+    localStorage.removeItem('addCustomer')
   }
 
   const header1 = renderHeader1()
 
   useEffect(() => {
     initFilters1()
+    if (localStorage.getItem('addCustomer') === 'success') {
+      informAddSuccessfully()
+    }
+    getCustomers()
   }, [])
 
   return (
@@ -160,14 +177,15 @@ const NonePerformingLoanList = () => {
             </Link>
           </div>
           <div className='ml-3'>
-            <Button label='Xuất excel' />
+            <Button label='Xuất excel' severity='success' />
           </div>
         </div>
       </div>
 
       <div>
+        <Toast ref={toast} />
         <DataTable
-          value={customers1}
+          value={customers}
           paginator
           className='p-datatable-gridlines'
           showGridlines
@@ -175,15 +193,15 @@ const NonePerformingLoanList = () => {
           dataKey='id'
           filters={filters1}
           filterDisplay='menu'
-          loading={loading1}
+          loading={loading}
           responsiveLayout='scroll'
           emptyMessage='Không tìm thấy khách hàng nợ xấu nào'
           header={header1}
         >
           <Column header='Mã khách hàng' style={{ minWidth: '10rem' }} body={renderCustomerId} />
-          <Column field='ten_kh' header='Họ và tên' style={{ minWidth: '12rem' }} sortable />
-          <Column field='cccd' header='Căn cước công dân' style={{ minWidth: '11rem' }} />
-          <Column field='sdt' header='Số điện thoại' style={{ minWidth: '9rem' }} />
+          <Column field='Ho_ten' header='Họ và tên' style={{ minWidth: '12rem' }} />
+          <Column field='CCCD' header='Căn cước công dân' style={{ minWidth: '11rem' }} />
+          <Column field='SDT' header='Số điện thoại' style={{ minWidth: '9rem' }} />
           <Column field='nhom_no' header='Nhóm nợ' style={{ minWidth: '7rem' }} />
           <Column field='so_ngay_qua_han' header='Số ngày quá hạn' style={{ minWidth: '10rem' }} />
           <Column field='tong_du_no_hien_tai' header='Tổng dư nợ hiện tại' style={{ minWidth: '12rem' }} />

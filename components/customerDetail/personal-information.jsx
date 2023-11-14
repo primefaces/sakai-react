@@ -1,4 +1,4 @@
-const PersonalInformation = () => {
+const PersonalInformation = props => {
   return (
     <div className='card mb-3'>
       <div className='font-bold text-xl mb-4'>Thông tin cá nhân</div>
@@ -7,21 +7,21 @@ const PersonalInformation = () => {
           <div className='font-medium mr-2 text-right line-height-3' style={{ width: '170px' }}>
             Mã khách hàng:
           </div>
-          <div className='line-height-3'>KH00001</div>
+          <div className='line-height-3'>{props.customer.IDKhachHang}</div>
         </div>
 
         <div className='flex mt-2 '>
           <div className='font-medium mr-2 text-right line-height-3' style={{ width: '170px' }}>
             Họ và tên:
           </div>
-          <div className='line-height-3'>Lê Văn Bằng</div>
+          <div className='line-height-3'>{props.customer.Ho_ten}</div>
         </div>
 
         <div className='flex mt-2 '>
           <div className='font-medium mr-2 text-right line-height-3' style={{ width: '170px' }}>
             Căn cước công dân:
           </div>
-          <div className='line-height-3'>066202011111</div>
+          <div className='line-height-3'>{props.customer.CCCD}</div>
         </div>
 
         <div className='flex mt-2 '>
@@ -35,42 +35,42 @@ const PersonalInformation = () => {
           <div className='font-medium mr-2 text-right line-height-3' style={{ width: '170px', minWidth: '170px' }}>
             Địa chỉ thường trú:
           </div>
-          <div className='line-height-3'>Ea kar, Đăk Lăk</div>
+          <div className='line-height-3'>{props.customer.DiaChiThuongTru}</div>
         </div>
 
         <div className='flex mt-2 '>
           <div className='font-medium mr-2 text-right line-height-3' style={{ width: '170px', minWidth: '170px' }}>
             Địa chỉ tạm trú:
           </div>
-          <div className='line-height-3'>Ký túc xá khu A ĐHQG, Linh Trung, Thủ Đức, Thành phố Hồ Chí Minh</div>
+          <div className='line-height-3'>{props.customer.DiaChiTamTru}</div>
         </div>
 
         <div className='flex mt-2 '>
           <div className='font-medium mr-2 text-right line-height-3' style={{ width: '170px' }}>
             Số điện thoại:
           </div>
-          <div className='line-height-3'>0368514747</div>
+          <div className='line-height-3'>{props.customer.SDT}</div>
         </div>
 
         <div className='flex mt-2 '>
           <div className='font-medium mr-2 text-right line-height-3' style={{ width: '170px' }}>
             Email:
           </div>
-          <div className='line-height-3'>levanbang376@gmail.com</div>
+          <div className='line-height-3'>{props.customer.Email}</div>
         </div>
 
         <div className='flex mt-2 '>
           <div className='font-medium mr-2 text-right line-height-3' style={{ width: '170px', minWidth: '170px' }}>
             Tên công ty:
           </div>
-          <div className='line-height-3'>Trường ĐH Bách khoa TP.HCM</div>
+          <div className='line-height-3'>{props.customer.TenCongTy}</div>
         </div>
 
         <div className='flex mt-2 '>
           <div className='font-medium mr-2 text-right line-height-3' style={{ width: '170px', minWidth: '170px' }}>
             Địa chỉ công ty:
           </div>
-          <div className='line-height-3'>Dĩ An, Bình Dương</div>
+          <div className='line-height-3'>{props.customer.DiaChiCongTy}</div>
         </div>
 
         <div className='flex mt-2 '>
