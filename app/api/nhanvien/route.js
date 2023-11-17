@@ -105,10 +105,10 @@ export async function POST(request) {
       return NextResponse.json({ body: 'Invalid or missing parameters' }, { status: 400 })
     }
 
-    // Check logic MaNhanVien
-    if (!dataToCreate['MaNhanVien'] || isNaN(parseInt(dataToCreate['MaNhanVien']))) {
-      return NextResponse.json({ body: 'Invalid or missing "MaNhanVien" parameter' }, { status: 400 })
-    }
+    // // Check logic MaNhanVien
+    // if (!dataToCreate['MaNhanVien'] || isNaN(parseInt(dataToCreate['MaNhanVien']))) {
+    //   return NextResponse.json({ body: 'Invalid or missing "MaNhanVien" parameter' }, { status: 400 })
+    // }
 
     try {
       const checkLogic = checkLogicParams(dataToCreate)
@@ -116,13 +116,13 @@ export async function POST(request) {
       return error
     }
 
-    const { error } = await supabase.from('NhanVien').insert(dataToCreate)
+    const { data, error } = await supabase.from('NhanVien').insert(dataToCreate).select('Email, encrypted_password')
 
     if (error) {
       return NextResponse.json({ body: JSON.stringify(error) }, { status: 500 })
     }
 
-    return NextResponse.json({ body: 'Inserted' }, { status: 200 })
+    return NextResponse.json({ body: 'Inserted', results: data }, { status: 200 })
   } catch (error) {
     let error_response = {
       body: error.message
