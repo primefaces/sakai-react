@@ -1,5 +1,5 @@
 - [khachhang](#khachhang)
-  - [GET /api/khachhang](#get-apikhachhang)
+  - [GET /api/khachhang?offset=10\&limit=10](#get-apikhachhangoffset10limit10)
   - [GET /api/khachhang/:id](#get-apikhachhangid)
   - [POST /api/khachhang](#post-apikhachhang)
   - [DELETE /api/khachhang/:id](#delete-apikhachhangid)
@@ -8,33 +8,34 @@
 
 
 # khachhang
-## GET /api/khachhang
+## GET /api/khachhang?offset=10&limit=10
 
 Retrieves employee data from the database.
 
 **Query Parameters**
 
-- **queryAll** (required): Set to true to return all employee records or false to not run any queries.
+- **offset** (optional) - Offset for pagination (default is 0)
+- **limit** (optional) - Number of records per page (default is 20)
 
 **Response**
 
-- 400 Bad Request: When queryAll is invalid
 - 500 Internal Server Error: When database query fails
-- 200 OK: When queryAll=false
-- 200 OK: When queryAll=true
-  - Returns JSON object with:
-    - count (number): Total number of employee records
-    - next (string|null): Next page URL (null if no more pages)
-    - previous (string|null): Previous page URL (null if no previous page)
-    - results (array): Array of employee objects sorted by IDKhachHang
+- 200 OK: No error
+- Returns JSON object with:
+  - count (number): Total number of employee records
+  - next (string|null): Next page URL (null if no more pages)
+  - previous (string|null): Previous page URL (null if no previous page)
+  - results (array): Array of employee objects sorted by IDKhachHang
 
 **Example**
 
 ```json
-GET /api/khachhang?queryAll=true
+GET /api/khachhang?offset=0&limit=2
 
 {
     "count": 2,
+    "next": null,
+    "previous": null,
     "results": [
     {
         "IDKhachHang": 1,
@@ -49,8 +50,6 @@ GET /api/khachhang?queryAll=true
     ]
 }
 ```
-
-This endpoint allows retrieving paginated employee data from the database by specifying queryAll=true. Results are sorted by employee id and metadata like total count, next/previous page is included.
 
 ---
 

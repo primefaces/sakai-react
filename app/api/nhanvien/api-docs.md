@@ -1,5 +1,5 @@
 - [nhanvien](#nhanvien)
-  - [GET /api/nhanvien](#get-apinhanvien)
+  - [GET /api/nhanvien?offset=0\&limit=20](#get-apinhanvienoffset0limit20)
   - [GET /api/nhanvien/:id](#get-apinhanvienid)
   - [POST /api/nhanvien](#post-apinhanvien)
   - [DELETE /api/nhanvien/:id](#delete-apinhanvienid)
@@ -8,30 +8,28 @@
 
 
 # nhanvien
-## GET /api/nhanvien
+## GET /api/nhanvien?offset=0&limit=20
 
-Retrieves employee data from the database.
+Retrieves employee data from the database in a specific range.
 
 **Query Parameters**
 
-- **queryAll** (required): Set to true to return all employee records or false to not run any queries.
+- **offset** (optional) - Offset for pagination (default is 0)
+- **limit** (optional) - Number of records per page (default is 20)
 
 **Response**
-
-- 400 Bad Request: When queryAll is invalid
 - 500 Internal Server Error: When database query fails
-- 200 OK: When queryAll=false
-- 200 OK: When queryAll=true
-  - Returns JSON object with:
-    - count (number): Total number of employee records
-    - next (string|null): Next page URL (null if no more pages)
-    - previous (string|null): Previous page URL (null if no previous page)
-    - results (array): Array of employee objects sorted by MaNhanVien
+- 200 OK: No error
+- Returns JSON object with:
+  - count (number): Total number of employee records
+  - next (string|null): Next page URL (null if no more pages)
+  - previous (string|null): Previous page URL (null if no previous page)
+  - results (array): Array of employee objects sorted by MaNhanVien
 
 **Example**
 
 ```json
-GET /api/nhanvien?queryAll=true
+GET /api/nhanvien?offset=0&limit=2
 
 {
     "count": 2,
@@ -50,8 +48,6 @@ GET /api/nhanvien?queryAll=true
     ]
 }
 ```
-
-This endpoint allows retrieving paginated employee data from the database by specifying queryAll=true. Results are sorted by employee id and metadata like total count, next/previous page is included.
 
 ---
 
@@ -112,6 +108,16 @@ Create a new employee record in the database.
 ```
 
 **Response**
+```json
+{
+  "body": "Inserted",
+  "result": {
+    "Email": "demo@gmail.com",
+    "encrypt_password": "123asva2",
+  },
+  "status":200
+}
+```
 - 200 Created: When new employee record is inserted
 - 400 Bad Request: If invalid data is passed
 - 500 Internal Server Error: If insert query fails

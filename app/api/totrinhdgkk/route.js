@@ -1,7 +1,7 @@
 import { supabase } from 'utils/supabaseClient'
 import { NextResponse } from 'next/server'
 
-export async function queryAll() {
+export async function GET() {
   const { count, data, error } = await supabase
     .from('ToTrinhDanhGiaKhoiKien')
     .select(`*, KhachHang(*)`, { count: 'exact' })
@@ -13,7 +13,7 @@ export async function queryAll() {
   return NextResponse.json({ count: count, next: null, previous: null, results: data })
 }
 
-export async function mutateHandler() {
+export async function POST() {
   return NextResponse.json(
     {
       error: 'Method Not Allowed',
