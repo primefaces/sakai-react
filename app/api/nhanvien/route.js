@@ -121,7 +121,14 @@ export async function POST(request) {
     if (error) {
       return NextResponse.json({ body: JSON.stringify(error) }, { status: 500 })
     }
-
+    // Register new employee user to Supabase Auth
+    const { data1, error1 } = await supabase.auth.signUp({
+      email: data[0].Email,
+      password: data[0].encrypted_password
+    })
+    if (error1) {
+      return NextResponse.json({ body: JSON.stringify(error1) }, { status: 500 })
+    }
     return NextResponse.json({ body: 'Inserted', results: data }, { status: 200 })
   } catch (error) {
     let error_response = {

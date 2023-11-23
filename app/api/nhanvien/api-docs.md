@@ -112,6 +112,16 @@ Create a new employee record in the database.
 ```
 
 **Response**
+```json
+{
+  "body": "Inserted",
+  "result": {
+    "Email": "demo@gmail.com",
+    "encrypt_password": "123asva2",
+  },
+  "status":200
+}
+```
 - 200 Created: When new employee record is inserted
 - 400 Bad Request: If invalid data is passed
 - 500 Internal Server Error: If insert query fails
