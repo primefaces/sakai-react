@@ -2,7 +2,7 @@ import { supabase } from 'utils/supabaseClient'
 import { NextResponse } from 'next/server'
 
 export async function GET(request, { params }) {
-  const { data, error } = await supabase.from('to_trinh_dgkk').select('*, khach_hang(*)').eq('ma_to_trinh', params.slug)
+  const { data, error } = await supabase.from('ToTrinhDanhGiaKhoiKien').select('*').eq('id', params.slug)
 
   if (error) {
     return NextResponse.json(error, { status: 400 })
@@ -18,7 +18,7 @@ export async function GET(request, { params }) {
 export async function PATCH(request, { params }) {
   const res = await request.json()
 
-  const { error } = await supabase.from('to_trinh_dgkk').update(res).eq('ma_to_trinh', params.slug)
+  const { error } = await supabase.from('ToTrinhDanhGiaKhoiKien').update(res).eq('id', params.slug)
 
   if (error) {
     return NextResponse.json(error, { status: 400 })
@@ -28,7 +28,7 @@ export async function PATCH(request, { params }) {
 }
 
 export async function DELETE(request, { params }) {
-  const { error } = await supabase.from('to_trinh_dgkk').delete().eq('ma_to_trinh', params.slug)
+  const { error } = await supabase.from('ToTrinhDanhGiaKhoiKien').delete().eq('id', params.slug)
 
   if (error) {
     return NextResponse.json(error, { status: 400 })
