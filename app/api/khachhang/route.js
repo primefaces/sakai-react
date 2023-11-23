@@ -6,31 +6,32 @@ export async function GET(request) {
   const { searchParams } = new URL(request.url)
   const obj = Object.fromEntries(searchParams.entries())
 
-  const queryAll = obj['queryAll'] === 'true'
-  if (queryAll) {
+  const offset = obj['offset'] ? parseInt(obj['offset']) : 0 // Offset default = 0
+  const limit = obj['limit'] ? parseInt(obj['limit']) : 20 // Limit default = 20
+  if (obj['offset'] && obj['limit']) {
+    const { data, error } = await supabase.from('KhachHang').select('*').range(offset, limit)
+    if (error) {
+      return NextResponse.json(
+        {
+          body: JSON.stringify(error)
+        },
+        { status: 500 }
+      )
+    }
+
+    return NextResponse.json({ count: data.length, next: null, previous: null, results: data }, { status: 200 })
+  } else {
     const { count, data, error } = await supabase.from('KhachHang').select('*', { count: 'exact' })
     if (error) {
-      return NextResponse.json({
-        status: 500,
-        body: JSON.stringify(error)
-      })
+      return NextResponse.json(
+        {
+          body: JSON.stringify(error)
+        },
+        { status: 500 }
+      )
     }
-    // Sort ascending data by IDKhachHang
-    data.sort((a, b) => a.IDKhachHang - b.IDKhachHang)
 
-    return NextResponse.json({ count: count, results: data })
-  } else {
-    if (obj['queryAll'] !== 'false') {
-      return NextResponse.json({
-        status: 400,
-        body: 'Invalid parameter'
-      })
-    } else {
-      return NextResponse.json({
-        status: 200,
-        body: 'No queries'
-      })
-    }
+    return NextResponse.json({ count: count, next: null, previous: null, results: data }, { status: 200 })
   }
 }
 
