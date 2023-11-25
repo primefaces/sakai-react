@@ -14,7 +14,7 @@ const action = {
 
     return NextResponse.json({ message: 'Tạo thành công' }, { status: 201 })
   },
-  read: async (table, column = null, value = null) => {
+  read: async (table, column = null, value = null, query = null) => {
     const supabase = createClient()
 
     if (column && value) {
@@ -31,7 +31,10 @@ const action = {
       return NextResponse.json(data[0])
     }
 
-    const { count, data, error } = await supabase.from(table).select('*', { count: 'exact' })
+    const { count, data, error } = await supabase
+      .from(table)
+      .select('*', { count: 'exact' })
+      .range(query?.offset || 0, query?.offset + query?.limit - 1 || 9)
 
     if (error) {
       return NextResponse.json(error, { status: 400 })
