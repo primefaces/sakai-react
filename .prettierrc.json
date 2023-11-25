@@ -1,8 +1,6 @@
 {
-    "arrowParens": "avoid",
-    "jsxSingleQuote": true,
-    "printWidth": 120,
+    "printWidth": 100,
     "semi": false,
     "singleQuote": true,
-    "trailingComma": "none"
+    "trailingComma": "es5"
 }
