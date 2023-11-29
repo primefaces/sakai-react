@@ -15,7 +15,8 @@ import AppTopbar from "./AppTopbar";
 import AppConfig from "./AppConfig";
 import { LayoutContext } from "./context/layoutcontext";
 import { PrimeReactContext } from "primereact/api";
-import { ChildContainerProps, LayoutState, AppTopbarRef } from "../types/types";
+import { ChildContainerProps, LayoutState, AppTopbarRef } from "../service/types/types";
+import {useUser} from "./context/usercontext";
 import { usePathname, useSearchParams } from "next/navigation";
 
 
@@ -24,6 +25,9 @@ const Layout = ({ children }: ChildContainerProps) => {
   const { setRipple } = useContext(PrimeReactContext);
   const topbarRef = useRef<AppTopbarRef>(null);
   const sidebarRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+  const user = useUser();
+
   const [bindMenuOutsideClickListener, unbindMenuOutsideClickListener] =
     useEventListener({
       type: "click",
@@ -107,6 +111,14 @@ const Layout = ({ children }: ChildContainerProps) => {
       );
     }
   };
+
+  useEffect(() => {
+    const loggedIn =  localStorage.getItem("auth_user");
+    if(!loggedIn) {
+      router.push("/auth/login")
+    }
+
+  }, [])
 
   useMountEffect(() => {
     setRipple(layoutConfig.ripple);

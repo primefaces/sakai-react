@@ -1,9 +1,9 @@
 import {NextRequest, NextResponse} from 'next/server'; // To handle the request and response
 import PDFParser, {Output} from 'pdf2json';
-import {BeyannameCodes} from "../../../demo/service/FinancialService";
-import {Financial} from "../../../types/financial";
-import {Company} from "../../../types/company";
-import {FinancialLine} from "../../../types/financialLine";
+import {BeyannameCodes} from "../../../service/FinancialService";
+import {Company} from "../../../service/types/company/company";
+import {FinancialLine} from "../../../service/types/financial/line/financialLine";
+import {Financial} from "../../../service/types/financial/financial";
 
 export const runtime = 'nodejs'; // 'nodejs' is the default
 

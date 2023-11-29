@@ -2,8 +2,8 @@
 
 import Link from 'next/link';
 import { classNames } from 'primereact/utils';
-import React, { forwardRef, useContext, useImperativeHandle, useRef } from 'react';
-import { AppTopbarRef } from '../types/types';
+import React, {forwardRef, useContext, useEffect, useImperativeHandle, useRef} from 'react';
+import { AppTopbarRef } from '../service/types/types';
 import { LayoutContext } from './context/layoutcontext';
 
 const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
