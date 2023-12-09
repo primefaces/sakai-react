@@ -1,0 +1,6 @@
+export enum PartnershipDuty {
+    MANAGER = "MANAGER",
+    BOARD_MEMBER = "BOARD_MEMBER",
+    PARTNER = "PARTNER",
+    LEGAL_REPRESENTATIVE = "LEGAL_REPRESENTATIVE"
+}

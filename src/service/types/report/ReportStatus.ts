@@ -1,0 +1,8 @@
+
+export enum ReportStatus {
+    REQUESTED= "REQUESTED",
+    IN_PROGRESS = "IN_PROGRESS",
+    DATA_FETCHING = "DATA_FETCHING",
+    IN_REVIEW = "IN_REVIEW",
+    DONE = "DONE",
+}
