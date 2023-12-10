@@ -13,18 +13,21 @@ import { LayoutContext } from './context/LayoutContext'
 import { PrimeReactContext } from 'primereact/api'
 import { usePathname, useSearchParams } from 'next/navigation'
 
-const Layout = props => {
+const Layout = (props) => {
   const router = useRouter()
-  if (Object.keys(props.user).length === 0) {
-    router.push('/auth/login')
-  }
+  useEffect(() => {
+    if (Object.keys(props.user).length === 0) {
+      router.push('/auth/login')
+    }
+  }, [])
+
   const { layoutConfig, layoutState, setLayoutState } = useContext(LayoutContext)
   const { setRipple } = useContext(PrimeReactContext)
   const topbarRef = useRef(null)
   const sidebarRef = useRef(null)
   const [bindMenuOutsideClickListener, unbindMenuOutsideClickListener] = useEventListener({
     type: 'click',
-    listener: event => {
+    listener: (event) => {
       const isOutsideClicked = !(
         sidebarRef.current?.isSameNode(event.target) ||
         sidebarRef.current?.contains(event.target) ||
@@ -35,7 +38,7 @@ const Layout = props => {
       if (isOutsideClicked) {
         hideMenu()
       }
-    }
+    },
   })
 
   const pathname = usePathname()
@@ -45,37 +48,38 @@ const Layout = props => {
     hideProfileMenu()
   }, [pathname, searchParams])
 
-  const [bindProfileMenuOutsideClickListener, unbindProfileMenuOutsideClickListener] = useEventListener({
-    type: 'click',
-    listener: event => {
-      const isOutsideClicked = !(
-        topbarRef.current?.topbarmenu?.isSameNode(event.target) ||
-        topbarRef.current?.topbarmenu?.contains(event.target) ||
-        topbarRef.current?.topbarmenubutton?.isSameNode(event.target) ||
-        topbarRef.current?.topbarmenubutton?.contains(event.target)
-      )
+  const [bindProfileMenuOutsideClickListener, unbindProfileMenuOutsideClickListener] =
+    useEventListener({
+      type: 'click',
+      listener: (event) => {
+        const isOutsideClicked = !(
+          topbarRef.current?.topbarmenu?.isSameNode(event.target) ||
+          topbarRef.current?.topbarmenu?.contains(event.target) ||
+          topbarRef.current?.topbarmenubutton?.isSameNode(event.target) ||
+          topbarRef.current?.topbarmenubutton?.contains(event.target)
+        )
 
-      if (isOutsideClicked) {
-        hideProfileMenu()
-      }
-    }
-  })
+        if (isOutsideClicked) {
+          hideProfileMenu()
+        }
+      },
+    })
 
   const hideMenu = () => {
-    setLayoutState(prevLayoutState => ({
+    setLayoutState((prevLayoutState) => ({
       ...prevLayoutState,
       overlayMenuActive: false,
       staticMenuMobileActive: false,
-      menuHoverActive: false
+      menuHoverActive: false,
     }))
     unbindMenuOutsideClickListener()
     unblockBodyScroll()
   }
 
   const hideProfileMenu = () => {
-    setLayoutState(prevLayoutState => ({
+    setLayoutState((prevLayoutState) => ({
       ...prevLayoutState,
-      profileSidebarVisible: false
+      profileSidebarVisible: false,
     }))
     unbindProfileMenuOutsideClickListener()
   }
@@ -125,34 +129,35 @@ const Layout = props => {
   const containerClass = classNames('layout-wrapper', {
     'layout-overlay': layoutConfig.menuMode === 'overlay',
     'layout-static': layoutConfig.menuMode === 'static',
-    'layout-static-inactive': layoutState.staticMenuDesktopInactive && layoutConfig.menuMode === 'static',
+    'layout-static-inactive':
+      layoutState.staticMenuDesktopInactive && layoutConfig.menuMode === 'static',
     'layout-overlay-active': layoutState.overlayMenuActive,
     'layout-mobile-active': layoutState.staticMenuMobileActive,
     'p-input-filled': layoutConfig.inputStyle === 'filled',
-    'p-ripple-disabled': !layoutConfig.ripple
+    'p-ripple-disabled': !layoutConfig.ripple,
   })
 
   return (
     <React.Fragment>
       <div className={containerClass}>
         <AppTopbar ref={topbarRef} />
-        <div ref={sidebarRef} className='layout-sidebar'>
+        <div ref={sidebarRef} className="layout-sidebar">
           <AppSidebar />
         </div>
-        <div className='layout-main-container'>
-          <div className='layout-main'>{props.children}</div>
+        <div className="layout-main-container">
+          <div className="layout-main">{props.children}</div>
           <AppFooter />
         </div>
         <AppConfig />
-        <div className='layout-mask'></div>
+        <div className="layout-mask"></div>
       </div>
     </React.Fragment>
   )
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    user: state.user
+    user: state.user,
   }
 }
 

@@ -13,13 +13,14 @@ import { getDetailCustomer, updateCustomer } from 'actions/customer/Customer'
 
 const EditNonePerformingLoan = () => {
   const router = useRouter()
-  const url = window.location.href
-  const id = url.slice(url.indexOf('id=') + 3)
   const [customerForm, setCustomerForm] = useState({})
   const [editCustomerForm, setEditCustomerForm] = useState({})
-
+  const [customerId, setCustomerId] = useState()
   const getCustomerInfo = () => {
-    getDetailCustomer(id).then(res => {
+    const url = window.location.href
+    const id = url.slice(url.indexOf('id=') + 3)
+    setCustomerId(id)
+    getDetailCustomer(id).then((res) => {
       setCustomerForm(res.results[0])
     })
   }
@@ -30,10 +31,10 @@ const EditNonePerformingLoan = () => {
   }
 
   const handleEditCustomer = () => {
-    updateCustomer(id, { body: editCustomerForm }).then(res => {
+    updateCustomer(customerId, { body: editCustomerForm }).then((res) => {
       if (res && res.body === 'Updated') {
         localStorage.setItem('editCustomer', 'success')
-        router.push(`/khach-hang/chi-tiet?id=${id}`)
+        router.push(`/khach-hang/chi-tiet?id=${customerId}`)
       }
     })
   }
@@ -45,7 +46,7 @@ const EditNonePerformingLoan = () => {
   return (
     <div>
       <TabView>
-        <TabPanel header='Thông tin cá nhân'>
+        <TabPanel header="Thông tin cá nhân">
           <EditPersonalInformation
             customerForm={customerForm}
             handleChange={handleChange}
@@ -53,13 +54,13 @@ const EditNonePerformingLoan = () => {
             setEditCustomerForm={setEditCustomerForm}
           />
         </TabPanel>
-        <TabPanel header='Thông tin dư nợ'>
+        <TabPanel header="Thông tin dư nợ">
           <EditDebtInformation />
         </TabPanel>
-        <TabPanel header='Nhân viên phụ trách'>
+        <TabPanel header="Nhân viên phụ trách">
           <EditCaseworker />
         </TabPanel>
-        <TabPanel header='Hồ sơ pháp lý'>
+        <TabPanel header="Hồ sơ pháp lý">
           <EditLegalRecord />
         </TabPanel>
       </TabView>

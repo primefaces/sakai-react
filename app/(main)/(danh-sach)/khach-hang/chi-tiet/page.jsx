@@ -18,12 +18,13 @@ import { getDetailCustomer } from 'actions/customer/Customer'
 
 const NonePerformingLoanDetail = () => {
   const toast = useRef(null)
-  const url = window.location.href
-  const id = url.slice(url.indexOf('id=') + 3)
   const [customer, setCustomer] = useState({})
-
+  const [customerId, setCustomerId] = useState()
   const getCustomerInfo = () => {
-    getDetailCustomer(id).then(res => {
+    const url = window.location.href
+    const id = url.slice(url.indexOf('id=') + 3)
+    setCustomerId(id)
+    getDetailCustomer(id).then((res) => {
       setCustomer(res.results[0])
     })
   }
@@ -32,7 +33,7 @@ const NonePerformingLoanDetail = () => {
     toast.current?.show({
       severity: 'success',
       detail: 'Chỉnh sửa thông tin khách hàng thành công',
-      life: 3000
+      life: 3000,
     })
     localStorage.removeItem('editCustomer')
   }
@@ -47,28 +48,28 @@ const NonePerformingLoanDetail = () => {
   return (
     <div>
       <Toast ref={toast} />
-      <div className='flex justify-content-end'>
+      <div className="flex justify-content-end">
         <Link
-          href={`/khach-hang/chi-tiet/chinh-sua?id=${id}`}
+          href={`/khach-hang/chi-tiet/chinh-sua?id=${customerId}`}
           style={{ color: '#ffffff', fontWeight: '600', marginBottom: '1rem' }}
         >
           <div
-            className='flex justify-content-center align-items-center border-solid border-1 border-primary border-round-md bg-primary'
+            className="flex justify-content-center align-items-center border-solid border-1 border-primary border-round-md bg-primary"
             style={{
               width: '86px',
-              height: '40px'
+              height: '40px',
             }}
           >
             Chỉnh sửa
           </div>
         </Link>
       </div>
-      <div className='grid'>
-        <div className='xl:col-7 lg:col-12 pb-0'>
+      <div className="grid">
+        <div className="xl:col-7 lg:col-12 pb-0">
           <PersonalInformation customer={customer} />
           <DebtInformation />
         </div>
-        <div className='xl:col-5 lg:col-12 pb-0'>
+        <div className="xl:col-5 lg:col-12 pb-0">
           <Caseworker index={1} />
           <Caseworker index={2} />
           <LegalRecord />
