@@ -46,7 +46,7 @@ const ManageJudgmentExecutionTable = props => {
   }
 
   const renderDetailBtn = () => {
-    return <Link href='quan-ly-thi-hanh-an/ho-so'>Chi tiết</Link>
+    return <Link href='thi-hanh-an/ho-so'>Chi tiết</Link>
   }
 
   return (

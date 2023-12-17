@@ -46,7 +46,7 @@ const ManageLawsuitTable = props => {
   }
 
   const renderDetailBtn = () => {
-    return <Link href='quan-ly-khoi-kien/ho-so'>Chi tiết</Link>
+    return <Link href='khoi-kien/ho-so'>Chi tiết</Link>
   }
 
   return (
