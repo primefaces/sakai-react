@@ -10,7 +10,7 @@ import { Chips } from 'primereact/chips';
 import { Dropdown } from 'primereact/dropdown';
 import { MultiSelect } from 'primereact/multiselect';
 import { CountryService } from '../../../../demo/service/CountryService';
-import type { Demo } from '../../../../types/types';
+import type { Demo } from '@/types';
 
 const FloatLabelDemo = () => {
     const [countries, setCountries] = useState<Demo.Country[]>([]);

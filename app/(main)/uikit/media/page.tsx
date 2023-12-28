@@ -7,7 +7,7 @@ import { Image } from 'primereact/image';
 import React, { useEffect, useState } from 'react';
 import { PhotoService } from '../../../../demo/service/PhotoService';
 import { ProductService } from '../../../../demo/service/ProductService';
-import type { Demo } from '../../../../types/types';
+import type { Demo } from '@/types';
 
 const MediaDemo = () => {
     const [products, setProducts] = useState<Demo.Product[]>([]);

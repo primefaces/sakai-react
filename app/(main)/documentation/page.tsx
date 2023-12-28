@@ -8,13 +8,13 @@ const Documentation = () => {
                 <div className="col-12">
                     <div className="card docs">
                         <h4>Current Version</h4>
-                        <p>Next v13, React v18 with PrimeReact v9</p>
+                        <p>Next v13, React v18, Typescript with PrimeReact v10</p>
 
                         <h5>Getting Started</h5>
                         <p>
                             Sakai is an application template for React based on the popular{' '}
                             <a href="https://nextjs.org/" className="font-medium hover:underline">
-                                NextJS
+                                Next.js
                             </a>{' '}
                             framework with new{' '}
                             <a href="https://nextjs.org/docs/app" className="font-medium hover:underline">
@@ -54,7 +54,7 @@ const Documentation = () => {
                         <p>
                             There are two{' '}
                             <a href="https://nextjs.org/docs/app/building-your-application/routing/route-groups" className="font-medium hover:underline">
-                                root groups
+                                route groups
                             </a>{' '}
                             under the app folder; <span className="text-primary font-medium">{`(main)`}</span> represents the pages that reside in the main dashboard layout whereas <span className="text-primary font-medium">{`(full-page)`}</span>{' '}
                             groups the pages with full page content such as landing page or a login page.
@@ -136,7 +136,7 @@ interface MainLayoutProps {
 }
 
 export const metadata: Metadata = {
-    title: "Sakai by PrimeReact | Free Admin Template for NextJS",
+    title: "Sakai by PrimeReact | Free Admin Template for Next.js",
     ...
   };
 
@@ -161,7 +161,7 @@ interface FullPageLayoutProps {
 }
 
 export const metadata: Metadata = {
-    title: "Sakai by PrimeReact | Free Admin Template for NextJS",
+    title: "Sakai by PrimeReact | Free Admin Template for Next.js",
     ...
   };
 
@@ -210,7 +210,7 @@ export const LayoutProvider = (props) => {
                             .
                         </p>
 
-                        <h5>Integration with Existing NextJS Applications</h5>
+                        <h5>Integration with Existing Next.js Applications</h5>
                         <p>Only the folders related to the layout need to be moved into your project. Integration of pages involves moving the files under those folders. Make sure that the using page is defined under the related group layout.</p>
 
                         <h5>PrimeReact Theme</h5>

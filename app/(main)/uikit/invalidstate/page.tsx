@@ -12,7 +12,7 @@ import { Dropdown } from 'primereact/dropdown';
 import { MultiSelect } from 'primereact/multiselect';
 import { Password } from 'primereact/password';
 import { CountryService } from '../../../../demo/service/CountryService';
-import type { Demo } from '../../../../types/types';
+import type { Demo } from '@/types';
 
 const InvalidStateDemo = () => {
     const [countries, setCountries] = useState<Demo.Country[]>([]);

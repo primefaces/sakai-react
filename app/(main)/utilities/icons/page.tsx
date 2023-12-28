@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { IconService } from '../../../../demo/service/IconService';
 import { InputText } from 'primereact/inputtext';
-import type { Demo } from '../../../../types/types';
+import type { Demo } from '@/types';
 
 const IconsDemo = () => {
     const [icons, setIcons] = useState<Demo.Icon[]>([]);

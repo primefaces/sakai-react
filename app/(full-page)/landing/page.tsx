@@ -8,7 +8,7 @@ import { Button } from 'primereact/button';
 import { Ripple } from 'primereact/ripple';
 import { Divider } from 'primereact/divider';
 import { LayoutContext } from '../../../layout/context/layoutcontext';
-import { NodeRef } from '../../../types/types';
+import { NodeRef } from '@/types';
 import { classNames } from 'primereact/utils';
 
 const LandingPage = () => {

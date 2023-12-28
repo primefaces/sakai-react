@@ -17,7 +17,7 @@ import { ToggleButton } from 'primereact/togglebutton';
 import { TriStateCheckbox } from 'primereact/tristatecheckbox';
 import { classNames } from 'primereact/utils';
 import React, { useEffect, useState } from 'react';
-import type { Demo } from '../../../../types/types';
+import type { Demo } from '@/types';
 
 const TableDemo = () => {
     const [customers1, setCustomers1] = useState<Demo.Customer[]>([]);

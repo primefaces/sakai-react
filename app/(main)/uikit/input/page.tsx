@@ -20,7 +20,7 @@ import { Slider } from 'primereact/slider';
 import { ToggleButton } from 'primereact/togglebutton';
 import React, { useEffect, useState } from 'react';
 import { CountryService } from '../../../../demo/service/CountryService';
-import type { Demo, Page } from '../../../../types/types';
+import type { Demo, Page } from '@/types';
 
 interface InputValue {
     name: string;
