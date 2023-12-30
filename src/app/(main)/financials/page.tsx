@@ -4,7 +4,6 @@ import {Button} from 'primereact/button';
 import {Column, ColumnEditorOptions} from 'primereact/column';
 import {DataTable} from 'primereact/datatable';
 import {Dialog} from 'primereact/dialog';
-import {FileUpload} from 'primereact/fileupload';
 import {InputNumber, InputNumberValueChangeEvent} from 'primereact/inputnumber';
 import {InputText} from 'primereact/inputtext';
 import {Toast} from 'primereact/toast';
@@ -21,13 +20,15 @@ import {FinancialLineType} from "../../../service/types/financial/line/Financial
 import {FinancialLine} from "../../../service/types/financial/line/FinancialLine";
 import {FinancialLineService} from "../../../service/FinancialLineService";
 import {Card} from "primereact/card";
+import {useRouter} from "next/navigation";
+import {useUser} from "../../../layout/context/usercontext";
+import {useTranslation} from "react-i18next";
 
 const FinancialCrud = () => {
 
     let emptyFinancial: Financial = new Financial(2000)
 
     const [financials, setFinancials] = useState<Financial[]>();
-    const [company, setCompany] = useState<Company>();
     const [financialLines, setFinancialLines] = useState<TreeNode[]>();
     const [financialDialog, setFinancialDialog] = useState(false);
     const [linesHidden, setLinesHidden] = useState(true);
@@ -40,24 +41,29 @@ const FinancialCrud = () => {
     const [globalFilter, setGlobalFilter] = useState('');
     const toast = useRef<Toast>(null);
     const dt = useRef<DataTable<any>>(null);
+    const router = useRouter();
+    const user = useUser();
+    const {t} = useTranslation();
 
     useEffect(() => {
-        let companyString = localStorage.getItem("company");
-
-        if (companyString == null) {
-            FinancialService.list().then((data) => setFinancials(data.documents as any));
-        } else {
-            let company = JSON.parse(companyString) as Company;
-            setFinancials(company.financials)
-
-            let financial = new Financial(company.financials[0]!.year as number, company.financials[0]!.companyId, company.financials[0]!.period, company.financials[0]!.type, company.financials[0]!.lines)
-            let lines = FinancialService.createLines(financial.actualLines, financial.revisedLines);
-            setFinancialLines(lines[0] as TreeNode[])
-            setCompany(company)
+        if(!user.loadingUser){
+            if (user.company == null) {
+                router.push('/companies')
+            } else {
+                FinancialService.listByCompanyId(user.company?.$id!).then(result => {
+                    setFinancials(result.documents as any)
+                    if(financials != null && financials.length >= 0){
+                        let financial = new Financial(financials[0]!.year as number, financials[0]!.companyId, financials[0]!.period, financials[0]!.type, financials[0]!.lines)
+                        let lines = FinancialService.createLines(financial.actualLines, financial.revisedLines);
+                        setFinancialLines(lines[0] as TreeNode[])
+                    }
+                })
+            }
         }
-    }, []);
+    }, [user.current, user.loadingUser]);
 
     const openNew = () => {
+        emptyFinancial.companyId = user.company?.$id
         setFinancial(emptyFinancial);
         setSubmitted(false);
         setFinancialDialog(true);
@@ -85,20 +91,16 @@ const FinancialCrud = () => {
 
         let _financials = [...(financials as any)];
         let _financial = {...financial};
-        debugger
         if (financial.$id) {
             let a = new Financial(_financial.year!, _financial.companyId, _financial.period, _financial.type, _financial.lines)
             a.$id = _financial.$id
             a.$createdAt = _financial.$createdAt
             a.$updatedAt = _financial.$updatedAt
-            a.$collectionId = _financial.$updatedAt
-                a.$databaseId = _financial.$databaseId
-                a.$permissions = _financial.$permissions
             FinancialService.update(financial.$id, a).then(r => {
                 let index = findIndexById(financial.$id as string);
                 _financials[index] = _financial;
                 setFinancials(_financials);
-                toast.current?.show({severity: 'success', summary: 'Successful', detail: 'Financial Updated', life: 3000})
+                toast.current?.show({severity: 'success', summary: t('successful'), detail: t('successful_updated'), life: 3000})
                 setFinancialDialog(false);
                 setFinancial(emptyFinancial);
             }).catch(e =>{
@@ -107,7 +109,7 @@ const FinancialCrud = () => {
             })
         } else {
             FinancialService.add(_financial as Financial).then(r => {
-                toast.current?.show({severity: 'success', summary: 'Successful', detail: 'Financial Created', life: 3000});
+                toast.current?.show({severity: 'success', summary: t('successful'), detail: t('successful_created'), life: 3000});
                 _financials.push(r as any);
                 setFinancials(_financials as any);
                 setFinancialDialog(false);
@@ -135,7 +137,7 @@ const FinancialCrud = () => {
             setFinancials(_financials);
             setDeleteFinancialDialog(false);
             setFinancial(emptyFinancial);
-            toast.current?.show({severity: 'success', summary: 'Successful', detail: 'Financial Deleted', life: 3000});
+            toast.current?.show({severity: 'success', summary: t('successful'), detail: t('successful_deleted'), life: 3000});
         })
     };
 
@@ -161,7 +163,7 @@ const FinancialCrud = () => {
     const selectFinancial = () => {
         let _financial = (selectedFinancials as any)[0]
 
-        toast.current?.show({severity: 'success', summary: 'Successful', detail: 'Company Selected', life: 3000});
+        toast.current?.show({severity: 'success', summary: t('successful'), detail: t('successful_selected'), life: 3000});
 
         let financial = new Financial(_financial!.year as number, _financial!.companyId, _financial!.period, _financial!.type, _financial!.lines)
         let lines = FinancialService.createLines(financial.actualLines, financial.revisedLines);
@@ -177,7 +179,7 @@ const FinancialCrud = () => {
             setFinancials(_financials);
             setDeleteFinancialsDialog(false);
             setSelectedFinancials([]);
-            toast.current?.show({severity: 'success', summary: 'Successful', detail: 'Financials Deleted', life: 3000});
+            toast.current?.show({severity: 'success', summary: t('successful'), detail: t('successful_deleted'), life: 3000});
         })
     };
 
@@ -193,13 +195,11 @@ const FinancialCrud = () => {
         return (
             <React.Fragment>
                 <div className="my-2">
-                    <Button label="New" icon="pi pi-plus" severity="success" className=" mr-2" onClick={openNew}/>
-                    <Button label="Delete" icon="pi pi-trash" severity="danger" className=" mr-2"
-                            onClick={confirmDeleteSelected}
-                            disabled={!selectedFinancials || !(selectedFinancials as any).length}/>
-                    <Button label="Select Financial" icon="pi pi-plus" severity="success" className=" mr-2"
-                            onClick={selectFinancial}
-                            disabled={!selectedFinancials || (selectedFinancials as any).length != 1}/>
+                    <Button label={t('new')} icon="pi pi-plus" severity="success" className=" mr-2" onClick={openNew}/>
+                    <Button label={t('delete')} icon="pi pi-trash" severity="danger" className=" mr-2"
+                            onClick={confirmDeleteSelected} disabled={!selectedFinancials || !(selectedFinancials as any).length}/>
+                    <Button label={t('select')} icon="pi pi-plus" severity="success" className=" mr-2"
+                            onClick={selectFinancial} disabled={!selectedFinancials || (selectedFinancials as any).length != 1}/>
                 </div>
             </React.Fragment>
         );
@@ -208,7 +208,7 @@ const FinancialCrud = () => {
     const rightToolbarTemplate = () => {
         return (
             <React.Fragment>
-                <Button label="Export" icon="pi pi-upload" severity="help" onClick={exportCSV}/>
+                <Button label={t('export')} icon="pi pi-upload" severity="help" onClick={exportCSV}/>
             </React.Fragment>
         );
     };
@@ -216,7 +216,7 @@ const FinancialCrud = () => {
     const yearBodyTemplate = (rowData: Financial) => {
         return (
             <>
-                <span className="p-column-title">Year</span>
+                <span className="p-column-title">{t('financial.year')}</span>
                 {rowData.year}
             </>
         );
@@ -225,7 +225,7 @@ const FinancialCrud = () => {
     const periodBodyTemplate = (rowData: Financial) => {
         return (
             <>
-                <span className="p-column-title">Period</span>
+                <span className="p-column-title">{t('financial.period')}</span>
                 {rowData.period}
             </>
         );
@@ -235,7 +235,7 @@ const FinancialCrud = () => {
     const typeBodyTemplate = (rowData: Financial) => {
         return (
             <>
-                <span className="p-column-title">Type</span>
+                <span className="p-column-title">{t('financial.type')}</span>
                 <span className={`financial-badge status-${rowData.type}`}>{rowData.type}</span>
             </>
         );
@@ -253,17 +253,17 @@ const FinancialCrud = () => {
 
     const header = (
         <div className="flex md:flex-row md:justify-content-between md:align-items-center">
-            <h5 className="m-0">Manage Financials</h5>
+            <h5 className="m-0">{t('financial.manage')}</h5>
         </div>
     );
 
     const linesHeader = (
         <div className="flex md:flex-row md:justify-content-between md:align-items-center">
-            <h5 className="m-0">Manage Financial Lines</h5>
+            <h5 className="m-0">{t('financial.line.manage')}</h5>
             <span className="block mt-2 md:mt-0 p-input-icon-left">
                 <i className="pi pi-search"/>
                 <InputText type="search" onInput={(e) => setGlobalFilter(e.currentTarget.value)}
-                           placeholder="Search..."/>
+                           placeholder={t('search')}/>
             </span>
         </div>
     );
@@ -276,20 +276,20 @@ const FinancialCrud = () => {
 
     const financialDialogFooter = (
         <>
-            <Button label="Cancel" icon="pi pi-times" text onClick={hideDialog}/>
-            <Button label="Save" icon="pi pi-check" text onClick={saveFinancial}/>
+            <Button label={t('cancel')} icon="pi pi-times" text onClick={hideDialog}/>
+            <Button label={t('save')} icon="pi pi-check" text onClick={saveFinancial}/>
         </>
     );
     const deleteFinancialDialogFooter = (
         <>
-            <Button label="No" icon="pi pi-times" text onClick={hideDeleteFinancialDialog}/>
-            <Button label="Yes" icon="pi pi-check" text onClick={deleteFinancial}/>
+            <Button label={t('no')} icon="pi pi-times" text onClick={hideDeleteFinancialDialog}/>
+            <Button label={t('yes')} icon="pi pi-check" text onClick={deleteFinancial}/>
         </>
     );
     const deleteFinancialsDialogFooter = (
         <>
-            <Button label="No" icon="pi pi-times" text onClick={hideDeleteFinancialsDialog}/>
-            <Button label="Yes" icon="pi pi-check" text onClick={deleteSelectedFinancials}/>
+            <Button label={t('no')} icon="pi pi-times" text onClick={hideDeleteFinancialsDialog}/>
+            <Button label={t('yes')} icon="pi pi-check" text onClick={deleteSelectedFinancials}/>
         </>
     );
 
@@ -322,7 +322,7 @@ const FinancialCrud = () => {
             prevType = line.data.type
         }
         FinancialLineService.upsert(financialLine!).then(r => {
-            toast.current?.show({severity: 'success', summary: 'Successful', detail: 'Line Updated', life: 3000});
+            toast.current?.show({severity: 'success', summary: t('successful'), detail: t('successful_updated'), life: 3000});
             let index = selectedFinancials![0].lines.findIndex(l => l.$id == financialLine!.$id)
             if (index == -1) {
                 selectedFinancials![0].lines.push(financialLine as FinancialLine)
@@ -332,10 +332,6 @@ const FinancialCrud = () => {
             let financial = new Financial(selectedFinancials![0].year as number, selectedFinancials![0].companyId, selectedFinancials![0].period, selectedFinancials![0].type, selectedFinancials![0].lines)
             let lines = FinancialService.createLines(financial.actualLines, financial.revisedLines);
             setFinancialLines(lines[0] as TreeNode[])
-            let financialIndex = company?.financials.findIndex(f => f.$id == selectedFinancials![0].$id)
-            company!.financials[financialIndex!] = selectedFinancials![0]
-            setCompany(company)
-            localStorage.setItem("company", JSON.stringify(company));
         })
     };
 
@@ -366,15 +362,16 @@ const FinancialCrud = () => {
                                    dataKey="$id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]}
                                    className="datatable-responsive"
                                    paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-                                   currentPageReportTemplate="Showing {first} to {last} of {totalRecords} financials"
+                                   currentPageReportTemplate={t('currentPageReportTemplate', {objects: t('financial.financials')})}
                                    globalFilter={globalFilter}
-                                   emptyMessage="No financials found." header={header} responsiveLayout="scroll">
+                                   emptyMessage={t('dataNotFound', {objects: t('financial.financials')})}
+                                   header={header} responsiveLayout="scroll">
                             <Column selectionMode="multiple" headerStyle={{width: '4rem'}}></Column>
-                            <Column field="year" header="Year" sortable body={yearBodyTemplate}
+                            <Column field="year" header={t('financial.year')} sortable body={yearBodyTemplate}
                                     headerStyle={{minWidth: '15rem'}}></Column>
-                            <Column field="period" header="Period" sortable body={periodBodyTemplate}
+                            <Column field="period" header={t('financial.period')} sortable body={periodBodyTemplate}
                                     headerStyle={{minWidth: '15rem'}}></Column>
-                            <Column field="type" header="Type" body={typeBodyTemplate} sortable
+                            <Column field="type" header={t('financial.type')} body={typeBodyTemplate} sortable
                                     headerStyle={{minWidth: '10rem'}}></Column>
                             <Column body={actionBodyTemplate} headerStyle={{minWidth: '10rem'}}></Column>
                         </DataTable>
@@ -382,44 +379,44 @@ const FinancialCrud = () => {
 
                     <Card hidden={linesHidden} footer={linesCardFooter}>
                         <TreeTable value={financialLines} tableStyle={{minWidth: '50rem'}} header={linesHeader}>
-                            <Column field="name" header="Name" expander style={{height: '3.5rem'}}></Column>
-                            <Column field="value" header="Value" style={{height: '3.5rem'}}
+                            <Column field="name" header={t('name')} expander style={{height: '3.5rem'}}></Column>
+                            <Column field="value" header={t('financial.value')} style={{height: '3.5rem'}}
                                     body={valueBodyTemplate}></Column>
-                            <Column field="revised" header="Revised" editor={valueEditor} body={revisedBodyTemplate}
+                            <Column field="revised" header={t('financial.revised')} editor={valueEditor} body={revisedBodyTemplate}
                                     style={{height: '3.5rem'}}></Column>
                         </TreeTable>
                     </Card>
 
-                    <Dialog visible={financialDialog} style={{width: '450px'}} header="Financial Details" modal
+                    <Dialog visible={financialDialog} style={{width: '450px'}} header={t('financial.details')} modal
                             className="p-fluid" footer={financialDialogFooter} onHide={hideDialog}>
                         <div className="field">
-                            <label htmlFor="year">Year</label>
+                            <label htmlFor="year">{t('financial.year')}</label>
                             <InputNumber id="year" value={financial.year}
                                          onValueChange={(e: InputNumberValueChangeEvent) => onInputNumberChange(e, 'year')}
                                          required autoFocus min={2020} max={2030} useGrouping={false} showButtons
                                          className={classNames({'p-invalid': submitted && !financial.year})}/>
-                            {submitted && !financial.year && <small className="p-invalid">Year is required.</small>}
+                            {submitted && !financial.year && <small className="p-invalid">{t('financial.year.required')}</small>}
                         </div>
 
                     </Dialog>
 
-                    <Dialog visible={deleteFinancialDialog} style={{width: '450px'}} header="Confirm" modal
+                    <Dialog visible={deleteFinancialDialog} style={{width: '450px'}} header={t('confirm')} modal
                             footer={deleteFinancialDialogFooter} onHide={hideDeleteFinancialDialog}>
                         <div className="flex align-items-center justify-content-center">
                             <i className="pi pi-exclamation-triangle mr-3" style={{fontSize: '2rem'}}/>
                             {financial && (
                                 <span>
-                                    Are you sure you want to delete <b>{financial.year}</b>?
+                                    {t('areSureDelete')} <b>{financial.year}</b>?
                                 </span>
                             )}
                         </div>
                     </Dialog>
 
-                    <Dialog visible={deleteFinancialsDialog} style={{width: '450px'}} header="Confirm" modal
+                    <Dialog visible={deleteFinancialsDialog} style={{width: '450px'}} header={t('confirm')} modal
                             footer={deleteFinancialsDialogFooter} onHide={hideDeleteFinancialsDialog}>
                         <div className="flex align-items-center justify-content-center">
                             <i className="pi pi-exclamation-triangle mr-3" style={{fontSize: '2rem'}}/>
-                            {financial && <span>Are you sure you want to delete the selected financials?</span>}
+                            {financial && <span>{t('financial.areSureDelete')}</span>}
                         </div>
                     </Dialog>
 

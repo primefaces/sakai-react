@@ -15,11 +15,14 @@ import {Company} from "../../../service/types/company/Company";
 import {FileUpload, FileUploadSelectEvent} from "primereact/fileupload";
 import {pdfjs} from "react-pdf";
 import {PDFDocumentProxy} from "pdfjs-dist";
-import {useUser} from "../../../layout/context/usercontext";
 import {Contact} from "../../../service/types/contact/Contact";
 import {Calendar} from "primereact/calendar";
 import {InputTextarea} from "primereact/inputtextarea";
 import {InputMask} from "primereact/inputmask";
+import {FinancialService} from "../../../service/FinancialService";
+import {PartnershipService} from "../../../service/PartnershipService";
+import {useUser} from "../../../layout/context/usercontext";
+import {useTranslation} from "react-i18next";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
     'pdfjs-dist/build/pdf.worker.min.js',
@@ -30,13 +33,11 @@ const CompanyCrud = () => {
 
     const router = useRouter();
     let emptyCompany: Company = {
-        financials: [],
         name: '',
         taxNo: '',
         taxAdministration: '',
         tradeRegisterNo: '',
         contact: new Contact(),
-        partnerships: []
     };
 
     const [companies, setCompanies] = useState<Company[]>();
@@ -52,12 +53,21 @@ const CompanyCrud = () => {
     const toast = useRef<Toast>(null);
     const dt = useRef<DataTable<any>>(null);
     const user = useUser();
+    const {t} = useTranslation();
 
     useEffect(() => {
-        CompanyService.list().then((data) => {
-            setCompanies(data.documents as any)
-        });
-    }, []);
+        if (!user.loadingUser && user.current != null) {
+            if (!(user.current as any).labels.includes("admin")) {
+                CompanyService.list().then((data) => {
+                    setCompanies(data.documents as any)
+                });
+            } else {
+                CompanyService.list(user.current.$id).then((data) => {
+                    setCompanies(data.documents as any)
+                });
+            }
+        }
+    }, [user.current, user.loadingUser]);
 
     const isFormFieldValid = (name: string) => {
         return !!(submitted && errors.get(name));
@@ -68,6 +78,7 @@ const CompanyCrud = () => {
     };
 
     const openNew = () => {
+        emptyCompany.userId = user.current?.$id
         setCompany(emptyCompany);
         setSubmitted(false);
         setCompanyDialog(true);
@@ -90,27 +101,26 @@ const CompanyCrud = () => {
         setCompanySelectDialog(false);
     };
 
-
-    const validate= () => {
-        let errors: Map<string,string> = new Map()
+    const validate = () => {
+        let errors: Map<string, string> = new Map()
 
         if (!company.name) {
-            errors.set("name",'Name is required.')
+            errors.set("name", t('name.required'))
         }
         if (!company.taxNo) {
-            errors.set("taxNo",'Tax No is required.')
+            errors.set("taxNo", t('company.taxNo.required'))
         }
         if (!company.taxAdministration) {
-            errors.set("taxAdministration",'Tax Administration is required.')
+            errors.set("taxAdministration", t('company.taxAdministration.required'))
         }
         if (!company.establishmentDate) {
-            errors.set("establishmentDate",'Establishment Date is required.')
+            errors.set("establishmentDate", t('company.establishmentDate.required'))
         }
 
         if (!company.contact.email) {
-            errors.set("email",'Email is required.')
+            errors.set("email", t('email.required'))
         } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(company.contact.email)) {
-            errors.set("email",'Invalid email address. E.g. example@email.com')
+            errors.set("email", t('email.invalid'))
         }
         return errors;
     };
@@ -119,7 +129,6 @@ const CompanyCrud = () => {
         setSubmitted(true);
         let errors = validate()
         setErrors(errors)
-        debugger
         if (errors.size == 0) {
             let _companies = [...(companies as Company[])];
             let _company = {...company};
@@ -127,16 +136,15 @@ const CompanyCrud = () => {
                 CompanyService.update(company.$id, _company).then(r => {
                     let index = findIndexById(company.$id as string);
                     _companies[index] = _company;
-                    toast.current?.show({severity: 'success', summary: 'Successful', detail: 'Company Updated', life: 3000})
+                    toast.current?.show({severity: 'success', summary: t('successful'), detail: t('successful_updated'), life: 3000})
                     setCompanies(_companies as any);
                     setCompanyDialog(false);
                     setCompany(emptyCompany);
                 })
             } else {
-                debugger
                 CompanyService.add(_company).then(r => {
                     _companies.push(r as any);
-                    toast.current?.show({severity: 'success', summary: 'Successful', detail: 'Company Created', life: 3000});
+                    toast.current?.show({severity: 'success', summary: t('successful'), detail: t('successful_created'), life: 3000});
                     setCompanies(_companies as any);
                     setCompanyDialog(false);
                     setCompany(emptyCompany);
@@ -149,22 +157,29 @@ const CompanyCrud = () => {
     };
 
     const editCompany = (company: Company) => {
-        setCompany({...company});
-        setCompanyDialog(true);
+        CompanyService.get(company.$id!).then(c => {
+            company = c as any
+            setCompany({...company});
+            setCompanyDialog(true);
+        })
     };
 
     const confirmDeleteCompany = (company: Company) => {
+        company.contact = new Contact()
         setCompany(company);
         setDeleteCompanyDialog(true);
     };
 
     const deleteCompany = () => {
         let _companies = (companies as any)?.filter((val: any) => val.$id !== company.$id);
+        setSubmitted(true)
         CompanyService.remove(company.$id as string).then(r => {
             setCompanies(_companies);
-            toast.current?.show({severity: 'success', summary: 'Successful', detail: 'Company Deleted', life: 3000});
+            toast.current?.show({severity: 'success', summary: t('successful'), detail: t('successful_deleted'), life: 3000});
             setDeleteCompanyDialog(false);
             setCompany(emptyCompany);
+        }).finally(() => {
+            setSubmitted(false)
         })
     };
 
@@ -195,20 +210,20 @@ const CompanyCrud = () => {
         let company = (selectedCompanies as Company[])[0]
         setCompanySelectDialog(false);
         setSelectedCompanies([]);
-        toast.current?.show({severity: 'success', summary: 'Successful', detail: 'Company Selected', life: 3000});
-
-        localStorage.setItem("company", JSON.stringify(company));
-        router.push('/financials?companyId=' + company.$id);
+        toast.current?.show({severity: 'success', summary: t('successful'), detail: t('successful_selected'), life: 3000});
+        user.selectCompany(company)
     };
 
     const deleteSelectedCompanies = () => {
         let _companies = (companies as any)?.filter((val: any) => !(selectedCompanies as Company[])?.includes(val));
-
+        setSubmitted(true)
         CompanyService.removeAll((selectedCompanies as Company[]).map((val: any) => val.$id)).then(r => {
             setCompanies(_companies);
             setDeleteCompaniesDialog(false);
             setSelectedCompanies([]);
-            toast.current?.show({severity: 'success', summary: 'Successful', detail: 'Companies Deleted', life: 3000});
+            toast.current?.show({severity: 'success', summary: t('successful'), detail: t('successful_deleted'), life: 3000});
+        }).finally(() => {
+            setSubmitted(false)
         })
     };
 
@@ -229,11 +244,11 @@ const CompanyCrud = () => {
         return (
             <React.Fragment>
                 <div className="my-2">
-                    <Button label="New" icon="pi pi-plus" severity="success" className=" mr-2" onClick={openNew}/>
-                    <Button label="Delete" icon="pi pi-trash" severity="danger" className=" mr-2"
+                    <Button label={t('new')} icon="pi pi-plus" severity="success" className=" mr-2" onClick={openNew}/>
+                    <Button label={t('delete')} icon="pi pi-trash" severity="danger" className=" mr-2"
                             onClick={confirmDeleteSelected}
                             disabled={!selectedCompanies || !(selectedCompanies as any).length}/>
-                    <Button label="Select Company" icon="pi pi-plus" severity="success" className=" mr-2"
+                    <Button label={t('select')} icon="pi pi-plus" severity="success" className=" mr-2"
                             onClick={openSelectCompany}
                             disabled={!selectedCompanies || (selectedCompanies as any).length != 1}/>
                 </div>
@@ -299,7 +314,7 @@ const CompanyCrud = () => {
     }
 
     const onSelect = async (e: FileUploadSelectEvent) => {
-
+        setSubmitted(true)
         if (e.files && e.files[0]) {
             const reader = new FileReader();
             reader.onload = async (e) => {
@@ -307,18 +322,34 @@ const CompanyCrud = () => {
                 const pdf = await pdfjs.getDocument(contents as ArrayBuffer).promise;
                 let extracted = await extractLines(pdf);
                 let company = CompanyService.extractCompanyInfo(extracted.lines)
-                let {financial, financialPrev} = CompanyService.extractBilanco(extracted.lines, extracted.bilanco, extracted.gelir)
-                company.partnerships = CompanyService.extractPartnership(extracted.lines, extracted.ortak)
-                company.financials.push(financial, financialPrev)
                 debugger
-                CompanyService.add(company).then(r => {
-                    companies?.push(company)
+                company.userId = user.current?.$id
+                console.log(`File uploaded, bilanco generating.`)
+                let {financial, financialPrev} = CompanyService.extractBilanco(extracted.lines, extracted.bilanco, extracted.gelir)
+                console.log(`Bilanco generated, partnership generating.`)
+                let partnerships = CompanyService.extractPartnership(extracted.lines, extracted.ortak)
+                console.log(`Partnership generated, company saving.`)
+                let financials = [financial, financialPrev]
+                CompanyService.add(company).then(async r => {
+                    companies?.push(r as any)
                     setCompanies(companies);
-                    setSubmitted(true)
-                    toast.current?.show({severity: 'success', summary: 'Successful', detail: 'Company Created', life: 3000});
+
+                    console.log(`Company added, financials saving.`)
+                    for (const f of financials) {
+                        f.companyId = r.$id
+                        await FinancialService.add(f)
+                    }
+                    console.log(`Financials added, partnerships saving.`)
+                    for (const p of partnerships) {
+                        p.companyId = r.$id
+                        await PartnershipService.add(p)
+                    }
+                    toast.current?.show({severity: 'success', summary: t('successful'), detail: t('successful_created'), life: 3000});
                 }).catch(e => {
                     debugger
                     console.log(e)
+                }).finally(() => {
+                    setSubmitted(false)
                 })
             };
             reader.readAsArrayBuffer(e.files[0]);
@@ -328,9 +359,9 @@ const CompanyCrud = () => {
     const rightToolbarTemplate = () => {
         return (
             <React.Fragment>
-                <FileUpload mode="basic" accept="pdf" maxFileSize={1000000} chooseLabel="Import"
-                            className="mr-2 inline-block" onSelect={onSelect}/>
-                <Button label="Export" icon="pi pi-upload" severity="help" onClick={exportCSV}/>
+                <FileUpload mode="basic" accept="pdf" maxFileSize={1000000} chooseLabel={t('import')}
+                            className="mr-2 inline-block" onSelect={onSelect} disabled={submitted}/>
+                <Button label={t('export')} icon="pi pi-upload" severity="help" onClick={exportCSV}/>
             </React.Fragment>
         );
     };
@@ -338,7 +369,7 @@ const CompanyCrud = () => {
     const nameBodyTemplate = (rowData: Company) => {
         return (
             <>
-                <span className="p-column-title">Name</span>
+                <span className="p-column-title">{t('name')}</span>
                 {rowData.name}
             </>
         );
@@ -347,7 +378,7 @@ const CompanyCrud = () => {
     const establishmentDateBodyTemplate = (rowData: Company) => {
         return (
             <>
-                <span className="p-column-title">Establishment Date</span>
+                <span className="p-column-title">{t('company.establishmentDate')}</span>
                 {rowData.establishmentDate}
             </>
         );
@@ -365,43 +396,43 @@ const CompanyCrud = () => {
 
     const header = (
         <div className="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-            <h5 className="m-0">Manage Companies</h5>
+            <h5 className="m-0">{t('company.manage')}</h5>
             <span className="block mt-2 md:mt-0 p-input-icon-left">
                 <i className="pi pi-search"/>
                 <InputText type="search" onInput={(e) => setGlobalFilter(e.currentTarget.value)}
-                           placeholder="Search..."/>
+                           placeholder={t('search' )+ '...'}/>
             </span>
         </div>
     );
 
     const companyDialogFooter = (
         <>
-            <Button label="Cancel" icon="pi pi-times" text onClick={hideDialog}/>
-            <Button label="Save" icon="pi pi-check" text onClick={saveCompany}/>
+            <Button label={t('cancel')} icon="pi pi-times" text onClick={hideDialog}/>
+            <Button label={t('save')} icon="pi pi-check" text onClick={saveCompany}/>
         </>
     );
     const deleteCompanyDialogFooter = (
         <>
-            <Button label="No" icon="pi pi-times" text onClick={hideDeleteCompanyDialog}/>
-            <Button label="Yes" icon="pi pi-check" text onClick={deleteCompany}/>
+            <Button label={t('no')} icon="pi pi-times" text onClick={hideDeleteCompanyDialog} disabled={submitted}/>
+            <Button label={t('yes')} icon="pi pi-check" text onClick={deleteCompany} disabled={submitted}/>
         </>
     );
     const deleteCompaniesDialogFooter = (
         <>
-            <Button label="No" icon="pi pi-times" text onClick={hideDeleteCompaniesDialog}/>
-            <Button label="Yes" icon="pi pi-check" text onClick={deleteSelectedCompanies}/>
+            <Button label={t('no')} icon="pi pi-times" text onClick={hideDeleteCompaniesDialog} disabled={submitted}/>
+            <Button label={t('yes')} icon="pi pi-check" text onClick={deleteSelectedCompanies} disabled={submitted}/>
         </>
     );
 
     const companySelectDialogFooter = (
         <>
-            <Button label="No" icon="pi pi-times" text onClick={hideCompanySelectDialog}/>
-            <Button label="Yes" icon="pi pi-check" text onClick={selectCompany}/>
+            <Button label={t('no')} icon="pi pi-times" text onClick={hideCompanySelectDialog}/>
+            <Button label={t('yes')} icon="pi pi-check" text onClick={selectCompany}/>
         </>
     );
 
     function getCompanyDialog() {
-        return <Dialog visible={companyDialog} style={{width: '650px'}} header="Company Details" modal
+        return <Dialog visible={companyDialog} style={{width: '650px'}} header={t('company.details')} modal
                        className="p-fluid" footer={companyDialogFooter} onHide={hideDialog}>
             <div className="grid p-fluid mt-3">
                 <div className="field col-12">
@@ -409,7 +440,8 @@ const CompanyCrud = () => {
                         <InputText id="name" value={company.name} required
                                    onChange={(e) => onInputChange(e, 'name')}
                                    className={classNames({'p-invalid': isFormFieldValid('name')})}/>
-                        <label htmlFor="name" className={classNames({'p-error': isFormFieldValid('name')})}>Name*</label>
+                        <label htmlFor="name"
+                               className={classNames({'p-error': isFormFieldValid('name')})}>{t('name')}*</label>
                     </span>
                     {getFormErrorMessage('name')}
                 </div>
@@ -419,7 +451,8 @@ const CompanyCrud = () => {
                         <Calendar inputId="establishmentDate" value={company.establishmentDate} required
                                   onChange={(e) => onInputChange(e, 'establishmentDate')}
                                   className={classNames({'p-error': isFormFieldValid('establishmentDate')})}/>
-                        <label htmlFor="establishmentDate" className={classNames({'p-error': isFormFieldValid('establishmentDate')})}>Establishment Date*</label>
+                        <label htmlFor="establishmentDate"
+                               className={classNames({'p-error': isFormFieldValid('establishmentDate')})}>{t('company.establishmentDate')}*</label>
                     </span>
                     {getFormErrorMessage('establishmentDate')}
                 </div>
@@ -427,7 +460,7 @@ const CompanyCrud = () => {
                     <span className="p-float-label">
                         <InputText id="tradeRegisterNo" value={company.tradeRegisterNo}
                                    onChange={(e) => onInputChange(e, 'tradeRegisterNo')}/>
-                        <label htmlFor="tradeRegisterNo">Trade Register No</label>
+                        <label htmlFor="tradeRegisterNo">{t('company.tradeRegisterNo')}</label>
                     </span>
                 </div>
 
@@ -436,7 +469,8 @@ const CompanyCrud = () => {
                         <InputText id="taxAdministration" value={company.taxAdministration} required
                                    onChange={(e) => onInputChange(e, 'taxAdministration')}
                                    className={classNames({'p-error': isFormFieldValid('taxAdministration')})}/>
-                        <label htmlFor="taxAdministration" className={classNames({'p-error': isFormFieldValid('taxAdministration')})}>Tax Administration*</label>
+                        <label htmlFor="taxAdministration"
+                               className={classNames({'p-error': isFormFieldValid('taxAdministration')})}>{t('company.taxAdministration')}*</label>
                     </span>
                     {getFormErrorMessage('taxAdministration')}
                 </div>
@@ -446,7 +480,8 @@ const CompanyCrud = () => {
                         <InputText id="taxNo" value={company.taxNo} required
                                    onChange={(e) => onInputChange(e, 'taxNo')}
                                    className={classNames({'p-error': isFormFieldValid('taxNo')})}/>
-                        <label htmlFor="taxNo" className={classNames({'p-error': isFormFieldValid('taxNo')})}>Tax No*</label>
+                        <label htmlFor="taxNo"
+                               className={classNames({'p-error': isFormFieldValid('taxNo')})}>{t('company.taxNo')}*</label>
                     </span>
                     {getFormErrorMessage('taxNo')}
                 </div>
@@ -454,34 +489,39 @@ const CompanyCrud = () => {
                 <div className="field col-12">
                     <span className="p-float-label">
                         <InputTextarea id="address" value={company.contact.address} rows={4}
-                                   onChange={(e) => onContactInputChange(e, 'address')}/>
-                        <label htmlFor="address">Address</label>
+                                       onChange={(e) => onContactInputChange(e, 'address')}/>
+                        <label htmlFor="address">{t('company.address')}</label>
                     </span>
                 </div>
                 <div className="field col-12 md:col-6">
                     <span className="p-float-label">
-                        <InputText id="city" type="text" value={company.contact.city} onChange={(e) => onContactInputChange(e, 'city')}/>
-                        <label htmlFor="city">City</label>
+                        <InputText id="city" type="text" value={company.contact.city}
+                                   onChange={(e) => onContactInputChange(e, 'city')}/>
+                        <label htmlFor="city">{t('company.city')}</label>
                     </span>
                 </div>
                 <div className="field col-12 md:col-6">
                     <span className="p-float-label">
-                        <InputMask id="tel" mask="(999) 999-9999" value={company.contact.telNo} onChange={(e) => onContactInputChange(e, 'telNo')}/>
-                        <label htmlFor="tel">Telephone</label>
+                        <InputMask id="tel" mask="(999) 999-9999" value={company.contact.telNo}
+                                   onChange={(e) => onContactInputChange(e, 'telNo')}/>
+                        <label htmlFor="tel">{t('company.tel')}</label>
                     </span>
                 </div>
                 <div className="field col-12 md:col-6">
                     <span className="p-float-label">
-                        <InputText id="email" type="text" value={company.contact.email} onChange={(e) => onContactInputChange(e, 'email')}
+                        <InputText id="email" type="text" value={company.contact.email}
+                                   onChange={(e) => onContactInputChange(e, 'email')}
                                    className={classNames({'p-error': isFormFieldValid('email')})}/>
-                        <label htmlFor="email" className={classNames({'p-error': isFormFieldValid('email')})}>Email*</label>
+                        <label htmlFor="email"
+                               className={classNames({'p-error': isFormFieldValid('email')})}>{t('email')}*</label>
                     </span>
                     {getFormErrorMessage('email')}
                 </div>
                 <div className="field col-12 md:col-6">
                     <span className="p-float-label">
-                        <InputText id="website" type="text" value={company.contact.website} onChange={(e) => onContactInputChange(e, 'website')}/>
-                        <label htmlFor="website">Website</label>
+                        <InputText id="website" type="text" value={company.contact.website}
+                                   onChange={(e) => onContactInputChange(e, 'website')}/>
+                        <label htmlFor="website">{t('company.website')}</label>
                     </span>
                 </div>
             </div>
@@ -505,16 +545,16 @@ const CompanyCrud = () => {
                         rowsPerPageOptions={[5, 10, 25]}
                         className="datatable-responsive"
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} companies"
+                        currentPageReportTemplate={t('currentPageReportTemplate', {objects: t('company.companies')})}
                         globalFilter={globalFilter}
-                        emptyMessage="No companies found."
+                        emptyMessage={t('dataNotFound', {objects: t('company.companies')})}
                         header={header}
                         responsiveLayout="scroll"
                     >
                         <Column selectionMode="multiple" headerStyle={{width: '4rem'}}></Column>
-                        <Column field="name" header="Name" sortable body={nameBodyTemplate}
+                        <Column field="name" header={t('name')} sortable body={nameBodyTemplate}
                                 headerStyle={{minWidth: '15rem'}}></Column>
-                        <Column field="establishmentDate" header="Establishment Date" sortable
+                        <Column field="establishmentDate" header={t('company.establishmentDate')} sortable
                                 body={establishmentDateBodyTemplate}
                                 headerStyle={{minWidth: '10rem'}}></Column>
                         <Column body={actionBodyTemplate} headerStyle={{minWidth: '10rem'}}></Column>
@@ -522,31 +562,42 @@ const CompanyCrud = () => {
 
                     {getCompanyDialog()}
 
-                    <Dialog visible={deleteCompanyDialog} style={{width: '450px'}} header="Confirm" modal
+                    <Dialog visible={deleteCompanyDialog} style={{width: '450px'}} header={t('confirm')} modal
                             footer={deleteCompanyDialogFooter} onHide={hideDeleteCompanyDialog}>
                         <div className="flex align-items-center justify-content-center">
                             <i className="pi pi-exclamation-triangle mr-3" style={{fontSize: '2rem'}}/>
                             {company && (
-                                <span>
-                                    Are you sure you want to delete <b>{company.name}</b>?
-                                </span>
+                                <span>{t('areSureDelete')} <b>{company.name}</b>?</span>
                             )}
                         </div>
                     </Dialog>
 
-                    <Dialog visible={deleteCompaniesDialog} style={{width: '450px'}} header="Confirm" modal
+
+                    <Dialog visible={deleteCompaniesDialog} style={{width: '450px'}} header={t('confirm')} modal
                             footer={deleteCompaniesDialogFooter} onHide={hideDeleteCompaniesDialog}>
                         <div className="flex align-items-center justify-content-center">
                             <i className="pi pi-exclamation-triangle mr-3" style={{fontSize: '2rem'}}/>
-                            {company && <span>Are you sure you want to delete the selected companies?</span>}
+                            {company && (
+                                <span>{t('company.areSureDelete')}</span>
+                            )}
                         </div>
                     </Dialog>
 
-                    <Dialog visible={companySelectDialog} style={{width: '450px'}} header="Confirm" modal
+                    <Dialog visible={deleteCompaniesDialog} style={{width: '450px'}} header={t('confirm')} modal
+                            footer={deleteCompaniesDialogFooter} onHide={hideDeleteCompaniesDialog}>
+                        <div className="flex align-items-center justify-content-center">
+                            <i className="pi pi-exclamation-triangle mr-3" style={{fontSize: '2rem'}}/>
+                            {company && (
+                                <span>{t('company.areSureDelete')}</span>
+                            )}
+                        </div>
+                    </Dialog>
+
+                    <Dialog visible={companySelectDialog} style={{width: '450px'}} header={t('confirm')} modal
                             footer={companySelectDialogFooter} onHide={hideCompanySelectDialog}>
                         <div className="flex align-items-center justify-content-center">
                             <i className="pi pi-exclamation-triangle mr-3" style={{fontSize: '2rem'}}/>
-                            {company && <span>Are you sure you want to select company?</span>}
+                            {company && <span>{t('company.areSureSelect')}</span>}
                         </div>
                     </Dialog>
                 </div>

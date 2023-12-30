@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
-import React, { useContext, useState } from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import { Checkbox } from 'primereact/checkbox';
 import { Button } from 'primereact/button';
 import { Password } from 'primereact/password';
@@ -9,15 +9,24 @@ import { classNames } from 'primereact/utils';
 import {LayoutContext} from "../../../../layout/context/layoutcontext";
 import {useUser} from "../../../../layout/context/usercontext";
 import Link from "next/link";
+import {Panel} from "primereact/panel";
 
 const LoginPage = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [email, setEmail] = useState(localStorage.getItem("email") || "");
+    const [password, setPassword] = useState(localStorage.getItem("password") || "");
     const [checked, setChecked] = useState(false);
     const { layoutConfig } = useContext(LayoutContext);
 
     const user = useUser();
     const containerClassName = classNames('surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden', { 'p-input-filled': layoutConfig.inputStyle === 'filled' });
+
+    useEffect(() => {
+        if(!user.loadingUser){
+            if(user.current != null){
+                window.location.replace("/")
+            }
+        }
+    }, [user.current, user.loadingUser]);
 
     return (
         <div className={containerClassName}>
@@ -26,8 +35,8 @@ const LoginPage = () => {
                 <div style={{borderRadius: '56px', padding: '0.3rem', background: 'linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%)'}}>
                     <div className="w-full surface-card py-8 px-5 sm:px-8" style={{ borderRadius: '53px' }}>
                         <div className="text-center mb-5">
-                            <img src="/demo/images/login/avatar.png" alt="Image" height="50" className="mb-3" />
-                            <div className="text-900 text-3xl font-medium mb-3">Welcome, Isabel!</div>
+                            <img src="/demo/images/login/avatar.png" alt="Image" height="50" className="mb-3" style={{ display: "none" }}/>
+                            <div className="text-900 text-3xl font-medium mb-3" style={{ display: "none" }}>Welcome, Isabel!</div>
                             <span className="text-600 font-medium">Sign in to continue</span>
                         </div>
 
@@ -51,7 +60,7 @@ const LoginPage = () => {
                                     Forgot password?
                                 </a>
                             </div>
-                            <Button label="Sign In" className="w-full p-3 text-xl mb-5 gap-5" onClick={() => user.login(email, password)}></Button>
+                            <Button label="Sign In" className="w-full p-3 text-xl mb-5 gap-5" onClick={() => user.login(email, password, checked)}></Button>
 
                             <div className="flex align-items-center justify-content-between mb-5 gap-5">
                                 <div className="flex align-items-center">

@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import { useRouter } from "next/navigation";
 import {
   useEventListener,
   useMountEffect,
@@ -16,17 +15,35 @@ import AppConfig from "./AppConfig";
 import { LayoutContext } from "./context/layoutcontext";
 import { PrimeReactContext } from "primereact/api";
 import { ChildContainerProps, LayoutState, AppTopbarRef } from "../service/types/types";
-import {useUser} from "./context/usercontext";
 import { usePathname, useSearchParams } from "next/navigation";
+import {initReactI18next, useTranslation} from "react-i18next";
+import i18n from "i18next";
 
+i18n.use(initReactI18next).init(
+    {
+      fallbackLng: 'tr',
+      lng: 'tr',
+      resources: {
+        en: {
+          translations: require('./../i18n/locales/en/translations.json')
+        },
+        tr: {
+          translations: require('./../i18n/locales/tr/translations.json')
+        }
+      },
+      ns: ['translations'],
+      defaultNS: 'translations'
+    }
+);
+
+i18n.languages = ['en', 'tr'];
 
 const Layout = ({ children }: ChildContainerProps) => {
   const { layoutConfig, layoutState, setLayoutState } = useContext(LayoutContext);
   const { setRipple } = useContext(PrimeReactContext);
   const topbarRef = useRef<AppTopbarRef>(null);
   const sidebarRef = useRef<HTMLDivElement>(null);
-  const router = useRouter();
-  const user = useUser();
+  const { t } = useTranslation();
 
   const [bindMenuOutsideClickListener, unbindMenuOutsideClickListener] =
     useEventListener({
@@ -111,16 +128,6 @@ const Layout = ({ children }: ChildContainerProps) => {
       );
     }
   };
-
-  useEffect(() => {
-    debugger
-    const loggedIn =  localStorage.getItem("auth_user");
-    user.current
-    if(!loggedIn) {
-      router.push("/auth/login")
-    }
-
-  }, [])
 
   useMountEffect(() => {
     setRipple(layoutConfig.ripple);

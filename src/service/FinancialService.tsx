@@ -662,6 +662,15 @@ export const FinancialService = {
         );
     },
 
+    async listByCompanyId(companyId: string, queries: string[] = []) {
+        queries.push(Query.equal("companyId", companyId))
+        return await databases.listDocuments(
+            FINANCIALS_DATABASE_ID,
+            FINANCIALS_COLLECTION_ID,
+            queries
+        );
+    },
+
     async add(financial: Financial) {
         return await databases.createDocument(
             FINANCIALS_DATABASE_ID,

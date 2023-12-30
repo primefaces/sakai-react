@@ -1,10 +1,11 @@
-import {Contact} from "../../contact/Contact";
+import {Contact} from "../contact/Contact";
 import {PartnershipDuty} from "./PartnershipDuty";
 
 export class Partnership {
     $id?: string;
     $createdAt?: string;
     $updatedAt?: string;
+    companyId? : string;
     name: string = ""
     surname: string = ""
     tckn?: string
@@ -12,6 +13,5 @@ export class Partnership {
     shareRatio?: number
     duties : PartnershipDuty[] = []
     contact : Contact = new Contact()
-    company?: string
 }
 

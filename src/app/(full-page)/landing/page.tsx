@@ -59,8 +59,12 @@ const LandingPage = () => {
                             </li>
                         </ul>
                         <div className="flex justify-content-between lg:block border-top-1 lg:border-top-none surface-border py-3 lg:py-0 mt-3 lg:mt-0">
-                            <Button label="Login" text rounded className="border-none font-light line-height-2 text-blue-500"></Button>
-                            <Button label="Register" rounded className="border-none ml-5 font-light line-height-2 bg-blue-500 text-white"></Button>
+                            <Link href="/auth/login">
+                                <Button label="Login" text rounded className="border-none font-light line-height-2 text-blue-500"/>
+                            </Link>
+                            <Link href="/auth/register">
+                                <Button label="Register" rounded className="border-none ml-5 font-light line-height-2 bg-blue-500 text-white"/>
+                            </Link>
                         </div>
                     </div>
                 </div>

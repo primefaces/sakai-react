@@ -1,6 +1,7 @@
 import {FinancialPeriod} from "./FinancialPeriod";
 import {FinancialType} from "./FinancialType";
 import {FinancialLine} from "./line/FinancialLine";
+import {Company} from "../company/Company";
 
 export class Financial {
 

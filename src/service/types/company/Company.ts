@@ -1,6 +1,6 @@
 import {Financial} from "../financial/Financial";
 import {Contact} from "../contact/Contact";
-import {Partnership} from "./partnership/Partnership";
+import {Partnership} from "../partnership/Partnership";
 
 export class Company {
     $id?: string;
@@ -14,6 +14,4 @@ export class Company {
     taxAdministration: string = ''
     tradeRegisterNo?: string
     contact: Contact = new Contact();
-    financials: Financial[] = [];
-    partnerships: Partnership[] = []
 }

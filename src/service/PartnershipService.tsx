@@ -1,16 +1,18 @@
 import {databases} from "./appwrite";
 import {ID, Query} from "appwrite";
-import {Partnership} from "./types/company/partnership/Partnership";
-import {PartnershipDuty} from "./types/company/partnership/PartnershipDuty";
+import {Partnership} from "./types/partnership/Partnership";
+import {PartnershipDuty} from "./types/partnership/PartnershipDuty";
+import {useTranslation} from "react-i18next";
 
 export const PARTNERSHIPS_DATABASE_ID = "654769c9344dffc7dd50";
 export const PARTNERSHIPS_COLLECTION_ID = "656a008434bc12bc40e1";
 
 export const PartnershipService = {
-    getDuties() {
+
+    getDuties(t: any) {
         let list = []
         for (let partnershipDuty in PartnershipDuty) {
-            list.push(partnershipDuty)
+            list.push({ name: t('PartnershipDuty.' + partnershipDuty), code: partnershipDuty })
         }
         return list
     },
@@ -23,6 +25,15 @@ export const PartnershipService = {
 
     async list(queries: string[] = []) {
         queries.push(Query.orderDesc("$createdAt"), Query.limit(10))
+        return await databases.listDocuments(
+            PARTNERSHIPS_DATABASE_ID,
+            PARTNERSHIPS_COLLECTION_ID,
+            queries
+        );
+    },
+
+    async listByCompanyId(companyId: string, queries: string[] = []) {
+        queries.push(Query.equal("companyId", companyId))
         return await databases.listDocuments(
             PARTNERSHIPS_DATABASE_ID,
             PARTNERSHIPS_COLLECTION_ID,

@@ -1,12 +1,13 @@
 import {Company} from "./types/company/Company";
-import {BeyannameCodes} from "./FinancialService";
+import {BeyannameCodes, FinancialService} from "./FinancialService";
 import {databases} from "./appwrite";
 import {ID, Query} from "appwrite";
 import {Financial} from "./types/financial/Financial";
 import {FinancialLine} from "./types/financial/line/FinancialLine";
-import {Partnership} from "./types/company/partnership/Partnership";
+import {Partnership} from "./types/partnership/Partnership";
 import {Contact} from "./types/contact/Contact";
-import {PartnershipDuty} from "./types/company/partnership/PartnershipDuty";
+import {PartnershipDuty} from "./types/partnership/PartnershipDuty";
+import {PartnershipService} from "./PartnershipService";
 
 export const COMPANIES_DATABASE_ID = "654769c9344dffc7dd50";
 export const COMPANIES_COLLECTION_ID = "654769cf447df20d3035";
@@ -18,11 +19,20 @@ export const CompanyService = {
         return d.data as Company[];
     },
 
-    async list() {
+    async list(userId?: string) {
+        let query = [
+            Query.select(["$id","$createdAt","name","establishmentDate"]),
+            Query.orderDesc("$createdAt"), Query.limit(10)
+        ]
+        if(userId != null){
+            query.push(
+                Query.equal("userId", userId)
+            )
+        }
         return await databases.listDocuments(
             COMPANIES_DATABASE_ID,
             COMPANIES_COLLECTION_ID,
-            [Query.orderDesc("$createdAt"), Query.limit(10)]
+            query
         );
     },
 
@@ -35,11 +45,24 @@ export const CompanyService = {
         );
     },
 
+    async get(id: string) {
+        return await databases.getDocument(
+            COMPANIES_DATABASE_ID,
+            COMPANIES_COLLECTION_ID,
+            id
+        );
+    },
+
     async update(id: string, data: Company) {
         return await databases.updateDocument(COMPANIES_DATABASE_ID, COMPANIES_COLLECTION_ID, id, {...data})
     },
 
     async remove(id: string) {
+        let query = [Query.select(["$id"])]
+        let financials = await FinancialService.listByCompanyId(id,query)
+        await FinancialService.removeAll(financials.documents.map(id => { return id.$id}))
+        let partnerships = await PartnershipService.listByCompanyId(id,query)
+        await PartnershipService.removeAll(partnerships.documents.map(id => { return id.$id}))
         return await databases.deleteDocument(COMPANIES_DATABASE_ID, COMPANIES_COLLECTION_ID, id);
     },
 
@@ -77,7 +100,7 @@ export const CompanyService = {
         if (i >= gelir.start) {
             code = "VI." + code
         }
-        return code;
+        return {code, last1Code, last2Code};
     },
 
     extractPartnership(extractedText: string[], ortak: { start: number; finish: number }){
@@ -117,8 +140,11 @@ export const CompanyService = {
     },
 
     extractBilanco(extractedText: string[], bilanco: { start: number; finish: number }, gelir: { start: number; finish: number }) {
-        let last1Code = ''
-        let last2Code = ''
+        let extractCode = {
+            code : '',
+            last1Code: '',
+            last2Code: ''
+        }
         let years = extractedText[bilanco.start - 1].split("|")
         let financial = new Financial(Number(years[0].substring(1, 5)))
         let financialPrev = new Financial(Number(years[1].substring(1, 5)))
@@ -130,18 +156,18 @@ export const CompanyService = {
                 continue;
             }
             console.log(splitted, i)
-            let code = this.extractCode(cells, last2Code, last1Code, splitted, i, gelir);
+            extractCode = this.extractCode(cells, extractCode.last2Code, extractCode.last1Code, splitted, i, gelir);
             let number = parseFloat(cells[1].replaceAll('.', '').replaceAll(',', '.'))
             if (isNaN(number)) {
                 continue
             }
-            let codeSplitted = code.split(`.`)
+            let codeSplitted = extractCode.code.split(`.`)
             if (codeSplitted.length < 4) {
                 continue
             }
 
             if (number != 0) {
-                financial.lines.push(new FinancialLine(BeyannameCodes[code].accountCode, number))
+                financial.lines.push(new FinancialLine(BeyannameCodes[extractCode.code].accountCode, number))
             }
             if (cells.length >= 3) {
                 let numberPrev = parseFloat(cells[2].replaceAll('.', '').replaceAll(',', '.'))
@@ -149,7 +175,7 @@ export const CompanyService = {
                     continue
                 }
                 if (numberPrev != 0) {
-                    financialPrev.lines.push(new FinancialLine(BeyannameCodes[code].accountCode, numberPrev))
+                    financialPrev.lines.push(new FinancialLine(BeyannameCodes[extractCode.code].accountCode, numberPrev))
                 }
             }
         }

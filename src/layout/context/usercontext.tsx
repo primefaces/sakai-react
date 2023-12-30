@@ -8,6 +8,7 @@ import {account} from "../../service/appwrite";
 import {useRouter} from "next/navigation";
 import {ID, Models} from "appwrite";
 import {Toast} from "primereact/toast";
+import {Company} from "../../service/types/company/Company";
 
 const UserContext = createContext({} as UserContextProps);
 
@@ -17,32 +18,45 @@ export function useUser() {
 
 export interface UserContextProps {
     current: Models.Session | null;
-    login: (email: string, password: string) => Promise<void>;
+    company: Company | null;
+    selectCompany: (company: Company) => Promise<void>;
+    login: (email: string, password: string, rememberMe: boolean) => Promise<void>;
     logout: () => Promise<void>;
     createRecovery: (email: string, url: string) => Promise<Models.Token>;
     register: (email: string, password: string) => Promise<void>;
     updateRecovery: (password: string, password2: string)=> Promise<void>;
+    loadingUser: Boolean;
 }
 
 export function UserProvider(props: { children: any }) {
     const [user, setUser] = useState(null);
+    const [company, setCompany] = useState<Company| null>(null);
+    const [loadingUser, setLoadingUser] = useState(true)
 
     const router = useRouter();
     const toast = useRef<Toast>(null);
 
-    async function login(email: string, password: string) {
+    async function login(email: string, password: string, rememberMe: boolean) {
         const loggedIn = await account.createEmailSession(email, password);
         setUser(loggedIn as any);
-        localStorage.setItem("auth_user", JSON.stringify(loggedIn))
+
+        if(rememberMe){
+            localStorage.setItem("email", email); localStorage.setItem("password", password)
+        }
 
         toast.current?.show({severity: 'success', summary: 'Logined', detail: 'Login successful', life: 3000});
         router.push('/');
     }
 
+    async function selectCompany(company: Company){
+        localStorage.setItem("cid", JSON.stringify(company))
+        setCompany(company)
+    }
+
     async function createRecovery(email: string, url: string) {
         let token = await account.createRecovery(email, url);
 
-        router.push('/');
+        router.push(`/auth/login`)
         return token
     }
 
@@ -56,36 +70,43 @@ export function UserProvider(props: { children: any }) {
 
     async function logout() {
         await account.deleteSession("current");
-        localStorage.removeItem("auth_user")
+        localStorage.removeItem("cid")
         setUser(null);
+        setCompany(null)
+        window.location.replace('/landing')
     }
 
     async function register(email: string, password: string) {
         await account.create(ID.unique(), email, password);
-        await login(email, password);
+        await login(email, password, false);
     }
 
     async function init() {
         try {
             const loggedIn = await account.get();
             setUser(loggedIn as any);
+            setCompany(JSON.parse(localStorage.getItem("cid") as string))
         } catch (err) {
             setUser(null);
+        } finally {
+            setLoadingUser(false)
         }
     }
 
     useEffect(() => {
-        debugger
         init();
     }, []);
 
     const value: UserContextProps = {
         current: user,
+        company: company,
+        selectCompany,
         login,
         logout,
         register,
         createRecovery,
-        updateRecovery
+        updateRecovery,
+        loadingUser
     };
 
     return (
