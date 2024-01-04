@@ -28,7 +28,7 @@ const AppConfig = (props: AppConfigProps) => {
     };
 
     const changeRipple = (e: InputSwitchChangeEvent) => {
-        setRipple(e.value as boolean);
+        setRipple?.(e.value as boolean);
         setLayoutConfig((prevState: LayoutConfig) => ({ ...prevState, ripple: e.value as boolean }));
     };
 

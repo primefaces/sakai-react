@@ -93,10 +93,6 @@ const Layout = ({ children }: ChildContainerProps) => {
         }
     };
 
-    useMountEffect(() => {
-        setRipple(layoutConfig.ripple);
-    });
-
     useEffect(() => {
         if (layoutState.overlayMenuActive || layoutState.staticMenuMobileActive) {
             bindMenuOutsideClickListener();
