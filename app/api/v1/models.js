@@ -1,11 +1,8 @@
-import { createClient } from 'utils/supabase/client'
-
 import { NextResponse } from 'next/server'
+import supabase from 'utils/supabase/client'
 
-const action = {
+const Action = {
   create: async (table, values) => {
-    const supabase = createClient()
-
     const { error } = await supabase.from(table).insert(values)
 
     if (error) {
@@ -15,8 +12,6 @@ const action = {
     return NextResponse.json({ message: 'Tạo thành công' }, { status: 201 })
   },
   read: async (table, column = null, value = null, query = null) => {
-    const supabase = createClient()
-
     if (column && value) {
       const { data, error } = await supabase.from(table).select('*').eq(column, value)
 
@@ -43,8 +38,6 @@ const action = {
     return NextResponse.json({ count: count, next: null, previous: null, results: data })
   },
   update: async (table, values, column, value) => {
-    const supabase = createClient()
-
     const { error } = await supabase.from(table).update(values).eq(column, value)
 
     if (error) {
@@ -54,8 +47,6 @@ const action = {
     return NextResponse.json({ message: 'Cập nhật thành công' })
   },
   delete: async (table, column, value) => {
-    const supabase = createClient()
-
     const { error } = await supabase.from(table).delete().eq(column, value)
 
     if (error) {
@@ -66,4 +57,4 @@ const action = {
   },
 }
 
-export default action
+export default Action
