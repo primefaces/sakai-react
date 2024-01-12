@@ -45,8 +45,9 @@ const AppMenu = () => {
           to: '/khach-hang',
         },
         {
-          label: 'Hành động thu hồi',
+          label: 'Hành động thu hồi nợ',
           icon: 'pi pi-fw pi-list',
+          to: '/hanh-dong-thu-hoi-no',
         },
         {
           label: 'Tờ trình',
