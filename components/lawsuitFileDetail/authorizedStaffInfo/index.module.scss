@@ -5,6 +5,9 @@
   input {
     width: 80% !important;
   }
+  > span {
+    width: 80% !important;
+  }
 }
 
 @media screen and (max-width: 768px) {
@@ -14,6 +17,9 @@
     }
     input {
       width: 100% !important;
+    }
+    > pan {
+      width: 80% !important;
     }
   }
 }

@@ -9,7 +9,6 @@ import styles from './index.module.scss'
 const DebtRecoverySearch = (props) => {
   const [selectedAutoValue, setSelectedAutoValue] = useState(null)
   const [autoFilteredValue, setAutoFilteredValue] = useState([])
-  const [helpReRender, setHelpReRender] = useState(false)
   const searchID = (event) => {
     setTimeout(() => {
       if (!event.query.trim().length) {

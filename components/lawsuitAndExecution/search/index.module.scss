@@ -2,11 +2,23 @@
   input {
     width: 80%;
   }
+  span {
+    width: 80%;
+  }
+  div {
+    width: 80%;
+  }
 }
 
 @media screen and (max-width: 768px) {
   .inputContainer {
     input {
+      width: 100%;
+    }
+    span {
+      width: 100%;
+    }
+    div {
       width: 100%;
     }
   }
