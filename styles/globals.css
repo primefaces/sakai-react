@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bodyFonts: "Jost", sans-serif;
+  --mainColor: #08A9E6;
+  --redColor: #EC272F;
+  --titleColor: #21225F;
+  --bodyColor: #555555;
+  --whiteColor: #ffffff;
+  --fontSize: 16px;
+  --transition: 0.5s;
+}
+
+p {
+  color: var(--bodyColor);
+  margin-bottom: 10px;
+}
+p:last-child {
+  margin-bottom: 0;
+}
+
+a {
+  display: inline-block;
+  transition: var(--transition);
+  text-decoration: none;
+}
+a:hover, a:focus {
+  text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--titleColor);
+}
+
+.mainColor-hover:hover{
+  color: #08A9E6;
+}
+
+/* animate */
+.animateContent{
+  animation: content linear 6s infinite;
+}
+
+@keyframes content {
+  10%{
+    transform: translateX(2px);
+  }
+  50%{
+    transform: translateX(-4px);
+  } 
+  80%{
+    transform: translateY(-2px);
+  }
+  100%{
+    transform: translateY(4px);
+  }
+}
+
+.animateFaster{
+  animation: faster linear 4s infinite forwards;
+}
+
+@keyframes faster {
+  10%{
+    transform: translateX(-2px);
+  }
+  50%{
+    transform: translateX(4px);
+  } 
+  80%{
+    transform: translateY(2px);
+  }
+  100%{
+    transform: translateY(-4px);
+  }
+}

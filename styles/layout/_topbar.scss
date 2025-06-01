@@ -1,6 +1,6 @@
 .layout-topbar {
     position: fixed;
-    height: 5rem;
+    height: 6rem;
     z-index: 997;
     left: 0;
     top: 0;
@@ -22,7 +22,7 @@
         border-radius: 12px;
 
         img {
-            height: 2.5rem;
+            // height: 2.5rem;
             margin-right: .5rem;
         }
 
@@ -83,6 +83,21 @@
         .layout-topbar-button {
             margin-left: 1rem;
         }
+    }
+}
+
+.main-header {
+  position: fixed;
+  top: 50px;          /* равняется высоте .top-bar */
+  width: 100%;
+  background: #fff;
+  z-index: 10;        /* чтобы header был над контентом */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 16px;
+
+    .main-header.scrolled {
+        transform: translateY(50px); /* прячет шапку на высоту .top-bar */
+        top: 0;
     }
 }
 
