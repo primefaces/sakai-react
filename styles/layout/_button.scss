@@ -1,0 +1,51 @@
+button {
+  outline: 0;
+  border: none;
+
+  &:focus {
+    outline: 0;
+    border: 0;
+  }
+}
+
+.default-btn {
+  padding: 15px 35px;
+  text-align: center;
+  color: var(--whiteColor);
+  font-size: var(--fontSize);
+  font-weight: 400;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 0;
+  box-shadow: none;
+  overflow: hidden;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.fancyEffect {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 550px;
+  height: 550px;
+  margin: auto;
+  border-radius: 50%;
+  z-index: -1;
+}
+
+.fancyBefore {
+  transform-origin: top center;
+  transform: translateX(-50%) translateY(-5%) scale(0.4);
+  transition: transform 0.9s;
+}
+
+.fancyAfter {
+  transition: transform 1s;
+  transform: translateX(-45%) translateY(0) scale(1);
+  transform-origin: bottom center;
+}
