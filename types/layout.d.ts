@@ -2,6 +2,8 @@ import React, { ReactElement, Dispatch, SetStateAction, HTMLAttributeAnchorTarge
 import { NextPage } from 'next';
 import { Demo } from './demo';
 import { Toast } from 'primereact/toast';
+import { User } from './user';
+import { MessageType } from './messageType';
 
 /* Breadcrumb Types */
 export interface AppBreadcrumbProps {
@@ -45,6 +47,14 @@ export interface LayoutContextProps {
     setLayoutState: Dispatch<SetStateAction<LayoutState>>;
     onMenuToggle: () => void;
     showProfileSidebar: () => void;
+    user: User | null;
+    setUser: React.Dispatch<React.SetStateAction<User | null>>;
+    globalLoading: boolean;
+    setGlobalLoading: React.Dispatch<React.SetStateAction<boolean>>;
+    message: MessageType;
+    setMessage: React.Dispatch<React.SetStateAction<MessageType>>;
+    // message: { state: boolean; value: MessageType };
+    // setMessage: React.Dispatch<React.SetStateAction<{ state: boolean; value: MessageType }>>;
 }
 
 export interface MenuContextProps {
