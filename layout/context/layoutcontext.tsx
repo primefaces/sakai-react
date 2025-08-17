@@ -1,6 +1,8 @@
 'use client';
-import React, { useState, createContext } from 'react';
+import React, { useState, createContext, useEffect } from 'react';
 import { LayoutState, ChildContainerProps, LayoutConfig, LayoutContextProps } from '@/types';
+import SessionManager from '@/app/components/SessionManager';
+
 export const LayoutContext = createContext({} as LayoutContextProps);
 
 export const LayoutProvider = ({ children }: ChildContainerProps) => {
@@ -21,6 +23,9 @@ export const LayoutProvider = ({ children }: ChildContainerProps) => {
         staticMenuMobileActive: false,
         menuHoverActive: false
     });
+
+        // 👇 Добавляем пользователя
+    const [user, setUser] = useState(null);
 
     const onMenuToggle = () => {
         if (isOverlay()) {
@@ -46,14 +51,20 @@ export const LayoutProvider = ({ children }: ChildContainerProps) => {
         return window.innerWidth > 991;
     };
 
+    
+
     const value: LayoutContextProps = {
         layoutConfig,
         setLayoutConfig,
         layoutState,
         setLayoutState,
         onMenuToggle,
-        showProfileSidebar
+        showProfileSidebar,
+        user,
+        setUser,
     };
 
-    return <LayoutContext.Provider value={value}>{children}</LayoutContext.Provider>;
+    return <LayoutContext.Provider value={value}>
+        <SessionManager/>
+        {children}</LayoutContext.Provider>;
 };
