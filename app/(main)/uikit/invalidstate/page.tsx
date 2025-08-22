@@ -86,7 +86,7 @@ const InvalidStateDemo = () => {
                             id="autocomplete"
                             value={value2}
                             onChange={(e) => setValue2(e.value)}
-                            suggestions={filteredCountries}
+                            // suggestions={filteredCountries}
                             completeMethod={searchCountry}
                             field="name"
                             className="p-invalid"

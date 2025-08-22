@@ -84,7 +84,7 @@ const FloatLabelDemo = () => {
                             id="autocomplete"
                             value={value2}
                             onChange={(e) => setValue2(e.value)}
-                            suggestions={filteredCountries}
+                            // suggestions={filteredCountries}
                             completeMethod={searchCountry}
                             field="name"
                         ></AutoComplete>

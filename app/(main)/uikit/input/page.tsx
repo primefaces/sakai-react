@@ -219,7 +219,7 @@ const InputDemo: Page = () => {
                         cols={30}
                     />
 
-                    <h5>AutoComplete</h5>
+                    {/* <h5>AutoComplete</h5>
                     <AutoComplete
                         placeholder="Search"
                         id="dd"
@@ -230,7 +230,7 @@ const InputDemo: Page = () => {
                         suggestions={autoFilteredValue}
                         completeMethod={searchCountry}
                         field="name"
-                    />
+                    /> */}
 
                     <h5>Calendar</h5>
                     <Calendar

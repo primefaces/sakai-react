@@ -10,22 +10,41 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.7.2",
+    "@fortawesome/free-solid-svg-icons": "^6.7.2",
+    "@fortawesome/react-fontawesome": "^0.2.2",
+    "@hookform/resolvers": "^5.1.1",
     "@types/node": "20.3.1",
     "@types/react": "18.2.12",
     "@types/react-dom": "18.2.5",
+    "aos": "^2.3.4",
+    "axios": "^1.10.0",
     "chart.js": "4.2.1",
+    "countup": "^1.8.2",
     "next": "13.4.8",
-    "primeflex": "^3.3.1",
-    "primeicons": "^6.0.1",
-    "primereact": "10.2.1",
+    "pdfjs-dist": "^5.4.54",
+    "primeflex": "^4.0.0",
+    "primeicons": "^7.0.0",
+    "primereact": "^10.9.6",
+    "quill": "^2.0.3",
     "react": "18.2.0",
+    "react-countup": "^6.5.3",
     "react-dom": "18.2.0",
-    "typescript": "5.1.3"
+    "react-hook-form": "^7.58.1",
+    "react-pageflip": "^2.0.3",
+    "typescript": "5.1.3",
+    "yup": "^1.6.1"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.8",
+    "@types/aos": "^3.0.7",
+    "@types/pdfjs-dist": "^2.10.378",
+    "autoprefixer": "^10.4.21",
     "eslint": "8.43.0",
     "eslint-config-next": "13.4.6",
+    "postcss": "^8.5.4",
     "prettier": "^2.8.8",
-    "sass": "^1.63.4"
+    "sass": "^1.63.4",
+    "tailwindcss": "^4.1.8"
   }
 }
