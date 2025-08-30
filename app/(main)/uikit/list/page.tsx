@@ -163,7 +163,7 @@ const ListDemo = () => {
             <div className="col-12 xl:col-8">
                 <div className="card">
                     <h5>PickList</h5>
-                    <PickList
+                    {/* <PickList
                         source={picklistSourceValue}
                         target={picklistTargetValue}
                         sourceHeader="From"
@@ -175,14 +175,14 @@ const ListDemo = () => {
                         }}
                         sourceStyle={{ height: '200px' }}
                         targetStyle={{ height: '200px' }}
-                    ></PickList>
+                    ></PickList> */}
                 </div>
             </div>
 
             <div className="col-12 xl:col-4">
                 <div className="card">
                     <h5>OrderList</h5>
-                    <OrderList value={orderlistValue} listStyle={{ height: '200px' }} className="p-orderlist-responsive" header="Cities" itemTemplate={(item) => <div>{item.name}</div>} onChange={(e) => setOrderlistValue(e.value)}></OrderList>
+                    {/* <OrderList value={orderlistValue} listStyle={{ height: '200px' }} className="p-orderlist-responsive" header="Cities" itemTemplate={(item) => <div>{item.name}</div>} onChange={(e) => setOrderlistValue(e.value)}></OrderList> */}
                 </div>
             </div>
         </div>

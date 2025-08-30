@@ -3,7 +3,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useEventListener, useMountEffect, useUnmountEffect } from 'primereact/hooks';
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { classNames } from 'primereact/utils';
 import AppFooter from './AppFooter';
 import AppSidebar from './AppSidebar';
@@ -15,10 +15,11 @@ import { ChildContainerProps, LayoutState, AppTopbarRef } from '@/types';
 import { usePathname, useSearchParams } from 'next/navigation';
 
 const Layout = ({ children }: ChildContainerProps) => {
-    const { layoutConfig, layoutState, setLayoutState } = useContext(LayoutContext);
+    const { layoutConfig, layoutState, setLayoutState, user } = useContext(LayoutContext);
     const { setRipple } = useContext(PrimeReactContext);
     const topbarRef = useRef<AppTopbarRef>(null);
     const sidebarRef = useRef<HTMLDivElement>(null);
+    const [permission, setPermission] = useState<boolean>(false);
     const [bindMenuOutsideClickListener, unbindMenuOutsideClickListener] = useEventListener({
         type: 'click',
         listener: (event) => {
@@ -122,6 +123,21 @@ const Layout = ({ children }: ChildContainerProps) => {
         'p-ripple-disabled': !layoutConfig.ripple
     });
 
+    const requireRole = () => {
+        if(!user?.is_working){
+            console.log('Не имеете доступ! working');
+            setPermission(false);
+            // window.location.href = '/auth/login';
+        }
+        setPermission(true);
+    }
+
+    useEffect(()=> {
+        requireRole();
+    },[user]);
+
+    // if(permission) return null;
+
     return (
         <React.Fragment>
             <div className={containerClass}>
@@ -131,7 +147,7 @@ const Layout = ({ children }: ChildContainerProps) => {
                 </div>
                 <div className="layout-main-container">
                     <div className="layout-main">{children}</div>
-                    <AppFooter />
+                    {/* <AppFooter /> */}
                 </div>
                 <AppConfig />
                 <div className="layout-mask"></div>

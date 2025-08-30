@@ -1,0 +1,24 @@
+@token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FwaS5teWVkdS5vc2hzdS5rZy9wdWJsaWMvYXBpL21vb2MvbG9naW4iLCJpYXQiOjE3NTU4NjAxNzUsImV4cCI6MTc1NTg4OTAzNSwibmJmIjoxNzU1ODYwMTc1LCJqdGkiOiJ4ZFhqRXF1UTJCUzhPM05lIiwic3ViIjoiNTAzMjciLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.JsSkS7lVmjhq_9v9sGrcPUn_neb09rKfPTY4UjyXrLg
+
+###
+
+http://api.mooc.oshsu.kg/public/api/v1/open/video/types
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FwaS5teWVkdS5vc2hzdS5rZy9wdWJsaWMvYXBpL21vb2MvbG9naW4iLCJpYXQiOjE3NTQzODYzMzAsImV4cCI6MTc1NDQxNTE5MCwibmJmIjoxNzU0Mzg2MzMwLCJqdGkiOiJjc0hhSkdqYVhsT1V1VkpPIiwic3ViIjoiNDY0NTYiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.E9dQ1RCISvf2psrA1iDf9CrYzExEKnZOgYq2XJ4cyXg
+Content-Type: application/json 
+
+###
+# STREAMS GET
+
+GET http://api.mooc.oshsu.kg/public/api/v1/teacher/stream?course_id=77
+Authorization: Bearer {{token}}
+Content-Type: application/json  
+
+###
+# test  
+GET http://api.mooc.oshsu.kg/public/api/v1/student/course/lesson/show
+Authorization: Bearer {{token}}
+Content-Type: application/json  
+
+{
+    "lesson_id": 57
+}
