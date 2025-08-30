@@ -1,0 +1,109 @@
+/* Сброс стандартного radio */
+.custom-radio input[type="radio"] {
+  appearance: none;      /* Убираем нативный стиль */
+  -webkit-appearance: none;
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Контейнер */
+.custom-radio {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  font-family: sans-serif;
+  font-size: 14px;
+  gap: 8px;
+  position: relative;
+  padding: 6px 10px;
+  transition: color 0.3s;
+}
+
+/* Сам кружок */
+.radio-mark {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--mainColor);
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+/* Внутренняя точка при выборе */
+.radio-mark::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  /* background-color: var(--mainColor); */
+  box-shadow: inset 4px 4px 7px 9px var(--mainColor) ;
+
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.2s ease;
+}
+
+/* Когда radio выбран */
+.custom-radio input[type="radio"]:checked + .radio-mark::after {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* Фокус */
+.custom-radio input[type="radio"]:focus + .radio-mark {
+    /* border: solid 2px rgba(48, 169, 193, 0.3); */
+    /* box-shadow: inset 4px 4px 7px 9px var(--mainColor) ; */
+}
+
+/* checkbox */
+
+.customCheckbox {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--mainColor); /* emerald-500 */
+  border-radius: 4px;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.customCheckbox:checked {
+  background-color: var(--mainColor);
+  border-color: var(--mainColor);
+}
+
+.customCheckbox::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 0px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg) scale(0);
+  transition: transform 0.2s ease-in-out;
+}
+
+.customCheckbox:checked::after {
+  transform: rotate(45deg) scale(1);
+}
+
+.custom-radio-box {
+  border: 1px solid gray;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.custom-radio-box.selected {
+  background-color: #4f46e5; /* например, синий */
+  color: white;
+  border-color: #4f46e5;
+}

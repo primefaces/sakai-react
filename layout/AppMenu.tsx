@@ -1,175 +1,123 @@
 /* eslint-disable @next/next/no-img-element */
 
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import AppMenuitem from './AppMenuitem';
 import { LayoutContext } from './context/layoutcontext';
 import { MenuProvider } from './context/menucontext';
-import Link from 'next/link';
 import { AppMenuItem } from '@/types';
+import { useParams, usePathname } from 'next/navigation';
 
 const AppMenu = () => {
-    const { layoutConfig } = useContext(LayoutContext);
+    const { layoutConfig, user, course, contextFetchCourse, contextFetchThemes, contextThemes, setContextThemes, contextFetchStudentThemes, contextStudentThemes } = useContext(LayoutContext);
+    interface test { label: string, id: number, to?: string, items?: [], command?: ()=> void };
+
+    const location = usePathname();
+    const pathname = location;
+    const { studentThemeCourse } = useParams();
+
+    const [courseList, setCourseList] = useState<test[]>([]);
+    const [clickedCourseId, setClickedCourseId] = useState<number | null>(null);
+
+    const [themesStudentList, setThemesStudentList] = useState<{ label: string; id: number; to: string; items?: AppMenuItem[] }[]>([]);
+
+    const byStatus: AppMenuItem[] = user?.is_working
+        ? [
+              {
+                  label: 'Курстар',
+                  icon: 'pi pi-fw pi-calendar-clock',
+                  items: courseList?.length > 0 ? courseList : []
+              }
+          ]
+        : user?.is_student
+        ? [
+              { label: 'Окуу планы', icon: 'pi pi-fw pi-calendar-clock', to: '/teaching' },
+              pathname.startsWith('/teaching/') ? { label: 'Темалар', icon: 'pi pi-fw pi-calendar-lessons', items: themesStudentList?.length > 0 ? themesStudentList : [] } : { label: '' }
+          ]
+        : [];
 
     const model: AppMenuItem[] = [
         {
-            label: 'Home',
-            items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/' }]
+            label: 'Баракчалар',
+            items: [{ label: 'Башкы баракча', icon: 'pi pi-fw pi-home', to: '/' }]
         },
         {
-            label: 'UI Components',
-            items: [
-                { label: 'Form Layout', icon: 'pi pi-fw pi-id-card', to: '/uikit/formlayout' },
-                { label: 'Input', icon: 'pi pi-fw pi-check-square', to: '/uikit/input' },
-                { label: 'Float Label', icon: 'pi pi-fw pi-bookmark', to: '/uikit/floatlabel' },
-                { label: 'Invalid State', icon: 'pi pi-fw pi-exclamation-circle', to: '/uikit/invalidstate' },
-                { label: 'Button', icon: 'pi pi-fw pi-mobile', to: '/uikit/button', class: 'rotated-icon' },
-                { label: 'Table', icon: 'pi pi-fw pi-table', to: '/uikit/table' },
-                { label: 'List', icon: 'pi pi-fw pi-list', to: '/uikit/list' },
-                { label: 'Tree', icon: 'pi pi-fw pi-share-alt', to: '/uikit/tree' },
-                { label: 'Panel', icon: 'pi pi-fw pi-tablet', to: '/uikit/panel' },
-                { label: 'Overlay', icon: 'pi pi-fw pi-clone', to: '/uikit/overlay' },
-                { label: 'Media', icon: 'pi pi-fw pi-image', to: '/uikit/media' },
-                { label: 'Menu', icon: 'pi pi-fw pi-bars', to: '/uikit/menu', preventExact: true },
-                { label: 'Message', icon: 'pi pi-fw pi-comment', to: '/uikit/message' },
-                { label: 'File', icon: 'pi pi-fw pi-file', to: '/uikit/file' },
-                { label: 'Chart', icon: 'pi pi-fw pi-chart-bar', to: '/uikit/charts' },
-                { label: 'Misc', icon: 'pi pi-fw pi-circle', to: '/uikit/misc' }
-            ]
-        },
-        {
-            label: 'Prime Blocks',
-            items: [
-                { label: 'Free Blocks', icon: 'pi pi-fw pi-eye', to: '/blocks', badge: 'NEW' },
-                { label: 'All Blocks', icon: 'pi pi-fw pi-globe', url: 'https://blocks.primereact.org', target: '_blank' }
-            ]
-        },
-        {
-            label: 'Utilities',
-            items: [
-                { label: 'PrimeIcons', icon: 'pi pi-fw pi-prime', to: '/utilities/icons' },
-                { label: 'PrimeFlex', icon: 'pi pi-fw pi-desktop', url: 'https://primeflex.org/', target: '_blank' }
-            ]
-        },
-        {
-            label: 'Pages',
-            icon: 'pi pi-fw pi-briefcase',
-            to: '/pages',
-            items: [
-                {
-                    label: 'Landing',
-                    icon: 'pi pi-fw pi-globe',
-                    to: '/landing'
-                },
-                {
-                    label: 'Auth',
-                    icon: 'pi pi-fw pi-user',
-                    items: [
-                        {
-                            label: 'Login',
-                            icon: 'pi pi-fw pi-sign-in',
-                            to: '/auth/login'
-                        },
-                        {
-                            label: 'Error',
-                            icon: 'pi pi-fw pi-times-circle',
-                            to: '/auth/error'
-                        },
-                        {
-                            label: 'Access Denied',
-                            icon: 'pi pi-fw pi-lock',
-                            to: '/auth/access'
-                        }
-                    ]
-                },
-                {
-                    label: 'Crud',
-                    icon: 'pi pi-fw pi-pencil',
-                    to: '/pages/crud'
-                },
-                {
-                    label: 'Timeline',
-                    icon: 'pi pi-fw pi-calendar',
-                    to: '/pages/timeline'
-                },
-                {
-                    label: 'Not Found',
-                    icon: 'pi pi-fw pi-exclamation-circle',
-                    to: '/pages/notfound'
-                },
-                {
-                    label: 'Empty',
-                    icon: 'pi pi-fw pi-circle-off',
-                    to: '/pages/empty'
-                }
-            ]
-        },
-        {
-            label: 'Hierarchy',
-            items: [
-                {
-                    label: 'Submenu 1',
-                    icon: 'pi pi-fw pi-bookmark',
-                    items: [
-                        {
-                            label: 'Submenu 1.1',
-                            icon: 'pi pi-fw pi-bookmark',
-                            items: [
-                                { label: 'Submenu 1.1.1', icon: 'pi pi-fw pi-bookmark' },
-                                { label: 'Submenu 1.1.2', icon: 'pi pi-fw pi-bookmark' },
-                                { label: 'Submenu 1.1.3', icon: 'pi pi-fw pi-bookmark' }
-                            ]
-                        },
-                        {
-                            label: 'Submenu 1.2',
-                            icon: 'pi pi-fw pi-bookmark',
-                            items: [{ label: 'Submenu 1.2.1', icon: 'pi pi-fw pi-bookmark' }]
-                        }
-                    ]
-                },
-                {
-                    label: 'Submenu 2',
-                    icon: 'pi pi-fw pi-bookmark',
-                    items: [
-                        {
-                            label: 'Submenu 2.1',
-                            icon: 'pi pi-fw pi-bookmark',
-                            items: [
-                                { label: 'Submenu 2.1.1', icon: 'pi pi-fw pi-bookmark' },
-                                { label: 'Submenu 2.1.2', icon: 'pi pi-fw pi-bookmark' }
-                            ]
-                        },
-                        {
-                            label: 'Submenu 2.2',
-                            icon: 'pi pi-fw pi-bookmark',
-                            items: [{ label: 'Submenu 2.2.1', icon: 'pi pi-fw pi-bookmark' }]
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            label: 'Get Started',
-            items: [
-                {
-                    label: 'Documentation',
-                    icon: 'pi pi-fw pi-question',
-                    to: '/documentation'
-                },
-                {
-                    label: 'Figma',
-                    url: 'https://www.dropbox.com/scl/fi/bhfwymnk8wu0g5530ceas/sakai-2023.fig?rlkey=u0c8n6xgn44db9t4zkd1brr3l&dl=0',
-                    icon: 'pi pi-fw pi-pencil',
-                    target: '_blank'
-                },
-                {
-                    label: 'View Source',
-                    icon: 'pi pi-fw pi-search',
-                    url: 'https://github.com/primefaces/sakai-react',
-                    target: '_blank'
-                }
-            ]
+            label: '',
+            items: byStatus
         }
     ];
+
+    useEffect(() => {
+        if (user?.is_working) {
+            contextFetchCourse(1);
+        }
+        if (user?.is_student) {
+            const isTopicsChildPage = pathname.startsWith('/teaching/');
+            if (isTopicsChildPage) {
+                console.log('Вызов функции тем студента');
+                contextFetchStudentThemes(studentThemeCourse);
+            }
+        }
+    }, [user]);
+
+    useEffect(() => {
+        if (course) {
+            const forCourse: test[] = [{ label: 'Курс', id: 0, to: '/course' }];
+            course.data?.map((item) =>
+                forCourse.push({
+                    label: item.title,
+                    id: item.id,
+                    to: '',
+                    items: [], // пока пусто
+                    command: () => {
+                        contextFetchThemes(item.id);
+                        setClickedCourseId(item.id);
+                    }
+                })
+            );
+            setCourseList(forCourse);
+        }
+    }, [course]);
+
+    useEffect(() => {
+        if (contextThemes && contextThemes.lessons) {
+            const newThemes = contextThemes.lessons.data.map((item: any) => ({
+                label: item.title,
+                id: item.id,
+                to: `/course/${clickedCourseId}/${item.id}`,
+                command: () => {
+                    console.log('clicked theme', item.id);
+                }
+            }));
+            console.log(newThemes);
+
+            setCourseList((prev) =>
+                prev.map((course) =>
+                    course.id === clickedCourseId
+                        ? { ...course, items: newThemes } // добавляем темы
+                        : course
+                )
+            );
+        }
+    }, [contextThemes]);
+
+    useEffect(() => {
+        console.log('Обновился и готов');
+
+        if (contextStudentThemes?.lessons) {
+            const forThemes: any = [];
+            contextStudentThemes.lessons.data?.map((item: any) =>
+                forThemes.push({
+                    label: item.title,
+                    id: item.id,
+                    to: '/teaching/ ? ',
+                    items: []
+                })
+            );
+            if (forThemes.length > 0) {
+                setThemesStudentList(forThemes || []);
+            }
+        }
+    }, [contextStudentThemes, pathname]);
 
     return (
         <MenuProvider>
@@ -177,10 +125,6 @@ const AppMenu = () => {
                 {model.map((item, i) => {
                     return !item?.seperator ? <AppMenuitem item={item} root={true} index={i} key={item.label} /> : <li className="menu-separator"></li>;
                 })}
-
-                <Link href="https://blocks.primereact.org" target="_blank" style={{ cursor: 'pointer' }}>
-                    <img alt="Prime Blocks" className="w-full mt-3" src={`/layout/images/banner-primeblocks${layoutConfig.colorScheme === 'light' ? '' : '-dark'}.png`} />
-                </Link>
             </ul>
         </MenuProvider>
     );
