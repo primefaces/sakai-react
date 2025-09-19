@@ -1,13 +1,19 @@
 /* eslint-disable @next/next/no-img-element */
 
 import Link from 'next/link';
+import React, { forwardRef, useContext, useEffect, useImperativeHandle, useRef } from 'react';
+import Tiered from '@/app/components/popUp/Tiered';
+import FancyLinkBtn from '@/app/components/buttons/FancyLinkBtn';
 import { classNames } from 'primereact/utils';
-import React, { forwardRef, useContext, useImperativeHandle, useRef } from 'react';
 import { AppTopbarRef } from '@/types';
 import { LayoutContext } from './context/layoutcontext';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
+import { usePathname, useRouter } from 'next/navigation';
+import { logout } from '@/utils/logout';
 
 const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
-    const { layoutConfig, layoutState, onMenuToggle, showProfileSidebar } = useContext(LayoutContext);
+    const { layoutConfig, layoutState, onMenuToggle, showProfileSidebar, user, setUser, setGlobalLoading, departament } = useContext(LayoutContext);
+
     const menubuttonRef = useRef(null);
     const topbarmenuRef = useRef(null);
     const topbarmenubuttonRef = useRef(null);
@@ -18,37 +24,134 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
         topbarmenubutton: topbarmenubuttonRef.current
     }));
 
+    const pathName = usePathname();
+    const media = useMediaQuery('(max-width: 1000px)');
+
+    const router = useRouter();
+
+    const mobileMenu = [
+        user
+            ? {
+                  label: 'Профиль',
+                  icon: 'pi pi-user',
+                  items: [
+                      {
+                          label: '',
+                          template: (
+                              <div className="flex items-center flex-col gap-1 text-sm">
+                                  <div className="flex gap-1">
+                                      <span className="text-[var(--titleColor)]">{user?.last_name}</span>
+                                      <span className="text-[var(--titleColor)]">{user?.name}</span>
+                                  </div>
+                                  <span className="text-gray-500 text-[12px]">{user?.email}</span>
+                              </div>
+                          )
+                      },
+                      {
+                          label: 'Выход',
+                          icon: 'pi pi-sign-out',
+                          className: 'text-[12px]',
+                          items: [],
+                          command: () => {
+                              window.location.href = '/auth/login';
+                              logout({ setUser, setGlobalLoading });
+                          }
+                      }
+                  ]
+              }
+            : {
+                  label: 'Вход',
+                  icon: 'pi pi-sign-in',
+                  items: [],
+                  //   url: '/auth/login'
+                  command: () => {
+                      // router.push('/auth/login');
+                      window.location.href = '/auth/login';
+                  }
+              },
+        {
+            label: 'Сайт ОшГУ',
+            icon: '',
+            items: [],
+            url: 'https://oshsu.kg'
+        }
+    ];
+
+    // profile
+    const profileItems = [
+        {
+            label: '',
+            template: (
+                <div className="flex items-center flex-col gap-1 text-sm">
+                    <div className="flex gap-1">
+                        <span className="text-[var(--titleColor)]">{user?.last_name}</span>
+                        <span className="text-[var(--titleColor)]">{user?.name}</span>
+                    </div>
+                    <span className="text-gray-500 text-[12px]">{user?.email}</span>
+                </div>
+            )
+        },
+        {
+            label: 'Выход',
+            icon: 'pi pi-sign-out',
+            items: [],
+            command: () => {
+                window.location.href = '/auth/login';
+                logout({ setUser, setGlobalLoading });
+            }
+        }
+    ];
+
     return (
         <div className="layout-topbar">
             <Link href="/" className="layout-topbar-logo">
-                <img src={`/layout/images/logo-${layoutConfig.colorScheme !== 'light' ? 'white' : 'dark'}.svg`} width="47.22px" height={'35px'} alt="logo" />
-                <span>SAKAI</span>
+                {/* <img src={`/layout/images/logo-${layoutConfig.colorScheme !== 'light' ? 'white' : 'dark'}.svg`} width="47.22px" height={'35px'} alt="logo" /> */}
+                <img src={`/layout/images/logo-remove.png`} className="w-[90px] sm:w-[100px]" alt="logo" />
+                <h3 className="hidden sm:block text-[18px] md:text-[30px]">Цифровой кампус ОшГУ</h3>
             </Link>
+            <b className="text-[red] text-[14px] hidden sm:block">(в разработке)</b>
 
-            <button ref={menubuttonRef} type="button" className="p-link layout-menu-button layout-topbar-button" onClick={onMenuToggle}>
-                <i className="pi pi-bars" />
-            </button>
-
-            <button ref={topbarmenubuttonRef} type="button" className="p-link layout-topbar-menu-button layout-topbar-button" onClick={showProfileSidebar}>
-                <i className="pi pi-ellipsis-v" />
-            </button>
+            {pathName !== '/' ? (
+                departament.name.length > 0 ? (
+                    <button ref={menubuttonRef} type="button" className="p-link layout-menu-button layout-topbar-button" onClick={onMenuToggle}>
+                        <i className="pi pi-bars text-[var(--mainColor)]" />
+                    </button>
+                ) : pathName !== '/course' ? (
+                    <button ref={menubuttonRef} type="button" className="p-link layout-menu-button layout-topbar-button" onClick={onMenuToggle}>
+                        <i className="pi pi-bars text-[var(--mainColor)]" />
+                    </button>
+                ) : (
+                    ''
+                )
+            ) : (
+                ''
+            )}
 
             <div ref={topbarmenuRef} className={classNames('layout-topbar-menu', { 'layout-topbar-menu-mobile-active': layoutState.profileSidebarVisible })}>
-                <button type="button" className="p-link layout-topbar-button">
-                    <i className="pi pi-calendar"></i>
-                    <span>Calendar</span>
-                </button>
-                <button type="button" className="p-link layout-topbar-button">
-                    <i className="pi pi-user"></i>
-                    <span>Profile</span>
-                </button>
-                <Link href="/documentation">
-                    <button type="button" className="p-link layout-topbar-button">
-                        <i className="pi pi-cog"></i>
-                        <span>Settings</span>
-                    </button>
-                </Link>
+                <div className="flex items-center gap-4">
+                    {media ? (
+                        <></>
+                    ) : (
+                        <div className={`flex items-center gap-3 ${!media ? 'order-2' : 'order-3'} `}>
+                            <Link className="text-[var(--titleColor)] hover:text-[var(--mainColor)]" href={'https://www.oshsu.kg/ru'}>Сайт ОшГУ</Link>
+                        </div>
+                    )}
+
+                    {/* {user && user ? (
+                        <div className={`hidden lg:block ${media ? 'order-1' : 'order-2'}`}>
+                            <Tiered title={{ name: '', font: 'pi pi-user' }} items={profileItems} insideColor={'--titleColor'} />
+                        </div>
+                    ) : (
+                        <div className={`hidden lg:block ${media ? 'order-1' : 'order-2'}`}>
+                            <Link href={'/auth/login'}>
+                                <FancyLinkBtn btnWidth={'100px'} backround={'--redColor'} effectBg={'--mainColor'} title={'Вход'} />
+                            </Link>
+                        </div>
+                    )} */}
+                </div>
             </div>
+
+            <b className="text-[red] text-[14px] block sm:hidden ">(в разработке)</b>
         </div>
     );
 });

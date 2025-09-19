@@ -1,5 +1,5 @@
 'use client';
-import { useRouter } from 'next/navigation';
+
 import Link from 'next/link';
 import { Ripple } from 'primereact/ripple';
 import { classNames } from 'primereact/utils';
@@ -67,13 +67,50 @@ const AppMenuitem = (props: AppMenuItemProps) => {
                 </a>
             ) : null}
 
-            {item!.to && !item!.items && item!.visible !== false ? (
+            {/* {item!.to && !item!.items && item!.visible !== false ? (
                 <Link href={item!.to} replace={item!.replaceUrl} target={item!.target} onClick={(e) => itemClick(e)} className={classNames(item!.class, 'p-ripple', { 'active-route': isActiveRoute })} tabIndex={0}>
                     <i className={classNames('layout-menuitem-icon', item!.icon)}></i>
                     <span className="layout-menuitem-text">{item!.label}</span>
                     {item!.items && <i className="pi pi-fw pi-angle-down layout-submenu-toggler"></i>}
                     <Ripple />
                 </Link>
+            ) : null} */}
+            {item!.to && !item!.items && item!.visible !== false ? (
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <Link href={item!.to} replace={item!.replaceUrl} target={item!.target} onClick={(e) => itemClick(e)} className={classNames(item!.class, 'p-ripple', { 'active-route': isActiveRoute })} tabIndex={0} style={{ flexGrow: 1 }}>
+                        <i className={classNames('layout-menuitem-icon', item!.icon)}></i>
+                        <span className="layout-menuitem-text">{item!.label}</span>
+                        <Ripple />
+                    </Link>
+
+                    <div className='flex gap-2 items-center'>
+                        {/* Кнопки редактирования и удаления */}
+                        {item!.onEdit && (
+                            <button
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    item?.onEdit?.();
+                                }}
+                                style={{ marginLeft: '0.3rem' }}
+                                title="Редактировать"
+                                className="pi pi-pencil cursor-pointer"
+                            ></button>
+                        )}
+                        {item!.onDelete && (
+                            <button
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    item?.onDelete?.();
+                                }}
+                                style={{ marginLeft: '0.3rem' }}
+                                title="Удалить"
+                                className="pi pi-trash cursor-pointer"
+                            ></button>
+                        )}
+                    </div>
+                </div>
             ) : null}
 
             {subMenu}

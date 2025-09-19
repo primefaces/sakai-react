@@ -1,7 +1,10 @@
+import { myMainCourseType } from './myMainCourseType';
 import React, { ReactElement, Dispatch, SetStateAction, HTMLAttributeAnchorTarget, ReactNode } from 'react';
 import { NextPage } from 'next';
 import { Demo } from './demo';
 import { Toast } from 'primereact/toast';
+import { User } from './user';
+import { MessageType } from './messageType';
 
 /* Breadcrumb Types */
 export interface AppBreadcrumbProps {
@@ -45,6 +48,41 @@ export interface LayoutContextProps {
     setLayoutState: Dispatch<SetStateAction<LayoutState>>;
     onMenuToggle: () => void;
     showProfileSidebar: () => void;
+    user: User | null;
+    setUser: React.Dispatch<React.SetStateAction<User | null>>;
+    globalLoading: boolean;
+    setGlobalLoading: React.Dispatch<React.SetStateAction<boolean>>;
+    message: MessageType;
+    setMessage: React.Dispatch<React.SetStateAction<MessageType>>;
+    contextFetchCourse: (id)=> void;
+    course: { current_page: number;
+        total: number;
+        per_page: number;
+        data: myMainCourseType[] 
+    };
+    setCourses;
+    contextFetchThemes: (id: number, id_kafedra:number | null)=> void;
+    contextThemes;
+    setContextThemes;
+    deleteQuery: boolean;
+    setDeleteQuery;
+    updateQuery: boolean;
+    setUpdateeQuery
+
+    contextFetchStudentThemes: (id)=> void;
+    contextStudentThemes;
+    setContextStudentThemes;
+
+    crumbUrls: {type: string; crumbUrl: string };
+    contextAddCrumb: (id)=> void
+
+    mainCourseId: number | null;
+    setMainCourseId;
+
+    departament: {last_name:string, name:string, father_name:string, info: string},
+    setDepartament,
+    // message: { state: boolean; value: MessageType };
+    // setMessage: React.Dispatch<React.SetStateAction<{ state: boolean; value: MessageType }>>;
 }
 
 export interface MenuContextProps {
@@ -95,6 +133,10 @@ export interface AppMenuItem extends MenuModel {
     disabled?: boolean;
     replaceUrl?: boolean;
     command?: ({ originalEvent, item }: CommandProps) => void;
+
+    // 
+    onEdit?: () => void;
+    onDelete?: () => void;
 }
 
 export interface AppMenuItemProps {
