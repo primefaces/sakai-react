@@ -1,0 +1,7 @@
+export interface CourseCreateType {
+    title: string;
+    description: string;
+    video_url: string;
+    image?: string | File | null;
+    created_at?: string | null;
+}
