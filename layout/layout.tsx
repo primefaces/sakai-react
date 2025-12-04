@@ -1,24 +1,22 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { useEventListener, useMountEffect, useUnmountEffect } from 'primereact/hooks';
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { classNames } from 'primereact/utils';
-import AppFooter from './AppFooter';
 import AppSidebar from './AppSidebar';
 import AppTopbar from './AppTopbar';
-import AppConfig from './AppConfig';
 import { LayoutContext } from './context/layoutcontext';
 import { PrimeReactContext } from 'primereact/api';
 import { ChildContainerProps, LayoutState, AppTopbarRef } from '@/types';
 import { usePathname, useSearchParams } from 'next/navigation';
 
 const Layout = ({ children }: ChildContainerProps) => {
-    const { layoutConfig, layoutState, setLayoutState } = useContext(LayoutContext);
+    const { layoutConfig, layoutState, setLayoutState, user } = useContext(LayoutContext);
     const { setRipple } = useContext(PrimeReactContext);
     const topbarRef = useRef<AppTopbarRef>(null);
     const sidebarRef = useRef<HTMLDivElement>(null);
+    const [permission, setPermission] = useState<boolean>(true);
     const [bindMenuOutsideClickListener, unbindMenuOutsideClickListener] = useEventListener({
         type: 'click',
         listener: (event) => {
@@ -122,6 +120,23 @@ const Layout = ({ children }: ChildContainerProps) => {
         'p-ripple-disabled': !layoutConfig.ripple
     });
 
+    const requireRole = () => {
+        if (user) {
+            if (!user?.is_working) {
+                // window.location.href = '/auth/login';
+                // setPermission(true);
+                // console.log('Не имеете доступ! working');
+            }
+            setPermission(false);
+        }
+    };
+
+    useEffect(() => {
+        requireRole();
+    }, [user, pathname]);
+
+    // if(permission) return null;
+
     return (
         <React.Fragment>
             <div className={containerClass}>
@@ -131,9 +146,9 @@ const Layout = ({ children }: ChildContainerProps) => {
                 </div>
                 <div className="layout-main-container">
                     <div className="layout-main">{children}</div>
-                    <AppFooter />
+                    {/* <AppFooter /> */}
                 </div>
-                <AppConfig />
+                {/* <AppConfig /> */}
                 <div className="layout-mask"></div>
             </div>
         </React.Fragment>

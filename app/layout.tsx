@@ -1,11 +1,17 @@
 'use client';
 import { LayoutProvider } from '../layout/context/layoutcontext';
 import { PrimeReactProvider } from 'primereact/api';
+import { config } from "@fortawesome/fontawesome-svg-core";
+import "@fortawesome/fontawesome-svg-core/styles.css"; // Импорт стилей
+config.autoAddCss = false;
 import 'primereact/resources/primereact.css';
-import 'primeflex/primeflex.css';
 import 'primeicons/primeicons.css';
 import '../styles/layout/layout.scss';
 import '../styles/demo/Demos.scss';
+
+import '../styles/layout/openCourse.css'
+import './globals.css';
+import { useEffect } from 'react';
 
 interface RootLayoutProps {
     children: React.ReactNode;
