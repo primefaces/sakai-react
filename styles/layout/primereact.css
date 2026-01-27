@@ -1,0 +1,66 @@
+.p-accordion .p-accordion-header .p-accordion-header-link {
+    width: 100% !important;
+    padding: 9px !important;
+    font-size: 16px !important;
+    color: var(--bodyColor);
+    background-color: white;
+    box-shadow: 1px 1px 2px 1px rgb(218, 218, 218);
+    margin-bottom: 2px;
+}
+
+.p-progressbar .p-progressbar-value {
+  background-color: var(--greenColor) !important; 
+}
+
+.p-menuitem-active > .p-submenu-list {
+  padding: 0 !important;
+}
+
+/* В вашем глобальном или локальном CSS-файле */
+.p-accordion .p-accordion-header .p-accordion-toggle-icon {
+    font-size: 6px;
+}
+/* Возможно, также потребуется скорректировать отступ, если он остается */
+.p-accordion .p-accordion-header-link {
+    /* padding-left: 1rem;  */
+}
+
+.attendance-table .p-datatable-thead > tr > th {
+  background: #f3f4f6; /* светлый серый */
+  border: 1px solid #d1d5db;
+  text-align: center;
+  font-weight: 600;
+  padding: 10px;
+}
+
+.attendance-table .p-datatable-tbody > tr > td {
+  border: 1px solid #e5e7eb;
+  text-align: center;
+  padding: 8px 0;
+}
+
+.attendance-table .p-datatable-wrapper {
+  border: 1px solid #d1d5db;
+}
+
+.attendance-table .p-datatable-thead > tr {
+  height: 45px;
+}
+
+.attendance-table .p-datatable-tbody > tr {
+  height: 40px;
+}
+
+/* calendar */
+.p-datepicker {
+    font-size: 12px !important;
+    padding: 4px !important;
+}
+
+/* dropdown */
+
+@media screen and (max-width: 440px) {
+  .p-dropdown-panel .p-dropdown-items .p-dropdown-item {
+    padding: 3px 2px;
+  }
+}

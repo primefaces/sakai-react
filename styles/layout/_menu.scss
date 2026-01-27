@@ -1,6 +1,6 @@
 .layout-sidebar {
     position: fixed;
-    width: 300px;
+    width: 350px;
     height: calc(100vh - 9rem);
     z-index: 999;
     overflow-y: auto;
@@ -10,7 +10,7 @@
     transition: transform $transitionDuration, left $transitionDuration;
     background-color: var(--surface-overlay);
     border-radius: $borderRadius;
-    padding: 0.5rem 1.5rem;
+    padding: 0.5rem 0.5rem;
     box-shadow: 0px 3px 5px rgba(0, 0, 0, .02), 0px 0px 2px rgba(0, 0, 0, .05), 0px 1px 4px rgba(0, 0, 0, .08);
 }
 
@@ -58,7 +58,7 @@
             outline: 0 none;
             color: var(--text-color);
             cursor: pointer;
-            padding: .75rem 1rem;
+            padding: .65rem 3px;
             border-radius: $borderRadius;
             transition: background-color $transitionDuration, box-shadow $transitionDuration;
 
@@ -153,4 +153,10 @@
     overflow: hidden;
     max-height: 0 !important;
     transition: max-height 0.45s cubic-bezier(0, 1, 0, 1);
+}
+
+@media screen and (max-width: 640px) {
+    .layout-sidebar {
+        width: 320px;
+    }
 }
