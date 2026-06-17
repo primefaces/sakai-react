@@ -1,0 +1,39 @@
+@token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FwaS1kZXYubW9vYy5vc2hzdS5rZy9wdWJsaWMvYXBpL2xvZ2luIiwiaWF0IjoxNzcxODI5OTUwLCJleHAiOjE3NzE4NTY5NTAsIm5iZiI6MTc3MTgyOTk1MCwianRpIjoicDlzTXdDZGZhYzJjUWIwMSIsInN1YiI6IjIiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.k5oeUPYxHentMkhk0xnwdL2QqUELfQuJYno62Z8wqlQ
+# ###
+
+# http://api.mooc.oshsu.kg/public/api/v1/open/video/types
+# Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FwaS5teWVkdS5vc2hzdS5rZy9wdWJsaWMvYXBpL21vb2MvbG9naW4iLCJpYXQiOjE3NTQzODYzMzAsImV4cCI6MTc1NDQxNTE5MCwibmJmIjoxNzU0Mzg2MzMwLCJqdGkiOiJjc0hhSkdqYVhsT1V1VkpPIiwic3ViIjoiNDY0NTYiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.E9dQ1RCISvf2psrA1iDf9CrYzExEKnZOgYq2XJ4cyXg
+# Content-Type: application/json
+
+# ###
+# # STREAMS GET
+
+# GET https://api.mooc.oshsu.kg/public/api/v1/teacher/lessons?course_id=32
+# Authorization: Bearer {{token}}
+# Content-Type: application/json
+
+# ###
+# test
+# POST https://api.mooc.oshsu.kg/public/api/v1/teacher/courses/send/verify?course_id=41&status=0
+# Authorization: Bearer {{token}}
+# Content-Type: application/json
+
+# {
+#     "course_id" : 41,
+#     "status" : 0
+# }
+
+# {
+#     "email": "ajaparkulov@oshsu.kg",
+#     "password": "010270Ja"
+# }
+
+# test
+
+# GET https://api-dev.mooc.oshsu.kg/public/api/v1/notifications
+# Authorization: Bearer {{token}}
+# Content-Type: application/json
+
+GET https://api-dev.mooc.oshsu.kg/public/api/v1/telegram/showQr
+Authorization: Bearer {{token}}
+Content-Type: application/json

@@ -1,19 +1,31 @@
 'use client';
 
-import { PrimeReactContext } from 'primereact/api';
-import { Button } from 'primereact/button';
-import { InputSwitch, InputSwitchChangeEvent } from 'primereact/inputswitch';
-import { RadioButton, RadioButtonChangeEvent } from 'primereact/radiobutton';
-import { Sidebar } from 'primereact/sidebar';
 import { classNames } from 'primereact/utils';
 import React, { useContext, useEffect, useState } from 'react';
 import { AppConfigProps, LayoutConfig, LayoutState } from '@/types';
 import { LayoutContext } from './context/layoutcontext';
+import LocalizationSwift from '@/app/components/LocalizationSwift';
+import { Dialog } from 'primereact/dialog';
+import { useLocalization } from '@/layout/context/localizationcontext';
 
 const AppConfig = (props: AppConfigProps) => {
-    const [scales] = useState([12, 13, 14, 15, 16]);
+    const [scales] = useState<number[]>([16, 18, 20, 22]);
     const { layoutConfig, setLayoutConfig, layoutState, setLayoutState } = useContext(LayoutContext);
-    const { setRipple, changeTheme } = useContext(PrimeReactContext);
+    const { translations, language } = useLocalization();
+
+    const [isA11y, setIsA11y] = useState(()=> {
+        if(typeof window !== 'undefined') {
+            return localStorage.getItem('isA11y') || false
+        }
+        return false;
+    });
+    const [highContrast, setHighContrast] = useState(()=> {
+        if(typeof window !== 'undefined') {
+            return localStorage.getItem('highContrast') || false
+        }
+        return false;
+    });
+    const [scaleOption, setScaleOption] = useState<number | null>(null);
 
     const onConfigButtonClick = () => {
         setLayoutState((prevState: LayoutState) => ({ ...prevState, configSidebarVisible: true }));
@@ -23,32 +35,27 @@ const AppConfig = (props: AppConfigProps) => {
         setLayoutState((prevState: LayoutState) => ({ ...prevState, configSidebarVisible: false }));
     };
 
-    const changeInputStyle = (e: RadioButtonChangeEvent) => {
-        setLayoutConfig((prevState: LayoutConfig) => ({ ...prevState, inputStyle: e.value }));
-    };
-
-    const changeRipple = (e: InputSwitchChangeEvent) => {
-        setRipple?.(e.value as boolean);
-        setLayoutConfig((prevState: LayoutConfig) => ({ ...prevState, ripple: e.value as boolean }));
-    };
-
-    const changeMenuMode = (e: RadioButtonChangeEvent) => {
-        setLayoutConfig((prevState: LayoutConfig) => ({ ...prevState, menuMode: e.value }));
-    };
-
-    const _changeTheme = (theme: string, colorScheme: string) => {
-        changeTheme?.(layoutConfig.theme, theme, 'theme-css', () => {
-            setLayoutConfig((prevState: LayoutConfig) => ({ ...prevState, theme, colorScheme }));
-        });
-    };
-
-    const decrementScale = () => {
-        setLayoutConfig((prevState: LayoutConfig) => ({ ...prevState, scale: prevState.scale - 1 }));
-    };
-
-    const incrementScale = () => {
-        setLayoutConfig((prevState: LayoutConfig) => ({ ...prevState, scale: prevState.scale + 1 }));
-    };
+    const scaleWidth = (item: number) => {
+        let word = ''
+        switch (item) {
+            case 16 :
+                word = translations.scaleDefault
+                break;
+            case 18 :
+                word = translations.scaleMd
+                break;
+            case 20 :
+                word = translations.scaleLg
+                break;
+            case 22 :
+                word = translations.scaleXl
+                break;
+            default :
+                word = ''
+                break;
+        }
+        return word
+    }
 
     const applyScale = () => {
         document.documentElement.style.fontSize = layoutConfig.scale + 'px';
@@ -59,190 +66,110 @@ const AppConfig = (props: AppConfigProps) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [layoutConfig.scale]);
 
+    useEffect(() => {
+        document.documentElement.removeAttribute('style');
+        document.documentElement.classList.toggle('a11y', typeof isA11y === 'string' ? JSON.parse(isA11y) : isA11y);
+    }, [isA11y]);
+
+    useEffect(() => {
+        document.body.classList.toggle('high-contrast', typeof highContrast === 'string' ? JSON.parse(highContrast) : highContrast);
+    }, [highContrast]);
+
     return (
         <>
-            <button className="layout-config-button config-link" type="button" onClick={onConfigButtonClick}>
+            <button className="layout-config-button config-link bg-[var(--mainColor)]" type="button" onClick={onConfigButtonClick}>
                 <i className="pi pi-cog"></i>
             </button>
 
-            <Sidebar visible={layoutState.configSidebarVisible} onHide={onConfigSidebarHide} position="right" className="layout-config-sidebar w-20rem">
+            <Dialog header={translations.panelTitle} visible={layoutState.configSidebarVisible} position="right" onHide={onConfigSidebarHide} draggable={false} resizable={false} className="w-full sm:w-25rem">
                 {!props.simple && (
-                    <>
-                        <h5>Scale</h5>
-                        <div className="flex align-items-center">
-                            <Button icon="pi pi-minus" type="button" onClick={decrementScale} rounded text className="w-2rem h-2rem mr-2" disabled={layoutConfig.scale === scales[0]}></Button>
-                            <div className="flex gap-2 align-items-center">
-                                {scales.map((item) => {
-                                    return <i className={classNames('pi pi-circle-fill', { 'text-primary-500': item === layoutConfig.scale, 'text-300': item !== layoutConfig.scale })} key={item}></i>;
-                                })}
-                            </div>
-                            <Button icon="pi pi-plus" type="button" onClick={incrementScale} rounded text className="w-2rem h-2rem ml-2" disabled={layoutConfig.scale === scales[scales.length - 1]}></Button>
+                    <div className="flex flex-col gap-3">
+                        <div className={'flex flex-col gap-2'}>
+                            <span className="text-[var(bodyColor)]">{translations.visionBlock}</span>
+                            <section>
+                                <div className={'flex items-center gap-2 shadow p-2'}>
+                                    <div className={'flex items-center text-[var(--mainColor)] font-bold'}><span>A</span> <span className={'h-[30px]'}>+</span></div>
+                                    <div className={'flex items-center gap-2'}>
+                                        <span>{translations.toggleLargeText}</span>
+                                       <label className="custom-radio text-xl leading-none">
+                                        <input
+                                            type="checkbox"
+                                            className={`customCheckbox p-2`}
+                                            checked={typeof isA11y === 'string' ? JSON.parse(isA11y) : isA11y}
+                                            onChange={(e) => {
+                                                localStorage.setItem('isA11y', JSON.stringify(!isA11y));
+                                                setIsA11y((prev) => !prev);
+                                                setScaleOption(null);
+                                            }}
+                                        />
+                                        <span className="checkbox-mark"></span>
+                                    </label>
+                                    </div>
+                                </div>
+                                <div className={'flex items-center gap-2 shadow p-2'}>
+                                    <div className={'bg-[black] rounded-lg relative w-[20px] h-[20px]'}><span className={'absolute right-0 top-[10%] rounded-full z-10 bg-[white] w-[12px] h-[12px]'}></span></div>
+                                    <div className={'flex items-center gap-2'}>
+                                        <span>{translations.toggleHighContrast}</span>
+                                        <label className="custom-radio text-xl leading-none">
+                                            <input
+                                                type="checkbox"
+                                                className={`customCheckbox p-2`}
+                                                checked={typeof highContrast === 'string' ? JSON.parse(highContrast) : highContrast}
+                                                onChange={(e) => {
+                                                    localStorage.setItem('highContrast', JSON.stringify(!highContrast));
+                                                    setHighContrast((prev)=> !prev);
+                                                }}
+                                            />
+                                            <span className="checkbox-mark"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </section>
                         </div>
 
-                        <h5>Menu Type</h5>
-                        <div className="flex">
-                            <div className="field-radiobutton flex-1">
-                                <RadioButton name="menuMode" value={'static'} checked={layoutConfig.menuMode === 'static'} onChange={(e) => changeMenuMode(e)} inputId="mode1"></RadioButton>
-                                <label htmlFor="mode1">Static</label>
+                        <section>
+                            <span className="text-[var(bodyColor)]">{translations.fontScaleLabel}</span>
+                            <div className="flex align-items-center justify-content-between py-2 surface-ground border-round-xl">
+                                {/*<Button icon="pi pi-minus" type="button" onClick={decrementScale} rounded text className="w-2rem h-2rem text-600" disabled={layoutConfig.scale === scales[0]} />*/}
+                                <div className="flex gap-1 flex-col">
+                                    {scales.map((item) => {
+                                        return <div key={item} className={'flex gap-2 items-center'}>
+                                            <label className="custom-radio p-2">
+                                                <input
+                                                    type="radio"
+                                                    name="scale"
+                                                    checked={item === scaleOption}
+                                                    className={classNames('custom-radio p-2 text-sm', {'text-primary-500': item === layoutConfig.scale, 'text-300': item !== layoutConfig.scale })}
+                                                    onClick={()=> {
+                                                        setIsA11y(false);
+                                                        localStorage.removeItem('isA11y');
+                                                        document.documentElement.removeAttribute('class');
+                                                        setLayoutConfig((prevState: LayoutConfig) => ({ ...prevState, scale: item }));
+                                                        setScaleOption(item);
+                                                    }}
+                                                />
+                                                <span className={`radio-mark min-w-[18px]`}></span>
+                                            </label>
+                                            <span>{
+                                                scaleWidth(item)
+                                            }</span>
+                                        </div>
+                                    })}
+                                </div>
+                                {/*<Button icon="pi pi-plus" type="button" onClick={incrementScale} rounded text className="w-2rem h-2rem text-600" disabled={layoutConfig.scale === scales[scales.length - 1]} />*/}
                             </div>
-                            <div className="field-radiobutton flex-1">
-                                <RadioButton name="menuMode" value={'overlay'} checked={layoutConfig.menuMode === 'overlay'} onChange={(e) => changeMenuMode(e)} inputId="mode2"></RadioButton>
-                                <label htmlFor="mode2">Overlay</label>
-                            </div>
-                        </div>
+                        </section>
 
-                        <h5>Input Style</h5>
-                        <div className="flex">
-                            <div className="field-radiobutton flex-1">
-                                <RadioButton name="inputStyle" value={'outlined'} checked={layoutConfig.inputStyle === 'outlined'} onChange={(e) => changeInputStyle(e)} inputId="outlined_input"></RadioButton>
-                                <label htmlFor="outlined_input">Outlined</label>
+                        <section className={'flex flex-col gap-2'}>
+                            <span className="text-[var(bodyColor)]">{translations.langSwitcher}</span>
+                            <div className="max-w-[200px] flex items-center gap-1">
+                                <LocalizationSwift />
+                                <span className={'text-sm'}>{language === 'ru' ? 'Русский' : language === 'ky' ? 'Кыргызча' : '' }</span>
                             </div>
-                            <div className="field-radiobutton flex-1">
-                                <RadioButton name="inputStyle" value={'filled'} checked={layoutConfig.inputStyle === 'filled'} onChange={(e) => changeInputStyle(e)} inputId="filled_input"></RadioButton>
-                                <label htmlFor="filled_input">Filled</label>
-                            </div>
-                        </div>
-
-                        <h5>Ripple Effect</h5>
-                        <InputSwitch checked={layoutConfig.ripple as boolean} onChange={(e) => changeRipple(e)}></InputSwitch>
-                    </>
+                        </section>
+                    </div>
                 )}
-                <h5>PrimeOne Design</h5>
-                <div className="grid">
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('lara-light-indigo', 'light')}>
-                            <img src="/layout/images/themes/lara-light-indigo.png" className="w-2rem h-2rem" alt="Lara Light Indigo" />
-                        </button>
-                    </div>
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('lara-light-blue', 'light')}>
-                            <img src="/layout/images/themes/lara-light-blue.png" className="w-2rem h-2rem" alt="Lara Light Blue" />
-                        </button>
-                    </div>
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('lara-light-purple', 'light')}>
-                            <img src="/layout/images/themes/lara-light-purple.png" className="w-2rem h-2rem" alt="Lara Light Purple" />
-                        </button>
-                    </div>
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('lara-light-teal', 'light')}>
-                            <img src="/layout/images/themes/lara-light-teal.png" className="w-2rem h-2rem" alt="Lara Light Teal" />
-                        </button>
-                    </div>
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('lara-dark-indigo', 'dark')}>
-                            <img src="/layout/images/themes/lara-dark-indigo.png" className="w-2rem h-2rem" alt="Lara Dark Indigo" />
-                        </button>
-                    </div>
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('lara-dark-blue', 'dark')}>
-                            <img src="/layout/images/themes/lara-dark-blue.png" className="w-2rem h-2rem" alt="Lara Dark Blue" />
-                        </button>
-                    </div>
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('lara-dark-purple', 'dark')}>
-                            <img src="/layout/images/themes/lara-dark-purple.png" className="w-2rem h-2rem" alt="Lara Dark Purple" />
-                        </button>
-                    </div>
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('lara-dark-teal', 'dark')}>
-                            <img src="/layout/images/themes/lara-dark-teal.png" className="w-2rem h-2rem" alt="Lara Dark Teal" />
-                        </button>
-                    </div>
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('soho-light', 'light')}>
-                            <img src="/layout/images/themes/soho-light.png" className="w-2rem h-2rem" alt="Soho Light" />
-                        </button>
-                    </div>
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('soho-dark', 'dark')}>
-                            <img src="/layout/images/themes/soho-dark.png" className="w-2rem h-2rem" alt="Soho Dark" />
-                        </button>
-                    </div>
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('viva-light', 'light')}>
-                            <img src="/layout/images/themes/viva-light.svg" className="w-2rem h-2rem" alt="Viva Light" />
-                        </button>
-                    </div>
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('viva-dark', 'dark')}>
-                            <img src="/layout/images/themes/viva-dark.svg" className="w-2rem h-2rem" alt="Viva Dark" />
-                        </button>
-                    </div>
-                </div>
-
-                <h5>Bootstrap</h5>
-                <div className="grid">
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('bootstrap4-light-blue', 'light')}>
-                            <img src="/layout/images/themes/bootstrap4-light-blue.svg" className="w-2rem h-2rem" alt="Bootstrap Light Blue" />
-                        </button>
-                    </div>
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('bootstrap4-light-purple', 'light')}>
-                            <img src="/layout/images/themes/bootstrap4-light-purple.svg" className="w-2rem h-2rem" alt="Bootstrap Light Purple" />
-                        </button>
-                    </div>
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('bootstrap4-dark-blue', 'dark')}>
-                            <img src="/layout/images/themes/bootstrap4-dark-blue.svg" className="w-2rem h-2rem" alt="Bootstrap Dark Blue" />
-                        </button>
-                    </div>
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('bootstrap4-dark-purple', 'dark')}>
-                            <img src="/layout/images/themes/bootstrap4-dark-purple.svg" className="w-2rem h-2rem" alt="Bootstrap Dark Purple" />
-                        </button>
-                    </div>
-                </div>
-
-                <h5>Material Design</h5>
-                <div className="grid">
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('md-light-indigo', 'light')}>
-                            <img src="/layout/images/themes/md-light-indigo.svg" className="w-2rem h-2rem" alt="Material Light Indigo" />
-                        </button>
-                    </div>
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('md-light-deeppurple', 'light')}>
-                            <img src="/layout/images/themes/md-light-deeppurple.svg" className="w-2rem h-2rem" alt="Material Light DeepPurple" />
-                        </button>
-                    </div>
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('md-dark-indigo', 'dark')}>
-                            <img src="/layout/images/themes/md-dark-indigo.svg" className="w-2rem h-2rem" alt="Material Dark Indigo" />
-                        </button>
-                    </div>
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('md-dark-deeppurple', 'dark')}>
-                            <img src="/layout/images/themes/md-dark-deeppurple.svg" className="w-2rem h-2rem" alt="Material Dark DeepPurple" />
-                        </button>
-                    </div>
-                </div>
-
-                <h5>Material Design Compact</h5>
-                <div className="grid">
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('mdc-light-indigo', 'light')}>
-                            <img src="/layout/images/themes/md-light-indigo.svg" className="w-2rem h-2rem" alt="Material Light Indigo" />
-                        </button>
-                    </div>
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('mdc-light-deeppurple', 'light')}>
-                            <img src="/layout/images/themes/md-light-deeppurple.svg" className="w-2rem h-2rem" alt="Material Light Deep Purple" />
-                        </button>
-                    </div>
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('mdc-dark-indigo', 'dark')}>
-                            <img src="/layout/images/themes/md-dark-indigo.svg" className="w-2rem h-2rem" alt="Material Dark Indigo" />
-                        </button>
-                    </div>
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('mdc-dark-deeppurple', 'dark')}>
-                            <img src="/layout/images/themes/md-dark-deeppurple.svg" className="w-2rem h-2rem" alt="Material Dark Deep Purple" />
-                        </button>
-                    </div>
-                </div>
-            </Sidebar>
+            </Dialog>
         </>
     );
 };

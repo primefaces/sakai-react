@@ -1,15 +1,25 @@
 'use client';
 import { LayoutProvider } from '../layout/context/layoutcontext';
 import { PrimeReactProvider } from 'primereact/api';
+import { config } from '@fortawesome/fontawesome-svg-core';
+import '@fortawesome/fontawesome-svg-core/styles.css'; // Импорт стилей
+config.autoAddCss = false;
 import 'primereact/resources/primereact.css';
-import 'primeflex/primeflex.css';
 import 'primeicons/primeicons.css';
 import '../styles/layout/layout.scss';
 import '../styles/demo/Demos.scss';
 
+import '../styles/layout/openCourse.css';
+import '../styles/layout/animations.css';
+import './globals.css';
+import 'katex/dist/katex.min.css';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
 interface RootLayoutProps {
     children: React.ReactNode;
 }
+
+const queryClient = new QueryClient();
 
 export default function RootLayout({ children }: RootLayoutProps) {
     return (
@@ -18,9 +28,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
                 <link id="theme-css" href={`/themes/lara-light-indigo/theme.css`} rel="stylesheet"></link>
             </head>
             <body>
+            <QueryClientProvider client={queryClient}>
                 <PrimeReactProvider>
                     <LayoutProvider>{children}</LayoutProvider>
                 </PrimeReactProvider>
+            </QueryClientProvider>
             </body>
         </html>
     );

@@ -1,21 +1,23 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { useEventListener, useMountEffect, useUnmountEffect } from 'primereact/hooks';
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { classNames } from 'primereact/utils';
-import AppFooter from './AppFooter';
 import AppSidebar from './AppSidebar';
 import AppTopbar from './AppTopbar';
-import AppConfig from './AppConfig';
 import { LayoutContext } from './context/layoutcontext';
 import { PrimeReactContext } from 'primereact/api';
 import { ChildContainerProps, LayoutState, AppTopbarRef } from '@/types';
 import { usePathname, useSearchParams } from 'next/navigation';
+import { LocalizationProvider, useLocalization } from '@/layout/context/localizationcontext';
+import { BottomNav } from '@/app/components/menu/MobileMenu';
+import useMediaQuery from '@/hooks/useMediaQuery';
+import AppConfig from '@/layout/AppConfig';
 
 const Layout = ({ children }: ChildContainerProps) => {
-    const { layoutConfig, layoutState, setLayoutState } = useContext(LayoutContext);
+    const { layoutConfig, layoutState, setLayoutState, user } = useContext(LayoutContext);
+    const media = useMediaQuery('(max-width: 640px)');
     const { setRipple } = useContext(PrimeReactContext);
     const topbarRef = useRef<AppTopbarRef>(null);
     const sidebarRef = useRef<HTMLDivElement>(null);
@@ -123,20 +125,24 @@ const Layout = ({ children }: ChildContainerProps) => {
     });
 
     return (
-        <React.Fragment>
-            <div className={containerClass}>
-                <AppTopbar ref={topbarRef} />
-                <div ref={sidebarRef} className="layout-sidebar">
-                    <AppSidebar />
+        <LocalizationProvider>
+            <React.Fragment>
+                <div className={containerClass}>
+                    <AppTopbar ref={topbarRef} />
+                    <div ref={sidebarRef} className="layout-sidebar">
+                        <AppSidebar />
+                    </div>
+
+                    <div className="layout-main-container">
+                        <div className="layout-main">{children}</div>
+                        {/* <AppFooter /> */}
+                    </div>
+                     <AppConfig />
+                    <div className="layout-mask"></div>
+                    {user?.is_student && media && !pathname.startsWith('/teaching/lessonView/') && <BottomNav />}
                 </div>
-                <div className="layout-main-container">
-                    <div className="layout-main">{children}</div>
-                    <AppFooter />
-                </div>
-                <AppConfig />
-                <div className="layout-mask"></div>
-            </div>
-        </React.Fragment>
+            </React.Fragment>
+        </LocalizationProvider>
     );
 };
 
