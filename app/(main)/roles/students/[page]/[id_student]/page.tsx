@@ -84,7 +84,6 @@ const StudentDetailPage = ({ params }: { params: { student_id: string } }) => {
     const handleFetchStudentDetail = async () => {
         setSkeleton(true);
         const data = await fetchStudentSearchDetail(Number(id_student));
-
         if (data?.success) {
             setStudent(data?.student);
         }
@@ -98,7 +97,7 @@ const StudentDetailPage = ({ params }: { params: { student_id: string } }) => {
         setAnnulmentReason('');
 
         const data = await studentCancel(false, Number(currentCourseId), annulmentReason, answer_ids, Number(id_student), description);
-        if (data) {
+        if (data && data?.status === 'success') {
             setAnswerIds([]);
             handleFetchStudentData();
             setMessage({

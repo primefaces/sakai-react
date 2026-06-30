@@ -20,7 +20,7 @@ export default function useErrorMessage() {
             case 403:
                 setMessage({
                     state: true,
-                    value: { severity: 'error', summary: translations.errorTitle + '!', detail: translations.accessError }
+                    value: { severity: 'error', summary: translations.errorTitle, detail: translations.accessError }
                 });
                 break;
 
@@ -34,21 +34,21 @@ export default function useErrorMessage() {
             case 422:
                 setMessage({
                     state: true,
-                    value: { severity: 'error', summary: translations.errorTitle + '!', detail: translations.dataNotValid }
+                    value: { severity: 'error', summary: translations.errorTitle, detail: translations.dataNotValid }
                 });
                 break;
 
             case 500:
                 setMessage({
                     state: true,
-                    value: { severity: 'error', summary: translations.errorTitle + '!', detail: translations.serverError }
+                    value: { severity: 'error', summary: translations.errorTitle, detail: translations.serverError }
                 });
                 break;
 
             case 503:
                 setMessage({
                     state: true,
-                    value: { severity: 'error', summary: translations.errorTitle + '!', detail: translations.serviceNoAvialable }
+                    value: { severity: 'error', summary: translations.errorTitle, detail: translations.serviceNoAvialable }
                 });
                 break;
         }
