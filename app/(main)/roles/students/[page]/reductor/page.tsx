@@ -106,8 +106,8 @@ export default function StudentsPage() {
         router.push(`/roles/students/${page}/reductor?${search ? `search=${search}` : ''}`);
     };
 
-    const studentsMobile = (student: any) => (
-        <div className="p-2 w-full">
+    const studentsMobile = (student: any, key:number) => (
+        <div className="p-2 w-full" key={key}>
             <div key={student.id}>
                 <div className="bg-white rounded-lg shadow-md p-4 border-l-4 border-blue-500">
                     <div className="flex justify-between items-start mb-3">
@@ -142,7 +142,7 @@ export default function StudentsPage() {
             <div>
                 {/* --- МОБИЛЬНАЯ ВЕРСИЯ (Список карточек) --- */}
                 <div className="w-full">
-                    <div className="grid grid-cols-1 justify-content-center gap-2 md:hidden">{students.map((student) => studentsMobile(student))}</div>
+                    <div className="grid grid-cols-1 justify-content-center gap-2 md:hidden">{students.map((student) => studentsMobile(student, student?.id))}</div>
                 </div>
 
                 {empty ? (
