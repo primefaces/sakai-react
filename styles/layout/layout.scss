@@ -1,4 +1,5 @@
 @import './_variables';
+@import "./steps.css";
 @import "./_mixins";
 @import "./_main";
 @import "./_topbar";
@@ -9,3 +10,9 @@
 @import "./_responsive";
 @import "./_utils";
 @import "./_typography";
+@import "./_button";
+@import "./forms.css";
+@import "./primereact.css";
+@import "./grids.css";
+// @import "./animations.css";
+// @import "./openCourse.css";
