@@ -121,6 +121,13 @@ const AppMenu = () => {
 
     const showError = useErrorMessage();
 
+    // счётчик непроверенных заданий в пункте меню
+    const unverifiedBadge = contextVerifedValue?.length ? (
+        <span className="flex items-center justify-center min-w-[20px] h-[20px] px-[6px] rounded-full bg-[var(--amberColor)] text-white text-[11px] font-semibold leading-none shadow-[0_2px_6px_rgba(247,99,77,0.4)]">
+            {contextVerifedValue?.length}
+        </span>
+    ) : null;
+
     const ruLocale = {
         firstDayOfWeek: 1, // Monday
         dayNames: translations.dayNames,
@@ -231,19 +238,7 @@ const AppMenu = () => {
                           label: translations.unverifiedTasks,
                           icon: 'pi pi-fw pi-clock',
                           to: '/unVerifed',
-                          extra: (
-                              <div className="p-overlay-badge">
-                                  {/* Условное отображение красного кружка (бэйджа) */}
-                                  {contextVerifedValue?.length ? (
-                                      <div className="relative">
-                                          <div className={`absolute -right-3 -top-3 px-1 bg-[var(--amberColor)] rounded text-[var(--whiteColor)] text-[11px]`}>{contextVerifedValue?.length}</div>
-                                          <button className={`cursor-pointer flex gap-2 items-center px-0 bg-white text-blue-300 p-2 font-bold`} />
-                                      </div>
-                                  ) : (
-                                      ''
-                                  )}
-                              </div>
-                          )
+                          extra: unverifiedBadge
                       },
                       {
                           label: translations.openOnlineCourses,
@@ -362,19 +357,7 @@ const AppMenu = () => {
                       label: translations.unverifiedTasks,
                       icon: 'pi pi-fw pi-clock',
                       to: '/unVerifed',
-                      extra: (
-                          <div className="p-overlay-badge">
-                              {/* Условное отображение красного кружка (бэйджа) */}
-                              {contextVerifedValue?.length ? (
-                                  <div className="relative">
-                                      <div className={`absolute -right-3 -top-3 px-1 bg-[var(--amberColor)] rounded text-[var(--whiteColor)] text-[11px]`}>{contextVerifedValue?.length}</div>
-                                      <button className={`cursor-pointer flex gap-2 items-center px-0 bg-white text-blue-300 p-2 font-bold`} />
-                                  </div>
-                              ) : (
-                                  ''
-                              )}
-                          </div>
-                      )
+                      extra: unverifiedBadge
                   },
                   {
                       label: translations.openOnlineCourses,
@@ -821,13 +804,14 @@ const AppMenu = () => {
                 })}
             </ul>
             {pathname.startsWith('/course/courseDetail/') && (
-                <div>
-                    <div className="p-3 pb-2 mt-auto">
-                        <Button label={translations.add} icon={'pi pi-plus'} className="cursor-pointer w-full py-2 px-4 rounded-lg transition" onClick={() => setThemeAddVisisble(true)}></Button>
-                    </div>
-                    <div className="flex justify-center gap-1 items-center">
-                        <b>{translations.totalPointsForCourse}</b>
-                        <span className="text-[var(--mainColor)]">{themesData?.max_sum_score}</span>
+                <div className="shrink-0 mt-[8px] pt-[12px] px-[4px] border-t border-[var(--surface-border)] flex flex-col gap-[10px]">
+                    <Button label={translations.add} icon={'pi pi-plus'} className="cursor-pointer w-full py-[10px] px-[16px] rounded-[12px] transition" onClick={() => setThemeAddVisisble(true)}></Button>
+                    <div className="flex items-center justify-between gap-[8px] px-[12px] py-[10px] rounded-[12px] bg-[var(--mainColor)]/10">
+                        <span className="flex items-center gap-[8px] text-[13px] font-medium text-[var(--titleColor)]">
+                            <i className="pi pi-star text-[13px] text-[var(--mainColor)]"></i>
+                            {translations.totalPointsForCourse}
+                        </span>
+                        <span className="text-[15px] font-bold text-[var(--mainColor)]">{themesData?.max_sum_score ?? 0}</span>
                     </div>
                 </div>
             )}

@@ -82,15 +82,7 @@ export const TeacherMobileMenu = () => {
                                     popup
                                     ref={menu}
                                     breakpoint="1000px"
-                                    style={{ maxWidth: '500px', left: '8px' }}
-                                    className={`${contextNotifications?.length < 1 ? 'min-w-[250px]' : 'min-w-[310px]'} max-h-[370px] mt-4 overflow-y-scroll`}
-                                    pt={{
-                                        root: { className: 'bg-white border border-gray-300 rounded-xl shadow-xl translate-y-[-100%]' },
-                                        menu: { className: 'p-1' },
-                                        menuitem: { className: 'text-[var(--titleColor)] text-[0.875rem] py-1 hover:bg-gray-50 rounded-lg transition-colors' },
-                                        action: { className: `flex justify-center items-center gap-2 px-3 py-2` },
-                                        icon: { className: 'text-[var(--titleColor)] mx-1' }
-                                    }}
+                                    className="bottomnav-notify"
                                 />
                             )}
                         </Link>

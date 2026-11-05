@@ -76,6 +76,149 @@
     border-color: white !important;
 }
 
+/* ===== Панель настроек интерфейса ===== */
+.config-panel.p-dialog {
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(33, 34, 95, 0.18);
+}
+
+.config-panel .p-dialog-header {
+    padding: 1.25rem 1.25rem 1rem;
+    border-bottom: 1px solid var(--borderBottomColor);
+}
+
+.config-panel .p-dialog-content {
+    padding: 1.25rem;
+}
+
+.config-section-title {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #8a8fa8;
+}
+
+.config-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 14px;
+    border: 1px solid var(--borderBottomColor);
+    background: var(--whiteColor);
+    color: var(--titleColor);
+    font-size: 17px;
+    cursor: pointer;
+    transition: border-color 0.2s, background-color 0.2s, box-shadow 0.2s;
+}
+
+.config-option:hover {
+    border-color: var(--mainBorder);
+    box-shadow: 0 4px 12px rgba(8, 169, 230, 0.08);
+}
+
+.config-option-active {
+    border-color: var(--mainColor);
+    background: #f0faff;
+}
+
+.config-option-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: var(--mainBgColor);
+    color: var(--mainColor);
+    font-size: 15px;
+}
+
+.config-switch {
+    position: relative;
+    flex-shrink: 0;
+    width: 40px;
+    height: 22px;
+    border-radius: 999px;
+    background: #d5d9e2;
+    transition: background-color 0.25s;
+}
+
+.config-switch::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    transition: transform 0.25s ease;
+}
+
+.config-option-active .config-switch {
+    background: var(--mainColor);
+}
+
+.config-option-active .config-switch::after {
+    transform: translateX(18px);
+}
+
+.config-scale {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 6px;
+    min-height: 72px;
+    padding: 10px 4px 8px;
+    border-radius: 14px;
+    border: 1px solid var(--borderBottomColor);
+    background: var(--whiteColor);
+    color: var(--bodyColor);
+    cursor: pointer;
+    transition: border-color 0.2s, background-color 0.2s, color 0.2s;
+}
+
+.config-scale:hover {
+    border-color: var(--mainBorder);
+    color: var(--titleColor);
+}
+
+.config-scale-active {
+    border-color: var(--mainColor);
+    background: #f0faff;
+    color: var(--mainColor);
+}
+
+.high-contrast .config-option-active,
+.high-contrast .config-scale-active {
+    border: 2px solid #000 !important;
+}
+
+.high-contrast .config-switch {
+    background-color: #d5d9e2 !important;
+}
+
+.high-contrast .config-option-active .config-switch,
+.high-contrast .lang-switch-thumb {
+    background-color: #000 !important;
+}
+
+.high-contrast .config-switch::after {
+    background-color: #fff !important;
+}
+
+.high-contrast .lang-switch button[aria-checked='true'] {
+    color: #fff !important;
+    background-color: transparent !important;
+}
+
 p {
     color: var(--bodyColor);
     margin-bottom: 10px;
@@ -1096,3 +1239,452 @@ html.loaded #preloader {
     }
 }
 
+/* ---------- Topbar: выпадающее меню (Tiered) ---------- */
+.topbar-tiered.p-tieredmenu {
+    background: #fff;
+    border: 1px solid #eef2f6;
+    border-radius: 14px;
+    padding: 6px;
+    box-shadow: 0 16px 40px rgba(33, 34, 95, 0.14);
+}
+.topbar-tiered ul:focus,
+.topbar-tiered ul:focus-visible,
+.topbar-tiered .p-menuitem-link:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+.topbar-tiered .p-menuitem-content {
+    border-radius: 10px;
+    transition: background-color 0.2s;
+}
+.topbar-tiered.p-tieredmenu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.topbar-tiered.p-tieredmenu .p-menuitem-link {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    cursor: pointer;
+    text-decoration: none;
+    gap: 10px;
+    padding: 11px 12px;
+    border-radius: 10px;
+    color: var(--titleColor);
+    font-size: 14px;
+    font-weight: 500;
+}
+.topbar-tiered .p-menuitem-link .p-menuitem-icon {
+    margin: 0;
+    width: 18px;
+    font-size: 16px;
+    text-align: center;
+    color: var(--mainColor);
+}
+.topbar-tiered .p-menuitem-link .p-menuitem-text {
+    flex: 1;
+    line-height: 1.2;
+}
+.topbar-tiered .p-menuitem-link .p-submenu-icon {
+    margin-left: auto;
+    color: #94a3b8;
+    transition: transform 0.2s;
+}
+.topbar-tiered .p-menuitem-link:not(.p-disabled):hover,
+.topbar-tiered .p-menuitem > .p-menuitem-content:hover {
+    background: #f1f9fd;
+}
+.topbar-tiered .p-menuitem.p-menuitem-active > .p-menuitem-content,
+.topbar-tiered .p-menuitem.p-menuitem-active > .p-menuitem-content > .p-menuitem-link,
+.topbar-tiered .p-menuitem.p-menuitem-active > .p-menuitem-link {
+    background: #e8f6fc;
+}
+.topbar-tiered .p-menuitem.p-menuitem-active > .p-menuitem-content .p-submenu-icon,
+.topbar-tiered .p-menuitem.p-menuitem-active > .p-menuitem-link .p-submenu-icon {
+    transform: rotate(90deg);
+    color: var(--mainColor);
+}
+/* вложенные списки в мобильном режиме — без своей тени/рамки */
+.topbar-tiered .p-submenu-list {
+    position: static;
+    width: 100%;
+    padding: 4px 0 4px 0;
+    margin: 0;
+    border: 0;
+    box-shadow: none;
+    background: transparent;
+}
+/* ---------- Нижняя мобильная навигация: попап уведомлений ---------- */
+/* PrimeReact сам выставляет top/left inline-стилями, поэтому фиксируем над панелью через !important */
+.bottomnav-notify.p-tieredmenu {
+    position: fixed !important;
+    top: auto !important;
+    bottom: calc(64px + env(safe-area-inset-bottom)) !important;
+    left: 8px !important;
+    right: 8px !important;
+    width: auto !important;
+    max-width: 440px;
+    margin: 0 0 0 auto !important;
+    max-height: 60vh;
+    overflow-y: auto;
+    background: #fff;
+    border: 1px solid #eef2f6;
+    border-radius: 16px;
+    padding: 6px;
+    box-shadow: 0 -8px 40px rgba(33, 34, 95, 0.16);
+}
+.bottomnav-notify.p-tieredmenu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.bottomnav-notify ul:focus,
+.bottomnav-notify ul:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* пункт-шаблон (уведомления, профиль) — без hover-заливки */
+.topbar-tiered .p-submenu-list .p-menuitem:not(:has(.p-menuitem-link)) > .p-menuitem-content:hover,
+.topbar-tiered .p-submenu-list .p-menuitem:not(:has(.p-menuitem-link)):hover {
+    background: transparent;
+}
+
+
+/* ---------- Courses page: table ---------- */
+.courses-table .p-datatable-wrapper,
+.modern-table .p-datatable-wrapper {
+    border: 1px solid #eef2f6;
+    border-radius: 14px;
+}
+
+.courses-table .p-datatable-thead > tr > th,
+.modern-table .p-datatable-thead > tr > th {
+    background: #f8fafc;
+    color: var(--text-color-secondary);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 10px 8px;
+    border-bottom: 1px solid #eef2f6;
+    white-space: nowrap;
+}
+
+.courses-table .p-datatable-tbody > tr,
+.modern-table .p-datatable-tbody > tr {
+    transition: background-color 0.2s;
+}
+
+.courses-table .p-datatable-tbody > tr > td,
+.modern-table .p-datatable-tbody > tr > td {
+    padding: 10px 8px;
+    border-bottom: 1px solid #f1f5f9;
+    vertical-align: middle;
+}
+
+.courses-table .p-datatable-tbody > tr:last-child > td,
+.modern-table .p-datatable-tbody > tr:last-child > td {
+    border-bottom: none;
+}
+
+.courses-table .p-datatable-tbody > tr:hover,
+.modern-table .p-datatable-tbody > tr:hover {
+    background: #f8fbfd;
+}
+
+.courses-table .p-datatable-tbody > tr.course-row-active,
+.modern-table .p-datatable-tbody > tr.course-row-active {
+    background: rgba(8, 169, 230, 0.06);
+}
+
+.courses-table .p-datatable-tbody > tr.course-row-active > td:first-child,
+.modern-table .p-datatable-tbody > tr.course-row-active > td:first-child {
+    box-shadow: inset 3px 0 0 var(--mainColor);
+}
+
+.courses-paginator .p-paginator-page,
+.courses-paginator .p-paginator-first,
+.courses-paginator .p-paginator-prev,
+.courses-paginator .p-paginator-next,
+.courses-paginator .p-paginator-last {
+    border-radius: 10px;
+}
+
+/* ---------- "Связан" chip (только внешний вид, логика в forms.css) ---------- */
+.custom-course-radio .radio-course-mark.connect-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border: 1.5px solid var(--mainBorder);
+    border-radius: 999px !important;
+    background-color: #fff;
+    color: var(--mainColor);
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.custom-course-radio .radio-course-mark.connect-chip:hover {
+    background-color: var(--mainColor);
+    border-color: var(--mainColor);
+    color: #fff;
+}
+
+.custom-course-radio input[type='radio']:checked + .radio-course-mark.connect-chip {
+    background-color: var(--mainColor);
+    border-color: var(--mainColor);
+    color: #fff;
+    box-shadow: 0 4px 10px -4px rgba(8, 169, 230, 0.6);
+}
+
+.custom-course-radio input[type='radio']:focus + .radio-course-mark.connect-chip {
+    border: 1.5px solid var(--mainColor);
+    box-shadow: 0 0 0 3px rgba(8, 169, 230, 0.2);
+}
+
+/* ---------- Modern TabView (сегментированные вкладки) ---------- */
+.modern-tabview .p-tabview-nav-container {
+    margin-bottom: 14px;
+}
+
+.modern-tabview .p-tabview-nav {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    padding: 4px;
+    border: none;
+    border-radius: 12px;
+    background: #f1f5f9;
+}
+
+.modern-tabview .p-tabview-nav li .p-tabview-nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 9px;
+    background: transparent;
+    color: var(--bodyColor);
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: none !important;
+    transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+.modern-tabview .p-tabview-nav li .p-tabview-nav-link .p-tabview-left-icon {
+    margin: 0;
+    font-size: 13px;
+}
+
+.modern-tabview .p-tabview-nav li:not(.p-highlight):not(.p-disabled):hover .p-tabview-nav-link {
+    background: rgba(255, 255, 255, 0.7);
+    color: var(--titleColor);
+}
+
+.modern-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+    background: #fff;
+    color: var(--mainColor);
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08), 0 4px 10px -6px rgba(8, 169, 230, 0.45) !important;
+}
+
+.modern-tabview .p-tabview-panels {
+    padding: 0 !important;
+    background: transparent;
+}
+
+/* пока идёт загрузка, вкладки не переключаются */
+.modern-tabview-busy .p-tabview-nav {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+@media screen and (max-width: 640px) {
+    .modern-tabview .p-tabview-nav {
+        display: flex;
+        width: 100%;
+    }
+
+    .modern-tabview .p-tabview-nav li {
+        flex: 1 1 auto;
+    }
+
+    .modern-tabview .p-tabview-nav li .p-tabview-nav-link {
+        justify-content: center;
+        width: 100%;
+        padding: 7px 10px;
+        font-size: 13px;
+    }
+}
+
+/* ---------- Modern Accordion (карточки курсов) ---------- */
+.modern-accordion .p-accordion-tab {
+    margin-bottom: 10px;
+    border: 1px solid #eef2f6;
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.modern-accordion .p-accordion-tab:last-child {
+    margin-bottom: 0;
+}
+
+.modern-accordion .p-accordion-tab.p-accordion-tab-active {
+    border-color: var(--mainBorder);
+    box-shadow: 0 4px 14px -8px rgba(8, 169, 230, 0.45);
+}
+
+.modern-accordion .p-accordion-header .p-accordion-header-link {
+    /* глобально в primereact.css стоит display:block и padding !important */
+    display: flex !important;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    padding: 12px 14px !important;
+    border: none !important;
+    border-radius: 0 !important;
+    background: #fff !important;
+    color: var(--titleColor);
+    box-shadow: none !important;
+    transition: background-color 0.2s;
+}
+
+.modern-accordion .p-accordion-header:not(.p-disabled) .p-accordion-header-link:hover {
+    background: #f8fbfd !important;
+}
+
+.modern-accordion .p-accordion-header .p-accordion-header-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.modern-accordion .p-accordion-header .p-accordion-toggle-icon {
+    flex-shrink: 0;
+    margin: 0;
+    color: var(--text-color-secondary);
+}
+
+.modern-accordion .p-accordion-header.p-highlight .p-accordion-toggle-icon {
+    color: var(--mainColor);
+}
+
+.modern-accordion .p-accordion-content {
+    padding: 12px 14px 14px;
+    border: none;
+    border-top: 1px solid #f1f5f9;
+    border-radius: 0;
+    background: #fff;
+}
+
+@media screen and (max-width: 640px) {
+    .modern-accordion .p-accordion-header .p-accordion-header-link {
+        padding: 10px !important;
+    }
+
+    .modern-accordion .p-accordion-content {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
+
+.modern-accordion .p-accordion-header .p-accordion-toggle-icon {
+    width: 12px;
+    height: 12px;
+}
+
+/* ---------- Плавное появление элементов списка ---------- */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-up {
+    /* backwards: после анимации transform не фиксируется и hover-эффекты работают */
+    animation: fadeUp 0.35s ease backwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .fade-up {
+        animation: none;
+    }
+}
+
+/* ---------- Частичный выбор чекбокса (indeterminate) ---------- */
+.customCheckbox:indeterminate {
+    background-color: var(--mainColor);
+    border-color: var(--mainColor);
+}
+
+.customCheckbox:indeterminate::after {
+    left: 2px;
+    top: 6px;
+    width: 10px;
+    height: 0;
+    border-width: 0 0 2px 0;
+    transform: none;
+}
+
+/* ===== Лупа и крупный курсор (включается в настройках интерфейса) ===== */
+@media (pointer: fine) {
+    body.big-cursor,
+    body.big-cursor * {
+        cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 32 32'%3E%3Cpath d='M4 2.5v22.5l5.6-5.3 3.9 8.6 4.2-1.9-3.9-8.4h7.7z' fill='%2321225F' stroke='%23fff' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E") 6 3, auto !important;
+    }
+
+    body.big-cursor :is(a, button, select, summary, label, [role='button'], [role='link'], [role='switch'], [role='tab'], [role='option'], [role='menuitem'], .p-button, .p-dropdown, .cursor-pointer),
+    body.big-cursor :is(a, button, select, summary, label, [role='button'], [role='link'], [role='switch'], [role='tab'], [role='option'], [role='menuitem'], .p-button, .p-dropdown, .cursor-pointer) * {
+        cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 32 32'%3E%3Cpath d='M4 2.5v22.5l5.6-5.3 3.9 8.6 4.2-1.9-3.9-8.4h7.7z' fill='%2308A9E6' stroke='%23fff' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E") 6 3, pointer !important;
+    }
+
+    body.big-cursor :is(input:not([type='checkbox']):not([type='radio']):not([type='button']):not([type='submit']), textarea, [contenteditable='true'], [contenteditable='true'] *) {
+        cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 32 32'%3E%3Cpath d='M11 4h10M11 28h10M16 4v24' stroke='%23fff' stroke-width='5' stroke-linecap='round'/%3E%3Cpath d='M11 4h10M11 28h10M16 4v24' stroke='%2321225F' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E") 24 24, text !important;
+    }
+}
+
+.mouse-magnifier {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 99999;
+    max-width: min(520px, calc(100vw - 24px));
+    padding: 12px 18px;
+    border-radius: 14px;
+    border: 2px solid var(--mainColor);
+    background: var(--whiteColor);
+    color: var(--titleColor);
+    font-size: 28px;
+    line-height: 1.35;
+    font-weight: 500;
+    word-break: break-word;
+    box-shadow: 0 10px 30px rgba(33, 34, 95, 0.18);
+    pointer-events: none;
+    user-select: none;
+    animation: mouse-magnifier-in 0.12s ease-out;
+}
+
+@keyframes mouse-magnifier-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.high-contrast .mouse-magnifier {
+    border: 3px solid #000 !important;
+    box-shadow: none;
+}

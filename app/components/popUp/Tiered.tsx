@@ -54,16 +54,8 @@ export default function Tiered({ title, items, insideColor }: TieredProps) {
                 popup
                 ref={menu}
                 breakpoint="1000px"
-                style={{ width: media ? '290px' : '220px', left: '10px' }}
-                className={`pointer mt-4 max-h-[250px] sm:max-h-[200px] overflow-y-scroll`}
-                pt={{
-                    root: { className: `bg-white border w-[500px] border-gray-300 rounded-md shadow-md` },
-                    menu: { className: 'transition-all' },
-                    menuitem: { className: 'text-[var(--titleColor)] text-[14px] py-1 hover:shadow-xl border-gray-200 hover:text-white hover:bg-[var(--mainColor)]' },
-                    action: { className: `flex justify-center items-center gap-2` }, // для иконки + текста не работает :)
-                    icon: { className: 'text-[var(--titleColor)] mx-1 hover:text-white' }
-                    // submenuIcon: { className: 'text-gray-400 ml-auto' }
-                }}
+                style={{ width: media ? '300px' : '240px', left: '10px' }}
+                className={`topbar-tiered pointer mt-3 max-h-[420px] overflow-y-auto`}
             />
         </div>
     );

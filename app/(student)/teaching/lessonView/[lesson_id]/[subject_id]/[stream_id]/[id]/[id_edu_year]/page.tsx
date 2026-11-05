@@ -4,25 +4,30 @@ import dynamic from 'next/dynamic';
 
 const PDFreader = dynamic(() => import('@/app/components/pdfComponents/PDFreader'), { ssr: false });
 
-import { NotFound } from '@/app/components/NotFound';
+import { FacultyEmpty, facultyCardClass } from '@/app/components/faculty/FacultyHeader';
+import GroupSkeleton from '@/app/components/skeleton/GroupSkeleton';
 import useErrorMessage from '@/hooks/useErrorMessage';
 import { LayoutContext } from '@/layout/context/layoutcontext';
 import { statusView } from '@/services/notifications';
-import { fetchItemsLessons, fetchMainLesson, fetchStudentSteps, fetchSubjects, stepPractica, stepTest } from '@/services/studentMain';
+import { chillsUpdate, fetchItemsLessons, fetchMainLesson, fetchStudentSteps, fetchSubjects, stepPractica, stepTest } from '@/services/studentMain';
 import { docValueType } from '@/types/docValueType';
 import { lessonType } from '@/types/lessonType';
 import { mainStepsType } from '@/types/mainStepType';
 import { useParams } from 'next/navigation';
 import { Button } from 'primereact/button';
 import { ProgressSpinner } from 'primereact/progressspinner';
-import { useContext, useEffect, useState } from 'react';
+import { ReactNode, useContext, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { StepApi } from '@/types/Step/StepApi/StepApi';
 import Link from 'next/link';
 import AnswersTable from '@/app/components/tables/AnswersTable';
-import useMediaQuery from '@/hooks/useMediaQuery';
 import { useLocalization } from '@/layout/context/localizationcontext';
 import { useLocalizedData } from '@/hooks/useLocalizedData';
+
+// NOTE: primeflex подключён глобально с !important (w-9, w-12, grid и т.п. конфликтуют с Tailwind),
+// поэтому для размеров/отступов здесь используются произвольные значения Tailwind.
+
+const MAX_TEST_ATTEMPTS = 3;
 
 export default function LessonTest() {
     // types
@@ -49,13 +54,19 @@ export default function LessonTest() {
         details: { is_correct: boolean }[];
     }
 
+    // шаг темы для верхнего степпера
+    interface LessonStepUi {
+        id: number;
+        done: boolean;
+        type?: { logo?: string; title?: string; name?: string };
+    }
+
     const { lesson_id, subject_id, stream_id, id, id_edu_year } = useParams();
     const params = new URLSearchParams();
 
     const router = useRouter();
-    const media = useMediaQuery('(max-width: 640px)');
     const showError = useErrorMessage();
-    const { user, setMessage, contextNotificationId, setContextNotificationId, handleNotifications, contextLastSubjectPageVisit, setContextLastSubjectPageVisit } = useContext(LayoutContext);
+    const { user, setMessage, contextNotificationId, setContextNotificationId, handleNotifications } = useContext(LayoutContext);
     const { translations } = useLocalization();
     const { getLocalized } = useLocalizedData();
 
@@ -71,12 +82,15 @@ export default function LessonTest() {
     const [answer, setAnswer] = useState<{ id: number | null; text: string; is_correct: boolean }[] | null>(null);
     const [selectedAnswer, setSelectedAnswer] = useState(false);
     const [answerCheck, setAnswerCheck] = useState(false);
+    // индекс варианта, выбранного студентом (только для отображения)
+    const [pickedIndex, setPickedIndex] = useState<number | null>(null);
     const [lessons, setLessons] = useState<Record<number, { semester: { name_kg: string } } | predmetType>>({
         1: { semester: { name_kg: '' } }
     });
     const [lessonName, setLessonName] = useState('');
     const [lessonNavigation, setLessonNavigation] = useState<LessonNavigationUi | null>(null);
     const [stepNavigation, setStepNavigation] = useState<StepNavigationUi | null>(null);
+    const [lessonSteps, setLessonSteps] = useState<LessonStepUi[]>([]);
     const [nextLesson, setNextLesson] = useState<lessonType | null>(null);
     const [prevLesson, setPrevLesson] = useState<lessonType | null>(null);
     const [navigationStepId, setNavigationStepId] = useState<number | null>(null);
@@ -98,6 +112,9 @@ export default function LessonTest() {
         description: '',
         file: null
     });
+    const [chillsLoading, setChillsLoading] = useState(false);
+
+    const stepperRef = useRef<HTMLDivElement>(null);
 
     // document
     const [document, setDocument] = useState<mainStepsType | null>(null);
@@ -272,6 +289,30 @@ export default function LessonTest() {
         }
     };
 
+    // Отметка "выполнено" для материалов (документ, ссылка, видео) — тот же запрос, что и в списке тем
+    const handleChills = async () => {
+        if (!steps) return;
+        setChillsLoading(true);
+        const data = await chillsUpdate(steps.id, steps?.connections?.id_stream ?? Number(stream_id), !steps.chills);
+        if (data?.success) {
+            setMessage({
+                state: true,
+                value: { severity: 'success', summary: '', detail: data?.message }
+            });
+            await handleStep();
+        } else if (data?.response?.status) {
+            if (data?.response?.status == '400') {
+                setMessage({
+                    state: true,
+                    value: { severity: 'error', summary: data?.response?.data?.message, detail: '' }
+                });
+            } else {
+                showError(data.response.status);
+            }
+        }
+        setChillsLoading(false);
+    };
+
     // Вызываем список шагов
     const handleMainLesson = async (lesson_id: number, stream_id: number) => {
         const data = await fetchMainLesson(lesson_id, stream_id);
@@ -314,6 +355,13 @@ export default function LessonTest() {
         } else if (steps?.type.name === 'video') {
             setType(steps?.type.name);
             setVideo(steps);
+        }
+
+        setPickedIndex(null);
+        // синхронизируем отметку текущего шага в степпере после ответа/отметки
+        if (steps) {
+            const done = !!steps.chills || (steps.type?.name === 'test' && (steps.count_attempt || 0) >= MAX_TEST_ATTEMPTS);
+            setLessonSteps((prev) => prev.map((s) => (s.id === steps.id ? { ...s, done } : s)));
         }
     }, [steps]);
 
@@ -422,6 +470,13 @@ export default function LessonTest() {
                 // console.log(data);
                 if (data) {
                     const validSteps = data?.filter((item: StepApi) => item?.id_parent);
+                    setLessonSteps(
+                        (validSteps || []).map((s: StepApi) => ({
+                            id: s.id,
+                            done: !!s.chills || (s.type?.name === 'test' && (Number(s.count_attempt) || 0) >= MAX_TEST_ATTEMPTS),
+                            type: s.type
+                        }))
+                    );
                     for (let i = 0; i < validSteps?.length; i++) {
                         const step: StepApi = validSteps[i];
                         if (step.id_parent && step?.id === Number(id)) {
@@ -451,113 +506,220 @@ export default function LessonTest() {
         stepSend();
     }, []);
 
-    const docSection = (
-        <div className="flex flex-col gap-2">
-            <div className="p-2 mt-2 mb-4 w-full flex flex-col gap-3 items-center">
-                <div className="w-full flex gap-1 items-center mb-2 shadow-[0_2px_1px_0px_rgba(0,0,0,0.1)]">
-                    <span className="sm:text-[18px]">{steps?.type?.title}</span>
-                    <i className={`${steps?.type?.logo} text-2xl`}></i>
-                </div>
-                <div className="w-full flex flex-col gap-1">
-                    <b className="text-[16px] sm:text-[18px] break-words">{document?.content?.title}</b>
-                    {document?.content?.description && <div className="flex flex-col gap-2 ">{document?.content?.description && <div className="lesson-card-border shadow rounded p-2 sm:w-full md:w-[70%]">{document?.content?.description}</div>}</div>}
-                </div>
-                <div className="w-full flex gap-2 items-center">
-                    {/* <Link href={`/pdf/${document?.content?.document}`}>
-                        <Button icon="pi pi-eye" label="Открыть документ" className="px-2 mini-button" />
-                    </Link> */}
-                    <span>{translations.openSeparately}</span>
-                    {document?.content?.document_path && (
-                        <a href={document?.content?.document_path} download target="_blank" rel="noopener noreferrer">
-                            {' '}
-                            <Button icon="pi pi-file-arrow-up" className="mini-button" />
-                        </a>
-                    )}
-                    {progressSpinner && <ProgressSpinner style={{ width: '15px', height: '15px' }} strokeWidth="8" fill="white" className="!stroke-green-500" animationDuration=".5s" />}
-                </div>
+    // прокручиваем степпер к текущему шагу (на мобильных он не помещается целиком)
+    useEffect(() => {
+        const container = stepperRef.current;
+        const current = container?.querySelector<HTMLElement>('[data-current="true"]');
+        if (container && current) {
+            container.scrollLeft = current.offsetLeft - container.clientWidth / 2 + current.clientWidth / 2;
+        }
+    }, [lessonSteps, id]);
+
+    // ---------- вычисляемые значения для UI ----------
+    const stepUrl = (stepId: number) => `/teaching/lessonView/${lesson_id}/${subject_id}/${stream_id}/${stepId}/${id_edu_year}`;
+    const backHref = `/teaching/${subject_id}/${id_edu_year}`;
+    const lessonIndex = lessonNavigation ? lessonNavigation.lessons.findIndex((l) => l.id === lessonNavigation.lesson.id) : -1;
+    const doneCount = lessonSteps.filter((s) => s.done).length;
+    const progressPct = lessonSteps.length ? Math.round((doneCount / lessonSteps.length) * 100) : 0;
+    const attemptsUsed = steps?.count_attempt || 0;
+    const isTestLocked = attemptsUsed >= MAX_TEST_ATTEMPTS;
+    const isMaterial = type === 'document' || type === 'link' || type === 'video';
+    const isStepDone = !!steps?.chills || (type === 'test' && isTestLocked);
+
+    // ---------- общие элементы ----------
+    const chip = (icon: string, content: ReactNode, tone: 'main' | 'green' | 'gray' = 'gray') => {
+        const tones = {
+            main: 'bg-[var(--mainColor)]/10 text-[var(--mainColor)]',
+            green: 'bg-[#effaf0] text-[var(--greenColor)]',
+            gray: 'bg-[#f1f5f9] text-[var(--bodyColor)]'
+        };
+        return (
+            <span className={`inline-flex items-center gap-[4px] px-[10px] py-[4px] rounded-full text-[0.75rem] font-semibold whitespace-nowrap ${tones[tone]}`}>
+                <i className={`${icon} text-[0.6875rem]`}></i>
+                {content}
+            </span>
+        );
+    };
+
+    const sectionHeader = (title?: string, withScore = false) => (
+        <div className="flex items-start gap-[12px]">
+            <span className="flex items-center justify-center shrink-0 w-[44px] h-[44px] rounded-[12px] bg-[var(--mainColor)]/10 text-[var(--mainColor)]">
+                <i className={`${steps?.type?.logo} text-[1.125rem]`}></i>
+            </span>
+            <div className="flex flex-col gap-[6px] min-w-0 flex-1">
+                <span className="text-[0.6875rem] uppercase tracking-[0.04em] font-semibold text-[var(--text-color-secondary)]">{steps?.type?.title}</span>
+                {title && <h2 className="text-[1rem] sm:text-[1.25rem] leading-snug font-bold text-[var(--titleColor)] m-0 break-words">{title}</h2>}
+                {(withScore || isStepDone) && (
+                    <div className="flex flex-wrap items-center gap-[6px]">
+                        {withScore && steps?.score != null && chip('pi pi-star', `${translations.score}: ${steps.score}`, 'main')}
+                        {isStepDone && chip('pi pi-check', translations.completed, 'green')}
+                    </div>
+                )}
             </div>
-            <PDFreader url={document?.content?.document || ''} />
+        </div>
+    );
+
+    const descriptionBlock = (text?: string | null) =>
+        text ? <div className="text-[0.9375rem] text-[var(--bodyColor)] leading-relaxed break-words whitespace-pre-line p-[12px] rounded-[12px] bg-[#f8fafc]">{text}</div> : null;
+
+    // кнопка "Отметить как выполненный" для материалов
+    const chillsFooter = isMaterial && (
+        <div className="flex items-center justify-end pt-[12px] border-t border-[#f1f5f9]">
+            <Button
+                label={steps?.chills ? translations.completed : translations.markAsCompleted}
+                icon={steps?.chills ? 'pi pi-check' : 'pi pi-check-circle'}
+                size="small"
+                loading={chillsLoading}
+                disabled={chillsLoading}
+                onClick={handleChills}
+                className={`w-full sm:w-auto ${steps?.chills ? 'success-button' : ''}`}
+            />
+        </div>
+    );
+
+    const cardClass = `${facultyCardClass} p-[12px] sm:p-[20px] flex flex-col gap-[14px]`;
+
+    // ---------- секции по типу шага ----------
+    const docSection = (
+        <div className={cardClass}>
+            {sectionHeader(document?.content?.title)}
+            {descriptionBlock(document?.content?.description)}
+            {document?.content?.document_path && (
+                <div className="flex flex-wrap items-center gap-[8px]">
+                    <a
+                        href={document?.content?.document_path}
+                        download
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-[8px] px-[14px] h-[40px] rounded-[10px] border border-[#e5e7eb] bg-white text-[0.875rem] font-semibold text-[var(--titleColor)] hover:border-[var(--mainColor)] hover:text-[var(--mainColor)] transition-colors"
+                    >
+                        <i className="pi pi-external-link text-[0.8125rem]"></i>
+                        {translations.openSeparately}
+                    </a>
+                </div>
+            )}
+            <div className="w-full overflow-hidden rounded-[12px]">
+                <PDFreader url={document?.content?.document || ''} />
+            </div>
+            {chillsFooter}
         </div>
     );
 
     const linkSection = (
-        <div className="p-2 mt-2 mb-4">
-            <div className="flex flex-col w-full gap-3">
-                <div className="w-full flex gap-1 items-center mb-2 shadow-[0_2px_1px_0px_rgba(0,0,0,0.1)]">
-                    <span className="sm:text-[18px]">{steps?.type?.title}</span>
-                    <i className={`${steps?.type?.logo} text-2xl`}></i>
-                </div>
-                <div className="w-full flex flex-col gap-1">
-                    <b className="text-[16px] sm:text-[18px] break-words">{link?.content?.title}</b>
-                    {link?.content?.description && <div className="flex flex-col gap-2">{link?.content?.description && <div className="lesson-card-border shadow rounded p-2 sm:w-full md:w-[70%]">{link?.content?.description}</div>}</div>}
-                </div>
-                <div className="flex gap-1 items-start flex-col sm:flex-row">
-                    <span className="text-[var(--mainColor)]">{translations.linkLabel}: </span>
-                    <a href={link ? String(link?.content?.url) : '#'} className="max-w-[800px] text-[16px] break-words hover:underline" target="_blank">
-                        {link?.content?.url}
+        <div className={cardClass}>
+            {sectionHeader(link?.content?.title)}
+            {descriptionBlock(link?.content?.description)}
+            {link?.content?.url && (
+                <div className="flex flex-col gap-[8px] p-[12px] rounded-[12px] border border-[#eef2f6]">
+                    <a
+                        href={String(link?.content?.url)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center gap-[8px] self-stretch sm:self-start px-[16px] h-[44px] rounded-[10px] bg-[var(--mainColor)] text-white text-[0.9375rem] font-semibold hover:opacity-90 transition-opacity"
+                    >
+                        <i className="pi pi-external-link"></i>
+                        {translations.openLink}
                     </a>
+                    <span className="text-[0.75rem] text-[var(--text-color-secondary)] break-all">{link?.content?.url}</span>
                 </div>
+            )}
+            {chillsFooter}
+        </div>
+    );
+
+    const videoSection = (
+        <div className={cardClass}>
+            {sectionHeader(video?.content?.title)}
+            {descriptionBlock(video?.content?.description)}
+            <div className="relative w-full aspect-video rounded-[12px] overflow-hidden bg-black">
+                {preview ? (
+                    <>
+                        <img src={video?.content?.cover_url || '/layout/images/no-image.png'} className="w-full h-full object-cover opacity-60" alt={video?.content?.title || ''} />
+                        <div className="absolute inset-0 flex justify-center items-center">
+                            <ProgressSpinner style={{ width: '60px', height: '60px' }} />
+                        </div>
+                    </>
+                ) : (
+                    <iframe
+                        className="w-full h-full"
+                        src={videoLink}
+                        title="YouTube video player"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                    ></iframe>
+                )}
             </div>
+            {chillsFooter}
         </div>
     );
 
     const practicaSection = (
-        <div className="p-2 mt-2 mb-4 flex flex-col gap-3">
-            <div className="flex justify-between gap-1 items-center flex-col sm:flex-row shadow-[0_2px_1px_0px_rgba(0,0,0,0.1)]">
-                <div className="flex gap-1 items-center">
-                    <span className="sm:text-[18px]">{steps?.type?.title}</span>
-                    <i className={`${steps?.type?.logo} text-2xl`}></i>
-                </div>
-                <div className="flex items-center gap-1 my-2">
-                    <span className="text-[var(--mainColor)]">{translations.score}: </span>
-                    <b className="text-[16px] sm:text-[18px] ">{`${steps?.score}`}</b>
-                </div>
-            </div>
+        <div className={cardClass}>
+            {sectionHeader(practica?.content?.title, true)}
 
-            <div className="flex flex-col gap-2">
-                <b className="text-[16px] sm:text-[18px] break-words">{practica?.content?.title}</b>
-
-                <div className="lesson-card-border shadow rounded p-2">
-                    {practica?.content?.description && <div className="sm:w-full md:w-[70%]" dangerouslySetInnerHTML={{ __html: practica?.content?.description }} />}
-
-                    <div className="flex flex-col gap-2 w-full">
-                        <div className="flex items-center gap-1">
+            {(practica?.content?.description || practica?.content?.document_path || practica?.content?.url) && (
+                <div className="flex flex-col gap-[12px] p-[12px] rounded-[12px] bg-[#f8fafc]">
+                    {practica?.content?.description && (
+                        <div className="text-[0.9375rem] text-[var(--bodyColor)] leading-relaxed break-words" dangerouslySetInnerHTML={{ __html: practica?.content?.description }} />
+                    )}
+                    {((practica?.content?.document_path && practica?.content.document_path.toLowerCase().includes('pdf')) || practica?.content?.url) && (
+                        <div className="flex flex-wrap items-center gap-[8px]">
                             {practica?.content?.document_path && practica?.content.document_path.toLowerCase().includes('pdf') && (
-                                <>
-                                    <span className="text-[var(--mainColor)]">Документ: </span>
-                                    <a className={`flex gap-2 pi pi-file-arrow-up text-xl text-white bg-[var(--mainColor)] p-1 rounded`} href={practica?.content.document_path} download target="_blank" rel="noopener noreferrer"></a>
-                                </>
+                                <a
+                                    href={practica?.content.document_path}
+                                    download
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-[8px] px-[12px] h-[38px] rounded-[10px] bg-white border border-[#e5e7eb] text-[0.8125rem] font-semibold text-[var(--titleColor)] hover:border-[var(--mainColor)] transition-colors"
+                                >
+                                    <i className="pi pi-file-pdf text-[var(--redColor)]"></i>
+                                    {translations.downloadFile}
+                                </a>
                             )}
-                        </div>
-
-                        <div>
                             {practica?.content?.url && (
-                                <div className="flex gap-2 flex-col sm:flex-row">
-                                    <span className="text-[var(--mainColor)]">{translations.linkLabel}: </span>
-                                    {practica?.content.url && (
-                                        <a href={practica?.content.url} className="max-w-[800px] overflow-x-auto text-[12px] sm:text-sm text-wrap break-all" target="_blank">
-                                            {practica?.content.url}
-                                        </a>
-                                    )}
-                                </div>
+                                <a
+                                    href={practica?.content.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-[8px] px-[12px] h-[38px] max-w-full rounded-[10px] bg-white border border-[#e5e7eb] text-[0.8125rem] font-semibold text-[var(--mainColor)] hover:border-[var(--mainColor)] transition-colors"
+                                >
+                                    <i className="pi pi-link shrink-0"></i>
+                                    <span className="truncate">{translations.linkLabel}</span>
+                                </a>
                             )}
                         </div>
-                    </div>
+                    )}
                 </div>
-            </div>
+            )}
 
             {steps?.chills ? (
-                <>
-                    <span className="pi pi-check-circle text-xl text-[var(--greenColor)] mb-4"> {translations.taskCompleted}</span>
-                </>
+                <div className="flex items-center gap-[10px] p-[12px] rounded-[12px] bg-[#effaf0] text-[var(--greenColor)] font-semibold">
+                    <i className="pi pi-check-circle text-[1.25rem]"></i>
+                    {translations.taskCompleted}
+                </div>
             ) : (
-                <div className="flex flex-col gap-2 items-start w-full mt-2">
-                    <span className="pi pi-check-circle text-lg mb-1 text-[var(--mainColor)] shadow-[0_2px_1px_0px_rgba(0,0,0,0.1)] pb-1"> {translations.taskInstruction}</span>
-                    <div className="w-full mt-2">
+                <div className="flex flex-col gap-[10px]">
+                    <span className="flex items-start gap-[8px] text-[0.875rem] text-[var(--titleColor)] font-semibold">
+                        <i className="pi pi-upload text-[var(--mainColor)] mt-[3px]"></i>
+                        {translations.taskInstruction}
+                    </span>
+                    <label
+                        className={`flex items-center gap-[12px] p-[14px] rounded-[12px] border-2 border-dashed cursor-pointer transition-colors ${
+                            docValue.file ? 'border-[var(--mainColor)] bg-[#f0faff]' : 'border-[#dbe3ea] bg-white hover:border-[var(--mainColor)]'
+                        }`}
+                    >
+                        <span className="flex items-center justify-center shrink-0 w-[40px] h-[40px] rounded-[10px] bg-[var(--mainColor)]/10 text-[var(--mainColor)]">
+                            <i className={docValue.file ? 'pi pi-file-pdf' : 'pi pi-cloud-upload'}></i>
+                        </span>
+                        <span className="flex flex-col min-w-0">
+                            <span className="text-[0.875rem] font-semibold text-[var(--titleColor)] truncate">{docValue.file ? docValue.file.name : translations.choosePdfFile}</span>
+                            <span className="text-[0.75rem] text-[var(--text-color-secondary)]">PDF · {translations.maxFileSize10mb}</span>
+                        </span>
                         <input
                             type="file"
                             accept="application/pdf"
-                            className="border rounded p-1 max-w-[90%]"
+                            className="hidden"
                             onChange={(e) => {
                                 const file = e.target.files?.[0];
                                 if (file) {
@@ -577,182 +739,265 @@ export default function LessonTest() {
                                 }
                             }}
                         />
-                    </div>
-                    <div className="w-full">
-                        {progressSpinner && <ProgressSpinner style={{ width: '15px', height: '15px' }} strokeWidth="8" fill="white" className="!stroke-green-500" animationDuration=".5s" />}
-                        <Button
-                            label={translations.send}
-                            size="small"
-                            disabled={progressSpinner}
-                            className={`${progressSpinner ? 'opacity-50' : ''}`}
-                            onClick={() => {
-                                handleAddPractica();
-                            }}
-                        />
-                    </div>
-                </div>
-            )}
-            <AnswersTable report={steps} />
-        </div>
-    );
-
-    const testSection = (
-        <div className="w-full relative flex flex-col justify-center gap-2 my-2">
-            {progressSpinner && (
-                <div className="z-10 absolute top-0 bottom-0 bg-[rgba(0,0,0,99%)] opacity-50 w-full flex justify-center items-center">
-                    <ProgressSpinner style={{ width: '60px', height: '60px' }} />
-                </div>
-            )}
-            <div className="lesson-card-border shadow rounded p-2">
-                <div className="flex justify-between gap-1 items-center flex-col sm:flex-row shadow-[0_2px_1px_0px_rgba(0,0,0,0.1)] p-2">
-                    <div className="flex gap-1 items-center">
-                        <span className="sm:text-[18px]">{steps?.type?.title}</span>
-                        <i className={`${steps?.type?.logo} text-2xl`}></i>
-                    </div>
-                    <div className="flex items-center gap-4 my-2">
-                        <div className="flex items-center gap-1">
-                            <span className="text-[var(--mainColor)]">{translations.score}: </span>
-                            <b className="text-[16px] sm:text-[18px] ">{`${steps?.score}`}</b>
-                        </div>
-                    </div>
-                </div>
-                <div className="flex flex-col gap-2 p-1 sm:p-2">
-                    <b className="sm:text-[18px]">{test?.content?.content}</b>
-                    <div className="w-full flex flex-col justify-start items-start gap-2">
-                        {test?.content?.answers.map((item, index) => {
-                            return (
-                                <div className="w-full flex items-center" key={index}>
-                                    {selectedAnswer ? (
-                                        <>
-                                            <label className="custom-radio border border-[var(--borderBottomColor)] p-2">
-                                                <input
-                                                    type="radio"
-                                                    name="testRadio"
-                                                    checked={item.id == test?.answer_id}
-                                                    disabled={steps?.count_attempt ? steps?.count_attempt >= 3 : false}
-                                                    onChange={() => {
-                                                        setSelectedAnswer(false);
-                                                        setAnswer((prev) => prev && prev.map((ans, i) => (i === index ? { ...ans, is_correct: true } : { ...ans, is_correct: false })));
-                                                    }}
-                                                />
-                                                <span className={`radio-mark  min-w-[18px] ${steps?.count_attempt && steps?.count_attempt >= 3 ? 'opacity-50' : ''}`}></span>
-                                            </label>
-                                            <div className="bg-gray border border-[var(--borderBottomColor)] py-[5px] pl-1 w-full">{item.text}</div>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <label className="custom-radio border border-[var(--borderBottomColor)] p-2">
-                                                <input
-                                                    type="radio"
-                                                    name="testRadio"
-                                                    disabled={steps?.count_attempt ? steps?.count_attempt >= 3 : false}
-                                                    className="bg-[var(--greenBgColor)] none"
-                                                    onChange={() => {
-                                                        setAnswer((prev) => prev && prev.map((ans, i) => (i === index ? { ...ans, is_correct: true } : { ...ans, is_correct: false })));
-                                                    }}
-                                                />
-                                                <span className={`radio-mark min-w-[18px] ${steps?.count_attempt && steps?.count_attempt >= 3 ? 'opacity-50' : ''}`}></span>
-                                            </label>
-                                            <div className="bg-gray border border-[var(--borderBottomColor)] py-[5px] pl-1 w-full">{item.text}</div>
-                                        </>
-                                    )}
-                                </div>
-                            );
-                        })}
-                    </div>
-                </div>
-            </div>
-
-            {steps?.count_attempt && steps?.count_attempt >= 3 ? (
-                <span className="pi pi-check-circle text-xl mb-1 text-[var(--greenColor)]"> {translations.taskCompleted}</span>
-            ) : (
-                <div className="w-full mt-2">
+                    </label>
                     <Button
                         label={translations.send}
-                        disabled={progressSpinner || !answer || !answerCheck}
+                        icon="pi pi-send"
+                        loading={progressSpinner}
+                        disabled={progressSpinner || !docValue.file}
+                        className="w-full sm:w-auto sm:self-start"
                         onClick={() => {
-                            handleAddTest();
+                            handleAddPractica();
                         }}
                     />
                 </div>
             )}
+            <div className="overflow-x-auto">
+                <AnswersTable report={steps} />
+            </div>
+        </div>
+    );
+
+    const testSection = (
+        <div className={`${cardClass} relative`}>
+            {progressSpinner && (
+                <div className="z-10 absolute inset-0 rounded-[16px] bg-white/70 flex justify-center items-center">
+                    <ProgressSpinner style={{ width: '60px', height: '60px' }} />
+                </div>
+            )}
+            {sectionHeader(undefined, true)}
+
+            <div className="flex flex-col gap-[10px]">
+                <p className="m-0 text-[1rem] sm:text-[1.125rem] font-semibold text-[var(--titleColor)] leading-snug break-words">{test?.content?.content}</p>
+                {!isTestLocked && (
+                    <span className="text-[0.75rem] text-[var(--text-color-secondary)]">
+                        {translations.attemptsLeft}: <b>{MAX_TEST_ATTEMPTS - attemptsUsed}</b> / {MAX_TEST_ATTEMPTS}
+                    </span>
+                )}
+                <div className="flex flex-col gap-[8px]">
+                    {test?.content?.answers.map((item, index) => {
+                        const checked = selectedAnswer ? item.id == test?.answer_id : pickedIndex === index;
+                        return (
+                            <label
+                                key={index}
+                                className={`flex items-center gap-[10px] p-[12px] rounded-[12px] border transition-colors ${
+                                    checked ? 'border-[var(--mainColor)] bg-[#f0faff]' : 'border-[#e5e7eb] bg-white'
+                                } ${isTestLocked ? 'cursor-default opacity-70' : 'cursor-pointer hover:border-[var(--mainColor)]'}`}
+                            >
+                                <span className="custom-radio !p-0 shrink-0">
+                                    <input
+                                        type="radio"
+                                        name="testRadio"
+                                        checked={checked}
+                                        disabled={isTestLocked}
+                                        onChange={() => {
+                                            setSelectedAnswer(false);
+                                            setPickedIndex(index);
+                                            setAnswer((prev) => prev && prev.map((ans, i) => (i === index ? { ...ans, is_correct: true } : { ...ans, is_correct: false })));
+                                        }}
+                                    />
+                                    <span className="radio-mark min-w-[18px]"></span>
+                                </span>
+                                <span className="flex-1 min-w-0 text-[0.9375rem] text-[var(--titleColor)] break-words">{item.text}</span>
+                            </label>
+                        );
+                    })}
+                </div>
+            </div>
+
+            {isTestLocked ? (
+                <div className="flex items-center gap-[10px] p-[12px] rounded-[12px] bg-[#effaf0] text-[var(--greenColor)] font-semibold">
+                    <i className="pi pi-check-circle text-[1.25rem]"></i>
+                    {translations.taskCompleted}
+                </div>
+            ) : (
+                <Button
+                    label={translations.send}
+                    icon="pi pi-send"
+                    disabled={progressSpinner || !answer || !answerCheck}
+                    className="w-full sm:w-auto sm:self-start"
+                    onClick={() => {
+                        handleAddTest();
+                    }}
+                />
+            )}
 
             {/* История ответов */}
             {steps?.details && steps.details.length > 0 && (
-                <div className="mt-4">
-                    <h3 className="text-xl m-0 pb-2">{translations.answerHistory}</h3>
-                    <div className="flex flex-col gap-3 mt-2">
-                        {(steps.details as any[]).map((attempt, index) => (
-                            <div key={index} className={`p-2 rounded-sm shadow border-l-4`}>
-                                <div className="flex flex-col gap-2">
-                                    <div className={'flex items-center justify-between gap-2'}>
-                                        <span className="text-gray-700">
-                                            {translations.attempt} #{index + 1}
-                                        </span>
-                                        {attempt.is_correct ? (
-                                            <span className="flex items-center justify-end gap-2 text-[green] font-semibold">
-                                                <i className="pi pi-check-circle"></i>
-                                                <span>{translations.correct}</span>
-                                            </span>
-                                        ) : (
-                                            <span className="flex items-center justify-end gap-2 text-[red] font-semibold">
-                                                <i className="pi pi-times-circle"></i>
-                                                <span>{translations.incorrect}</span>
-                                            </span>
-                                        )}
-                                    </div>
-                                    {attempt?.answers?.text ? <div>
-                                        <span>Вариант: </span>
-                                        <span>{attempt.answers.text}</span>
-                                    </div> : ''}
-                                </div>
-                            </div>
-                        ))}
+                <div className="flex flex-col gap-[8px] pt-[12px] border-t border-[#f1f5f9]">
+                    <div className="flex items-center justify-between gap-[8px] flex-wrap">
+                        <h3 className="text-[0.9375rem] font-bold text-[var(--titleColor)] m-0">{translations.answerHistory}</h3>
+                        {steps?.my_score != null && chip('pi pi-star', `${translations.yourTotalScore}: ${steps.my_score}`, 'main')}
                     </div>
+                    {(steps.details as any[]).map((attempt, index) => (
+                        <div
+                            key={index}
+                            className={`flex flex-col gap-[4px] p-[10px] rounded-[10px] border-l-4 bg-[#f8fafc] ${attempt.is_correct ? 'border-[var(--greenColor)]' : 'border-[var(--redColor)]'}`}
+                        >
+                            <div className="flex items-center justify-between gap-[8px]">
+                                <span className="text-[0.8125rem] text-[var(--bodyColor)]">
+                                    {translations.attempt} #{index + 1}
+                                </span>
+                                {attempt.is_correct ? (
+                                    <span className="flex items-center gap-[6px] text-[0.8125rem] text-[var(--greenColor)] font-semibold">
+                                        <i className="pi pi-check-circle"></i>
+                                        {translations.correct}
+                                    </span>
+                                ) : (
+                                    <span className="flex items-center gap-[6px] text-[0.8125rem] text-[var(--redColor)] font-semibold">
+                                        <i className="pi pi-times-circle"></i>
+                                        {translations.incorrect}
+                                    </span>
+                                )}
+                            </div>
+                            {attempt?.answers?.text ? <span className="text-[0.8125rem] text-[var(--titleColor)] break-words">{attempt.answers.text}</span> : null}
+                        </div>
+                    ))}
                 </div>
             )}
-            {steps?.my_score != null && (
-                <div className="flex items-center justify-end gap-1 mt-1">
-                    <span className="text-[var(--mainColor)]">{translations.yourTotalScore}: </span>
-                    <b className="text-[16px] sm:text-[18px]">{`${steps.my_score}`}</b>
+            {steps?.my_score != null && !(steps?.details && steps.details.length > 0) && <div className="flex justify-end">{chip('pi pi-star', `${translations.yourTotalScore}: ${steps.my_score}`, 'main')}</div>}
+        </div>
+    );
+
+    // ---------- шапка: тема + степпер ----------
+    const courseTitle = getLocalized(courseInfo, 'title') || courseInfo?.title;
+    const courseDescription = getLocalized(courseInfo, 'description') || courseInfo?.description;
+
+    const headerSection = (
+        <div className={`${facultyCardClass} p-[12px] sm:p-[16px] flex flex-col gap-[12px]`}>
+            <div className="flex items-center gap-[12px]">
+                <Link
+                    href={backHref}
+                    aria-label={translations.backToThemes}
+                    title={translations.backToThemes}
+                    className="group flex items-center justify-center shrink-0 w-[40px] h-[40px] rounded-[10px] bg-[#f1f5f9] text-[var(--bodyColor)] hover:bg-[var(--mainColor)] hover:text-white transition-colors duration-200"
+                >
+                    <i className="pi pi-arrow-left text-[0.8125rem] transition-transform duration-200 group-hover:-translate-x-[2px]"></i>
+                </Link>
+                <div className="flex flex-col gap-[2px] min-w-0 flex-1">
+                    {courseTitle && <span className="text-[0.75rem] text-[var(--text-color-secondary)] truncate">{courseTitle}</span>}
+                    <h1 className="text-[1rem] sm:text-[1.25rem] leading-snug font-bold text-[var(--titleColor)] m-0 break-words">
+                        {translations.theme}
+                        {lessonIndex >= 0 ? ` ${lessonIndex + 1}` : ''}: {lessonName || '—'}
+                    </h1>
+                </div>
+            </div>
+
+            {(courseDescription || courseInfo?.image) && (
+                <details className="group">
+                    <summary className="list-none [&::-webkit-details-marker]:hidden cursor-pointer select-none inline-flex items-center gap-[6px] text-[0.8125rem] font-semibold text-[var(--mainColor)]">
+                        <i className="pi pi-info-circle text-[0.8125rem]"></i>
+                        {translations.aboutCourse}
+                        <i className="pi pi-chevron-down text-[0.625rem] transition-transform group-open:rotate-180"></i>
+                    </summary>
+                    <div className="mt-[10px] flex flex-col sm:flex-row gap-[12px]">
+                        {courseInfo?.image && <img src={courseInfo.image} alt={courseTitle || ''} className="w-full sm:w-[200px] max-h-[160px] object-cover rounded-[12px]" />}
+                        {courseDescription && <p className="m-0 text-[0.875rem] text-[var(--bodyColor)] break-words">{courseDescription}</p>}
+                    </div>
+                </details>
+            )}
+
+            {lessonSteps.length > 0 && (
+                <div className="flex flex-col gap-[8px]">
+                    <div className="flex items-center justify-between gap-[8px] text-[0.75rem]">
+                        <span className="font-semibold uppercase tracking-[0.04em] text-[var(--text-color-secondary)]">
+                            {stepNavigation?.currentStepPos ? `${translations.step} ${stepNavigation.currentStepPos} ${translations.from.toLowerCase()} ${stepNavigation.stepsLength}` : translations.step}
+                        </span>
+                        <span className="inline-flex items-center gap-[4px] font-semibold text-[var(--greenColor)]">
+                            <i className="pi pi-check-circle text-[0.75rem]"></i>
+                            {doneCount}/{lessonSteps.length}
+                        </span>
+                    </div>
+                    <div className="h-[4px] rounded-full bg-[#eef2f6] overflow-hidden">
+                        <div className="h-full rounded-full bg-[var(--greenColor)] transition-[width] duration-500" style={{ width: `${progressPct}%` }} />
+                    </div>
+                    <div ref={stepperRef} className="flex gap-[6px] overflow-x-auto pb-[4px] scrollbar-thin">
+                        {lessonSteps.map((s, i) => {
+                            const current = s.id === Number(id);
+                            return (
+                                <button
+                                    key={s.id}
+                                    type="button"
+                                    data-current={current}
+                                    title={s.type?.title}
+                                    aria-current={current ? 'step' : undefined}
+                                    onClick={() => !current && router.push(stepUrl(s.id))}
+                                    className={`shrink-0 flex items-center gap-[6px] h-[38px] px-[12px] rounded-[10px] border text-[0.8125rem] font-semibold transition-colors ${
+                                        current
+                                            ? 'bg-[var(--mainColor)] border-[var(--mainColor)] text-white cursor-default'
+                                            : s.done
+                                            ? 'bg-[#effaf0] border-[#cdeccd] text-[var(--greenColor)] hover:border-[var(--greenColor)]'
+                                            : 'bg-white border-[#e5e7eb] text-[var(--bodyColor)] hover:border-[var(--mainColor)] hover:text-[var(--mainColor)]'
+                                    }`}
+                                >
+                                    {s.type?.logo && <i className={`${s.type.logo} text-[0.875rem]`}></i>}
+                                    <span>{i + 1}</span>
+                                    {s.done && <i className="pi pi-check text-[0.625rem]"></i>}
+                                </button>
+                            );
+                        })}
+                    </div>
                 </div>
             )}
         </div>
     );
 
-    const videoSection = (
-        <div className="lesson-card-border shadow rounded p-2 mt-2">
-            <div className="flex flex-col gap-2">
-                <div className="w-full flex gap-1 items-center mb-2 shadow-[0_2px_1px_0px_rgba(0,0,0,0.1)]">
-                    <span className="sm:text-[18px]">{steps?.type?.title}</span>
-                    <i className={`${steps?.type?.logo} text-2xl`}></i>
+    // ---------- нижняя навигация: шаги, а на краях темы ----------
+    const navBtnBase = 'flex items-center gap-[8px] h-[48px] px-[12px] sm:px-[16px] rounded-[12px] text-[0.875rem] font-semibold transition-colors min-w-0';
+    const navSecondary = `${navBtnBase} border border-[#e5e7eb] bg-white text-[var(--titleColor)] hover:border-[var(--mainColor)] hover:text-[var(--mainColor)]`;
+    const navPrimary = `${navBtnBase} bg-[var(--mainColor)] text-white hover:opacity-90`;
+    const navDisabled = 'opacity-50 pointer-events-none';
+
+    const themeBtnLabel = (label: string, title: string, align: 'start' | 'end') => (
+        <span className={`flex flex-col min-w-0 leading-tight ${align === 'end' ? 'items-end text-right' : 'items-start text-left'}`}>
+            <span className="text-[0.6875rem] font-medium opacity-80">{label}</span>
+            <span className="text-[0.8125rem] truncate max-w-full">{title}</span>
+        </span>
+    );
+
+    const bottomNav = (
+        <div className="sticky bottom-0 z-[5] pb-[env(safe-area-inset-bottom)]">
+            <div className={`${facultyCardClass} shadow-[0_-6px_20px_-12px_rgba(15,23,42,0.35)] p-[8px] sm:p-[10px] flex items-center gap-[8px]`}>
+                <div className="flex-1 flex justify-start min-w-0">
+                    {stepNavigation?.prevStep ? (
+                        <button type="button" onClick={() => router.push(stepUrl(stepNavigation.prevStep.id))} className={navSecondary}>
+                            <i className="pi pi-arrow-left text-[0.8125rem] shrink-0"></i>
+                            <span>{translations.back}</span>
+                        </button>
+                    ) : prevLesson?.title ? (
+                        <button
+                            type="button"
+                            onClick={() => handleLessonRouterPush(prevLesson?.id, Number(stream_id))}
+                            className={`${navSecondary} max-w-full ${!prevLesson?.active ? navDisabled : ''}`}
+                            title={prevLesson.title}
+                        >
+                            <i className={`${prevLesson?.active ? 'pi pi-angle-double-left' : 'pi pi-lock'} text-[0.8125rem] shrink-0`}></i>
+                            {themeBtnLabel(translations.prevTheme, prevLesson.title, 'start')}
+                        </button>
+                    ) : null}
                 </div>
-                <div className="flex flex-col gap-2">
-                    {video?.content?.description && (
-                        <div className="w-full flex flex-col gap-1">
-                            <b className="text-[16px] sm:text-[18px] text-wrap break-words">{video?.content?.title}</b>
-                            {video?.content?.description && <div className="flex flex-col gap-2">{video?.content?.description && <div className="lesson-card-border shadow rounded p-2 sm:w-full md:w-[70%]">{video?.content?.description}</div>}</div>}
-                        </div>
-                    )}
-                </div>
-                <div className="w-full flex flex-col justify-center items-center">
-                    {preview ? (
-                        <div className="relative bg-white shadow w-full max-h-[400px] overflow-hidden rounded-2xl">
-                            <div className="w-full h-[100%] absolute flex justify-center items-center bg-[rgba(8,9,0,70%)]">
-                                <ProgressSpinner className="max-w-[70px] sm:max-w-[100px]" />
-                            </div>
-                            <img src={video?.content?.cover_url || '/layout/images/no-image.png'} className="w-full sm:w-[200px] max-h-[400px] object-cover" alt="Видео" />
-                        </div>
+
+                <div className="flex-1 flex justify-end min-w-0">
+                    {stepNavigation?.nextStep ? (
+                        <button type="button" onClick={() => router.push(stepUrl(stepNavigation.nextStep.id))} className={navPrimary}>
+                            <span>{translations.next}</span>
+                            <i className="pi pi-arrow-right text-[0.8125rem] shrink-0"></i>
+                        </button>
+                    ) : nextLesson?.title ? (
+                        <button
+                            type="button"
+                            onClick={() => handleLessonRouterPush(nextLesson?.id, Number(stream_id))}
+                            className={`${navPrimary} max-w-full ${!nextLesson?.active ? navDisabled : ''}`}
+                            title={nextLesson?.active ? nextLesson.title : translations.themeLocked}
+                        >
+                            {themeBtnLabel(nextLesson?.active ? translations.nextTheme : translations.themeLocked, nextLesson.title, 'end')}
+                            <i className={`${nextLesson?.active ? 'pi pi-angle-double-right' : 'pi pi-lock'} text-[0.8125rem] shrink-0`}></i>
+                        </button>
                     ) : (
-                        <iframe
-                            className="w-full h-[200px] md:h-[400px]"
-                            // src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1"
-                            src={videoLink}
-                            title="YouTube video player"
-                            frameBorder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowFullScreen
-                        ></iframe>
+                        <Link href={backHref} className={navSecondary}>
+                            <i className="pi pi-list text-[0.8125rem] shrink-0"></i>
+                            <span className="truncate">{translations.backToThemes}</span>
+                        </Link>
                     )}
                 </div>
             </div>
@@ -767,105 +1012,27 @@ export default function LessonTest() {
         );
 
     return (
-        <div className="main-bg min-h-[100vh] w-full relative flex flex-col gap-3 justify-between">
-            <div className="flex flex-col">
-                {/* step navigation */}
-                {stepNavigation && stepNavigation.currentStepPos ? (
-                    <div className="w-full p-1 shadow-[var(--bottom-shadow)] flex items-center gap-2 justify-center text-sm">
-                        {stepNavigation?.prevStep && (
-                            <i
-                                onClick={() => {
-                                    router.push(`/teaching/lessonView/${lesson_id}/${subject_id}/${stream_id}/${stepNavigation?.prevStep?.id}/${id_edu_year}`);
-                                }}
-                                className="pi pi-angle-left text-bold cursor-pointer p-1 rounded-full hover:bg-[var(--mainColor)] hover:text-white"
-                            ></i>
-                        )}
-                        <div className="flex gap-1 items-center">
-                            <span>{translations.step}</span>
-                            <b>{stepNavigation?.currentStepPos}</b>
-                        </div>
-                        <div className="flex gap-1 items-center">
-                            <span>{translations.from}</span>
-                            {stepNavigation?.stepsLength}
-                        </div>
-                        {stepNavigation?.nextStep && (
-                            <i
-                                onClick={() => {
-                                    router.push(`/teaching/lessonView/${lesson_id}/${subject_id}/${stream_id}/${stepNavigation?.nextStep?.id}/${id_edu_year}`);
-                                }}
-                                className="pi pi-angle-right text-bold cursor-pointer p-1 rounded-full hover:bg-[var(--mainColor)] hover:text-white"
-                            ></i>
-                        )}
-                    </div>
+        <div className="w-full min-h-[calc(100vh-9rem)] flex flex-col gap-[12px] sm:gap-[16px]">
+            {headerSection}
+
+            {/* main */}
+            <div className="flex-1 flex flex-col">
+                {hasSteps ? (
+                    <FacultyEmpty icon="pi pi-inbox" text={translations.noData} />
+                ) : !steps ? (
+                    <GroupSkeleton count={1} size={{ width: '100%', height: '16rem' }} />
                 ) : (
-                    ''
+                    <>
+                        {type === 'document' && docSection}
+                        {type === 'link' && linkSection}
+                        {type === 'practical' && practicaSection}
+                        {type === 'test' && testSection}
+                        {type === 'video' && videoSection}
+                    </>
                 )}
-
-                {/* course info */}
-                <div className={`w-full bg-[var(--titleColor)] relative text-white  p-4 md:p-3 pb-4`}>
-                    {/*{contextLastSubjectPageVisit ? (*/}
-                    {/*    <Link onClick={() => setContextLastSubjectPageVisit(null)} href={`/teaching/${contextLastSubjectPageVisit}`}>*/}
-                    {/*        <i className="pi pi-arrow-left text-white absolute top-0 left-0 p-2"></i>*/}
-                    {/*    </Link>*/}
-                    {/*) : (*/}
-                    {/*    ''*/}
-                    {/*)}*/}
-                    <div className="flex flex-col gap-2 items-center">
-                        <div className={`w-full flex items-center gap-2 ${courseInfo?.image && courseInfo?.image.length > 0 ? 'justify-around flex-col sm:flex-row' : 'justify-center'} items-center`}>
-                            <div className="sm:w-1/2 flex flex-col gap-2 items-center">
-                                <h1 className="m-0" style={{ color: 'white', fontSize: media ? '24px' : '28px', textAlign: 'center', margin: '0' }}>
-                                    {getLocalized(courseInfo, 'title') || courseInfo?.title}
-                                </h1>
-                                <div className="flex items-center justify-end gap-1 flex-col sm:flex-row mt-2">
-                                    <h3 className="text-white m-0 sm:text-lg">{translations.theme}: </h3>
-                                    <h3 className="text-white text-[16px] m-0 sm:text-[18px]">{lessonName ? lessonName : '------'}</h3>
-                                </div>
-                                <span className="w-[90%] break-words text-center">{getLocalized(courseInfo, 'description') || courseInfo?.description} </span>
-                            </div>
-                            {courseInfo?.image && courseInfo?.image.length > 0 && (
-                                <div className="sm:w-1/3 flex justify-center items-center">
-                                    <img src={courseInfo?.image} className="w-[80%] object-cover shadow-2 border-round" />
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                </div>
-
-                {/* main */}
-                {hasSteps && <NotFound titleMessage={translations.noData} />}
-                {type === 'document' && docSection}
-                {type === 'link' && linkSection}
-                {type === 'practical' && practicaSection}
-                {type === 'test' && testSection}
-                {type === 'video' && videoSection}
             </div>
 
-            {/* lesson navigation */}
-            <div className="sticky w-full bottom-0 mt-1">
-                <div className="bg-white my-border-top p-1 sm:p-2 flex items-center justify-end gap-2">
-                    {prevLesson?.title && (
-                        <button
-                            onClick={() => handleLessonRouterPush(prevLesson?.id, Number(stream_id))}
-                            className={`cursor-pointer flex items-center gap-1 border-1 p-1 rounded shadow ${!prevLesson?.active ? 'opacity-50 pointer-events-none' : ''} hover:bg-[var(--mainColor)] hover:text-white transition`}
-                        >
-                            <i className="pi pi-angle-left"></i>
-                            <span className="max-w-[90px] sm:max-w-[200px] text-[13px] sm:text-md text-nowrap overflow-hidden text-ellipsis">{prevLesson?.title}</span>
-                        </button>
-                    )}
-                    {nextLesson?.title && (
-                        <>
-                            <span className="text-[14px] sm:text-lg sm:text-bold">{translations.theme}</span>
-                            <button
-                                onClick={() => handleLessonRouterPush(nextLesson?.id, Number(stream_id))}
-                                className={`cursor-pointer flex items-center gap-1 border-1 p-1 rounded shadow ${!nextLesson?.active ? 'opacity-50 pointer-events-none' : ''} hover:bg-[var(--mainColor)] hover:text-white transition`}
-                            >
-                                <span className="max-w-[90px] sm:max-w-[200px] text-[13px] sm:text-md text-nowrap overflow-hidden text-ellipsis">{nextLesson?.title}</span>
-                                <i className="pi pi-angle-right"></i>
-                            </button>
-                        </>
-                    )}
-                </div>
-            </div>
+            {bottomNav}
         </div>
     );
 }

@@ -151,7 +151,7 @@ const StreamList = React.memo(function StreamList({
         if (data?.success) {
             fetchprop();
             toggleSkeleton();
-            handleFetchStreams(auditState, eduYearSelected ? eduYearSelected.id  : null);
+            handleFetchStreams(auditState, eduYearSelected ? eduYearSelected.id : null);
             setMessage({
                 state: true,
                 value: { severity: 'success', summary: translations.successAdd, detail: '' }
@@ -201,7 +201,7 @@ const StreamList = React.memo(function StreamList({
         setSkeleton(false);
     };
 
-    const handleEdit = (e: {checked: boolean} , item: mainStreamsType) => {
+    const handleEdit = (e: { checked: boolean }, item: mainStreamsType) => {
         const { stream_id } = item;
         const isChecked = e.checked;
 
@@ -229,13 +229,13 @@ const StreamList = React.memo(function StreamList({
         return Number(String(startYear).slice(-2));
     };
 
-    const handleFetchEduYear = async ()=> {
+    const handleFetchEduYear = async () => {
         const data = await studentEduYear();
         if (data) {
             setEduYearOpt(data);
             const date = formatEduYear();
-            const currentDate = data?.find((item: EduYearType)=> item?.id === date);
-            if(currentDate){
+            const currentDate = data?.find((item: EduYearType) => item?.id === date);
+            if (currentDate) {
                 setEduYearSelected(currentDate);
             }
         }
@@ -271,9 +271,9 @@ const StreamList = React.memo(function StreamList({
         }
     }, [streams]);
 
-    useEffect(()=> {
+    useEffect(() => {
         handleFetchEduYear();
-    },[]);
+    }, []);
 
     const connectConfirm = (e: any, item: mainStreamsType) => {
         confirmDialog({
@@ -281,56 +281,89 @@ const StreamList = React.memo(function StreamList({
             header: translations.confirmation,
             icon: 'pi pi-exclamation-triangle',
             defaultFocus: 'accept',
-            accept: ()=> handleEdit(e, item),
+            accept: () => handleEdit(e, item),
             rejectLabel: translations.cancel,
             rejectClassName: 'reject-button',
             acceptLabel: translations.next
         });
     };
 
+    const metaItem = (icon: string, label: string, value: React.ReactNode, title?: string) => (
+        <div className="flex items-center gap-[8px] min-w-0" title={title}>
+            <span className="flex shrink-0 items-center justify-center w-[26px] h-[26px] rounded-[8px] bg-[#f1f5f9] text-[var(--text-color-secondary)]">
+                <i className={`pi ${icon} text-[0.75rem]`}></i>
+            </span>
+            <div className="flex flex-col min-w-0 leading-tight">
+                <span className="text-[0.6875rem] uppercase tracking-wide text-[var(--text-color-secondary)]">{label}</span>
+                <span className="text-[0.8125rem] font-medium text-[var(--titleColor)] truncate">{value}</span>
+            </div>
+        </div>
+    );
+
+    const emptyState = (icon: string, text: string) => (
+        <div className="flex flex-col items-center justify-center gap-[10px] py-[40px] px-[16px] rounded-[14px] border border-dashed border-[#dbe3ea] bg-[#fbfdfe]">
+            <span className="flex items-center justify-center w-[56px] h-[56px] rounded-full bg-[var(--mainColor)]/10 text-[var(--mainColor)]">
+                <i className={`pi ${icon} text-[1.5rem]`}></i>
+            </span>
+            <p className="m-0 text-center text-[0.9375rem] font-semibold text-[var(--titleColor)]">{text}</p>
+        </div>
+    );
+
     const itemTemplate = (item: mainStreamsType, index: number) => {
-        const bgClass = index % 2 == 0 ? 'bg-[#f5f5f5]' : '';
+        const isAudit = item?.id_extra_type === null;
         return (
-            <div className={`w-full ${bgClass}`} key={item?.stream_id}>
-                <div className={`flex flex-column p-2 gap-2`}>
-                    <div className="w-full flex justify-between gap-1 items-center">
-                        <h3 className="m-0 text-lg">{getLocalized(item?.subject_name, 'name') || item?.subject_name[nameLang]}</h3>
-                        <small className="underline text-[var(--mainColor)]">Id: {item?.stream_id}</small>
-                    </div>
-                    <div className="flex flex-column xl:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-2">
-                        <div className="w-full sm:w-[70%] flex flex-col order-2 xl:order-1 gap-1 items-start text-[12px] sm:text-[14px]">
-                            <div className="flex gap-1 items-center text-[var(--mainColor)]">
-                                <span>{getLocalized(item?.subject_type_name, 'name') || item?.subject_type_name?.name_ru}</span>
-                            </div>
-                            <div className="flex gap-1 items-center text-[var(--mainColor)]">{item?.id_extra_type === null ? translations.auditItem : item?.id_extra_type != null ? translations.notAuditItem : ''}</div>
-                            <div className="flex gap-1 items-center">
-                                <span className="text-[var(--mainColor)]">{translations.languageOfStudy}: </span>
-                                <span>{item?.language?.name}</span>
-                            </div>
-                            <div className="flex gap-1 items-center">
-                                <span className="text-[var(--mainColor)]">{translations.studyYear}: </span>
-                                <span className="font-semibold">20{item?.id_edu_year}</span>
-                            </div>
-                            <div className="flex gap-1 items-center">
-                                <span className="text-[var(--mainColor)]">{translations.period}: </span>
-                                <span>{getLocalized(item?.period, 'name') || item?.period[nameLang]}</span>
-                            </div>
-                            <div className="flex gap-1 items-center" title={item?.speciality.name_ru}>
-                                <span className="text-[var(--mainColor)] ">{translations.speciality}: </span>
-                                <span className="max-w-[170px] sm:max-w-[800px] text-nowrap text-ellipsis overflow-hidden">{getLocalized(item?.speciality, 'name') || item?.speciality[nameLang]}</span>
+            <div
+                className="w-full rounded-[14px] border border-[#eef2f6] bg-white p-[14px] transition-all hover:border-[var(--mainColor)]/40 hover:shadow-[0_10px_24px_-14px_rgba(8,169,230,0.5)]"
+                key={item?.stream_id}
+            >
+                <div className="flex items-start justify-between gap-[10px]">
+                    <div className="flex items-start gap-[12px] min-w-0">
+                        <span className="flex shrink-0 items-center justify-center w-[40px] h-[40px] rounded-[12px] bg-[var(--mainColor)]/10 text-[var(--mainColor)]">
+                            <i className="pi pi-sitemap text-[1rem]"></i>
+                        </span>
+                        <div className="flex flex-col gap-[6px] min-w-0">
+                            <h3 className="m-0 text-[0.9375rem] font-semibold leading-snug text-[var(--titleColor)] break-words">{getLocalized(item?.subject_name, 'name') || item?.subject_name[nameLang]}</h3>
+                            <div className="flex flex-wrap items-center gap-[6px]">
+                                {(getLocalized(item?.subject_type_name, 'name') || item?.subject_type_name?.name_ru) && (
+                                    <span className="inline-flex items-center px-[8px] py-[2px] rounded-full bg-[var(--mainColor)]/10 text-[var(--mainColor)] text-[0.6875rem] font-semibold">
+                                        {getLocalized(item?.subject_type_name, 'name') || item?.subject_type_name?.name_ru}
+                                    </span>
+                                )}
+                                {item?.id_extra_type !== undefined && (
+                                    <span className={`inline-flex items-center gap-[4px] px-[8px] py-[2px] rounded-full text-[0.6875rem] font-semibold ${isAudit ? 'bg-[#eef2ff] text-[#4f46e5]' : 'bg-[#fff7ed] text-[#c2410c]'}`}>
+                                        <i className={`pi ${isAudit ? 'pi-building' : 'pi-desktop'} text-[0.625rem]`}></i>
+                                        {isAudit ? translations.auditItem : translations.notAuditItem}
+                                    </span>
+                                )}
+                                <span className="inline-flex items-center px-[8px] py-[2px] rounded-full bg-[var(--greenColor)] text-white text-[0.6875rem] font-semibold">
+                                    {getLocalized(item?.edu_form, 'name') || item?.edu_form[nameLang]}
+                                </span>
                             </div>
                         </div>
-                        <div className="flex flex-col order-1 xl:order-2 align-items-center gap-2">
-                            <span className="font-semibold">{getLocalized(item?.semester, 'name') || item?.semester?.name_ru}</span>
-                            <span className="bg-[var(--greenColor)] text-[12px] text-white p-1 rounded">{getLocalized(item?.edu_form, 'name') || item?.edu_form[nameLang]}</span>
-                            {item.connect_id && (
-                                <Link href={`/students/${courseValue?.id}/${item.connect_id}/${item.stream_id}`} className="underline text-sm">
-                                    {translations.students}
-                                </Link>
-                            )}
-                        </div>
                     </div>
+                    <span className="shrink-0 inline-flex items-center px-[8px] py-[3px] rounded-[8px] bg-[#f1f5f9] text-[0.75rem] font-semibold text-[var(--text-color-secondary)]">ID {item?.stream_id}</span>
                 </div>
+
+                <div className="mt-[12px] pt-[12px] border-t border-[#f1f5f9] flex flex-wrap gap-x-[20px] gap-y-[10px]">
+                    {metaItem('pi-calendar', translations.studyYear, `20${item?.id_edu_year}`)}
+                    {metaItem('pi-clock', translations.period, getLocalized(item?.period, 'name') || item?.period[nameLang])}
+                    {metaItem('pi-bookmark', translations.semester, getLocalized(item?.semester, 'name') || item?.semester?.name_ru)}
+                    {metaItem('pi-globe', translations.languageOfStudy, item?.language?.name)}
+                    <div className="w-full">{metaItem('pi-briefcase', translations.speciality, getLocalized(item?.speciality, 'name') || item?.speciality[nameLang], item?.speciality.name_ru)}</div>
+                </div>
+
+                {item.connect_id && (
+                    <div className="mt-[12px] flex justify-end">
+                        <Link
+                            href={`/students/${courseValue?.id}/${item.connect_id}/${item.stream_id}`}
+                            className="inline-flex items-center gap-[6px] px-[12px] py-[6px] rounded-[10px] border border-[var(--mainColor)]/30 text-[var(--mainColor)] text-[0.8125rem] font-semibold transition hover:bg-[var(--mainColor)] hover:text-white"
+                        >
+                            <i className="pi pi-users text-[0.8125rem]"></i>
+                            {translations.students}
+                            <i className="pi pi-angle-right text-[0.75rem]"></i>
+                        </Link>
+                    </div>
+                )}
             </div>
         );
     };
@@ -346,13 +379,9 @@ const StreamList = React.memo(function StreamList({
                 }
             });
 
-            return <div className="grid grid-nogutter shadow-[0_2px_2px_0px_rgba(0,0,0,0.2)]">{list}</div>;
+            return <div className="flex flex-col gap-[10px]">{list}</div>;
         }
-        return (
-            <div className="flex flex-col gap-2 justify-center items-center m-4">
-                <p className="text-[16px] text-center font-bold">{translations.noLinkedStreams}</p>
-            </div>
-        );
+        return emptyState('pi-link', translations.noLinkedStreams);
     };
 
     const rowExpansionTemplate = (data: mainStreamsType) => {
@@ -370,39 +399,50 @@ const StreamList = React.memo(function StreamList({
         };
 
         return (
-            <div className="p-3 bg-gray-50">
+            <div className="px-[12px] py-[10px] bg-[#f8fbfd]">
                 {data?.course != null ? (
-                    <>
-                        <div className="mb-2 text-[11px] font-bold text-gray-400 uppercase tracking-tight">{translations.courseStreamConnect}</div>
-                        <table className="w-full bg-white text-left border-collapse shadow-sm rounded ">
-                            <thead className="bg-gray-50 text-[10px] text-gray-500 uppercase">
+                    <div className="rounded-[12px] border border-[#eef2f6] bg-white overflow-hidden">
+                        <div className="flex items-center gap-[8px] px-[14px] py-[10px] border-b border-[#eef2f6] bg-[#f8fafc]">
+                            <i className="pi pi-link text-[0.75rem] text-[var(--mainColor)]"></i>
+                            <span className="text-[11px] font-semibold uppercase tracking-wide text-[var(--text-color-secondary)]">{translations.courseStreamConnect}</span>
+                        </div>
+                        <table className="w-full text-left border-collapse">
+                            <thead className="text-[10px] text-[var(--text-color-secondary)] uppercase tracking-wide">
                                 <tr>
-                                    <th className="px-3 py-2 border-b border-gray-200 font-bold">{translations.streamName || 'Course'}</th>
-                                    <th className="px-3 py-2 border-b border-gray-200 font-bold">{translations.courseName || 'Course'}</th>
-                                    <th className="px-3 py-2 border-b border-gray-200 font-bold">{translations.description || 'Description'}</th>
-                                    <th className="px-3 py-2 border-b border-gray-200 font-bold whitespace-nowrap">Дата</th>
+                                    <th className="px-[14px] py-[8px] border-b border-[#f1f5f9] font-semibold">{translations.streamName || 'Course'}</th>
+                                    <th className="px-[14px] py-[8px] border-b border-[#f1f5f9] font-semibold">{translations.courseName || 'Course'}</th>
+                                    <th className="px-[14px] py-[8px] border-b border-[#f1f5f9] font-semibold">{translations.description || 'Description'}</th>
+                                    <th className="px-[14px] py-[8px] border-b border-[#f1f5f9] font-semibold whitespace-nowrap">Дата</th>
                                 </tr>
                             </thead>
-                            <tbody className="text-[12px] text-gray-600">
+                            <tbody className="text-[12px] text-[var(--text-color-secondary)]">
                                 {course ? (
                                     <tr>
-                                        <td className="px-3 py-2 border-b border-gray-100 font-medium text-gray-800">{getLocalized(data?.subject_name, 'name') || data?.subject_name?.name_ru}</td>
-                                        <td className="px-3 py-2 border-b border-gray-100 font-medium text-gray-800">{course.title}</td>
-                                        <td className="px-3 py-2 border-b border-gray-100 leading-relaxed">{truncate(course.description, 120)}</td>
-                                        <td className="px-3 py-2 border-b border-gray-100 whitespace-nowrap">{formatDate(course.created_at)}</td>
+                                        <td className="px-[14px] py-[10px] font-semibold text-[var(--titleColor)]">{getLocalized(data?.subject_name, 'name') || data?.subject_name?.name_ru}</td>
+                                        <td className="px-[14px] py-[10px] font-semibold text-[var(--mainColor)]">{course.title}</td>
+                                        <td className="px-[14px] py-[10px] leading-relaxed">{truncate(course.description, 120)}</td>
+                                        <td className="px-[14px] py-[10px] whitespace-nowrap">
+                                            <span className="inline-flex items-center gap-[4px]">
+                                                <i className="pi pi-calendar text-[0.6875rem]"></i>
+                                                {formatDate(course.created_at)}
+                                            </span>
+                                        </td>
                                     </tr>
                                 ) : (
                                     <tr>
-                                        <td colSpan={3} className="px-3 py-4 text-center text-gray-400 italic">
+                                        <td colSpan={3} className="px-[14px] py-[16px] text-center italic">
                                             {translations.noData}
                                         </td>
                                     </tr>
                                 )}
                             </tbody>
                         </table>
-                    </>
+                    </div>
                 ) : (
-                    <>{translations.notCourseConnections}</>
+                    <div className="flex items-center gap-[8px] px-[14px] py-[10px] rounded-[12px] border border-dashed border-[#dbe3ea] bg-white text-[0.8125rem] text-[var(--text-color-secondary)]">
+                        <i className="pi pi-info-circle text-[0.875rem]"></i>
+                        {translations.notCourseConnections}
+                    </div>
                 )}
             </div>
         );
@@ -437,11 +477,11 @@ const StreamList = React.memo(function StreamList({
                         label={translations.audit}
                         // icon="pi pi-link"
                         icon="pi pi-building"
-                        className="w-full"
+                        className="w-full rounded-[10px] px-[16px] py-[9px] shadow-[0_6px_14px_-6px_rgba(8,169,230,0.7)] hover:opacity-90 transition"
                         style={{ fontSize: '13px' }}
                         size="small"
                         onClick={() => {
-                            handleFetchStreams(true, eduYearSelected ? eduYearSelected.id  : null);
+                            handleFetchStreams(true, eduYearSelected ? eduYearSelected.id : null);
                             setVisible(true);
                             setAuditTitle(translations.audit);
                             setAuditState(true);
@@ -457,11 +497,11 @@ const StreamList = React.memo(function StreamList({
                     label={translations.notAudit}
                     // icon="pi pi-link"
                     icon="pi pi-desktop"
-                    className="w-full"
+                    className="w-full rounded-[10px] px-[16px] py-[9px] shadow-[0_6px_14px_-6px_rgba(8,169,230,0.7)] hover:opacity-90 transition"
                     style={{ fontSize: '13px' }}
                     size="small"
                     onClick={() => {
-                        handleFetchStreams(false, eduYearSelected ? eduYearSelected.id  : null);
+                        handleFetchStreams(false, eduYearSelected ? eduYearSelected.id : null);
                         setVisible(true);
                         setAuditTitle(translations.notAudit);
                         setAuditState(false);
@@ -475,15 +515,21 @@ const StreamList = React.memo(function StreamList({
         <>
             <Dialog
                 header={() => (
-                    <div className={'items-center flex justify-between'}>
-                        {auditTitle}{' '}
+                    <div className={'items-center flex gap-[12px]'}>
+                        <span className="flex shrink-0 items-center justify-center w-[40px] h-[40px] rounded-[12px] bg-[var(--mainColor)]/10 text-[var(--mainColor)]">
+                            <i className={`pi ${auditState === false ? 'pi-desktop' : 'pi-building'} text-[1rem]`}></i>
+                        </span>
+                        <div className="flex flex-col gap-[2px] min-w-0">
+                            <span className="text-[1.125rem] font-bold leading-tight text-[var(--titleColor)]">{auditTitle}</span>
+                            {courseValue?.title && <span className="text-[0.8125rem] font-normal text-[var(--text-color-secondary)] truncate">{courseValue?.title}</span>}
+                        </div>
                         <i
                             onClick={(e) => {
                                 e.stopPropagation(); // ключевая строка
                                 setCourseConnectInfo(true);
                             }}
-                            className={'pi pi-info-circle text-lg text-[var(--titleColor)]'}
-                        ></i>{' '}
+                            className={'pi pi-info-circle ml-1 cursor-pointer text-[1rem] p-[6px] rounded-full text-[var(--text-color-secondary)] hover:bg-[var(--mainColor)]/10 hover:text-[var(--mainColor)] transition'}
+                        ></i>
                     </div>
                 )}
                 visible={visible}
@@ -497,11 +543,11 @@ const StreamList = React.memo(function StreamList({
                 {dialogSkeleton ? (
                     <GroupSkeleton count={1} size={{ width: '100%', height: '15rem' }} />
                 ) : hasStreams ? (
-                    <p className="text-[16px] text-center font-bold">{translations.dataTemporarilyUnavailable}</p>
+                    emptyState('pi-exclamation-circle', translations.dataTemporarilyUnavailable)
                 ) : dialogStreams && dialogStreams.length > 0 ? (
                     <DataTable
                         value={dialogStreams}
-                        className="w-full my-custom-table text-sm"
+                        className="w-full modern-table text-sm"
                         loading={skeleton}
                         dataKey="stream_id"
                         emptyMessage={translations.noData}
@@ -514,60 +560,92 @@ const StreamList = React.memo(function StreamList({
                         rows={5}
                     >
                         <Column expander style={{ width: '2rem' }} />
-                        <Column body={(_, { rowIndex }) => rowIndex + 1} header={() => <div className="text-[13px]">{translations.numberSign}</div>}></Column>
-                        <Column body={(rowIndex) => <span>{rowIndex?.stream_id}</span>} header={() => <div className="text-[13px]">ID</div>}></Column>
+                        <Column
+                            body={(_, { rowIndex }) => <span className="text-[0.75rem] font-semibold text-[var(--text-color-secondary)]">{rowIndex + 1}</span>}
+                            header={translations.numberSign}
+                            style={{ width: '40px', textAlign: 'center' }}
+                        ></Column>
+                        <Column
+                            body={(rowIndex) => <span className="inline-flex items-center px-[8px] py-[3px] rounded-[8px] bg-[#f1f5f9] text-[0.75rem] font-semibold text-[var(--text-color-secondary)]">{rowIndex?.stream_id}</span>}
+                            header="ID"
+                        ></Column>
 
                         <Column
                             field="title"
-                            header={() => <div className="text-[13px]">{translations.streamName}</div>}
+                            header={translations.streamName}
                             body={(rowData) => (
                                 // <p key={rowData.id}></p>
-                                <p key={rowData.id}>{getLocalized(rowData?.subject_name, 'name') || rowData?.subject_name?.name_ru}</p>
-                            )}
-                        ></Column>
-
-                        <Column
-                            field="title"
-                            header={() => <div className="text-[13px]">{translations.speciality}</div>}
-                            body={(rowData) => (
-                                <div className="max-w-[250px] scrollbar-thin overflow-x-scroll">
-                                    <p key={rowData?.id}>{getLocalized(rowData?.speciality, 'name') || rowData?.speciality?.name_ru}</p>
-                                </div>
-                            )}
-                        ></Column>
-
-                        <Column header={() => <div>{translations.languageOfStudy}</div>} body={(rowData) => <p key={rowData?.id}>{rowData?.language?.name}</p>}></Column>
-
-                        <Column field="title" header={() => <div className="text-[13px]">{translations.studyYear}</div>} body={(rowData) => <p key={rowData?.id}>20{rowData?.id_edu_year}</p>}></Column>
-                        <Column field="title" header={() => <div className="text-[13px]">{translations.period}</div>} body={(rowData) => <p key={rowData?.id}>{getLocalized(rowData?.period, 'name') || rowData?.period.name_ru}</p>}></Column>
-
-                        <Column field="title" header={() => <div className="text-[13px]">{translations.semester}</div>} body={(rowData) => <p key={rowData?.id}>{getLocalized(rowData?.semester, 'name') || rowData?.semester.name_ru}</p>}></Column>
-
-                        <Column field="title" header={() => <div className="text-[13px]">{translations.studyForm}</div>} body={(rowData) => <p key={rowData?.id}>{getLocalized(rowData?.edu_form, 'name') || rowData?.edu_form.name_ru}</p>}></Column>
-
-                        <Column
-                            field="title"
-                            header={() => <div className="text-[13px]">{translations.studyType}</div>}
-                            body={(rowData) => (
-                                <p key={rowData?.id}>
-                                    {rowData?.id_extra_type === null
-                                        ? getLocalized(rowData?.subject_type_name, 'short_name') || rowData?.subject_type_name?.short_name_ru
-                                        : rowData?.id_extra_type != null && rowData?.subject_type_name === null
-                                        ? getLocalized(rowData?.extra_type, 'short_name') || rowData?.extra_type?.short_name_ru
-                                        : ''}
+                                <p key={rowData.id} className="m-0 font-semibold text-[0.875rem] leading-snug text-[var(--titleColor)] min-w-[140px]">
+                                    {getLocalized(rowData?.subject_name, 'name') || rowData?.subject_name?.name_ru}
                                 </p>
                             )}
                         ></Column>
 
                         <Column
                             field="title"
-                            style={{ width: '3rem', textAlign: 'center' }}
-                            header={() => <div className="text-[13px] flex justify-center">Связь</div>}
-                            body={(rowData) => <i onClick={() => toggleRow(rowData)} className={`text-sm ${rowData?.course != null ? 'pi pi-check text-[green]' : 'pi pi-minus text-[red]'}`}></i>}
+                            header={translations.speciality}
+                            body={(rowData) => (
+                                <div className="max-w-[250px] scrollbar-thin overflow-x-auto">
+                                    <p key={rowData?.id} className="m-0 text-[0.8125rem] text-[var(--text-color-secondary)] whitespace-nowrap">
+                                        {getLocalized(rowData?.speciality, 'name') || rowData?.speciality?.name_ru}
+                                    </p>
+                                </div>
+                            )}
+                        ></Column>
+
+                        <Column header={translations.languageOfStudy} body={(rowData) => <p key={rowData?.id} className="m-0">{rowData?.language?.name}</p>}></Column>
+
+                        <Column field="title" header={translations.studyYear} body={(rowData) => <p key={rowData?.id} className="m-0 font-semibold">20{rowData?.id_edu_year}</p>}></Column>
+                        <Column field="title" header={translations.period} body={(rowData) => <p key={rowData?.id} className="m-0">{getLocalized(rowData?.period, 'name') || rowData?.period.name_ru}</p>}></Column>
+
+                        <Column field="title" header={translations.semester} body={(rowData) => <p key={rowData?.id} className="m-0">{getLocalized(rowData?.semester, 'name') || rowData?.semester.name_ru}</p>}></Column>
+
+                        <Column
+                            field="title"
+                            header={translations.studyForm}
+                            body={(rowData) => (
+                                <span key={rowData?.id} className="inline-flex items-center px-[8px] py-[2px] rounded-full bg-[var(--greenColor)] text-white text-[0.6875rem] font-semibold whitespace-nowrap">
+                                    {getLocalized(rowData?.edu_form, 'name') || rowData?.edu_form.name_ru}
+                                </span>
+                            )}
                         ></Column>
 
                         <Column
-                            header={() => <div className="text-[13px]">{translations.streamConnection}</div>}
+                            field="title"
+                            header={translations.studyType}
+                            body={(rowData) => {
+                                const studyType =
+                                    rowData?.id_extra_type === null
+                                        ? getLocalized(rowData?.subject_type_name, 'short_name') || rowData?.subject_type_name?.short_name_ru
+                                        : rowData?.id_extra_type != null && rowData?.subject_type_name === null
+                                            ? getLocalized(rowData?.extra_type, 'short_name') || rowData?.extra_type?.short_name_ru
+                                            : '';
+                                return studyType ? (
+                                    <span key={rowData?.id} className="inline-flex items-center px-[8px] py-[2px] rounded-full bg-[var(--mainColor)]/10 text-[var(--mainColor)] text-[0.6875rem] font-semibold whitespace-nowrap">
+                                        {studyType}
+                                    </span>
+                                ) : null;
+                            }}
+                        ></Column>
+
+                        <Column
+                            field="title"
+                            style={{ width: '3rem', textAlign: 'center' }}
+                            header={() => <div className="flex justify-center">Связь</div>}
+                            body={(rowData) => (
+                                <span
+                                    onClick={() => toggleRow(rowData)}
+                                    title={rowData?.course != null ? rowData?.course?.title : ''}
+                                    className={`inline-flex items-center justify-center w-[28px] h-[28px] rounded-full cursor-pointer transition hover:scale-110 ${rowData?.course != null ? 'bg-[#dcfce7] text-[#16a34a]' : 'bg-[#fee2e2] text-[#dc2626]'
+                                        }`}
+                                >
+                                    <i className={`text-[0.75rem] ${rowData?.course != null ? 'pi pi-check' : 'pi pi-minus'}`}></i>
+                                </span>
+                            )}
+                        ></Column>
+
+                        <Column
+                            header={translations.streamConnection}
                             style={{ margin: '0 3px', textAlign: 'center', width: '4rem' }}
                             body={(rowData) => (
                                 <>
@@ -591,7 +669,7 @@ const StreamList = React.memo(function StreamList({
                         ></Column>
                     </DataTable>
                 ) : (
-                    <p className="text-[16px] text-center font-bold">{translations.noStreamsOrNotLinked}</p>
+                    emptyState('pi-inbox', translations.noStreamsOrNotLinked)
                 )}
             </Dialog>
 
@@ -603,26 +681,29 @@ const StreamList = React.memo(function StreamList({
                         <>
                             {/* info section */}
                             {!isMobile && (
-                                <div>
-                                    <i onClick={close} className="pi pi-arrow-left cursor-pointer text-[var(--mainColor)] p-2 rounded-full hover:bg-[var(--mainColor)] hover:text-white"></i>
-                                    <div className="flex flex-col md:flex-row justify-between md:items-center gap-1 mb-4 py-2 shadow-[0_2px_1px_0px_rgba(0,0,0,0.1)]">
-                                        {/* <span className=" text-[var(--mainColor)] "> */}
+                                <div className="flex flex-col md:flex-row justify-between md:items-center gap-[12px] pb-[14px] mb-[14px] border-b border-[#eef2f6]">
+                                    <div className="flex items-center gap-[12px] min-w-0">
+                                        <button
+                                            type="button"
+                                            onClick={close}
+                                            className="flex shrink-0 items-center justify-center w-[40px] h-[40px] rounded-[12px] border border-[#eef2f6] bg-white text-[var(--mainColor)] cursor-pointer transition hover:bg-[var(--mainColor)] hover:border-[var(--mainColor)] hover:text-white"
+                                        >
+                                            <i className="pi pi-arrow-left"></i>
+                                        </button>
+                                        <span className="max-w-sm lg:max-w-[300px] xl:max-w-[600px] text-[1.125rem] md:text-[1.25rem] leading-tight font-bold text-[var(--titleColor)] break-words">{courseValue?.title}</span>
+                                    </div>
+                                    <div className={'flex items-center gap-2'}>
+                                        <Dropdown
+                                            value={eduYearSelected}
+                                            onChange={(e) => {
+                                                setEduYearSelected(e.value);
+                                            }}
+                                            options={eduYearOpt}
+                                            optionLabel="name_ru"
+                                            className="w-full sm:w-14rem p-inputtext-sm rounded-[10px]"
+                                        />
 
-                                        <span className="max-w-sm lg:max-w-[300px] xl:max-w-[600px] text-[16px] sm:text-[16px] md:text-[18px] font-bold text-[#4B4563] break-words">{courseValue?.title}</span>
-                                        {/* </span> */}
-                                        <div className={'flex items-center gap-2'}>
-                                            <Dropdown
-                                                value={eduYearSelected}
-                                                onChange={(e) => {
-                                                    setEduYearSelected(e.value);
-                                                }}
-                                                options={eduYearOpt}
-                                                optionLabel="name_ru"
-                                                className="w-full sm:w-14rem p-inputtext-sm"
-                                            />
-
-                                            {DialogOpenBtns()}
-                                        </div>
+                                        {DialogOpenBtns()}
                                     </div>
                                 </div>
                             )}
@@ -638,21 +719,19 @@ const StreamList = React.memo(function StreamList({
                                 }}
                                 options={eduYearOpt}
                                 optionLabel="name_ru"
-                                className="w-full sm:w-14rem p-inputtext-sm"
+                                className="w-full sm:w-14rem p-inputtext-sm rounded-[10px]"
                             />
                         </div>
                     )}
                     {hasStreams ? (
-                        <>
-                            <p className="text-[16px] text-center font-bold">{translations.noStreamsOrNotLinked}</p>
-                        </>
+                        emptyState('pi-inbox', translations.noStreamsOrNotLinked)
                     ) : (
-                        <div className="flex flex-col gap-2 sm:gap-2">
+                        <div className="flex flex-col gap-[10px]">
                             {isMobile && (
                                 DialogOpenBtns()
                             )}
 
-                            <div className="max-h-[685px] overflow-y-scroll">
+                            <div className="max-h-[685px] overflow-y-auto pr-[4px] scrollbar-thin">
                                 {skeleton ? (
                                     <GroupSkeleton count={10} size={{ width: '100%', height: '4rem' }} />
                                 ) : (
@@ -696,9 +775,24 @@ const StreamList = React.memo(function StreamList({
                     setCourseConnectInfo(false);
                 }}
             >
-                <div>
-                    Колонка «Связи» показывает, связан ли поток с одним из ваших курсов. Если отображается <i className={'pi pi-check text-[green]'}></i> поток уже привязан к курсу. <br /> Если <i className={'pi pi-minus text-[red]'}></i> связь с
-                    курсом отсутствует. Нажатием на иконку либо на кнопку раскрытия можно увидеть связанный курс.
+                <div className="flex flex-col gap-[12px] text-[0.875rem] leading-relaxed text-[var(--text-color-secondary)]">
+                    <p className="m-0">Колонка «Связи» показывает, связан ли поток с одним из ваших курсов.</p>
+                    <div className="flex items-start gap-[10px] p-[10px] rounded-[12px] bg-[#f0fdf4] border border-[#dcfce7]">
+                        <span className="flex shrink-0 items-center justify-center w-[28px] h-[28px] rounded-full bg-[#dcfce7] text-[#16a34a]">
+                            <i className={'pi pi-check text-[0.75rem]'}></i>
+                        </span>
+                        <span>Поток уже привязан к курсу.</span>
+                    </div>
+                    <div className="flex items-start gap-[10px] p-[10px] rounded-[12px] bg-[#fef2f2] border border-[#fee2e2]">
+                        <span className="flex shrink-0 items-center justify-center w-[28px] h-[28px] rounded-full bg-[#fee2e2] text-[#dc2626]">
+                            <i className={'pi pi-minus text-[0.75rem]'}></i>
+                        </span>
+                        <span>Связь с курсом отсутствует.</span>
+                    </div>
+                    <p className="m-0 inline-flex items-start gap-[6px]">
+                        <i className="pi pi-info-circle text-[var(--mainColor)] mt-[3px]"></i>
+                        Нажатием на иконку либо на кнопку раскрытия можно увидеть связанный курс.
+                    </p>
                 </div>
             </Dialog>
         </>

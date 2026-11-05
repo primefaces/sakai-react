@@ -1,48 +1,34 @@
 'use client';
 
-import { NotFound } from '@/app/components/NotFound';
+import FacultyHeader, { FacultyEmpty, facultyCardClass } from '@/app/components/faculty/FacultyHeader';
 import GroupSkeleton from '@/app/components/skeleton/GroupSkeleton';
 import useErrorMessage from '@/hooks/useErrorMessage';
-import useMediaQuery from '@/hooks/useMediaQuery';
 import { LayoutContext } from '@/layout/context/layoutcontext';
 import { fetchDepartament } from '@/services/faculty';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import { Column } from 'primereact/column';
-import { DataTable } from 'primereact/datatable';
-import { DataView } from 'primereact/dataview';
 import { useContext, useEffect, useState } from 'react';
 import { useLocalization } from '@/layout/context/localizationcontext';
 
+interface TeacherType {
+    id: number;
+    name: string;
+    last_name: string;
+    father_name: string;
+    myedu_id: number;
+    courses: number;
+    courses_published: number;
+}
+
 export default function Kafedra() {
-    interface kafedraInfoType {
-        birth_date: string | null;
-        courses: [];
-        created_at: string;
-        email: string;
-        email_verified_at: string | null;
-        father_name: string;
-        id: number;
-        is_student: boolean;
-        is_working: boolean;
-        last_name: string;
-        myedu_id: number;
-        name: string;
-        phone: string;
-        pin: number;
-        updated_at: string;
-    }
-
     const { id_kafedra } = useParams();
-    const {translations} = useLocalization();
+    const { translations } = useLocalization();
 
-    const [courses, setCourses] = useState<kafedraInfoType[]>([]);
+    const [teachers, setTeachers] = useState<TeacherType[]>([]);
     const [contentShow, setContentShow] = useState<boolean>(false);
-    const [skeleton, setSkeleton] = useState(false);
+    const [skeleton, setSkeleton] = useState(true);
     const [contentNull, setContentNull] = useState<boolean>(false);
-
-    const media = useMediaQuery('(max-width: 640px)');
-    const tableMedia = useMediaQuery('(max-width: 577px)');
+    const [search, setSearch] = useState('');
 
     const { setMessage, setGlobalLoading } = useContext(LayoutContext);
     const showError = useErrorMessage();
@@ -53,7 +39,7 @@ export default function Kafedra() {
         if (data && Array.isArray(data)) {
             setSkeleton(false);
             if (data.length > 0) {
-                setCourses(data);
+                setTeachers(data);
                 setContentShow(false);
                 setContentNull(false);
             } else {
@@ -72,32 +58,6 @@ export default function Kafedra() {
         }
     };
 
-    const itemTemplate = (rowData: any) => {
-        return (
-            <div className="col-12">
-                <div className={`w-full flex flex-col align-items-center p-1 gap-1 sm:gap-3 `}>
-                    {/* Номер (rowIndex) можно добавить через внешний счетчик или props, но для DataView это сложнее */}
-
-                    {/* Заголовок */}
-                    <div className={`w-full flex-1 ${tableMedia && 'flex items-center gap-1 justify-between'}`}>
-                        <div className="font-bold text-md">
-                            <Link href={`/faculty/${id_kafedra}/${rowData.id}`} key={rowData.id} className="text-[16px] hover:underline">
-                                {rowData.last_name} {rowData.name} {rowData.father_name}
-                            </Link>
-                        </div>
-                    </div>
-
-                    <div className="flex flex-col w-full gap-1 items-start">
-                        <div className='flex gap-1 items-center sm:justify-between w-full'><span className='text-[var(--mainColor)] text-sm'>Количество курсов:</span><span className="">{rowData.courses}</span></div>
-                        <div className='flex gap-1 items-center sm:justify-between w-full'><span className='text-[var(--mainColor)] text-sm'>Утверждённых:</span><span>{rowData.courses_published}</span></div>
-                    </div>
-
-                    {/* <div>{imageBodyTemplate(rowData)}</div> */}
-                </div>
-            </div>
-        );
-    };
-
     useEffect(() => {
         setGlobalLoading(true);
         setTimeout(() => {
@@ -106,55 +66,115 @@ export default function Kafedra() {
         handleFetchKafedra();
     }, []);
 
-    if (contentNull) return <NotFound titleMessage="Данные отсутствуют" />;
+    const fullName = (t: TeacherType) => `${t.last_name ?? ''} ${t.name ?? ''} ${t.father_name ?? ''}`.trim();
+    const query = search.trim().toLowerCase();
+    const filtered = query ? teachers.filter((t) => fullName(t).toLowerCase().includes(query) || String(t.myedu_id ?? '').includes(query)) : teachers;
+
+    const avatar = (t: TeacherType) => (
+        <span className="flex items-center justify-center shrink-0 w-[38px] h-[38px] rounded-full bg-[var(--mainColor)]/10 text-[var(--mainColor)] text-[0.8125rem] font-bold uppercase">
+            {`${t.last_name?.[0] ?? ''}${t.name?.[0] ?? ''}` || <i className="pi pi-user text-[0.8125rem]"></i>}
+        </span>
+    );
+
+    // прогресс утверждённых курсов
+    const approvedBar = (t: TeacherType) => {
+        const total = Number(t.courses) || 0;
+        const published = Number(t.courses_published) || 0;
+        const percent = total > 0 ? Math.round((published / total) * 100) : 0;
+        const full = total > 0 && published >= total;
+
+        return (
+            <div className="flex flex-col gap-[6px] w-full min-w-[160px]">
+                <div className="flex items-center justify-between gap-[8px] text-[0.75rem]">
+                    <span className="text-[var(--text-color-secondary)]">
+                        {translations.approved}: <b className="text-[var(--titleColor)]">{published}</b> / {total}
+                    </span>
+                    <span className={`font-semibold ${full ? 'text-[#16a34a]' : 'text-[var(--mainColor)]'}`}>{percent}%</span>
+                </div>
+                <div className="h-[6px] w-full rounded-full bg-[#f1f5f9] overflow-hidden">
+                    <div className={`h-full rounded-full transition-[width] duration-500 ${full ? 'bg-[#22c55e]' : 'bg-[var(--mainColor)]'}`} style={{ width: `${percent}%` }}></div>
+                </div>
+            </div>
+        );
+    };
+
+    const coursesChip = (t: TeacherType) => (
+        <span className="inline-flex items-center gap-[5px] px-[10px] py-[4px] rounded-full bg-[#f1f5f9] text-[0.75rem] font-semibold text-[var(--bodyColor)] whitespace-nowrap">
+            <i className="pi pi-book text-[0.6875rem]"></i>
+            {t.courses ?? 0}
+        </span>
+    );
+
+    const content = () => {
+        if (skeleton) return <GroupSkeleton count={6} size={{ width: '100%', height: '4rem' }} />;
+        if (contentShow) return <FacultyEmpty icon="pi pi-exclamation-circle" text={translations.dataNotAvailable} />;
+        if (contentNull) return <FacultyEmpty icon="pi pi-users" text={translations.noData} />;
+        if (filtered.length === 0) return <FacultyEmpty icon="pi pi-search" text={translations.nothingFound} />;
+
+        return (
+            <>
+                {/* mobile */}
+                <div className="flex flex-col gap-[10px] md:hidden">
+                    {filtered.map((t, idx) => (
+                        <Link key={t.id} href={`/faculty/${id_kafedra}/${t.id}`} className={`${facultyCardClass} fade-up flex flex-col gap-[12px] p-[14px] active:scale-[0.99] transition-transform`} style={{ animationDelay: `${Math.min(idx, 12) * 30}ms` }}>
+                            <div className="flex items-center gap-[10px]">
+                                {avatar(t)}
+                                <span className="flex-1 min-w-0 text-[0.875rem] font-semibold leading-snug text-[var(--titleColor)] break-words">{fullName(t)}</span>
+                                {coursesChip(t)}
+                            </div>
+                            {approvedBar(t)}
+                        </Link>
+                    ))}
+                </div>
+
+                {/* desktop */}
+                <div className={`${facultyCardClass} hidden md:block p-[16px]`}>
+                    <div className="overflow-x-auto scrollbar-thin border border-[#eef2f6] rounded-[14px]">
+                        <table className="w-full min-w-[720px] text-left border-collapse">
+                            <thead>
+                                <tr className="bg-[#f8fafc] border-b border-[#eef2f6] text-[0.6875rem] uppercase tracking-[0.04em] text-[var(--text-color-secondary)]">
+                                    <th className="py-[12px] px-[16px] w-[48px] text-center font-semibold">#</th>
+                                    <th className="py-[12px] px-[16px] font-semibold">{translations.teachers}</th>
+                                    <th className="py-[12px] px-[16px] font-semibold text-center w-[120px]">{translations.courses}</th>
+                                    <th className="py-[12px] px-[16px] font-semibold w-[260px]">{translations.approved}</th>
+                                    <th className="py-[12px] px-[20px] w-[60px]"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {filtered.map((t, idx) => (
+                                    <tr key={t.id} className="group fade-up border-b border-[#f1f5f9] last:border-b-0 hover:bg-[#f8fbfd] transition-colors" style={{ animationDelay: `${Math.min(idx, 12) * 25}ms` }}>
+                                        <td className="py-[14px] px-[16px] text-center text-[0.75rem] font-semibold text-[var(--text-color-secondary)]">{idx + 1}</td>
+                                        <td className="py-[14px] px-[16px]">
+                                            <Link href={`/faculty/${id_kafedra}/${t.id}`} className="flex items-center gap-[10px] min-w-0">
+                                                {avatar(t)}
+                                                <span className="text-[0.875rem] font-semibold leading-snug text-[var(--titleColor)] group-hover:text-[var(--mainColor)] transition-colors break-words">{fullName(t)}</span>
+                                            </Link>
+                                        </td>
+                                        <td className="py-[14px] px-[16px] text-center">{coursesChip(t)}</td>
+                                        <td className="py-[14px] px-[16px]">{approvedBar(t)}</td>
+                                        <td className="py-[14px] px-[20px] text-right">
+                                            <Link
+                                                href={`/faculty/${id_kafedra}/${t.id}`}
+                                                aria-label={translations.courses}
+                                                className="inline-flex items-center justify-center w-[32px] h-[32px] rounded-[10px] bg-[var(--mainColor)]/10 text-[var(--mainColor)] hover:bg-[var(--mainColor)] hover:text-white transition-colors duration-200"
+                                            >
+                                                <i className="pi pi-arrow-right text-[0.6875rem]"></i>
+                                            </Link>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </>
+        );
+    };
 
     return (
-        <div className="flex flex-col gap-2 main-bg">
-            {skeleton ? (
-                <div className="w-full">
-                    <GroupSkeleton count={5} size={{ width: '100%', height: '3rem' }} />
-                </div>
-            ) : contentShow ? (
-                <NotFound titleMessage="Данные не доступны" />
-            ) : (
-                <div>
-                    {media ? (
-                        <><h3 className="text-lg pb-1 shadow-[0_2px_1px_0px_rgba(0,0,0,0.1)]">Преподаватели</h3>
-                        <DataView
-                            value={courses}
-                            itemTemplate={itemTemplate}
-                            layout="list" // Отображение в виде сетки, что идеально подходит для карточек
-                            rows={5}
-                            emptyMessage="Нет данных для отображения"
-                        /></>
-                    ) : (
-                        <DataTable value={courses} emptyMessage="Загрузка" dataKey="id_kafedra" key={JSON.stringify('forStreamId')} responsiveLayout="stack" breakpoint="960px" rows={5} className="my-custom-table">
-                            <Column body={(_, { rowIndex }) => rowIndex + 1} header="#"></Column>
-                            <Column
-                                field="title"
-                                header="Преподаватели"
-                                body={(rowData) => (
-                                    <Link href={`/faculty/${id_kafedra}/${rowData.id}`} key={rowData.id} className="text-[16px] my-3 hover:underline">
-                                        {rowData.last_name} {rowData.name} {rowData.father_name}
-                                    </Link>
-                                )}
-                            ></Column>
-                            <Column
-                                field="title"
-                                header="Всего курсов"
-                                body={(rowData) => (
-                                    <div className="w-full flex justify-center">
-                                        <div className="w-[300px] flex gap-1 justify-center items-center">
-                                            <b className="w-full flex justify-end">{rowData.courses}</b>
-                                            <div className="w-full flex items-center gap-1">(<span>{rowData.courses_published}</span> <span>утверждённых</span>)</div>
-                                        </div>
-                                    </div>
-                                )}
-                            ></Column>
-                        </DataTable>
-                    )}
-                </div>
-            )}
+        <div className="flex flex-col gap-[16px]">
+            <FacultyHeader icon="pi pi-users" title={translations.teachers} subtitle={translations.teachersHint} count={teachers.length} backHref="/faculty" search={search} onSearch={!skeleton && teachers.length > 0 ? setSearch : undefined} />
+            {content()}
         </div>
     );
 }
