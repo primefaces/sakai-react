@@ -29,7 +29,8 @@ export const fetchKafedra = async () => {
 
 export const fetchDepartament = async (id_kafedra: number | null) => {
     try {
-        const res = await axiosInstance.get(`/v1/teacher/controls?id_kafedra=${id_kafedra}`);
+        const id_edu_year = new Date().getFullYear() % 100;
+        const res = await axiosInstance.get(`/v1/teacher/controls?id_kafedra=${id_kafedra}&id_edu_year=${id_edu_year}`);
         const data = await res.data;
 
         return data;
