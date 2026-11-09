@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import MobileAnswersTable from './MobileAnswersTable';
+import MobileAnswersTable, { TeacherResponseBadge } from './MobileAnswersTable';
 import useMediaQuery from '@/hooks/useMediaQuery';
-import { Paginator } from 'primereact/paginator';
-import { Button } from 'primereact/button';
 
 interface Answer {
     themeName: string;
@@ -16,108 +14,71 @@ interface Answer {
     file: string | null;
 }
 
+// строка "иконка — подпись — значение"
+const InfoRow = ({ icon, iconClass, label, children }: { icon: string; iconClass: string; label: string; children: React.ReactNode }) => (
+    <div className="flex items-center gap-[10px] min-w-0">
+        <span className={`flex items-center justify-center shrink-0 w-[32px] h-[32px] rounded-[10px] ${iconClass}`}>
+            <i className={`${icon} text-[0.8125rem]`}></i>
+        </span>
+        <div className="flex flex-col min-w-0 leading-tight">
+            <span className="text-[0.6875rem] uppercase tracking-[0.04em] font-semibold text-[var(--text-color-secondary)]">{label}</span>
+            <span className="text-[0.875rem] font-semibold text-[var(--titleColor)] truncate">{children}</span>
+        </div>
+    </div>
+);
+
 const AnswersTable = ({ report }: { report: any }) => {
     const media = useMediaQuery(`(max-width: 640px)`);
 
-    const [pageState, setPageState] = useState<number>(1);
-
-    useEffect(() => {
-        console.log(report);
-    }, [report]);
-
-    // Ручное управление пагинацией
-    const handlePageChange = (page: number) => {
-        // handleFetchOpenCourse(page, free === 'paid' ? '3' : free === 'free' ? '2' : '', search, categorySelectedId?.id || null, language_id);
-        setPageState(page);
-    };
-
-    const teacherResponseTemplate = (rowData: Answer) => {
-        console.log(rowData);
-
-        return rowData.answered_at && rowData.answered_at?.length ? (
-            rowData.comment ? (
-                <div className="flex items-center">
-                    <i className="pi pi-times text-[red]" style={{ fontSize: '12px' }}></i>
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">{rowData.comment}</span>
-                </div>
-            ) : (
-                <div className="flex items-center">
-                    <i className="pi pi-check text-[green]" style={{ fontSize: '12px' }}></i>
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Ответил</span>
-                </div>
-            )
-        ) : (
-            <div className="flex items-center">
-                <i className="pi pi-times text-[red]" style={{ fontSize: '12px' }}></i>
-                <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Пока проверка не завершена</span>
-            </div>
-        );
-    };
-
     return (
-        <div>
-            <h3 className="text-xl m-0 pb-2">Отчёт</h3>
+        <div className="flex flex-col gap-[12px] pt-[14px] border-t border-[#f1f5f9]">
+            <div className="flex items-center gap-[8px]">
+                <i className="pi pi-file-check text-[var(--mainColor)]"></i>
+                <h3 className="text-[0.9375rem] sm:text-[1.0625rem] font-bold text-[var(--titleColor)] m-0">Отчёт</h3>
+            </div>
+
+            {/* сводка */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-[10px] p-[12px] rounded-[12px] bg-[#f8fafc]">
+                <InfoRow icon="pi pi-calendar" iconClass="bg-[var(--mainColor)]/10 text-[var(--mainColor)]" label="Дата создания">
+                    {report?.created_at ? new Date(report.created_at).toLocaleDateString() : '—'}
+                </InfoRow>
+                {!!report?.my_score && (
+                    <>
+                        <InfoRow icon="pi pi-check-circle" iconClass="bg-[#effaf0] text-[var(--greenColor)]" label="Статус">
+                            Проверено
+                        </InfoRow>
+                        <InfoRow icon="pi pi-star" iconClass="bg-[#fff7e6] text-[#f59e0b]" label="Балл">
+                            <span className="text-[var(--mainColor)]">{report?.my_score}</span>
+                        </InfoRow>
+                    </>
+                )}
+            </div>
+
+            {/* ответы преподавателя */}
             {media ? (
                 <MobileAnswersTable answers={report} />
             ) : (
-                <div className="my-2">
-                    {report?.details?.length > 0 && (
-                        <DataTable value={report?.details} tableStyle={{ minWidth: '50rem' }} emptyMessage={'...'} rows={5} className="text-sm">
-                            <Column field="answered_at" header="Дата ответа"></Column>
-                            <Column field="teacherResponse" header="Ответ преподавателя" body={teacherResponseTemplate}></Column>
-                            <Column
-                                header="Ответ студента"
-                                className='flex justify-center'
-                                body={(rowData) => {
-                                    return (
-                                        <>
-                                            <a href={rowData?.file} download target="_blank" rel="noopener noreferrer">
-                                                {' '}
-                                                <i className='pi pi-file-arrow-up p-2 rounded bg-[var(--mainColor)] text-white'></i>
-                                            </a>
-                                        </>
-                                    );
-                                }}
-                            ></Column>
-                        </DataTable>
-                    )}
-
-                    {/* {report?.map((item: any) => { */}
-                    {/* return (  */}
-                    <div className="inline-flex flex-col gap-2 p-1 border-gray-200 rounded bg-white font-sans">
-                        <div className="flex items-center gap-2">
-                            <div className="tracking-wider text-gray-400 font-semibold">Дата создания: {report?.created_at ? new Date(report.created_at).toLocaleDateString() : '—'}</div>
-                            <i className="pi pi-calendar-clock text-[var(--mainColor)]"></i>
-                        </div>
-
-                        <div className="flex items-center gap-2">
-                            {/* {report?.my_score ? ( */}
-                            {/* // Вариант: Проверено (Строго, без лишних красок) */}
-                            {report?.my_score && (
-                                <div className="flex flex-col gap-1">
-                                    <div className="flex items-center gap-2">
-                                        <span className="font-medium text-gray-700">Статус: Проверено</span>
-                                        <i className="pi pi-check-circle ml-1 text-[green]"></i>
-                                    </div>
-                                    <div className="flex items-center gap-2">
-                                        <span className="font-medium text-gray-700">
-                                            Балл: <b className="text-[var(--mainColor)]">{report?.my_score}</b>
-                                        </span>
-                                    </div>
-                                </div>
+                report?.details?.length > 0 && (
+                    <DataTable value={report?.details} tableStyle={{ minWidth: '40rem' }} emptyMessage={'...'} rows={5} className="text-sm">
+                        <Column field="answered_at" header="Дата ответа"></Column>
+                        <Column field="teacherResponse" header="Ответ преподавателя" body={(rowData: Answer) => <TeacherResponseBadge row={rowData} />}></Column>
+                        <Column
+                            header="Ответ студента"
+                            body={(rowData) => (
+                                <a
+                                    href={rowData?.file}
+                                    download
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-[6px] px-[10px] h-[32px] rounded-[8px] bg-[var(--mainColor)]/10 text-[var(--mainColor)] text-[0.8125rem] font-semibold hover:bg-[var(--mainColor)] hover:text-white transition-colors"
+                                >
+                                    <i className="pi pi-file-pdf text-[0.8125rem]"></i>
+                                    Файл
+                                </a>
                             )}
-                            {/* // ) : (
-                                //     // Вариант: Ожидание (С мягкой анимацией точки)
-                                //     <div className="flex items-center gap-2">
-                                //         <span className="font-medium text-blue-900">Статус: На проверке</span>
-                                //         <i className="pi pi-spinner-dotted pi-spin ml-1"></i>
-                                //     </div>
-                                // )} */}
-                        </div>
-                    </div>
-                    {/* );
-                })} */}
-                </div>
+                        ></Column>
+                    </DataTable>
+                )
             )}
         </div>
     );

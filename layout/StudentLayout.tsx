@@ -133,7 +133,8 @@ const StudentLayout = ({ children }: ChildContainerProps) => {
                     <div className="layout-main">{children}</div>
                     {/* <AppFooter /> */}
                 </div>
-                 <AppConfig />
+                {/* шестерёнка настроек: на /teaching оставляем, внутри предметов/уроков скрываем */}
+                {!pathname.startsWith('/teaching/') && <AppConfig />}
                 <div className="layout-mask"></div>
                 {/*bottom menu */}
                 {media && !pathname.startsWith('/teaching/lessonView/') && <BottomNav />}

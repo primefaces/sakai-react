@@ -9,7 +9,6 @@ import { schema } from '@/schemas/authSchema';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Controller } from 'react-hook-form';
 import { getState, getUser, login, send, verifyTelegram } from '@/services/auth';
-import FancyLinkBtn from '@/app/components/buttons/FancyLinkBtn';
 import { LoginType } from '@/types/login';
 import Link from 'next/link';
 import { Button } from 'primereact/button';
@@ -275,66 +274,156 @@ const LoginPage = () => {
             </div>
         );
 
+    const fieldWrap = (hasError: boolean) =>
+        `group flex items-center gap-[10px] h-[50px] px-[14px] rounded-[12px] border bg-[#f8fafc] transition-all focus-within:bg-white focus-within:border-[var(--mainColor)] focus-within:shadow-[0_0_0_4px_rgba(8,169,230,0.12)] ${
+            hasError ? 'border-[#f87171] bg-[#fff7f7]' : 'border-[#e5e9f0]'
+        }`;
+    const fieldInput = '!border-0 !shadow-none !bg-transparent !p-0 w-full h-full text-[0.9375rem] text-[var(--titleColor)] placeholder:text-[#9aa5b4] focus:!outline-none';
+    const fieldIcon = 'text-[0.9375rem] text-[#9aa5b4] group-focus-within:text-[var(--mainColor)] transition-colors';
+    const errorText = (msg?: string) =>
+        msg ? (
+            <span className="flex items-center gap-[4px] mt-[6px] ml-[4px] text-[0.75rem] font-medium text-[#ef4444]">
+                <i className="pi pi-exclamation-circle text-[0.6875rem]"></i>
+                {msg}
+            </span>
+        ) : null;
+
     return (
-        <div className={`flex flex-col gap-4 pt-6 h-[100vh] login-bg`}>
-            {/* <div className={`flex flex-col gap-4 pt-4 h-[100vh] ${!media && 'login-bg'}`}> */}
-            {/* <InfoBanner title="Кирүү" titleSize={{ default: '30px', sm: '40px' }} /> */}
-            <div className="flex gap-4 flex-column lg:flex-row items-center justify-evenly px-4 mb-8">
-                <Dialog header={translations.confirmation} visible={visible} style={{ width: '350px' }} onHide={() => setVisible(false)}>
-                    <div className="flex flex-col items-center gap-4 p-4">
-                        <div className="flex items-center justify-center w-16 h-16 bg-blue-500 rounded-full text-white shadow-lg">
-                            <i className="pi pi-telegram text-[var(--mainColor)] text-3xl"></i>
-                        </div>
-                        <p className="text-md text-gray-700 text-center font-medium">{'Введите код с телеграмм'}</p>
-                        <div className="text-center text-sm font-medium text-gray-500">
-                            <span className="text-[red] font-bold">{'Код действителен до'}:</span>{' '}
-                            <span className="font-bold text-red-500">
-                                {formatTime(timeLeft.minutes)}:{formatTime(timeLeft.seconds)}
-                            </span>
-                        </div>
-                        <InputText type="number" value={code} onChange={(e) => setCode(e.target.value)} placeholder={'Введите код'} className="w-full p-inputtext-md text-center" />
-
-                        <Button label={'Подтвердить'} size={'small'} className={`w-full ${verifyBtnDisabled ? 'opacity-50 pointer-events-none' : ''}`} onClick={handleVerifyClick} disabled={!code} />
+        <div className="min-h-[100dvh] w-full flex bg-[#f4f7fb]">
+            {/* Подтверждение через Telegram */}
+            <Dialog
+                header={translations.confirmation}
+                visible={visible}
+                style={{ width: '380px' }}
+                breakpoints={{ '480px': '92vw' }}
+                onHide={() => setVisible(false)}
+                draggable={false}
+            >
+                <div className="flex flex-col items-center gap-[14px] pt-[4px] pb-[8px]">
+                    <div className="flex items-center justify-center w-[64px] h-[64px] rounded-full bg-[var(--mainColor)]/10">
+                        <span className="flex items-center justify-center w-[46px] h-[46px] rounded-full bg-[var(--mainColor)] text-white shadow-[0_8px_20px_-6px_rgba(8,169,230,0.6)]">
+                            <i className="pi pi-telegram text-[1.375rem]"></i>
+                        </span>
                     </div>
-                </Dialog>
-                <div className={`w-[90%] sm:w-[500px] shadow-2xl bg-white py-6 px-3 md:py-8 sm:px-4 md:px-8 rounded`}>
-                    <h1 className="text-3xl sm:text-4xl font-bold inline-block border-b-2 pb-1 border-[var(--mainColor)]">{translations.login}</h1>
-                    <form onSubmit={handleSubmit(onSubmit, onError)} noValidate className="w-full flex flex-col gap-4">
-                        <div className="flex flex-col">
-                            <InputText {...register('email')} id="email1" type="text" placeholder="email@oshsu.kg" className="w-[100%] p-2 sm:p-3" />
-                            {errors.email && <b className="text-[red] text-[12px] ml-2">{errors.email.message}</b>}
-                        </div>
-                        <div className="flex flex-col">
-                            {/* <Controller
-                                name="password"
-                                control={control}
-                                defaultValue=""
-                                render={({ field }) => <Password {...field} toggleMask placeholder='Пароль' className={`w-[100%]`} inputClassName="w-[90%] p-2 sm:p-3" inputStyle={{ marginRight: '8px' }} feedback={false} />}
-                            /> */}
-                            <Controller
-                                name="password"
-                                control={control}
-                                defaultValue=""
-                                render={({ field }) => (
-                                    <div className="p-inputgroup flex-1">
-                                        <InputText {...field} type={showPassword ? 'text' : 'password'} placeholder={'Пароль'} className="w-full p-2 sm:p-3" />
-                                        <Button type="button" icon={showPassword ? 'pi pi-eye-slash text-white' : 'pi pi-eye text-white'} onClick={() => setShowPassword((prev) => !prev)} className="p-button-text" />
-                                    </div>
-                                )}
-                            />
-                            {errors.password && <b className="text-[red] text-[12px] ml-2">{errors.password.message}</b>}
+                    <p className="m-0 text-[0.9375rem] text-[var(--titleColor)] text-center font-semibold">{'Введите код с телеграмм'}</p>
+                    <div className="inline-flex items-center gap-[6px] px-[12px] py-[5px] rounded-full bg-[#fef2f2] text-[0.8125rem] text-[#dc2626]">
+                        <i className="pi pi-clock text-[0.75rem]"></i>
+                        <span>{'Код действителен до'}:</span>
+                        <b className="tabular-nums">
+                            {formatTime(timeLeft.minutes)}:{formatTime(timeLeft.seconds)}
+                        </b>
+                    </div>
+                    <InputText
+                        type="number"
+                        inputMode="numeric"
+                        value={code}
+                        onChange={(e) => setCode(e.target.value)}
+                        placeholder={'Введите код'}
+                        className="w-full h-[52px] !rounded-[12px] text-center text-[1.25rem] font-semibold tracking-[0.3em]"
+                    />
+                    <Button label={'Подтвердить'} className={`w-full h-[48px] !rounded-[12px] ${verifyBtnDisabled ? 'opacity-50 pointer-events-none' : ''}`} onClick={handleVerifyClick} disabled={!code} />
+                </div>
+            </Dialog>
+
+            {/* Левая бренд-панель (только ПК) */}
+            <aside className="hidden lg:flex relative w-[46%] xl:w-[50%] overflow-hidden flex-col justify-between p-[48px] text-white bg-gradient-to-br from-[var(--mainColor)] via-[#2b6fc4] to-[var(--titleColor)]">
+                <div className="absolute -top-[120px] -right-[120px] w-[380px] h-[380px] rounded-full bg-white/10 blur-[2px]"></div>
+                <div className="absolute -bottom-[160px] -left-[100px] w-[420px] h-[420px] rounded-full bg-white/[0.07]"></div>
+                <div className="absolute inset-0 login-bg opacity-[0.08]"></div>
+
+                <Link href="/" className="relative z-[1] inline-flex items-center gap-[12px] self-start text-white">
+                    <span className="flex items-center justify-center w-[64px] h-[64px] rounded-[18px] bg-white shadow-lg">
+                        <img src="/layout/images/logo-remove.png" alt="logo" className="w-[48px] h-auto" />
+                    </span>
+                    <span className="text-[1.125rem] font-bold tracking-wide">Mooc ОшГУ</span>
+                </Link>
+
+                <div className="relative z-[1] flex flex-col gap-[16px] max-w-[460px]">
+                    <h2 className="m-0 text-[2.25rem] xl:text-[2.625rem] leading-[1.15] font-bold">{translations.welcome}</h2>
+                    <p className="m-0 text-[1.0625rem] leading-relaxed text-white">{translations.welcomeToDistanceLearningPortal}</p>
+                </div>
+
+                <span className="relative z-[1] text-[0.8 125rem] text-white/60">© {new Date().getFullYear()} ОшГУ</span>
+            </aside>
+
+            {/* Форма */}
+            <main className="flex-1 flex items-center justify-center px-[16px] py-[32px] sm:px-[32px]">
+                <div className="w-full max-w-[420px] flex flex-col gap-[24px]">
+                    {/* логотип для мобильных/планшетов */}
+                    <Link href="/" className="lg:hidden self-center">
+                        <img src="/layout/images/logo-remove.png" alt="logo" className="w-[84px] sm:w-[96px] h-auto" />
+                    </Link>
+
+                    <div className="bg-white rounded-[20px] border border-[#eef2f6] shadow-[0_20px_50px_-24px_rgba(15,23,42,0.25)] p-[22px] sm:p-[32px] flex flex-col gap-[22px]">
+                        <div className="flex flex-col gap-[6px]">
+                            <h1 className="m-0 text-[1.625rem] sm:text-[1.875rem] font-bold text-[var(--titleColor)]">{translations.login}</h1>
+                            <p className="m-0 text-[0.875rem] text-[var(--text-color-secondary)] lg:hidden">{translations.welcomeToDistanceLearningPortal}</p>
                         </div>
 
-                        <div className={`${disabledState ? 'opacity-50 pointer-events-none' : ''} `}>
-                            <FancyLinkBtn btnWidth={'100%'} backround={'--mainColor'} effectBg={'--titleColor'} title={translations.login} btnType={true} />
+                        <form onSubmit={handleSubmit(onSubmit, onError)} noValidate className="w-full flex flex-col gap-[16px]">
+                            <div className="flex flex-col">
+                                <label htmlFor="email1" className="mb-[6px] ml-[2px] text-[0.8125rem] font-semibold text-[var(--titleColor)]">
+                                    Email
+                                </label>
+                                <div className={fieldWrap(!!errors.email)}>
+                                    <i className={`pi pi-envelope ${fieldIcon}`}></i>
+                                    <InputText {...register('email')} id="email1" type="text" autoComplete="username" placeholder="email@oshsu.kg" className={fieldInput} />
+                                </div>
+                                {errorText(errors.email?.message)}
+                            </div>
+
+                            <div className="flex flex-col">
+                                <label htmlFor="password1" className="mb-[6px] ml-[2px] text-[0.8125rem] font-semibold text-[var(--titleColor)]">
+                                    Пароль
+                                </label>
+                                <Controller
+                                    name="password"
+                                    control={control}
+                                    defaultValue=""
+                                    render={({ field }) => (
+                                        <div className={fieldWrap(!!errors.password)}>
+                                            <i className={`pi pi-lock ${fieldIcon}`}></i>
+                                            <InputText {...field} id="password1" type={showPassword ? 'text' : 'password'} autoComplete="current-password" placeholder={'Пароль'} className={fieldInput} />
+                                            <button
+                                                type="button"
+                                                onClick={() => setShowPassword((prev) => !prev)}
+                                                aria-label={showPassword ? 'Скрыть пароль' : 'Показать пароль'}
+                                                className="shrink-0 flex items-center justify-center w-[34px] h-[34px] -mr-[6px] rounded-[8px] text-[#9aa5b4] hover:text-[var(--mainColor)] hover:bg-[var(--mainColor)]/10 transition-colors"
+                                            >
+                                                <i className={showPassword ? 'pi pi-eye-slash' : 'pi pi-eye'}></i>
+                                            </button>
+                                        </div>
+                                    )}
+                                />
+                                {errorText(errors.password?.message)}
+                            </div>
+
+                            <button
+                                type="submit"
+                                disabled={disabledState}
+                                className="mt-[6px] flex items-center justify-center gap-[8px] h-[50px] rounded-[12px] bg-[var(--mainColor)] text-white text-[0.9375rem] font-semibold shadow-[0_10px_24px_-10px_rgba(8,169,230,0.7)] hover:brightness-105 active:scale-[0.99] transition-all disabled:opacity-60 disabled:pointer-events-none"
+                            >
+                                {disabledState ? <i className="pi pi-spin pi-spinner"></i> : <i className="pi pi-sign-in text-[0.875rem]"></i>}
+                                {translations.login}
+                            </button>
+                        </form>
+
+                        <div className="flex items-center gap-[12px] text-[0.75rem] text-[#9aa5b4]">
+                            <span className="flex-1 h-px bg-[#eef2f6]"></span>
+                            <span>или</span>
+                            <span className="flex-1 h-px bg-[#eef2f6]"></span>
                         </div>
-                    </form>
-                    <Link href={'/'} className="mt-2 w-full">
-                        <FancyLinkBtn btnWidth={'100%'} backround={'--mainColor'} effectBg={'--titleColor'} title={translations.mainPage} btnType={false} />
-                    </Link>
+
+                        <Link
+                            href={'/'}
+                            className="flex items-center justify-center gap-[8px] h-[48px] rounded-[12px] border border-[#e5e9f0] bg-white text-[0.9375rem] font-semibold text-[var(--titleColor)] hover:border-[var(--mainColor)] hover:text-[var(--mainColor)] transition-colors"
+                        >
+                            <i className="pi pi-home text-[0.875rem]"></i>
+                            {translations.mainPage}
+                        </Link>
+                    </div>
                 </div>
-            </div>
-            {/*<BottomNav/>*/}
+            </main>
         </div>
     );
 };

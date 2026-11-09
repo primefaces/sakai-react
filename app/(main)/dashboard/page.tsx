@@ -180,99 +180,91 @@ export default function Dashboard() {
 
     if (!user?.is_student) {
         return (
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-[16px]">
                 {/* user info */}
-                <div className="main-bg flex justify-between items-center">
-                    <h1 className="text-lg sm:text-xl m-0">
-                        {user ? (
-                            <div className="flex flex-col gap-1">
-                                {user?.last_name} {user?.name && user.name[0] + '.'} {user?.father_name && user.father_name[0] + '.'}
-                                <small className="text-sm">
-                                    {translations.teacher} {user?.is_working && departament?.name && `• ${translations.headOfDepartment}`}
-                                </small>
-                            </div>
-                        ) : (
-                            '---'
-                        )}
-                    </h1>
+                <div className="relative overflow-hidden rounded-[16px] px-[16px] py-[14px] sm:px-[22px] sm:py-[16px] bg-white border border-[#eef2f6] shadow-[0_1px_3px_rgba(0,0,0,0.05)]">
+                    <div className="relative flex items-center gap-[12px] sm:gap-[16px]">
+                        <div className="flex items-center justify-center shrink-0 w-[46px] h-[46px] sm:w-[52px] sm:h-[52px] rounded-full bg-[var(--mainColor)]/10 text-[var(--mainColor)] text-[16px] sm:text-[18px] font-bold uppercase">
+                            {user ? `${user?.last_name?.[0] ?? ''}${user?.name?.[0] ?? ''}` : <i className="pi pi-user text-[20px]"></i>}
+                        </div>
+                        <h1 className="text-lg sm:text-xl m-0 min-w-0">
+                            {user ? (
+                                <div className="flex flex-col gap-[6px]">
+                                    <span className="truncate font-semibold">
+                                        {user?.last_name} {user?.name && user.name[0] + '.'} {user?.father_name && user.father_name[0] + '.'}
+                                    </span>
+                                    <div className="flex flex-wrap items-center gap-[6px]">
+                                        <span className="inline-flex items-center gap-[6px] px-[10px] py-[3px] rounded-full bg-[var(--surface-100)] text-[var(--bodyColor)] text-[12px] sm:text-[13px] font-medium">
+                                            <i className="pi pi-briefcase text-[11px]"></i>
+                                            {translations.teacher}
+                                        </span>
+                                        {user?.is_working && departament?.name && (
+                                            <span className="inline-flex items-center gap-[6px] px-[10px] py-[3px] rounded-full bg-[var(--mainColor)]/10 text-[var(--mainColor)] text-[12px] sm:text-[13px] font-semibold">
+                                                <i className="pi pi-star-fill text-[11px]"></i>
+                                                {translations.headOfDepartment}
+                                            </span>
+                                        )}
+                                    </div>
+                                </div>
+                            ) : (
+                                '---'
+                            )}
+                        </h1>
+                    </div>
                 </div>
 
                 {/* statistic */}
                 {skeleton ? (
-                    <div className="w-full flex items-center justify-center gap-1 flex-col sm:flex-row sm:flex-wrap">
-                        <GroupSkeleton count={1} size={{ width: '260px', height: '6rem' }} />
-                        <GroupSkeleton count={1} size={{ width: '260px', height: '6rem' }} />
-                        <GroupSkeleton count={1} size={{ width: '260px', height: '6rem' }} />
-                        <GroupSkeleton count={1} size={{ width: '260px', height: '6rem' }} />
+                    <div className="[display:grid] grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-[12px]">
+                        <GroupSkeleton count={1} size={{ width: '100%', height: '7rem' }} />
+                        <GroupSkeleton count={1} size={{ width: '100%', height: '7rem' }} />
+                        <GroupSkeleton count={1} size={{ width: '100%', height: '7rem' }} />
+                        <GroupSkeleton count={1} size={{ width: '100%', height: '7rem' }} />
                     </div>
                 ) : (
                     !hasCourses && (
-                        <div className="flex items-start gap-2 justify-around lg:justify-between flex-wrap mb-2">
-                            <Link href={'/course/1'} className="main-bg flex flex-col gap-1 w-full md:!w-[250px] px-4 min-h-[132px] hover:underline">
-                                <div className="flex justify-between gap-1 items-start">
-                                    <b className="underline text-[var(--bodyColor)]">{translations.allCourses}</b>
-                                    <i className="pi pi-fw pi-book text-xl p-1 px-3 flex justify-center rounded bg-[var(--productQuantityBg)] text-[var(--productQuantityText)]"></i>
-                                </div>
-                                <div className="text-lg mb-1 text-[black]">{courses?.all?.total}</div>
-                                {courses?.all.last_month && courses?.all.last_month > 0 ? (
-                                    <small>
-                                        <b className="text-[var(--greenColor)]">{courses?.all.last_month}</b> {translations.createdLast30Days}
-                                    </small>
-                                ) : (
-                                    ''
-                                )}
-                            </Link>
-                            <Link href={'/course/1'} className="main-bg flex flex-col gap-1 w-full md:!w-[250px] px-4 min-h-[132px] hover:underline">
-                                <div className="flex justify-between gap-1 items-start">
-                                    <b className="underline text-[var(--bodyColor)]">{translations.closedCourses}</b>
-                                    <i className="pi pi-fw pi-lock text-xl p-1 px-3 flex justify-center rounded bg-[var(--productQuantityBg)] text-[var(--productQuantityText)]"></i>
-                                </div>
-                                <div className="text-lg mb-1 text-[black]">{courses?.lock?.total}</div>
-                                {courses?.lock.last_month && courses?.lock.last_month > 0 ? (
-                                    <small>
-                                        <b className="text-[var(--greenColor)]">{courses?.lock.last_month}</b> {translations.createdLast30Days}
-                                    </small>
-                                ) : (
-                                    ''
-                                )}
-                            </Link>
-                            <Link href={'/course/1'} className="main-bg flex flex-col gap-1 w-full md:!w-[250px] px-4 min-h-[132px] hover:underline">
-                                <div className="flex justify-between gap-1 items-start">
-                                    <b className="underline text-[var(--bodyColor)]">{translations.openCoursesTitle}</b>
-                                    <i className="pi pi-fw pi-lock-open text-xl p-1 px-3 flex justify-center rounded bg-[var(--productQuantityBg)] text-[var(--productQuantityText)]"></i>
-                                </div>
-                                <div className="text-lg mb-1 text-[black]">{courses?.open?.total}</div>
-                                {courses?.open.last_month && courses?.open.last_month > 0 ? (
-                                    <small>
-                                        <b className="text-[var(--greenColor)]">{courses?.open.last_month}</b> {translations.createdLast30Days}
-                                    </small>
-                                ) : (
-                                    ''
-                                )}
-                            </Link>
-                            <Link href={'/course/1'} className="main-bg flex flex-col gap-1 w-full md:!w-[250px] px-4 min-h-[132px] hover:underline">
-                                <div className="flex justify-between gap-1 items-start">
-                                    <b className="underline text-[var(--bodyColor)]">{translations.paidCourses}</b>
-                                    <i className="pi pi-fw pi-wallet text-xl p-1 px-3 flex justify-center rounded bg-[var(--productQuantityBg)] text-[var(--productQuantityText)]"></i>
-                                </div>
-                                <div className="text-lg mb-1 text-[black]">{courses?.wallet?.total}</div>
-                                {courses?.wallet.last_month && courses?.wallet.last_month > 0 ? (
-                                    <small>
-                                        <b className="text-[var(--greenColor)]">{courses?.wallet.last_month}</b> {translations.createdLast30Days}
-                                    </small>
-                                ) : (
-                                    ''
-                                )}
-                            </Link>
+                        <div className="[display:grid] grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-[12px]">
+                            {[
+                                { title: translations.allCourses, icon: 'pi-book', stat: courses?.all, color: '#3b82f6', bg: '#dbeafe' },
+                                { title: translations.closedCourses, icon: 'pi-lock', stat: courses?.lock, color: '#f7634d', bg: '#fde4df' },
+                                { title: translations.openCoursesTitle, icon: 'pi-lock-open', stat: courses?.open, color: '#16a34a', bg: '#dcfce7' },
+                                { title: translations.paidCourses, icon: 'pi-wallet', stat: courses?.wallet, color: '#8b5cf6', bg: '#ede9fe' }
+                            ].map((card) => (
+                                <Link
+                                    key={card.icon}
+                                    href={'/course/1'}
+                                    className="group relative flex flex-col gap-[10px] min-h-[120px] p-[16px] rounded-[16px] bg-white border border-[#eef2f6] shadow-[0_1px_3px_rgba(0,0,0,0.05)] transition-all duration-200 hover:-translate-y-[2px] hover:shadow-[0_12px_24px_-12px_rgba(33,34,95,0.25)] hover:border-[var(--mainBorder)]"
+                                >
+                                    <div className="flex justify-between gap-[8px] items-start">
+                                        <span className="text-[14px] font-medium text-[var(--bodyColor)] leading-snug">{card.title}</span>
+                                        <span className="flex items-center justify-center shrink-0 w-[42px] h-[42px] rounded-[12px] transition-transform duration-200 group-hover:scale-110" style={{ backgroundColor: card.bg, color: card.color }}>
+                                            <i className={`pi ${card.icon} text-[18px]`}></i>
+                                        </span>
+                                    </div>
+                                    <div className="text-[22px] font-bold leading-none text-[var(--titleColor)]">{card.stat?.total}</div>
+                                    {card.stat?.last_month && card.stat.last_month > 0 ? (
+                                        <small className="inline-flex items-center gap-[6px] self-start px-[8px] py-[3px] rounded-full bg-[#ecfdf3] text-[12px] text-[var(--bodyColor)]">
+                                            <i className="pi pi-arrow-up-right text-[10px] text-[var(--greenColor)]"></i>
+                                            <b className="text-[var(--greenColor)]">{card.stat.last_month}</b> {translations.createdLast30Days}
+                                        </small>
+                                    ) : (
+                                        ''
+                                    )}
+                                    <i className="pi pi-arrow-right absolute right-[16px] bottom-[16px] text-[12px] text-[var(--mainColor)] opacity-0 -translate-x-[4px] transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-0"></i>
+                                </Link>
+                            ))}
                         </div>
                     )
                 )}
 
                 {/* activity */}
-                <div ref={ref} className="w-full main-bg p-2">
-                    <h2 style={{ marginBottom: 20 }} className="text-md sm:text-lg flex items-center justify-center gap-2">
-                        <span>{translations.activity}</span>
-                    </h2>
+                <div ref={ref} className="w-full rounded-[16px] bg-white border border-[#eef2f6] shadow-[0_1px_3px_rgba(0,0,0,0.05)] p-[12px] sm:p-[18px]">
+                    <div className="flex items-center gap-[10px] mb-[16px]">
+                        <span className="flex items-center justify-center w-[36px] h-[36px] rounded-[10px] bg-[var(--mainColor)]/10 text-[var(--mainColor)]">
+                            <i className="pi pi-chart-line text-[16px]"></i>
+                        </span>
+                        <h2 className="m-0 text-[16px] sm:text-[18px] font-semibold">{translations.activity}</h2>
+                    </div>
                     <ActivityPage value={contribution} />
                 </div>
 

@@ -361,17 +361,13 @@ export default function Course() {
     const imageBodyTemplate = (product: CourseType) => {
         const image = product.image;
 
-        if (typeof image === 'string') {
-            return (
-                <div className="flex justify-center w-[50px] h-[50px] mx-4" key={product.id}>
-                    <img src={image} alt="Course image" className="w-full object-cover shadow-2 border-round" />
-                </div>
-            );
-        }
-
         return (
-            <div className="flex justify-center w-[50px] h-[50px] mx-4" key={product.id}>
-                <img src={'/layout/images/no-image.png'} alt="Course image" className="w-full object-cover shadow-2 border-round" />
+            <div className="w-[52px] h-[52px] mx-auto rounded-[12px] overflow-hidden bg-[#f1f5f9] border border-[#eef2f6] shadow-[0_1px_2px_rgba(0,0,0,0.05)]" key={product.id}>
+                {typeof image === 'string' ? (
+                    <img src={image} alt="Course image" className="w-full h-full object-cover" />
+                ) : (
+                    <img src={'/layout/images/no-image.png'} alt="Course image" className="w-full h-full object-cover opacity-60" />
+                )}
             </div>
         );
     };
@@ -504,16 +500,59 @@ export default function Course() {
         });
     };
 
+    const formatDate = (value?: string) => {
+        if (!value) return '';
+        const date = new Date(value);
+        return isNaN(date.getTime()) ? '' : date.toLocaleDateString('ru-RU');
+    };
+
+    // чип статуса курса (тип аудитории)
+    const audienceChip = (rowData: any, compact = false) => (
+        <button
+            type="button"
+            title={rowData?.audience_type?.title}
+            className="inline-flex items-center gap-[6px] max-w-full px-[10px] py-[5px] rounded-full border border-[var(--mainBorder)] bg-[var(--mainColor)]/5 text-[var(--mainColor)] text-[0.75rem] font-semibold cursor-pointer whitespace-nowrap transition-colors duration-200 hover:bg-[var(--mainColor)] hover:text-white hover:border-[var(--mainColor)]"
+            onClick={() => {
+                setSelectedCourse(rowData?.id);
+                handleFetchCourseOpenStatus();
+            }}
+        >
+            <i className={`${rowData?.audience_type?.icon} text-[0.75rem]`}></i>
+            {!compact && rowData?.audience_type?.title && <span className="truncate">{rowData.audience_type.title}</span>}
+            <i className="pi pi-angle-down text-[0.625rem] opacity-70"></i>
+        </button>
+    );
+
+    const publishedChip = (isPublished: boolean) =>
+        isPublished ? (
+            <span className="inline-flex items-center gap-[5px] px-[10px] py-[4px] rounded-full bg-[#ecfdf3] text-[#16a34a] text-[0.75rem] font-semibold whitespace-nowrap">
+                <i className="pi pi-check-circle text-[0.75rem]"></i>
+                {translations.published}
+            </span>
+        ) : (
+            <span className="inline-flex items-center gap-[5px] px-[10px] py-[4px] rounded-full bg-[var(--redBgColor)] text-[var(--redColor)] text-[0.75rem] font-semibold whitespace-nowrap">
+                <i className="pi pi-times-circle text-[0.75rem]"></i>
+                {translations.notPublished}
+            </span>
+        );
+
     const itemTemplate = (shablonData: any) => {
         return (
-            <div className="col-12 py-2">
-                <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex flex-col gap-3 hover:shadow-md transition-all duration-300">
-                    {/* Header: Title & Actions */}
-                    <div className="flex justify-between items-start gap-2">
-                        <div className="font-bold text-lg leading-tight text-slate-800">
+            <div className="col-12 py-[6px] px-0">
+                <div className={`relative bg-white rounded-[16px] border p-[14px] flex flex-col gap-[12px] transition-all duration-300 shadow-[0_1px_3px_rgba(0,0,0,0.05)] ${forStreamId?.id === shablonData.id ? 'border-[var(--mainColor)] shadow-[0_8px_20px_-12px_rgba(8,169,230,0.6)]' : 'border-[#eef2f6]'}`}>
+                    {/* Header: Image, Title & Actions */}
+                    <div className="flex gap-[12px] items-start">
+                        <div className="w-[64px] h-[64px] shrink-0 rounded-[12px] overflow-hidden bg-[#f1f5f9] border border-[#eef2f6]">
+                            {typeof shablonData.image === 'string' ? (
+                                <img src={shablonData.image} alt="Course" className="w-full h-full object-cover" />
+                            ) : (
+                                <img src={'/layout/images/no-image.png'} alt="No image" className="w-full h-full object-cover opacity-50" />
+                            )}
+                        </div>
+                        <div className="flex flex-col gap-[6px] min-w-0 flex-1">
                             <Link
                                 href={`/course/courseDetail/${shablonData.id}/process`}
-                                className="hover:text-blue-600 transition-colors"
+                                className="font-semibold text-[0.9375rem] leading-snug text-[var(--titleColor)] break-words hover:text-[var(--mainColor)] transition-colors"
                                 onClick={() => {
                                     setMainCourseId(shablonData.id);
                                     setGlobalLoading(true);
@@ -524,55 +563,26 @@ export default function Course() {
                             >
                                 {shablonData.title}
                             </Link>
+                            <div className="flex flex-wrap items-center gap-[6px]">
+                                {audienceChip(shablonData)}
+                                {publishedChip(shablonData.is_published)}
+                            </div>
                         </div>
                         {tableMedia && (
-                            <div className="shrink-0">
+                            <div className="shrink-0 -mr-[8px]">
                                 <Redacting redactor={getRedactor(shablonData, { onEdit: edit, getConfirmOptions, onDelete: handleDeleteCourse }, inboxConfirm)} textSize={'14px'} />
                             </div>
                         )}
                     </div>
 
-                    {/* Image & Main Info */}
-                    <div className="flex gap-4 items-center">
-                        <div className="w-20 h-20 shrink-0 rounded-lg overflow-hidden bg-slate-100 border border-slate-100">
-                            {typeof shablonData.image === 'string' ? (
-                                <img src={shablonData.image} alt="Course" className="w-full h-full object-cover" />
-                            ) : (
-                                <img src={'/layout/images/no-image.png'} alt="No image" className="w-full h-full object-cover opacity-50" />
-                            )}
+                    {/* Info */}
+                    <div className="[display:grid] grid-cols-2 gap-[8px]">
+                        <div className="flex flex-col gap-[2px] px-[10px] py-[8px] rounded-[10px] bg-[#f8fafc]">
+                            <span className="text-[0.6875rem] uppercase tracking-wide text-[var(--text-color-secondary)]">{translations.score}</span>
+                            <span className="text-[1rem] font-bold text-[var(--titleColor)]">{shablonData?.max_score ?? 0}</span>
                         </div>
-
-                        <div className="flex flex-col gap-1.5 w-full">
-                            <div className="flex items-center justify-between text-sm">
-                                <span className="text-slate-500">{translations.status}:</span>
-                                <Button
-                                    size="small"
-                                    className="p-1 w-4 h-8 flex items-center justify-center rounded-full text-[var(--mainColor)] hover:bg-blue-100 border-none"
-                                    onClick={() => {
-                                        setSelectedCourse(shablonData?.id);
-                                        handleFetchCourseOpenStatus();
-                                    }}
-                                >
-                                    <i className={`${shablonData?.audience_type?.icon}`}></i>
-                                </Button>
-                            </div>
-
-                            <div className="flex items-center justify-between text-sm">
-                                <span className="text-slate-500">{translations.score}:</span>
-                                <span className="font-semibold text-slate-700">{shablonData?.max_score}</span>
-                            </div>
-
-                            <div className="flex items-center justify-between text-sm">
-                                <span className="text-slate-500">{translations.publication}:</span>
-                                {shablonData.is_published ? <i className="pi pi-check-circle text-green-500 text-lg"></i> : <i className="pi pi-times-circle text-red-500 text-lg"></i>}
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Controls Section */}
-                    <div className="pt-3 border-t border-slate-100 flex flex-col gap-3">
-                        <div className="flex items-center justify-between">
-                            <span className="text-[var(--mainColor)] text-sm">{translations.onReview} </span>
+                        <div className="flex items-center justify-between gap-[6px] px-[10px] py-[8px] rounded-[10px] bg-[#f8fafc]">
+                            <span className="text-[0.75rem] leading-tight text-[var(--bodyColor)]">{translations.onReview}</span>
                             <label className="custom-radio">
                                 <input
                                     type="checkbox"
@@ -585,7 +595,10 @@ export default function Course() {
                                 <span className="checkbox-mark"></span>
                             </label>
                         </div>
+                    </div>
 
+                    {/* Controls Section */}
+                    <div className="pt-[12px] border-t border-[#f1f5f9] flex items-center justify-between gap-[8px]">
                         <label className="custom-course-radio">
                             <input
                                 type="radio"
@@ -593,7 +606,7 @@ export default function Course() {
                                 checked={forStreamId?.id === shablonData.id}
                             />
                             <span
-                                className="radio-course-mark rounded"
+                                className="radio-course-mark connect-chip rounded"
                                 onClick={() => {
                                     const newValue = { id: shablonData.id, title: shablonData.title };
                                     // Устанавливаем состояние
@@ -606,89 +619,87 @@ export default function Course() {
                                     setContextStreamIndex(1);
                                 }}
                             >
+                                <i className="pi pi-link text-[0.6875rem]"></i>
                                 {translations.connected} ({shablonData.connects_count})
                             </span>
                         </label>
-                    </div>
-
-                    {!tableMedia && (
-                        <div className="flex justify-end pt-2">
+                        {!tableMedia && (
                             <Redacting redactor={getRedactor(shablonData, { onEdit: edit, getConfirmOptions, onDelete: handleDeleteCourse }, inboxConfirm)} textSize={'14px'} />
-                        </div>
-                    )}
+                        )}
+                    </div>
                 </div>
             </div>
         );
     };
 
     const courseFiltered = () => (
-        <div className="mt-4 sm:mt-3 sm:py-3 border-round-lg">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4 bg-gray-50/50 rounded-2xl text-sm">
-                {/* Селект: Тип аудитории */}
-                <div className="flex flex-col gap-2">
-                    <label htmlFor="course_audience_type_id" className="text-xs font-semibold text-gray-500 ml-1 uppercase tracking-wider">
-                        {translations.courseStatus}
-                    </label>
-                    <Dropdown
-                        id="course_audience_type_id"
-                        name="course_audience_type_id"
-                        value={filters.course_audience_type_id}
-                        options={audienceTypeOptions}
-                        onChange={handleFilterChange}
-                        placeholder="Выберите тип"
-                        className="w-full shadow-sm ring-1 ring-gray-200 rounded-xl hover:shadow-md transition-all duration-300 bg-white"
-                        pt={{
-                            root: { className: 'h-9 items-center' }
-                        }}
-                    />
-                </div>
+        <div className="my-[12px]">
+            <div className="flex flex-col lg:flex-row lg:items-end gap-[12px] p-[12px] sm:p-[14px] bg-[#f8fafc] border border-[#eef2f6] rounded-[14px] text-sm">
+                <div className="[display:grid] grid-cols-1 sm:grid-cols-3 gap-[12px] flex-1">
+                    {/* Селект: Тип аудитории */}
+                    <div className="flex flex-col gap-[6px] min-w-0">
+                        <label htmlFor="course_audience_type_id" className="text-[0.6875rem] font-semibold text-[var(--text-color-secondary)] ml-[2px] uppercase tracking-wider">
+                            {translations.courseStatus}
+                        </label>
+                        <Dropdown
+                            id="course_audience_type_id"
+                            name="course_audience_type_id"
+                            value={filters.course_audience_type_id}
+                            options={audienceTypeOptions}
+                            onChange={handleFilterChange}
+                            placeholder="Выберите тип"
+                            className="w-full rounded-[10px] bg-white border-[#e2e8f0] transition-all duration-200 hover:border-[var(--mainBorder)]"
+                            pt={{
+                                root: { className: 'h-[38px] items-center' }
+                            }}
+                        />
+                    </div>
 
-                {/* Селект: На проверке */}
-                <div className="flex flex-col gap-2">
-                    <label htmlFor="status" className="text-xs font-semibold text-gray-500 ml-1 uppercase tracking-wider">
-                        {translations.onReview}
-                    </label>
-                    <Dropdown
-                        id="status"
-                        name="status"
-                        value={filters.status}
-                        options={statusOptions}
-                        onChange={handleFilterChange}
-                        className="w-full shadow-sm ring-1 ring-gray-200 rounded-xl hover:shadow-md transition-all duration-300 bg-white"
-                        pt={{
-                            root: { className: 'h-9 items-center' }
-                        }}
-                    />
-                </div>
+                    {/* Селект: На проверке */}
+                    <div className="flex flex-col gap-[6px] min-w-0">
+                        <label htmlFor="status" className="text-[0.6875rem] font-semibold text-[var(--text-color-secondary)] ml-[2px] uppercase tracking-wider">
+                            {translations.onReview}
+                        </label>
+                        <Dropdown
+                            id="status"
+                            name="status"
+                            value={filters.status}
+                            options={statusOptions}
+                            onChange={handleFilterChange}
+                            className="w-full rounded-[10px] bg-white border-[#e2e8f0] transition-all duration-200 hover:border-[var(--mainBorder)]"
+                            pt={{
+                                root: { className: 'h-[38px] items-center' }
+                            }}
+                        />
+                    </div>
 
-                {/* Селект: Опубликовано */}
-                <div className="flex flex-col gap-2 mr-2">
-                    <label htmlFor="is_published" className="text-xs font-semibold text-gray-500 ml-1 uppercase tracking-wider">
-                        {translations.published}
-                    </label>
-                    <Dropdown
-                        id="is_published"
-                        name="is_published"
-                        value={filters.is_published}
-                        options={publishedOptions}
-                        onChange={handleFilterChange}
-                        className="w-full shadow-sm ring-1 ring-gray-200 rounded-xl hover:shadow-md transition-all duration-300 bg-white"
-                        pt={{
-                            root: { className: 'h-9 items-center' }
-                        }}
-                    />
+                    {/* Селект: Опубликовано */}
+                    <div className="flex flex-col gap-[6px] min-w-0">
+                        <label htmlFor="is_published" className="text-[0.6875rem] font-semibold text-[var(--text-color-secondary)] ml-[2px] uppercase tracking-wider">
+                            {translations.published}
+                        </label>
+                        <Dropdown
+                            id="is_published"
+                            name="is_published"
+                            value={filters.is_published}
+                            options={publishedOptions}
+                            onChange={handleFilterChange}
+                            className="w-full rounded-[10px] bg-white border-[#e2e8f0] transition-all duration-200 hover:border-[var(--mainBorder)]"
+                            pt={{
+                                root: { className: 'h-[38px] items-center' }
+                            }}
+                        />
+                    </div>
                 </div>
 
                 {/* Кнопка сброса */}
-                <div className="flex items-end">
-                    <Button
-                        label={translations.reset}
-                        icon="pi pi-refresh"
-                        onClick={resetFilters}
-                        className="w-full py-2 bg-white text-gray-700 border-0 shadow-sm ring-1 ring-gray-200 rounded-xl hover:bg-gray-50 hover:text-red-500 transition-all duration-200 flex justify-center gap-2"
-                        size="small"
-                    />
-                </div>
+                <Button
+                    label={translations.reset}
+                    icon="pi pi-refresh"
+                    onClick={resetFilters}
+                    className="w-full lg:w-auto h-[38px] px-[16px] bg-white text-[var(--bodyColor)] border border-[#e2e8f0] rounded-[10px] hover:bg-white hover:text-[var(--redColor)] hover:border-[var(--redColor)] transition-all duration-200 flex justify-center gap-[6px] shrink-0"
+                    size="small"
+                />
             </div>
         </div>
     );
@@ -900,12 +911,24 @@ export default function Course() {
                                 {/* {skeleton ? (
                                     <GroupSkeleton count={1} size={{ width: '100%', height: '5rem' }} />
                                 ) : ( */}
-                                <div className="flex flex-col md:flex-row justify-between md:items-center mb-2 pb-2 gap-1 shadow-[0_2px_1px_0px_rgba(0,0,0,0.1)]">
-                                    <h3 className="text-[2rem] font-bold m-0">{translations.courses}</h3>
+                                <div className="flex flex-col md:flex-row justify-between md:items-center gap-[12px] pb-[14px] border-b border-[#eef2f6]">
+                                    <div className="flex items-center gap-[12px]">
+                                        <span className="flex items-center justify-center w-[44px] h-[44px] rounded-[12px] bg-[var(--mainColor)]/10 text-[var(--mainColor)]">
+                                            <i className="pi pi-book text-[1.25rem]"></i>
+                                        </span>
+                                        <div className="flex flex-col gap-[2px]">
+                                            <h3 className="text-[1.5rem] leading-tight font-bold m-0">{translations.courses}</h3>
+                                            {!hasCourses && pagination.total > 0 && (
+                                                <span className="text-[0.8125rem] text-[var(--text-color-secondary)]">
+                                                    {translations.allCourses}: <b className="text-[var(--titleColor)]">{pagination.total}</b>
+                                                </span>
+                                            )}
+                                        </div>
+                                    </div>
                                     <Button
                                         label={translations.addCourse}
                                         icon="pi pi-plus text-sm"
-                                        className={'hover:opacity-90 transition'}
+                                        className={'rounded-[10px] px-[18px] py-[10px] shadow-[0_6px_14px_-6px_rgba(8,169,230,0.7)] hover:opacity-90 transition'}
                                         onClick={() => {
                                             setEditMode(false);
                                             clearValues();
@@ -916,7 +939,7 @@ export default function Course() {
                                 {/* // )} */}
 
                                 {skeleton ? (
-                                    <div className="flex items-center gap-1 flex-wrap justify-center sm:justify-start">
+                                    <div className="flex items-center gap-1 flex-wrap justify-center sm:justify-start my-[12px]">
                                         <GroupSkeleton count={1} size={{ height: '40px', width: '250px' }} /> <GroupSkeleton count={1} size={{ height: '40px', width: '250px' }} /> <GroupSkeleton count={1} size={{ height: '40px', width: '250px' }} />{' '}
                                     </div>
                                 ) : (
@@ -924,10 +947,13 @@ export default function Course() {
                                 )}
 
                                 {/* table section */}
-                                {emptyCourses ? (
-                                    <p className="text-[1rem] text-center font-bold">{translations.noData}</p>
-                                ) : hasCourses ? (
-                                    <p className="text-[1rem] text-center font-bold">{translations.noCourses}</p>
+                                {emptyCourses || hasCourses ? (
+                                    <div className="flex flex-col items-center justify-center gap-[10px] py-[48px] rounded-[14px] border border-dashed border-[#dbe3ea] bg-[#fbfdfe]">
+                                        <span className="flex items-center justify-center w-[56px] h-[56px] rounded-full bg-[var(--mainColor)]/10 text-[var(--mainColor)]">
+                                            <i className="pi pi-inbox text-[1.5rem]"></i>
+                                        </span>
+                                        <p className="m-0 text-[0.9375rem] font-semibold text-[var(--titleColor)]">{emptyCourses ? translations.noData : translations.noCourses}</p>
+                                    </div>
                                 ) : (
                                     <>
                                         {skeleton ? (
@@ -938,66 +964,81 @@ export default function Course() {
                                             <div>
                                                 {/* <OpenStudentList /> */}
                                                 <div ref={topRef}>
-                                                    <DataTable value={tableData} dataKey="id" emptyMessage={translations.loading} breakpoint="960px" rows={5} className="my-custom-table hover:bg-slate-50/50 transition-colors text-sm">
-                                                        <Column body={(_, { rowIndex }) => rowIndex + 1} header="#" style={{ width: '20px' }}></Column>
+                                                    <DataTable
+                                                        value={tableData}
+                                                        dataKey="id"
+                                                        emptyMessage={translations.loading}
+                                                        breakpoint="960px"
+                                                        rows={5}
+                                                        rowClassName={(rowData) => (rowData.__isActive ? 'course-row-active' : '')}
+                                                        className="courses-table text-sm"
+                                                    >
                                                         <Column
-                                                            style={{ width: '70px' }}
+                                                            body={(_, { rowIndex }) => <span className="text-[0.75rem] font-semibold text-[var(--text-color-secondary)]">{(pagination.currentPage - 1) * pagination.perPage + rowIndex + 1}</span>}
+                                                            header="#"
+                                                            style={{ width: '40px', textAlign: 'center' }}
+                                                        ></Column>
+                                                        <Column
+                                                            style={{ width: '76px' }}
                                                             header={() => (
-                                                                <div className="flex justify-center">
-                                                                    <i className="pi pi-images text-xl"></i>
+                                                                <div className="flex justify-center w-full">
+                                                                    <i className="pi pi-images text-[0.875rem]"></i>
                                                                 </div>
                                                             )}
                                                             body={imageBodyTemplate}
-                                                            className="hover:bg-slate-50/50 transition-colors"
                                                         ></Column>
 
                                                         <Column
                                                             field="title"
-                                                            header={() => <div className="text-[0.813rem]">{translations.courseName}</div>}
+                                                            header={translations.courseName}
                                                             body={(rowData) => (
-                                                                <Link
-                                                                    // href={`/course/detail/${rowData.id}/${'null'}`}
-                                                                    href={`/course/courseDetail/${rowData.id}/process`}
-                                                                    onClick={() => {
-                                                                        setGlobalLoading(true);
-                                                                        setTimeout(() => {
-                                                                            setGlobalLoading(false);
-                                                                        }, 1200);
-                                                                        setMainCourseId(rowData.id);
-                                                                    }}
-                                                                    key={rowData.id}
-                                                                    className="max-w-sm break-words"
-                                                                >
-                                                                    {rowData.title}
-                                                                </Link>
+                                                                <div className="flex flex-col gap-[3px] min-w-[180px] max-w-[420px]">
+                                                                    <Link
+                                                                        // href={`/course/detail/${rowData.id}/${'null'}`}
+                                                                        href={`/course/courseDetail/${rowData.id}/process`}
+                                                                        onClick={() => {
+                                                                            setGlobalLoading(true);
+                                                                            setTimeout(() => {
+                                                                                setGlobalLoading(false);
+                                                                            }, 1200);
+                                                                            setMainCourseId(rowData.id);
+                                                                        }}
+                                                                        key={rowData.id}
+                                                                        className="break-words font-semibold text-[0.875rem] leading-snug text-[var(--titleColor)] hover:text-[var(--mainColor)] transition-colors"
+                                                                    >
+                                                                        {rowData.title}
+                                                                    </Link>
+                                                                    {(rowData.description || rowData.created_at) && (
+                                                                        <div className="flex items-center gap-[8px] text-[0.75rem] text-[var(--text-color-secondary)] min-w-0">
+                                                                            {formatDate(rowData.created_at) && (
+                                                                                <span className="inline-flex items-center gap-[4px] shrink-0">
+                                                                                    <i className="pi pi-calendar text-[0.6875rem]"></i>
+                                                                                    {formatDate(rowData.created_at)}
+                                                                                </span>
+                                                                            )}
+                                                                            {rowData.description && (
+                                                                                <span className="truncate" title={rowData.description}>
+                                                                                    {rowData.description}
+                                                                                </span>
+                                                                            )}
+                                                                        </div>
+                                                                    )}
+                                                                </div>
                                                             )}
-                                                            className="hover:bg-slate-50/50 transition-colors"
                                                         ></Column>
-                                                        <Column
-                                                            style={{ width: '70px' }}
-                                                            header={() => <div className="text-[0.813rem]">{translations.courseStatus}</div>}
-                                                            body={(rowData) => (
-                                                                <Button
-                                                                    size="small"
-                                                                    className="p-2"
-                                                                    onClick={() => {
-                                                                        setSelectedCourse(rowData?.id);
-                                                                        handleFetchCourseOpenStatus();
-                                                                    }}
-                                                                >
-                                                                    <i className={`${rowData?.audience_type?.icon}`}></i>
-                                                                </Button>
-                                                            )}
-                                                            className="hover:bg-slate-50/50 transition-colors"
-                                                        ></Column>
+                                                        <Column header={translations.courseStatus} body={(rowData) => audienceChip(rowData)}></Column>
                                                         <Column
                                                             field="title"
-                                                            className="hover:bg-slate-50/50 transition-colors"
-                                                            header={() => <div className="text-[0.813rem]">{translations.score}</div>}
-                                                            body={(rowData) => <span key={rowData.id}>{rowData.max_score}</span>}
+                                                            header={translations.score}
+                                                            style={{ textAlign: 'center' }}
+                                                            body={(rowData) => (
+                                                                <span key={rowData.id} className="inline-flex items-center justify-center min-w-[36px] px-[8px] py-[3px] rounded-[8px] bg-[#f1f5f9] text-[0.8125rem] font-bold text-[var(--titleColor)]">
+                                                                    {rowData.max_score ?? 0}
+                                                                </span>
+                                                            )}
                                                         ></Column>
                                                         <Column
-                                                            header={() => <div className="text-[0.813rem]">{translations.onReview}</div>}
+                                                            header={translations.onReview}
                                                             style={{ margin: '0 3px', textAlign: 'center' }}
                                                             body={(rowData) => (
                                                                 <>
@@ -1014,16 +1055,14 @@ export default function Course() {
                                                                     </label>
                                                                 </>
                                                             )}
-                                                            className="hover:bg-slate-50/50 transition-colors"
                                                         ></Column>
                                                         <Column
-                                                            header={() => <div className="text-[0.813rem]">{translations.published}</div>}
+                                                            header={translations.publication}
                                                             style={{ margin: '0 3px', textAlign: 'center' }}
-                                                            className="hover:bg-slate-50/50 transition-colors"
-                                                            body={(rowData) => (rowData.is_published ? <i className="pi pi-check-circle text-md text-[var(--greenColor)]"></i> : <i className="pi pi-times-circle text-md text-[var(--redColor)]"></i>)}
+                                                            body={(rowData) => publishedChip(rowData.is_published)}
                                                         ></Column>
                                                         <Column
-                                                            header={() => <div className="text-[0.813rem]">{translations.streams}</div>}
+                                                            header={translations.streams}
                                                             style={{ margin: '0 3px', textAlign: 'center' }}
                                                             body={(rowData) => {
                                                                 const isChecked = forStreamId?.id === rowData.id;
@@ -1046,32 +1085,38 @@ export default function Course() {
                                                                                 }}
                                                                                 checked={isChecked}
                                                                             />
-                                                                            <span className="radio-course-mark rounded">
+                                                                            <span className="radio-course-mark connect-chip rounded">
+                                                                                <i className="pi pi-link text-[0.6875rem]"></i>
                                                                                 {translations.connects} ({rowData.connects_count})
                                                                             </span>
                                                                         </label>
                                                                     </>
                                                                 );
                                                             }}
-                                                            className="hover:bg-slate-50/50 transition-colors"
                                                         ></Column>
                                                         <Column
-                                                            className="flex items-center justify-center h-[60px] border-b-0 hover:bg-slate-50/50 transition-colors"
+                                                            style={{ width: '56px', textAlign: 'center' }}
                                                             body={(rowData) => (
-                                                                <div className="flex items-center gap-2" key={rowData.id}>
+                                                                <div className="flex items-center justify-center" key={rowData.id}>
                                                                     <Redacting redactor={getRedactor(rowData, { onEdit: edit, getConfirmOptions, onDelete: handleDeleteCourse }, inboxConfirm)} textSize={'14px'} />
                                                                 </div>
                                                             )}
                                                         />
                                                     </DataTable>
                                                 </div>
-                                                <div className={`${isTall ? 'mt-[20px]' : 'mt-[5px]'} shadow-[0px_-11px_5px_-6px_rgba(0,_0,_0,_0.1)]`}>
+                                                <div className={`${isTall ? 'mt-[16px]' : 'mt-[10px]'} flex flex-col sm:flex-row items-center justify-between gap-[8px]`}>
+                                                    {pagination.total > 0 && pagination.perPage > 0 && (
+                                                        <span className="text-[0.8125rem] text-[var(--text-color-secondary)]">
+                                                            {(pagination.currentPage - 1) * pagination.perPage + 1}–{Math.min(pagination.currentPage * pagination.perPage, pagination.total)} / <b className="text-[var(--titleColor)]">{pagination.total}</b>
+                                                        </span>
+                                                    )}
                                                     <Paginator
                                                         first={(pagination.currentPage - 1) * pagination.perPage}
                                                         rows={pagination.perPage}
                                                         totalRecords={pagination.total}
                                                         onPageChange={(e) => handlePageChange(e.page + 1)}
                                                         template="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink"
+                                                        className="courses-paginator bg-transparent p-0"
                                                     />
                                                 </div>
                                             </div>
@@ -1173,7 +1218,7 @@ export default function Course() {
                                 ref={fileUploadRef}
                                 mode="basic"
                                 chooseLabel={translations.photo}
-                                style={{ fontSize: '12px', textWrap: 'wrap' }}
+                                style={{ fontSize: '0.75rem', textWrap: 'wrap' }}
                                 className="max-w-[200px]"
                                 customUpload
                                 name="demo[]"
@@ -1212,12 +1257,13 @@ export default function Course() {
                     {skeleton ? (
                         <GroupSkeleton count={1} size={{ width: '100%', height: '5rem' }} />
                     ) : (
-                        <div className="w-full flex flex-col mt-1 gap-1">
+                        <div className="w-full flex flex-col mt-[4px] gap-[8px]">
                             {openTypes?.map((item) => {
+                                const isCurrent = coursesValue?.find((c) => c.id === selectedCourse)?.audience_type?.id === item?.id;
                                 return (
                                     <div
                                         key={item?.id}
-                                        className="cursor-pointer shadow flex flex-col hover:text-[var(--mainColor)] transition-all"
+                                        className={`group cursor-pointer flex items-start gap-[12px] p-[12px] rounded-[12px] border transition-all duration-200 hover:border-[var(--mainColor)] hover:bg-[var(--mainColor)]/5 ${isCurrent ? 'border-[var(--mainColor)] bg-[var(--mainColor)]/5' : 'border-[#eef2f6] bg-white'}`}
                                         onClick={() => {
                                             console.log(item, selectedCourse);
                                             if (selectedCourse) {
@@ -1225,11 +1271,14 @@ export default function Course() {
                                             }
                                         }}
                                     >
-                                        <div key={item?.id} className="flex-1 py-2 px-2 flex gap-1 items-center">
-                                            <i className={`${item?.icon}`}></i>
-                                            <b>{item.title}</b>
+                                        <span className={`flex items-center justify-center shrink-0 w-[38px] h-[38px] rounded-[10px] transition-colors ${isCurrent ? 'bg-[var(--mainColor)] text-white' : 'bg-[var(--mainColor)]/10 text-[var(--mainColor)] group-hover:bg-[var(--mainColor)] group-hover:text-white'}`}>
+                                            <i className={`${item?.icon} text-[0.9375rem]`}></i>
+                                        </span>
+                                        <div key={item?.id} className="flex flex-col gap-[2px] min-w-0 flex-1">
+                                            <b className="text-[0.875rem] text-[var(--titleColor)]">{item.title}</b>
+                                            <small className="text-[0.75rem] leading-snug text-[var(--text-color-secondary)]">{item?.description}</small>
                                         </div>
-                                        <small className="px-2">{item?.description}</small>
+                                        {isCurrent && <i className="pi pi-check-circle text-[var(--mainColor)] text-[1rem] mt-[2px]"></i>}
                                     </div>
                                 );
                             })}

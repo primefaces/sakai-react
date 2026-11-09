@@ -25,10 +25,10 @@ import { Paginator } from 'primereact/paginator';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { TabPanel, TabView } from 'primereact/tabview';
 import React, { useContext, useEffect, useState } from 'react';
-import SubTitle from '@/app/components/titles/SubTitle';
 import { useLocalization } from '@/layout/context/localizationcontext';
 import { useLocalizedData } from '@/hooks/useLocalizedData';
-import MainTitle from '@/app/components/titles/MainTitle';
+import RoleSwitch from '@/app/components/roles/RoleSwitch';
+import UserAvatar from '@/app/components/roles/UserAvatar';
 
 // types
 interface Role {
@@ -456,74 +456,95 @@ export default function RolesDepartment() {
         );
     };
 
+    // общие стили
+    const cardClass = 'rounded-[16px] bg-white border border-[#eef2f6] shadow-[0_1px_3px_rgba(0,0,0,0.05)]';
+
+    const sectionLoader = (
+        <div className="flex justify-center items-center min-h-[320px]">
+            <ProgressSpinner style={{ width: '50px', height: '50px' }} />
+        </div>
+    );
+
+    const emptyState = (
+        <div className="flex flex-col items-center justify-center gap-[8px] py-[40px] text-center">
+            <span className="flex items-center justify-center w-[52px] h-[52px] rounded-full bg-[#f1f5f9] text-[var(--text-color-secondary)]">
+                <i className="pi pi-inbox text-[1.375rem]"></i>
+            </span>
+            <span className="text-[0.875rem] text-[var(--text-color-secondary)]">{translations.noData}</span>
+        </div>
+    );
+
+    // ФИО + доп. информация
+    const userCell = (user: any) => (
+        <div className="flex items-center gap-[10px] min-w-[200px]">
+            <UserAvatar user={user} />
+            <div className="flex flex-col min-w-0">
+                <span className="text-[0.875rem] font-semibold leading-snug text-[var(--titleColor)]">
+                    {user?.last_name} {user?.name} {user?.father_name}
+                </span>
+                {(user?.myedu_id || user?.email) && (
+                    <span className="text-[0.75rem] text-[var(--text-color-secondary)] truncate">
+                        {user?.myedu_id && <>ID: {user.myedu_id}</>}
+                        {user?.myedu_id && user?.email && ' · '}
+                        {user?.email}
+                    </span>
+                )}
+            </div>
+        </div>
+    );
+
+    // статус курса (открытый / платный)
+    const audienceChip = (typeId: number | null) => {
+        if (typeId !== 2 && typeId !== 3) return null;
+        const isOpen = typeId === 2;
+        return (
+            <span
+                className={`inline-flex items-center gap-[5px] px-[10px] py-[3px] rounded-full text-[0.75rem] font-semibold whitespace-nowrap ${
+                    isOpen ? 'bg-[var(--greenColor)]/10 text-[var(--greenColor)]' : 'bg-[var(--amberColor)]/10 text-[var(--amberColor)]'
+                }`}
+            >
+                <i className={`${isOpen ? 'pi pi-globe' : 'pi pi-wallet'} text-[0.6875rem]`}></i>
+                {isOpen ? translations.openCourse : translations.paid}
+            </span>
+        );
+    };
+
+    // мягкая иконка-кнопка действия
+    const actionButton = (icon: string, tone: 'main' | 'red', onClick: () => void, title?: string) => (
+        <button
+            type="button"
+            title={title}
+            onClick={onClick}
+            className={`flex items-center justify-center w-[34px] h-[34px] rounded-[10px] transition-colors duration-200 ${
+                tone === 'main' ? 'bg-[var(--mainColor)]/10 text-[var(--mainColor)] hover:bg-[var(--mainColor)] hover:text-white' : 'bg-[var(--redColor)]/10 text-[var(--redColor)] hover:bg-[var(--redColor)] hover:text-white'
+            }`}
+        >
+            <i className={`${icon} text-[0.8125rem]`}></i>
+        </button>
+    );
+
     // TSX access
     const itemAccessTemplate = (roles: any) => {
         if (roles) {
             return roles.map((item: any) => {
                 return (
-                    <div key={item?.id} className="main-bg w-full flex flex-col gap-1 justify-start">
-                        <div className="flex gap-1 items-center">
-                            <b className="text-[0.9rem] text-[var(--mainColor)]">
-                                {item.last_name} {item.name} {item.father_name}
-                            </b>
-                        </div>
+                    <div key={item?.id} className={`${cardClass} w-full flex flex-col gap-[10px] p-[14px]`}>
+                        <div className="pb-[10px] border-b border-[#f1f5f9]">{userCell(item)}</div>
 
                         {openTypes?.map((role) => {
                             const element = item?.course_type_access.find((el: { id: number }) => el.id === role.id);
                             const isActive = Boolean(element?.pivot?.active);
 
                             return (
-                                <div key={role?.id} className="text-center flex justify-between items-start">
-                                    <span className="text-sm">{role?.title}</span>
+                                <div key={role?.id} className="flex justify-between items-center gap-[10px]">
+                                    <span className={`text-[0.8125rem] ${isActive || role?.id === 1 ? 'font-semibold text-[var(--titleColor)]' : 'text-[var(--bodyColor)]'}`}>{role?.title}</span>
 
-                                    <div className="text-center">
-                                        <div className="flex justify-center items-center">
-                                            {!isActive && role?.id !== 1 ? (
-                                                <button
-                                                    className={`theme-toggle ${forDisabled && 'opacity-50'}`}
-                                                    disabled={forDisabled}
-                                                    onClick={() => handleControlDepartament(item?.id, role?.id, true)}
-                                                    // onClick={() => console.log(rowData?.id, element?.id, item.id, true)}
-                                                    aria-pressed="false"
-                                                >
-                                                    <span className="right">
-                                                        <span className="option option-left" aria-hidden></span>
-                                                        <span className="option option-right" aria-hidden></span>
-                                                        <span className="knob" aria-hidden></span>
-                                                    </span>
-                                                </button>
-                                            ) : (
-                                                <button
-                                                    className={`theme-toggle ${forDisabled && 'opacity-50'}`}
-                                                    disabled={forDisabled}
-                                                    onClick={() => handleControlDepartament(item?.id, role?.id, false)}
-                                                    aria-pressed="false"
-                                                    // onClick={() => console.log(user, roles[idx])} aria-pressed="false"
-                                                >
-                                                    <span className="track">
-                                                        <span className="option option-left" aria-hidden></span>
-                                                        <span className="option option-right" aria-hidden>
-                                                            <svg
-                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                width="24"
-                                                                height="24"
-                                                                fill="none"
-                                                                stroke="green"
-                                                                strokeWidth="2"
-                                                                strokeLinecap="round"
-                                                                strokeLinejoin="round"
-                                                                viewBox="0 0 24 24"
-                                                                aria-label="Опубликовано"
-                                                            >
-                                                                <circle cx="12" cy="12" r="10"></circle>
-                                                                <path d="M9 12l2 2 4-4"></path>
-                                                            </svg>
-                                                        </span>
-                                                        <span className="knob" aria-hidden></span>
-                                                    </span>
-                                                </button>
-                                            )}
-                                        </div>
+                                    <div className="flex justify-center items-center">
+                                        {!isActive && role?.id !== 1 ? (
+                                            <RoleSwitch isActive={false} disabled={forDisabled} onClick={() => handleControlDepartament(item?.id, role?.id, true)} />
+                                        ) : (
+                                            <RoleSwitch isActive={true} disabled={forDisabled} onClick={() => handleControlDepartament(item?.id, role?.id, false)} />
+                                        )}
                                     </div>
                                 </div>
                             );
@@ -535,79 +556,37 @@ export default function RolesDepartment() {
     };
 
     const mainDepartamentSection = (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-[12px]">
             {media ? (
-                itemAccessTemplate(roles)
+                <div className="flex flex-col gap-[10px]">{roles?.length ? itemAccessTemplate(roles) : emptyState}</div>
             ) : (
-                <div className="main-bg overflow-x-auto scrollbar-thin">
-                    <DataTable value={roles || []} dataKey="id" emptyMessage="..." loading={forDisabled} breakpoint="960px" key={JSON.stringify(forDisabled)} rows={5} className="min-w-[640px] overflow-x-auto">
-                        <Column header={() => <div className="text-[0.9rem]">#</div>} body={(_, { rowIndex }) => rowIndex + 1} />
-
+                <div className="overflow-x-auto scrollbar-thin">
+                    <DataTable value={roles || []} dataKey="id" emptyMessage={emptyState} loading={forDisabled} breakpoint="960px" key={JSON.stringify(forDisabled)} rows={5} className="modern-table min-w-[640px] overflow-x-auto text-sm">
                         <Column
-                            header={() => <div className="text-[0.9rem]">{translations.fullName}</div>}
-                            body={(rowData: any) => (
-                                <div>
-                                    {rowData.last_name} {rowData.name} {rowData.father_name}
-                                </div>
-                            )}
+                            header="#"
+                            style={{ width: '48px', textAlign: 'center' }}
+                            body={(_, { rowIndex }) => <span className="text-[0.75rem] font-semibold text-[var(--text-color-secondary)]">{(pagination.current_page - 1) * pagination.per_page + rowIndex + 1}</span>}
                         />
+
+                        <Column header={translations.fullName} body={(rowData: any) => userCell(rowData)} />
 
                         {openTypes?.map((item) => {
                             return (
                                 <Column
                                     key={item?.id}
-                                    header={item?.title}
+                                    header={() => <div className="w-full text-center">{item?.title}</div>}
+                                    style={{ textAlign: 'center' }}
                                     body={(rowData) => {
                                         const element = rowData?.course_type_access.find((el: { id: number }) => el.id === item.id);
                                         const isActive = Boolean(element?.pivot?.active);
 
                                         return (
-                                            <div className="text-center">
-                                                <div className="flex justify-center items-center">
-                                                    {!isActive && item.id !== 1 ? (
-                                                        <button
-                                                            className={`theme-toggle ${forDisabled && 'opacity-50'}`}
-                                                            disabled={forDisabled}
-                                                            onClick={() => handleControlDepartament(rowData?.id, item?.id, true)}
-                                                            aria-pressed="false"
-                                                        >
-                                                            <span className="right">
-                                                                <span className="option option-left" aria-hidden></span>
-                                                                <span className="option option-right" aria-hidden></span>
-                                                                <span className="knob" aria-hidden></span>
-                                                            </span>
-                                                        </button>
-                                                    ) : (
-                                                        <button
-                                                            className={`theme-toggle ${forDisabled && 'opacity-50'}`}
-                                                            disabled={forDisabled}
-                                                            onClick={() => handleControlDepartament(rowData?.id, item?.id, false)}
-                                                            aria-pressed="false"
-                                                        >
-                                                            <span className="track">
-                                                                <span className="option option-left" aria-hidden></span>
-                                                                <span className="option option-right" aria-hidden>
-                                                                    <svg
-                                                                        xmlns="http://www.w3.org/2000/svg"
-                                                                        width="24"
-                                                                        height="24"
-                                                                        fill="none"
-                                                                        stroke="green"
-                                                                        strokeWidth="2"
-                                                                        strokeLinecap="round"
-                                                                        strokeLinejoin="round"
-                                                                        viewBox="0 0 24 24"
-                                                                        aria-label="Опубликовано"
-                                                                    >
-                                                                        <circle cx="12" cy="12" r="10"></circle>
-                                                                        <path d="M9 12l2 2 4-4"></path>
-                                                                    </svg>
-                                                                </span>
-                                                                <span className="knob" aria-hidden></span>
-                                                            </span>
-                                                        </button>
-                                                    )}
-                                                </div>
+                                            <div className="flex justify-center items-center">
+                                                {!isActive && item.id !== 1 ? (
+                                                    <RoleSwitch isActive={false} disabled={forDisabled} onClick={() => handleControlDepartament(rowData?.id, item?.id, true)} />
+                                                ) : (
+                                                    <RoleSwitch isActive={true} disabled={forDisabled} onClick={() => handleControlDepartament(rowData?.id, item?.id, false)} />
+                                                )}
                                             </div>
                                         );
                                     }}
@@ -617,20 +596,20 @@ export default function RolesDepartment() {
                     </DataTable>
                 </div>
             )}
-            <div className={`shadow-[0px_-11px_5px_-6px_rgba(0,_0,_0,_0.1)]`}>
-                {/*<Paginator*/}
-                {/*    first={(pagination.current_page - 1) * pagination.per_page}*/}
-                {/*    rows={pagination.per_page}*/}
-                {/*    totalRecords={pagination.total}*/}
-                {/*    onPageChange={(e) => handlePageChange(e.page + 1)}*/}
-                {/*    template={media ? 'FirstPageLink PrevPageLink NextPageLink LastPageLink' : 'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink'}*/}
-                {/*/>*/}
+
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-[8px]">
+                {pagination.total > 0 && pagination.per_page > 0 && (
+                    <span className="text-[0.8125rem] text-[var(--text-color-secondary)]">
+                        {(pagination.current_page - 1) * pagination.per_page + 1}–{Math.min(pagination.current_page * pagination.per_page, pagination.total)} / <b className="text-[var(--titleColor)]">{pagination.total}</b>
+                    </span>
+                )}
                 <Paginator
                     first={(pagination.current_page - 1) * pagination.per_page}
                     rows={pagination.per_page}
                     totalRecords={pagination.total}
                     onPageChange={(e) => handlePageChange(e.page + 1)}
                     template={media ? 'FirstPageLink PrevPageLink NextPageLink LastPageLink' : 'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink'}
+                    className="courses-paginator bg-transparent p-0 sm:ml-auto"
                 />
             </div>
         </div>
@@ -641,55 +620,43 @@ export default function RolesDepartment() {
         if (roles) {
             return roles.map((item: any) => {
                 return (
-                    <div key={item?.id} className="main-bg w-full flex flex-col gap-1 justify-start">
-                        <div className="flex gap-1 flex-col">
-                            <b className="text-[0.9rem] text-[var(--mainColor)]">
-                                {item?.user.last_name} {item?.user.name} {item?.user.father_name}
-                            </b>
-                            <div className="w-full flex flex-col gap-2">
-                                <Link href={`/roles/departament/check/${item?.id}`} key={item?.id} className="text-[0.9rem] font-bold underline">
-                                    {item.title}
-                                </Link>
-                                <div className="w-full flex justify-end">
-                                    <i
-                                        className={`text-[0.813rem] text-white rounded p-1
-                                    ${item?.course_audience_type_id === 2 ? 'bg-[var(--greenColor)]' : item?.course_audience_type_id === 3 ? 'bg-[var(--amberColor)]' : ''}
-                                    `}
-                                    >
-                                        {item?.course_audience_type_id === 2 ? translations.openCourse : item?.course_audience_type_id === 3 ? translations.paid : ''}
-                                    </i>
-                                </div>
-                                <div className="w-full flex justify-end items-center gap-2">
-                                    <div className="flex items-center gap-1 cursor-pointer text-[white] shadow rounded bg-[var(--mainColor)] p-1" style={{ fontSize: '0.75rem' }}>
-                                        <i className="pi pi-check" style={{ fontSize: '0.75rem' }}></i>
-                                        <button
-                                            onClick={() => {
-                                                setPublicStatus(1);
-                                                setPublicState(true);
-                                                setPublicCourseId(item?.id);
-                                                setVisible(true);
-                                                handleDepCategoryFetch();
-                                                handleDepLangFetch();
-                                            }}
-                                        >
-                                            {translations.publish}
-                                        </button>
-                                    </div>
-                                    <div className="flex items-center gap-1 cursor-pointer text-[white] shadow rounded bg-[var(--redColor)] p-1" style={{ fontSize: '0.75rem' }}>
-                                        <i className="pi pi-times" style={{ fontSize: '0.75rem' }}></i>
-                                        <button
-                                            onClick={() => {
-                                                setPublicStatus(0);
-                                                setPublicState(false);
-                                                setPublicCourseId(item?.id);
-                                                setVisible(true);
-                                            }}
-                                        >
-                                            {translations.cancel}
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
+                    <div key={item?.id} className={`${cardClass} w-full flex flex-col gap-[10px] p-[14px]`}>
+                        <div className="flex items-start justify-between gap-[8px]">
+                            <Link href={`/roles/departament/check/${item?.id}`} className="text-[0.875rem] font-bold leading-snug text-[var(--mainColor)] hover:underline break-words">
+                                {item.title}
+                            </Link>
+                            {audienceChip(item?.course_audience_type_id)}
+                        </div>
+                        <div className="pb-[10px] border-b border-[#f1f5f9]">{userCell(item?.user)}</div>
+                        <div className="w-full flex items-center gap-[8px]">
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setPublicStatus(1);
+                                    setPublicState(true);
+                                    setPublicCourseId(item?.id);
+                                    setVisible(true);
+                                    handleDepCategoryFetch();
+                                    handleDepLangFetch();
+                                }}
+                                className="flex-1 flex items-center justify-center gap-[6px] h-[36px] rounded-[10px] text-[0.8125rem] font-semibold bg-[var(--mainColor)] text-white shadow-[0_4px_10px_-4px_rgba(8,169,230,0.6)] active:scale-[0.98] transition-transform"
+                            >
+                                <i className="pi pi-check text-[0.75rem]"></i>
+                                {translations.publish}
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setPublicStatus(0);
+                                    setPublicState(false);
+                                    setPublicCourseId(item?.id);
+                                    setVisible(true);
+                                }}
+                                className="flex-1 flex items-center justify-center gap-[6px] h-[36px] rounded-[10px] text-[0.8125rem] font-semibold bg-[var(--redColor)]/10 text-[var(--redColor)] active:scale-[0.98] transition-transform"
+                            >
+                                <i className="pi pi-times text-[0.75rem]"></i>
+                                {translations.cancel}
+                            </button>
                         </div>
                     </div>
                 );
@@ -698,81 +665,65 @@ export default function RolesDepartment() {
     };
 
     const checkDepartamentSection = (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-[12px]">
             {media ? (
-                itemCheckingTemplate(teachersCheck)
+                <div className="flex flex-col gap-[10px]">{checkOpenCourseEmpty ? emptyState : itemCheckingTemplate(teachersCheck)}</div>
             ) : (
-                <div className="main-bg overflow-x-auto scrollbar-thin">
-                    {/* <DataTable value={roles || []} emptyMessage="Загрузка" dataKey="id_kafedra" responsiveLayout="stack" breakpoint="960px" rows={5} className='min-w-[640px] overflow-x-auto'> */}
+                <div className="overflow-x-auto scrollbar-thin">
                     {checkOpenCourseEmpty ? (
-                        <p className="text-center text-md">{translations.noData}</p>
+                        emptyState
                     ) : (
-                        <DataTable value={teachersCheck || []} dataKey="id" emptyMessage="..." loading={forDisabled} breakpoint="960px" rows={5} className="min-w-[640px] overflow-x-auto">
-                            <Column body={(_, { rowIndex }) => rowIndex + 1} header="#"></Column>
+                        <DataTable value={teachersCheck || []} dataKey="id" emptyMessage={emptyState} loading={forDisabled} breakpoint="960px" rows={5} className="modern-table min-w-[640px] overflow-x-auto text-sm">
+                            <Column header="#" style={{ width: '48px', textAlign: 'center' }} body={(_, { rowIndex }) => <span className="text-[0.75rem] font-semibold text-[var(--text-color-secondary)]">{rowIndex + 1}</span>}></Column>
 
                             <Column
                                 field="title"
                                 header={translations.courses}
                                 body={(rowData) => (
-                                    <Link href={`/roles/departament/check/${rowData?.id}`} key={rowData?.id} className="text-[0.9rem] font-bold text-[var(--mainColor)] underline">
+                                    <Link href={`/roles/departament/check/${rowData?.id}`} key={rowData?.id} className="group inline-flex items-center gap-[6px] text-[0.875rem] font-semibold text-[var(--mainColor)] hover:underline">
+                                        <i className="pi pi-book text-[0.75rem] opacity-70"></i>
                                         {rowData.title}
                                     </Link>
                                 )}
                             ></Column>
 
+                            <Column field="title" header={translations.teachers} body={(rowData) => userCell(rowData?.user)}></Column>
+
                             <Column
                                 field="title"
-                                header={translations.teachers}
-                                body={(rowData) => (
-                                    <span key={rowData.id} className="text-[0.9rem]">
-                                        {rowData?.user.last_name} {rowData?.user.name} {rowData?.user.father_name}
-                                    </span>
-                                )}
+                                header={() => <div className="w-full text-center">{translations.status}</div>}
+                                body={(rowData) => <div className="w-full flex justify-center">{audienceChip(rowData?.course_audience_type_id)}</div>}
                             ></Column>
 
                             <Column
                                 field="title"
-                                header={translations.status}
+                                header={() => <div className="w-full text-center">{translations.actions}</div>}
                                 body={(rowData) => (
-                                    <div className="w-full flex justify-center">
-                                        <i
-                                            className={`text-[0.813rem] text-white rounded p-1
-                                        ${rowData?.course_audience_type_id === 2 ? 'bg-[var(--greenColor)]' : rowData?.course_audience_type_id === 3 ? 'bg-[var(--amberColor)]' : ''}
-                                        `}
-                                        >
-                                            {rowData?.course_audience_type_id === 2 ? translations.openCourse : rowData?.course_audience_type_id === 3 ? translations.paid : ''}
-                                        </i>
-                                    </div>
-                                )}
-                            ></Column>
-
-                            <Column
-                                field="title"
-                                header={translations.actions}
-                                body={(rowData) => (
-                                    <div className="w-full flex justify-center items-center gap-4">
-                                        <i
-                                            onClick={() => {
+                                    <div className="w-full flex justify-center items-center gap-[8px]">
+                                        {actionButton(
+                                            'pi pi-check',
+                                            'main',
+                                            () => {
                                                 setPublicStatus(1);
                                                 setPublicState(true);
                                                 setPublicCourseId(rowData?.id);
                                                 setVisible(true);
                                                 handleDepCategoryFetch();
                                                 handleDepLangFetch();
-                                            }}
-                                            className="cursor-pointer pi pi-check text-[white] shadow rounded-full bg-[var(--mainColor)] p-[5px]"
-                                            style={{ fontSize: '0.813rem' }}
-                                        ></i>
-                                        <i
-                                            onClick={() => {
+                                            },
+                                            translations.publish
+                                        )}
+                                        {actionButton(
+                                            'pi pi-times',
+                                            'red',
+                                            () => {
                                                 setPublicStatus(0);
                                                 setPublicState(false);
                                                 setPublicCourseId(rowData?.id);
                                                 setVisible(true);
-                                            }}
-                                            className="cursor-pointer pi pi-times text-[white] shadow rounded-full bg-[red] p-[5px]"
-                                            style={{ fontSize: '0.813rem' }}
-                                        ></i>
+                                            },
+                                            translations.cancel
+                                        )}
                                     </div>
                                 )}
                             ></Column>
@@ -780,80 +731,71 @@ export default function RolesDepartment() {
                     )}
                 </div>
             )}
-
-            {/*<div className={`shadow-[0px_-11px_5px_-6px_rgba(0,_0,_0,_0.1)]`}>*/}
-            {/*    <Paginator*/}
-            {/*        first={(checkPagination.current_page - 1) * checkPagination.per_page}*/}
-            {/*        rows={checkPagination.per_page}*/}
-            {/*        totalRecords={checkPagination.total}*/}
-            {/*        onPageChange={(e) => handleCheckPageChange(e.page + 1)}*/}
-            {/*        // template="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink"*/}
-            {/*        template={media ? 'FirstPageLink PrevPageLink NextPageLink LastPageLink' : 'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink'}*/}
-            {/*    />*/}
-            {/*</div>*/}
         </div>
     );
 
     // category crud
     const categorySection = (
-        <div className="">
-            {/* {media ? (
-                itemCheckingTemplate(teachersCheck)
-            ) : ( */}
-            <div className="my-2 flex flex-col gap-1">
-                <h3 className="text-[1rem] sm:text-lg pb-1 shadow-[var(--bottom-shadow)]">{translations.courseCategoryInfo}</h3>
-                <div className="flex justify-end">
-                    <Button
-                        size="small"
-                        label={translations.create}
-                        onClick={() => {
-                            setCategoryVisible(true);
-                        }}
-                    />
+        <div className="flex flex-col gap-[12px]">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-[10px]">
+                <div className="flex items-center gap-[10px]">
+                    <span className="flex items-center justify-center w-[36px] h-[36px] rounded-[10px] bg-[var(--mainColor)]/10 text-[var(--mainColor)]">
+                        <i className="pi pi-tags text-[0.875rem]"></i>
+                    </span>
+                    <h3 className="m-0 text-[0.9375rem] sm:text-[1rem] font-semibold leading-snug text-[var(--titleColor)]">{translations.courseCategoryInfo}</h3>
                 </div>
+                <Button
+                    size="small"
+                    icon="pi pi-plus"
+                    label={translations.create}
+                    onClick={() => {
+                        setCategoryVisible(true);
+                    }}
+                />
             </div>
-            <div className="main-bg overflow-x-auto scrollbar-thin">
-                {/* crud */}
-
-                {/* table */}
-                {/* <DataTable value={roles || []} emptyMessage="Загрузка" dataKey="id_kafedra" responsiveLayout="stack" breakpoint="960px" rows={5} className='min-w-[640px] overflow-x-auto'> */}
-                <DataTable value={cateroriesList || []} dataKey="id" emptyMessage="..." loading={forDisabled} breakpoint="960px" rows={5} className="min-w-[640px] overflow-x-auto">
-                    <Column body={(_, { rowIndex }) => rowIndex + 1} header="#"></Column>
+            <div className="overflow-x-auto scrollbar-thin">
+                <DataTable value={cateroriesList || []} dataKey="id" emptyMessage={emptyState} loading={forDisabled} breakpoint="960px" rows={5} className="modern-table min-w-[480px] overflow-x-auto text-sm">
+                    <Column header="#" style={{ width: '48px', textAlign: 'center' }} body={(_, { rowIndex }) => <span className="text-[0.75rem] font-semibold text-[var(--text-color-secondary)]">{rowIndex + 1}</span>}></Column>
 
                     <Column
                         field="title"
                         header={translations.courseCategories}
                         body={(rowData) => (
-                            <span key={rowData.id} className="text-[0.9rem] ">
-                                {rowData.title}
-                            </span>
+                            <div key={rowData.id} className="flex flex-col min-w-0">
+                                <span className="text-[0.875rem] font-semibold text-[var(--titleColor)]">{rowData.title}</span>
+                                {rowData?.description && <span className="text-[0.75rem] text-[var(--text-color-secondary)] truncate">{rowData.description}</span>}
+                            </div>
                         )}
                     ></Column>
 
                     <Column
                         field="title"
-                        header={translations.actions}
+                        header={() => <div className="w-full text-center">{translations.actions}</div>}
+                        style={{ width: '140px' }}
                         body={(rowData) => (
-                            <div className="w-full flex justify-center items-center gap-4">
-                                <i
-                                    className="cursor-pointer pi pi-pencil p-2 text-sm rounded bg-[var(--mainColor)] text-white"
-                                    onClick={() => {
+                            <div className="w-full flex justify-center items-center gap-[8px]">
+                                {actionButton(
+                                    'pi pi-pencil',
+                                    'main',
+                                    () => {
                                         editing(rowData?.id);
-                                    }}
-                                ></i>
-                                <i
-                                    className="cursor-pointer pi pi-trash p-2 text-sm rounded bg-[var(--redColor)] text-white"
-                                    onClick={() => {
+                                    },
+                                    translations.change
+                                )}
+                                {actionButton(
+                                    'pi pi-trash',
+                                    'red',
+                                    () => {
                                         const options = getConfirmOptions(Number(rowData.id), () => handleCategoryDelete(rowData.id));
                                         confirmDialog(options);
-                                    }}
-                                ></i>
+                                    },
+                                    translations.delete
+                                )}
                             </div>
                         )}
                     ></Column>
                 </DataTable>
             </div>
-            {/* )} */}
         </div>
     );
 
@@ -1075,18 +1017,55 @@ export default function RolesDepartment() {
 
     if (contentNull) return <NotFound titleMessage={translations.noData} />;
 
+    const headerCount = activeIndex === 0 ? pagination.total : activeIndex === 1 ? checkPagination?.total : cateroriesList?.length;
+
     return (
         <div className="flex flex-col gap-4">
             {skeleton ? (
                 <GroupSkeleton count={6} size={{ width: '100%', height: '5rem' }} />
             ) : (
-                <div className="overflow-x-auto scrollbar-thin">
-                    <div className={`main-bg mb-2`}>
-                        <MainTitle>{translations.department}</MainTitle>
-                        <div className={`flex flex-col sm:flex-row gap-2 mb-2 ${activeIndex === 2 ? 'opacity-50 pointer-events-none' : ''}`}>
-                            <div className="flex gap-3 items-center">
+                <div className="overflow-x-auto scrollbar-thin flex flex-col gap-[16px]">
+                    {/* шапка и фильтры */}
+                    <div className={`${cardClass} p-[14px] sm:p-[18px]`}>
+                        <div className="flex items-center gap-[10px] mb-[14px]">
+                            <h3 className="text-[1.25rem] sm:text-[1.375rem] leading-tight font-bold m-0">{translations.department}</h3>
+                            {Number(headerCount) > 0 && (
+                                <span className="inline-flex items-center gap-[5px] px-[10px] py-[3px] rounded-full bg-[#f1f5f9] text-[0.75rem] font-semibold text-[var(--bodyColor)]">
+                                    <i className={`${activeIndex === 2 ? 'pi pi-tags' : activeIndex === 1 ? 'pi pi-book' : 'pi pi-users'} text-[0.6875rem]`}></i>
+                                    {headerCount}
+                                </span>
+                            )}
+                        </div>
+
+                        <div className={`flex flex-col lg:flex-row lg:items-center gap-[10px] transition-opacity ${activeIndex === 2 ? 'opacity-50 pointer-events-none' : ''}`}>
+                            {/* поиск */}
+                            <div className="flex items-center relative flex-1 min-w-0">
+                                <i className="pi pi-search absolute left-[12px] z-[1] text-[0.8125rem] text-[var(--text-color-secondary)] pointer-events-none"></i>
+                                <InputText placeholder={translations.search} value={search} onChange={(e) => setSearch(e.target.value)} className="w-full h-[40px] text-[0.875rem]" style={{ paddingLeft: 36, borderRadius: 10 }} />
+                                <div className="absolute right-[10px]">{miniProgressSpinner && <ProgressSpinner style={{ width: '15px', height: '15px' }} strokeWidth="8" fill="white" className="!stroke-green-500" animationDuration=".5s" />}</div>
+                            </div>
+
+                            <div className="flex flex-col sm:flex-row sm:items-center gap-[10px]">
+                                {/* myedu id */}
+                                <div className="flex items-center relative sm:w-[150px]">
+                                    <InputText type="number" placeholder={translations.myeduIdPlaceholder} value={myedu_id || ''} className="w-full h-[40px] text-[0.875rem]" style={{ borderRadius: 10 }} onChange={(e) => setMyedu_id(e.target.value)} />
+                                    <div className="absolute right-[10px]">{myeduProgressSpinner && <ProgressSpinner style={{ width: '15px', height: '15px' }} strokeWidth="8" fill="white" className="!stroke-green-500" animationDuration=".5s" />}</div>
+                                </div>
+
+                                {/* тип курса */}
+                                <Dropdown
+                                    value={selectedTypeId}
+                                    onChange={(e: DropdownChangeEvent) => setSelectedTypeId(e.value)}
+                                    options={cities}
+                                    optionLabel="name"
+                                    placeholder="..."
+                                    className="sm:w-[200px] h-[40px] items-center text-sm"
+                                    style={{ borderRadius: 10 }}
+                                />
+
+                                {/* только активные */}
                                 {!roleStatus && (
-                                    <div className={`flex items-center ${!selectedTypeId?.role_id ? 'opacity-45 pointer-events-none' : ''}`}>
+                                    <div className={`flex items-center gap-[4px] h-[40px] transition-opacity ${!selectedTypeId?.role_id ? 'opacity-45 pointer-events-none' : ''}`}>
                                         <label className="custom-radio p-0">
                                             <input
                                                 type="checkbox"
@@ -1099,77 +1078,32 @@ export default function RolesDepartment() {
                                             />
                                             <span className="checkbox-mark"></span>
                                         </label>
-                                        <p>{translations.active}</p>
+                                        <p className="m-0 text-[0.875rem] text-[var(--bodyColor)] whitespace-nowrap">{translations.active}</p>
                                     </div>
                                 )}
-                                <div>
-                                    <Dropdown value={selectedTypeId} onChange={(e: DropdownChangeEvent) => setSelectedTypeId(e.value)} options={cities} optionLabel="name" placeholder="..." className="w-[160px] sm:w-full text-sm" />
-                                </div>
                             </div>
-                            <div className="w-full flex justify-center sm:justify-start items-center gap-1">
-                                <InputText type="number" placeholder={translations.myeduIdPlaceholder} value={myedu_id || ''} className="w-full sm:max-w-[120px] h-[48px]" onChange={(e) => setMyedu_id(e.target.value)} />
-                                <div>{myeduProgressSpinner && <ProgressSpinner style={{ width: '15px', height: '15px' }} strokeWidth="8" fill="white" className="!stroke-green-500" animationDuration=".5s" />}</div>
-                            </div>
-                        </div>
-
-                        <div className={`flex items-center relative mb-2 ${activeIndex === 2 ? 'opacity-50 pointer-events-none' : ''}`}>
-                            <InputText placeholder={translations.search} value={search} onChange={(e) => setSearch(e.target.value)} className="w-full p-inputtext-sm p-inputtext-rounded" />
-                            <div className="absolute right-1">{miniProgressSpinner && <ProgressSpinner style={{ width: '15px', height: '15px' }} strokeWidth="8" fill="white" className="!stroke-green-500" animationDuration=".5s" />}</div>
                         </div>
                     </div>
 
                     {/* main */}
-
-                    {mainProgressSpinner ? (
-                        <div className="main-bg flex justify-center items-center h-[100vh]">
-                            <ProgressSpinner style={{ width: '60px', height: '60px' }} />
-                        </div>
-                    ) : (
-                        <TabView
-                            onTabChange={(e) => handleTabChange(e)}
-                            activeIndex={activeIndex}
-                            pt={{
-                                nav: { className: 'flex cursor-pointer px-2 pt-2' },
-                                panelContainer: { className: 'flex-1 pl-4' }
-                            }}
-                        >
+                    <div className={`${cardClass} p-[10px] sm:p-[16px]`}>
+                        <TabView onTabChange={(e) => handleTabChange(e)} activeIndex={activeIndex} className={`modern-tabview ${mainProgressSpinner ? 'modern-tabview-busy' : ''}`}>
                             {/* Departament */}
-                            <TabPanel
-                                pt={{
-                                    headerAction: { className: 'font-italic' }
-                                }}
-                                header={translations.access}
-                                className="text-[0.813rem] sm:text-[1.125rem]"
-                                // className="p-tabview p-tabview-nav p-tabview-selected p-tabview-panels p-tabview-panel"
-                            >
-                                {mainDepartamentSection}
+                            <TabPanel header={translations.access} leftIcon="pi pi-users">
+                                {mainProgressSpinner ? sectionLoader : mainDepartamentSection}
                             </TabPanel>
 
                             {/* Checking */}
-                            <TabPanel
-                                pt={{
-                                    headerAction: { className: 'font-italic' }
-                                }}
-                                header={translations.check}
-                                className="text-[0.813rem] sm:text-[1.125rem]"
-                                // className="p-tabview p-tabview-nav p-tabview-selected p-tabview-panels p-tabview-panel"
-                            >
-                                {checkDepartamentSection}
+                            <TabPanel header={translations.check} leftIcon="pi pi-check-square">
+                                {mainProgressSpinner ? sectionLoader : checkDepartamentSection}
                             </TabPanel>
 
                             {/* Category crud */}
-                            <TabPanel
-                                pt={{
-                                    headerAction: { className: 'font-italic' }
-                                }}
-                                header={translations.courseCategories}
-                                className="text-[0.813rem] sm:text-[1.125rem]"
-                                // className="p-tabview p-tabview-nav p-tabview-selected p-tabview-panels p-tabview-panel"
-                            >
-                                {categorySection}
+                            <TabPanel header={translations.courseCategories} leftIcon="pi pi-tags">
+                                {mainProgressSpinner ? sectionLoader : categorySection}
                             </TabPanel>
                         </TabView>
-                    )}
+                    </div>
                 </div>
             )}
 
@@ -1189,47 +1123,54 @@ export default function RolesDepartment() {
                     <div>
                         {/* Аннулирование */}
                         {publicState ? (
-                            <div className="flex flex-col gap-2">
-                                <div className="flex flex-col gap-2">
-                                    <b className="px-1">{translations.selectCourseCategory}</b>
-                                    <div className="max-w-[95%]">
-                                        <Dropdown
-                                            value={categorySelectedId}
-                                            filter
-                                            itemTemplate={categoryItemTemplate}
-                                            valueTemplate={categoryValueTemplate}
-                                            onChange={(e: DropdownChangeEvent) => {
-                                                setCategorySelectedId(e.value);
-                                                setPublicCategoryId(e.value?.id);
-                                            }}
-                                            options={depCategoryes}
-                                            optionLabel="name"
-                                            placeholder="..."
-                                            className="w-full text-sm"
-                                        />
-                                    </div>
+                            <div className="flex flex-col gap-[14px]">
+                                <div className="flex flex-col gap-[6px]">
+                                    <label className="inline-flex items-center gap-[6px] text-[0.8125rem] font-semibold text-[var(--titleColor)]">
+                                        <i className="pi pi-tags text-[0.75rem] text-[var(--mainColor)]"></i>
+                                        {translations.selectCourseCategory}
+                                    </label>
+                                    <Dropdown
+                                        value={categorySelectedId}
+                                        filter
+                                        itemTemplate={categoryItemTemplate}
+                                        valueTemplate={categoryValueTemplate}
+                                        onChange={(e: DropdownChangeEvent) => {
+                                            setCategorySelectedId(e.value);
+                                            setPublicCategoryId(e.value?.id);
+                                        }}
+                                        options={depCategoryes}
+                                        optionLabel="name"
+                                        placeholder="..."
+                                        className="w-full text-sm"
+                                        style={{ borderRadius: 10 }}
+                                    />
                                 </div>
-                                <div className="flex flex-col gap-2">
-                                    <b className="px-1">{translations.selectCourseLanguage}</b>
-                                    <div className="max-w-[95%] flex juctify-center items-start">
-                                        <Dropdown
-                                            value={langSelectedId}
-                                            itemTemplate={langItemTemplate}
-                                            valueTemplate={langValueTemplate}
-                                            onChange={(e: DropdownChangeEvent) => {
-                                                setLangSelectedId(e.value);
-                                                setLanguage_id(e.value?.id);
-                                            }}
-                                            options={depSelectLang}
-                                            optionLabel="name"
-                                            placeholder="..."
-                                            className="w-full text-sm"
-                                        />
-                                    </div>
+                                <div className="flex flex-col gap-[6px]">
+                                    <label className="inline-flex items-center gap-[6px] text-[0.8125rem] font-semibold text-[var(--titleColor)]">
+                                        <i className="pi pi-language text-[0.75rem] text-[var(--mainColor)]"></i>
+                                        {translations.selectCourseLanguage}
+                                    </label>
+                                    <Dropdown
+                                        value={langSelectedId}
+                                        itemTemplate={langItemTemplate}
+                                        valueTemplate={langValueTemplate}
+                                        onChange={(e: DropdownChangeEvent) => {
+                                            setLangSelectedId(e.value);
+                                            setLanguage_id(e.value?.id);
+                                        }}
+                                        options={depSelectLang}
+                                        optionLabel="name"
+                                        placeholder="..."
+                                        className="w-full text-sm"
+                                        style={{ borderRadius: 10 }}
+                                    />
                                 </div>
-                                <div className="flex items-center">
-                                    <span>{translations.recommend}</span>
-                                    <label className="custom-radio">
+                                <div className="flex items-center justify-between gap-[10px] px-[12px] py-[10px] rounded-[12px] bg-[#f8fafc] border border-[#eef2f6]">
+                                    <span className="inline-flex items-center gap-[8px] text-[0.875rem] font-medium text-[var(--titleColor)]">
+                                        <i className="pi pi-star text-[0.8125rem] text-[var(--amberColor)]"></i>
+                                        {translations.recommend}
+                                    </span>
+                                    <label className="custom-radio p-0">
                                         <input
                                             type="checkbox"
                                             className={`customCheckbox`}
@@ -1242,9 +1183,12 @@ export default function RolesDepartment() {
                                 </div>
                             </div>
                         ) : (
-                            <div className="flex flex-col gap-2">
-                                <b className="px-1">{translations.confirmRejectCourse}</b>
-                                <InputText value={comment || ''} onChange={(e) => setPublicComment(e.target.value)} type="text" placeholder={translations.rejectReason} />
+                            <div className="flex flex-col gap-[10px]">
+                                <div className="flex items-start gap-[10px] p-[10px] rounded-[12px] bg-[var(--redColor)]/5 border border-[var(--redColor)]/20">
+                                    <i className="pi pi-exclamation-triangle text-[0.875rem] text-[var(--redColor)] mt-[2px]"></i>
+                                    <b className="text-[0.875rem] text-[var(--titleColor)] leading-snug">{translations.confirmRejectCourse}</b>
+                                </div>
+                                <InputText value={comment || ''} onChange={(e) => setPublicComment(e.target.value)} type="text" placeholder={translations.rejectReason} className="w-full h-[40px] text-[0.875rem]" style={{ borderRadius: 10 }} />
                             </div>
                         )}
                     </div>
@@ -1268,41 +1212,61 @@ export default function RolesDepartment() {
                     <div>
                         {/* Аннулирование */}
                         {!categoryState ? (
-                            <div className="flex flex-col gap-2">
-                                <InputText
-                                    type="text"
-                                    value={categoryValue?.title}
-                                    onChange={(e) => {
-                                        setCategoryValue((prev) => ({ ...prev, title: e.target.value }));
-                                    }}
-                                    placeholder={translations.categoryName}
-                                />
-                                <InputText
-                                    type="text"
-                                    value={categoryValue?.description}
-                                    onChange={(e) => {
-                                        setCategoryValue((prev) => ({ ...prev, description: e.target.value }));
-                                    }}
-                                    placeholder={translations.categoryDescription}
-                                />
+                            <div className="flex flex-col gap-[12px]">
+                                <div className="flex flex-col gap-[6px]">
+                                    <label className="text-[0.8125rem] font-semibold text-[var(--titleColor)]">{translations.categoryName}</label>
+                                    <InputText
+                                        type="text"
+                                        value={categoryValue?.title}
+                                        onChange={(e) => {
+                                            setCategoryValue((prev) => ({ ...prev, title: e.target.value }));
+                                        }}
+                                        placeholder={translations.categoryName}
+                                        className="w-full h-[40px] text-[0.875rem]"
+                                        style={{ borderRadius: 10 }}
+                                    />
+                                </div>
+                                <div className="flex flex-col gap-[6px]">
+                                    <label className="text-[0.8125rem] font-semibold text-[var(--titleColor)]">{translations.categoryDescription}</label>
+                                    <InputText
+                                        type="text"
+                                        value={categoryValue?.description}
+                                        onChange={(e) => {
+                                            setCategoryValue((prev) => ({ ...prev, description: e.target.value }));
+                                        }}
+                                        placeholder={translations.categoryDescription}
+                                        className="w-full h-[40px] text-[0.875rem]"
+                                        style={{ borderRadius: 10 }}
+                                    />
+                                </div>
                             </div>
                         ) : (
-                            <div className="flex flex-col gap-2">
-                                <InputText
-                                    type="text"
-                                    value={editingLesson?.title}
-                                    onChange={(e) => {
-                                        setEditingLesson((prev) => prev && { ...prev, title: e.target.value });
-                                    }}
-                                    placeholder={translations.categoryName}
-                                />
-                                <InputText
-                                    type="text"
-                                    value={editingLesson?.description}
-                                    onChange={(e) => {
-                                        setEditingLesson((prev) => prev && { ...prev, description: e.target.value });
-                                    }}
-                                />
+                            <div className="flex flex-col gap-[12px]">
+                                <div className="flex flex-col gap-[6px]">
+                                    <label className="text-[0.8125rem] font-semibold text-[var(--titleColor)]">{translations.categoryName}</label>
+                                    <InputText
+                                        type="text"
+                                        value={editingLesson?.title}
+                                        onChange={(e) => {
+                                            setEditingLesson((prev) => prev && { ...prev, title: e.target.value });
+                                        }}
+                                        placeholder={translations.categoryName}
+                                        className="w-full h-[40px] text-[0.875rem]"
+                                        style={{ borderRadius: 10 }}
+                                    />
+                                </div>
+                                <div className="flex flex-col gap-[6px]">
+                                    <label className="text-[0.8125rem] font-semibold text-[var(--titleColor)]">{translations.categoryDescription}</label>
+                                    <InputText
+                                        type="text"
+                                        value={editingLesson?.description}
+                                        onChange={(e) => {
+                                            setEditingLesson((prev) => prev && { ...prev, description: e.target.value });
+                                        }}
+                                        className="w-full h-[40px] text-[0.875rem]"
+                                        style={{ borderRadius: 10 }}
+                                    />
+                                </div>
                             </div>
                         )}
                     </div>

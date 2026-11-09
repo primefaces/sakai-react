@@ -207,44 +207,133 @@ export default function StudentCheck() {
         }
     }, [lessons]);
 
+    // UI: статистика по студенту (только отображение)
+    const allChecked = (lessons || []).flatMap((l) => (l?.steps || []).filter((s) => s?.id_parent != null));
+    const answeredCount = allChecked.filter((s) => s?.ListAnswer).length;
+    const activeDays = (contribution || []).filter((d: any) => d?.count && d.count > 0).length;
+
+    const statCard = (icon: string, label: string, value: React.ReactNode, tone: string) => (
+        <div className="flex items-center gap-[12px] p-[12px] rounded-[14px] border border-[#eef2f6] bg-white min-w-[150px] flex-1">
+            <span className={`flex shrink-0 items-center justify-center w-[40px] h-[40px] rounded-[12px] ${tone}`}>
+                <i className={`pi ${icon} text-[1rem]`}></i>
+            </span>
+            <div className="flex flex-col leading-tight">
+                <span className="text-[1.25rem] font-bold text-[var(--titleColor)]">{value}</span>
+                <span className="text-[0.75rem] text-[var(--text-color-secondary)]">{label}</span>
+            </div>
+        </div>
+    );
+
     return (
         <div className="main-bg">
             {mainSkeleton ? (
-                <div className="w-full">
-                    <GroupSkeleton count={1} size={{ width: '100%', height: '5rem' }} /> <GroupSkeleton count={1} size={{ width: '100%', height: '10rem' }} />
+                <div className="w-full flex flex-col gap-[12px]">
+                    <GroupSkeleton count={1} size={{ width: '100%', height: '7rem' }} /> <GroupSkeleton count={1} size={{ width: '100%', height: '10rem' }} />
                 </div>
             ) : (
-                <div>
-                    {courseShow && courseShow?.title ? <h1 className="text-2xl bg-[var(--titleColor)] text-white text-center p-3">{courseShow?.title}</h1> : ''}
-
-                    <h2 style={{ marginBottom: 20 }} className="text-md sm:text-lg flex items-center justify-center gap-2">
-                        <span>{translations.activity}: </span>
-                        {student && (
-                            <div className="flex gap-1 items-center text-[var(--mainColor)]">
-                                <span>{student?.last_name}</span>
-                                <span>{student?.name && student?.name[0] + '.'}</span>
-                                <span>{student?.father_name && student?.father_name[0] + '.'}</span>
+                <div className="flex flex-col gap-[16px]">
+                    {/* info section */}
+                    <div className="relative overflow-hidden rounded-[16px] bg-[var(--titleColor)] bg-gradient-to-br from-[var(--titleColor)] to-[var(--mainColor)] text-white p-[20px] md:p-[28px]">
+                        <i className="pi pi-user absolute -right-[10px] -bottom-[20px] text-[120px] text-white/10 pointer-events-none"></i>
+                        <div className="relative flex flex-col sm:flex-row sm:items-center gap-[16px]">
+                            <span className="flex shrink-0 items-center justify-center w-[64px] h-[64px] rounded-full bg-white/15 border-2 border-white/30 text-[1.375rem] font-bold uppercase">
+                                {student ? (
+                                    <>
+                                        {student?.last_name?.[0]}
+                                        {student?.name?.[0]}
+                                    </>
+                                ) : (
+                                    <i className="pi pi-user text-[1.5rem]"></i>
+                                )}
+                            </span>
+                            <div className="flex flex-col gap-[6px] min-w-0">
+                                <span className="inline-flex items-center gap-[6px] text-[0.75rem] font-semibold uppercase tracking-wide text-white/80">
+                                    <i className="pi pi-chart-line text-[0.6875rem]"></i>
+                                    {translations.activity}
+                                </span>
+                                {student && (
+                                    <h1 className="m-0 flex flex-wrap gap-[6px] items-center text-[1.25rem] md:text-[1.5rem] font-bold leading-tight" style={{ color: 'white' }}>
+                                        <span>{student?.last_name}</span>
+                                        <span>{student?.name && student?.name[0] + '.'}</span>
+                                        <span>{student?.father_name && student?.father_name[0] + '.'}</span>
+                                    </h1>
+                                )}
+                                {courseShow && courseShow?.title ? (
+                                    <span className="inline-flex items-center gap-[6px] self-start px-[10px] py-[4px] rounded-full bg-white/15 text-white text-[0.75rem] break-words">
+                                        <i className="pi pi-book text-[0.6875rem]"></i>
+                                        {courseShow?.title}
+                                    </span>
+                                ) : (
+                                    ''
+                                )}
                             </div>
-                        )}
-                    </h2>
-                    <ActivityPage value={contribution} />
-                    <h3 className="text-lg pb-1 shadow-[0_2px_1px_0px_rgba(0,0,0,0.1)]">{/* <span className="text-[var(--mainColor)]">Название курса:</span> {courseInfo.title} */}</h3>
-                    <Accordion activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)}>
-                        {lessons?.map((item) => {
+                        </div>
+                    </div>
+
+                    {/* stats */}
+                    <div className="flex flex-wrap gap-[10px]">
+                        {statCard('pi-star', translations.yourScore, totalScore, 'bg-[var(--mainColor)]/10 text-[var(--mainColor)]')}
+                        {statCard('pi-list', translations.theme, lessons?.length || 0, 'bg-[#eef2ff] text-[#4f46e5]')}
+                        {statCard('pi-check-square', translations.completedActions, `${answeredCount} / ${allChecked.length}`, 'bg-[#dcfce7] text-[#16a34a]')}
+                        {statCard('pi-calendar', translations.activity, activeDays, 'bg-[#fef3c7] text-[#d97706]')}
+                    </div>
+
+                    {/* activity calendar */}
+                    <div className="rounded-[14px] border border-[#eef2f6] bg-white p-[14px] overflow-x-auto">
+                        <div className="flex items-center gap-[8px] mb-[10px]">
+                            <i className="pi pi-calendar text-[0.875rem] text-[var(--mainColor)]"></i>
+                            <span className="text-[11px] font-semibold uppercase tracking-wide text-[var(--text-color-secondary)]">{translations.activity}</span>
+                        </div>
+                        <ActivityPage value={contribution} />
+                    </div>
+
+                    <h3 className="hidden">{/* <span className="text-[var(--mainColor)]">Название курса:</span> {courseInfo.title} */}</h3>
+                    <Accordion activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)} className="modern-accordion">
+                        {lessons?.map((item, lessonIdx) => {
                             const content = item?.steps?.filter((j) => {
                                 return j?.id_parent != null;
                             });
+                            const lessonAnswered = content?.filter((s) => s?.ListAnswer).length || 0;
+                            const lessonScore = content?.reduce((sum, s) => sum + (s?.ListAnswer?.score || 0), 0) || 0;
 
                             return (
-                                <AccordionTab header={translations.theme + ': ' + item.title} key={item.id} className="w-full p-accordion" style={{ width: '100%' }}>
-                                    <div className="flex flex-col gap-2">
+                                <AccordionTab
+                                    header={
+                                        <div className="flex items-center justify-between gap-[10px] w-full min-w-0">
+                                            <div className="flex items-center gap-[10px] min-w-0">
+                                                <span className="flex shrink-0 items-center justify-center w-[32px] h-[32px] rounded-[10px] bg-[var(--mainColor)]/10 text-[var(--mainColor)] text-[0.8125rem] font-bold">{lessonIdx + 1}</span>
+                                                <div className="flex flex-col min-w-0 leading-tight">
+                                                    <span className="text-[0.6875rem] font-semibold uppercase tracking-wide text-[var(--text-color-secondary)]">{translations.theme}</span>
+                                                    <span className="font-semibold text-[var(--titleColor)] break-words">{item.title}</span>
+                                                </div>
+                                            </div>
+                                            <div className="flex shrink-0 items-center gap-[6px]">
+                                                <span className="hidden sm:inline-flex items-center gap-[4px] px-[8px] py-[3px] rounded-full bg-[#f1f5f9] text-[0.6875rem] font-semibold text-[var(--text-color-secondary)]">
+                                                    <i className="pi pi-check-square text-[0.625rem]"></i>
+                                                    {lessonAnswered} / {content?.length || 0}
+                                                </span>
+                                                <span className="inline-flex items-center gap-[4px] px-[8px] py-[3px] rounded-full bg-[var(--mainColor)]/10 text-[var(--mainColor)] text-[0.6875rem] font-bold">
+                                                    <i className="pi pi-star text-[0.625rem]"></i>
+                                                    {lessonScore}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    }
+                                    key={item.id}
+                                    className="w-full p-accordion"
+                                    style={{ width: '100%' }}
+                                >
+                                    <div className="flex flex-col gap-[10px]">
                                         {content?.length < 1 || hasSteps ? (
-                                            <p className="text-center text-sm">{translations.noData}</p>
+                                            <div className="flex flex-col items-center justify-center gap-[8px] py-[24px] rounded-[12px] border border-dashed border-[#dbe3ea] bg-[#fbfdfe]">
+                                                <i className="pi pi-inbox text-[1.25rem] text-[var(--mainColor)]"></i>
+                                                <p className="m-0 text-center text-sm font-semibold text-[var(--titleColor)]">{translations.noData}</p>
+                                            </div>
                                         ) : (
                                             content?.map((i, idx) => {
                                                 if (i.id_parent) {
                                                     return (
-                                                        <div className={`${idx !== 0 && idx !== content?.length ? 'border-t-1 border-[gray]' : ''}`} key={i.id}>
+                                                        <div className="rounded-[12px] border border-[#eef2f6] bg-white transition hover:border-[var(--mainColor)]/40" key={i.id}>
                                                             {
                                                                 <LessonInfoCard
                                                                     contentType={'check'}
@@ -285,9 +374,12 @@ export default function StudentCheck() {
                             );
                         })}
                     </Accordion>
-                    <div className="flex justify-end gap-1 p-1">
-                        <b>{translations.yourScore}: </b>
-                        <b className="text-[var(--mainColor)]"> {totalScore}</b>
+                    <div className="flex justify-end">
+                        <div className="inline-flex items-center gap-[10px] px-[14px] py-[10px] rounded-[14px] border border-[#eef2f6] bg-white shadow-[0_6px_14px_-10px_rgba(8,169,230,0.6)]">
+                            <i className="pi pi-star text-[var(--mainColor)]"></i>
+                            <b className="text-[var(--text-color-secondary)] text-[0.875rem]">{translations.yourScore}: </b>
+                            <b className="inline-flex items-center justify-center min-w-[40px] px-[8px] py-[3px] rounded-[8px] bg-[var(--mainColor)]/10 text-[var(--mainColor)] text-[1rem]"> {totalScore}</b>
+                        </div>
                     </div>
                 </div>
             )}
