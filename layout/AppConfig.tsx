@@ -1,19 +1,38 @@
 'use client';
 
-import { PrimeReactContext } from 'primereact/api';
-import { Button } from 'primereact/button';
-import { InputSwitch, InputSwitchChangeEvent } from 'primereact/inputswitch';
-import { RadioButton, RadioButtonChangeEvent } from 'primereact/radiobutton';
-import { Sidebar } from 'primereact/sidebar';
 import { classNames } from 'primereact/utils';
 import React, { useContext, useEffect, useState } from 'react';
 import { AppConfigProps, LayoutConfig, LayoutState } from '@/types';
 import { LayoutContext } from './context/layoutcontext';
+import LocalizationSwift from '@/app/components/LocalizationSwift';
+import { Dialog } from 'primereact/dialog';
+import { useLocalization } from '@/layout/context/localizationcontext';
+import MouseMagnifier from '@/app/components/MouseMagnifier';
 
 const AppConfig = (props: AppConfigProps) => {
-    const [scales] = useState([12, 13, 14, 15, 16]);
+    const [scales] = useState<number[]>([16, 18, 20, 22]);
     const { layoutConfig, setLayoutConfig, layoutState, setLayoutState } = useContext(LayoutContext);
-    const { setRipple, changeTheme } = useContext(PrimeReactContext);
+    const { translations } = useLocalization();
+
+    const [isA11y, setIsA11y] = useState(()=> {
+        if(typeof window !== 'undefined') {
+            return localStorage.getItem('isA11y') || false
+        }
+        return false;
+    });
+    const [highContrast, setHighContrast] = useState(()=> {
+        if(typeof window !== 'undefined') {
+            return localStorage.getItem('highContrast') || false
+        }
+        return false;
+    });
+    const [magnifier, setMagnifier] = useState(()=> {
+        if(typeof window !== 'undefined') {
+            return localStorage.getItem('magnifier') || false
+        }
+        return false;
+    });
+    const [scaleOption, setScaleOption] = useState<number | null>(null);
 
     const onConfigButtonClick = () => {
         setLayoutState((prevState: LayoutState) => ({ ...prevState, configSidebarVisible: true }));
@@ -23,31 +42,57 @@ const AppConfig = (props: AppConfigProps) => {
         setLayoutState((prevState: LayoutState) => ({ ...prevState, configSidebarVisible: false }));
     };
 
-    const changeInputStyle = (e: RadioButtonChangeEvent) => {
-        setLayoutConfig((prevState: LayoutConfig) => ({ ...prevState, inputStyle: e.value }));
+    const scaleWidth = (item: number) => {
+        let word = ''
+        switch (item) {
+            case 16 :
+                word = translations.scaleDefault
+                break;
+            case 18 :
+                word = translations.scaleMd
+                break;
+            case 20 :
+                word = translations.scaleLg
+                break;
+            case 22 :
+                word = translations.scaleXl
+                break;
+            default :
+                word = ''
+                break;
+        }
+        return word
+    }
+
+    const a11yOn: boolean = typeof isA11y === 'string' ? JSON.parse(isA11y) : isA11y;
+    const contrastOn: boolean = typeof highContrast === 'string' ? JSON.parse(highContrast) : highContrast;
+    const magnifierOn: boolean = typeof magnifier === 'string' ? JSON.parse(magnifier) : magnifier;
+    // Крупный курсор нужен и тем, кто выбрал увеличенный текст или большой / очень большой шрифт
+    const bigCursorOn = magnifierOn || a11yOn || layoutConfig.scale >= 20;
+    const activeScale = scaleOption ?? (a11yOn ? null : layoutConfig.scale);
+
+    const toggleA11y = () => {
+        localStorage.setItem('isA11y', JSON.stringify(!a11yOn));
+        setIsA11y(!a11yOn);
+        setScaleOption(null);
     };
 
-    const changeRipple = (e: InputSwitchChangeEvent) => {
-        setRipple?.(e.value as boolean);
-        setLayoutConfig((prevState: LayoutConfig) => ({ ...prevState, ripple: e.value as boolean }));
+    const toggleContrast = () => {
+        localStorage.setItem('highContrast', JSON.stringify(!contrastOn));
+        setHighContrast(!contrastOn);
     };
 
-    const changeMenuMode = (e: RadioButtonChangeEvent) => {
-        setLayoutConfig((prevState: LayoutConfig) => ({ ...prevState, menuMode: e.value }));
+    const toggleMagnifier = () => {
+        localStorage.setItem('magnifier', JSON.stringify(!magnifierOn));
+        setMagnifier(!magnifierOn);
     };
 
-    const _changeTheme = (theme: string, colorScheme: string) => {
-        changeTheme?.(layoutConfig.theme, theme, 'theme-css', () => {
-            setLayoutConfig((prevState: LayoutConfig) => ({ ...prevState, theme, colorScheme }));
-        });
-    };
-
-    const decrementScale = () => {
-        setLayoutConfig((prevState: LayoutConfig) => ({ ...prevState, scale: prevState.scale - 1 }));
-    };
-
-    const incrementScale = () => {
-        setLayoutConfig((prevState: LayoutConfig) => ({ ...prevState, scale: prevState.scale + 1 }));
+    const selectScale = (item: number) => {
+        setIsA11y(false);
+        localStorage.removeItem('isA11y');
+        document.documentElement.removeAttribute('class');
+        setLayoutConfig((prevState: LayoutConfig) => ({ ...prevState, scale: item }));
+        setScaleOption(item);
     };
 
     const applyScale = () => {
@@ -59,190 +104,103 @@ const AppConfig = (props: AppConfigProps) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [layoutConfig.scale]);
 
+    useEffect(() => {
+        document.documentElement.removeAttribute('style');
+        document.documentElement.classList.toggle('a11y', typeof isA11y === 'string' ? JSON.parse(isA11y) : isA11y);
+    }, [isA11y]);
+
+    useEffect(() => {
+        document.body.classList.toggle('high-contrast', typeof highContrast === 'string' ? JSON.parse(highContrast) : highContrast);
+    }, [highContrast]);
+
+    useEffect(() => {
+        document.body.classList.toggle('big-cursor', bigCursorOn);
+    }, [bigCursorOn]);
+
     return (
         <>
-            <button className="layout-config-button config-link" type="button" onClick={onConfigButtonClick}>
+            {magnifierOn && <MouseMagnifier />}
+            <button className="layout-config-button config-link bg-[var(--mainColor)]" type="button" onClick={onConfigButtonClick}>
                 <i className="pi pi-cog"></i>
             </button>
 
-            <Sidebar visible={layoutState.configSidebarVisible} onHide={onConfigSidebarHide} position="right" className="layout-config-sidebar w-20rem">
+            <Dialog
+                header={
+                    <div className="flex items-center gap-3">
+                        <span className="flex items-center justify-center w-[38px] h-[38px] rounded-xl bg-[var(--mainBgColor)] text-[var(--mainColor)]">
+                            <i className="pi pi-sliders-h" style={{ fontSize: '18px' }} />
+                        </span>
+                        <span className="text-xl font-semibold text-[var(--titleColor)]">{translations.panelTitle}</span>
+                    </div>
+                }
+                visible={layoutState.configSidebarVisible}
+                position="right"
+                onHide={onConfigSidebarHide}
+                draggable={false}
+                resizable={false}
+                className="config-panel w-full sm:w-25rem"
+            >
                 {!props.simple && (
-                    <>
-                        <h5>Scale</h5>
-                        <div className="flex align-items-center">
-                            <Button icon="pi pi-minus" type="button" onClick={decrementScale} rounded text className="w-2rem h-2rem mr-2" disabled={layoutConfig.scale === scales[0]}></Button>
-                            <div className="flex gap-2 align-items-center">
-                                {scales.map((item) => {
-                                    return <i className={classNames('pi pi-circle-fill', { 'text-primary-500': item === layoutConfig.scale, 'text-300': item !== layoutConfig.scale })} key={item}></i>;
+                    <div className="flex flex-col gap-5">
+                        <section className="flex flex-col gap-2">
+                            <span className="config-section-title">{translations.visionBlock}</span>
+                            <div className="flex flex-col gap-2">
+                                <button type="button" role="switch" aria-checked={a11yOn} onClick={toggleA11y} className={classNames('config-option', { 'config-option-active': a11yOn })}>
+                                    <span className="config-option-icon font-bold">
+                                        A<sup className="text-[11px]">+</sup>
+                                    </span>
+                                    <span className="flex-1 text-left">{translations.toggleLargeText}</span>
+                                    <span className="config-switch" />
+                                </button>
+                                <button type="button" role="switch" aria-checked={contrastOn} onClick={toggleContrast} className={classNames('config-option', { 'config-option-active': contrastOn })}>
+                                    <span className="config-option-icon">
+                                        <i className="pi pi-eye" style={{ fontSize: '17px' }} />
+                                    </span>
+                                    <span className="flex-1 text-left">{translations.toggleHighContrast}</span>
+                                    <span className="config-switch" />
+                                </button>
+                                <button type="button" role="switch" aria-checked={magnifierOn} onClick={toggleMagnifier} className={classNames('config-option', { 'config-option-active': magnifierOn })}>
+                                    <span className="config-option-icon">
+                                        <i className="pi pi-search-plus" style={{ fontSize: '17px' }} />
+                                    </span>
+                                    <span className="flex-1 text-left">{translations.toggleMagnifier}</span>
+                                    <span className="config-switch" />
+                                </button>
+                            </div>
+                        </section>
+
+                        <section className="flex flex-col gap-2">
+                            <span className="config-section-title">{translations.fontScaleLabel}</span>
+                            <div className="grid grid-cols-4 gap-2" role="radiogroup">
+                                {scales.map((item, idx) => {
+                                    const active = item === activeScale;
+                                    return (
+                                        <button
+                                            key={item}
+                                            type="button"
+                                            role="radio"
+                                            aria-checked={active}
+                                            title={scaleWidth(item)}
+                                            onClick={() => selectScale(item)}
+                                            className={classNames('config-scale', { 'config-scale-active': active })}
+                                        >
+                                            <span className="font-semibold leading-none" style={{ fontSize: `${16 + idx * 3}px` }}>
+                                                Aa
+                                            </span>
+                                            <span className="text-[13px] leading-tight text-center">{scaleWidth(item)}</span>
+                                        </button>
+                                    );
                                 })}
                             </div>
-                            <Button icon="pi pi-plus" type="button" onClick={incrementScale} rounded text className="w-2rem h-2rem ml-2" disabled={layoutConfig.scale === scales[scales.length - 1]}></Button>
-                        </div>
+                        </section>
 
-                        <h5>Menu Type</h5>
-                        <div className="flex">
-                            <div className="field-radiobutton flex-1">
-                                <RadioButton name="menuMode" value={'static'} checked={layoutConfig.menuMode === 'static'} onChange={(e) => changeMenuMode(e)} inputId="mode1"></RadioButton>
-                                <label htmlFor="mode1">Static</label>
-                            </div>
-                            <div className="field-radiobutton flex-1">
-                                <RadioButton name="menuMode" value={'overlay'} checked={layoutConfig.menuMode === 'overlay'} onChange={(e) => changeMenuMode(e)} inputId="mode2"></RadioButton>
-                                <label htmlFor="mode2">Overlay</label>
-                            </div>
-                        </div>
-
-                        <h5>Input Style</h5>
-                        <div className="flex">
-                            <div className="field-radiobutton flex-1">
-                                <RadioButton name="inputStyle" value={'outlined'} checked={layoutConfig.inputStyle === 'outlined'} onChange={(e) => changeInputStyle(e)} inputId="outlined_input"></RadioButton>
-                                <label htmlFor="outlined_input">Outlined</label>
-                            </div>
-                            <div className="field-radiobutton flex-1">
-                                <RadioButton name="inputStyle" value={'filled'} checked={layoutConfig.inputStyle === 'filled'} onChange={(e) => changeInputStyle(e)} inputId="filled_input"></RadioButton>
-                                <label htmlFor="filled_input">Filled</label>
-                            </div>
-                        </div>
-
-                        <h5>Ripple Effect</h5>
-                        <InputSwitch checked={layoutConfig.ripple as boolean} onChange={(e) => changeRipple(e)}></InputSwitch>
-                    </>
+                        <section className="flex flex-col gap-2">
+                            <span className="config-section-title">{translations.langSwitcher}</span>
+                            <LocalizationSwift full />
+                        </section>
+                    </div>
                 )}
-                <h5>PrimeOne Design</h5>
-                <div className="grid">
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('lara-light-indigo', 'light')}>
-                            <img src="/layout/images/themes/lara-light-indigo.png" className="w-2rem h-2rem" alt="Lara Light Indigo" />
-                        </button>
-                    </div>
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('lara-light-blue', 'light')}>
-                            <img src="/layout/images/themes/lara-light-blue.png" className="w-2rem h-2rem" alt="Lara Light Blue" />
-                        </button>
-                    </div>
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('lara-light-purple', 'light')}>
-                            <img src="/layout/images/themes/lara-light-purple.png" className="w-2rem h-2rem" alt="Lara Light Purple" />
-                        </button>
-                    </div>
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('lara-light-teal', 'light')}>
-                            <img src="/layout/images/themes/lara-light-teal.png" className="w-2rem h-2rem" alt="Lara Light Teal" />
-                        </button>
-                    </div>
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('lara-dark-indigo', 'dark')}>
-                            <img src="/layout/images/themes/lara-dark-indigo.png" className="w-2rem h-2rem" alt="Lara Dark Indigo" />
-                        </button>
-                    </div>
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('lara-dark-blue', 'dark')}>
-                            <img src="/layout/images/themes/lara-dark-blue.png" className="w-2rem h-2rem" alt="Lara Dark Blue" />
-                        </button>
-                    </div>
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('lara-dark-purple', 'dark')}>
-                            <img src="/layout/images/themes/lara-dark-purple.png" className="w-2rem h-2rem" alt="Lara Dark Purple" />
-                        </button>
-                    </div>
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('lara-dark-teal', 'dark')}>
-                            <img src="/layout/images/themes/lara-dark-teal.png" className="w-2rem h-2rem" alt="Lara Dark Teal" />
-                        </button>
-                    </div>
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('soho-light', 'light')}>
-                            <img src="/layout/images/themes/soho-light.png" className="w-2rem h-2rem" alt="Soho Light" />
-                        </button>
-                    </div>
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('soho-dark', 'dark')}>
-                            <img src="/layout/images/themes/soho-dark.png" className="w-2rem h-2rem" alt="Soho Dark" />
-                        </button>
-                    </div>
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('viva-light', 'light')}>
-                            <img src="/layout/images/themes/viva-light.svg" className="w-2rem h-2rem" alt="Viva Light" />
-                        </button>
-                    </div>
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('viva-dark', 'dark')}>
-                            <img src="/layout/images/themes/viva-dark.svg" className="w-2rem h-2rem" alt="Viva Dark" />
-                        </button>
-                    </div>
-                </div>
-
-                <h5>Bootstrap</h5>
-                <div className="grid">
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('bootstrap4-light-blue', 'light')}>
-                            <img src="/layout/images/themes/bootstrap4-light-blue.svg" className="w-2rem h-2rem" alt="Bootstrap Light Blue" />
-                        </button>
-                    </div>
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('bootstrap4-light-purple', 'light')}>
-                            <img src="/layout/images/themes/bootstrap4-light-purple.svg" className="w-2rem h-2rem" alt="Bootstrap Light Purple" />
-                        </button>
-                    </div>
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('bootstrap4-dark-blue', 'dark')}>
-                            <img src="/layout/images/themes/bootstrap4-dark-blue.svg" className="w-2rem h-2rem" alt="Bootstrap Dark Blue" />
-                        </button>
-                    </div>
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('bootstrap4-dark-purple', 'dark')}>
-                            <img src="/layout/images/themes/bootstrap4-dark-purple.svg" className="w-2rem h-2rem" alt="Bootstrap Dark Purple" />
-                        </button>
-                    </div>
-                </div>
-
-                <h5>Material Design</h5>
-                <div className="grid">
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('md-light-indigo', 'light')}>
-                            <img src="/layout/images/themes/md-light-indigo.svg" className="w-2rem h-2rem" alt="Material Light Indigo" />
-                        </button>
-                    </div>
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('md-light-deeppurple', 'light')}>
-                            <img src="/layout/images/themes/md-light-deeppurple.svg" className="w-2rem h-2rem" alt="Material Light DeepPurple" />
-                        </button>
-                    </div>
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('md-dark-indigo', 'dark')}>
-                            <img src="/layout/images/themes/md-dark-indigo.svg" className="w-2rem h-2rem" alt="Material Dark Indigo" />
-                        </button>
-                    </div>
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('md-dark-deeppurple', 'dark')}>
-                            <img src="/layout/images/themes/md-dark-deeppurple.svg" className="w-2rem h-2rem" alt="Material Dark DeepPurple" />
-                        </button>
-                    </div>
-                </div>
-
-                <h5>Material Design Compact</h5>
-                <div className="grid">
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('mdc-light-indigo', 'light')}>
-                            <img src="/layout/images/themes/md-light-indigo.svg" className="w-2rem h-2rem" alt="Material Light Indigo" />
-                        </button>
-                    </div>
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('mdc-light-deeppurple', 'light')}>
-                            <img src="/layout/images/themes/md-light-deeppurple.svg" className="w-2rem h-2rem" alt="Material Light Deep Purple" />
-                        </button>
-                    </div>
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('mdc-dark-indigo', 'dark')}>
-                            <img src="/layout/images/themes/md-dark-indigo.svg" className="w-2rem h-2rem" alt="Material Dark Indigo" />
-                        </button>
-                    </div>
-                    <div className="col-3">
-                        <button className="p-link w-2rem h-2rem" onClick={() => _changeTheme('mdc-dark-deeppurple', 'dark')}>
-                            <img src="/layout/images/themes/md-dark-deeppurple.svg" className="w-2rem h-2rem" alt="Material Dark Deep Purple" />
-                        </button>
-                    </div>
-                </div>
-            </Sidebar>
+            </Dialog>
         </>
     );
 };
