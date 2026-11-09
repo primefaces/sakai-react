@@ -82,103 +82,128 @@ export default function HomeClient() {
         }
     }
 
-    const imageBodyTemplate = (product: any, idx: number) => {
-        const image = product.image;
-
-        if (typeof image === 'string') {
-            return (
-                <div className="flex justify-center w-[70%] sm:w-[80%] sm:max-h-[200px] rounded" key={product.id}>
-                    <img src={image} alt="Course image" className="w-full object-cover shadow-2 border-round" />
-                </div>
-            );
-        }
+    const imageBodyTemplate = (product: CourseCategoryOption) => {
+        const image = typeof product.image === 'string' ? product.image : '/layout/images/no-image.png';
 
         return (
-            // <div className="flex justify-center min-w-[100px] w-[100px] min-h-[100px] h-[100px] sm:w-[120px] sm:min-w-[120px] sm:h-[120px] sm:min-h-[120px] mx-4" key={product.id}>
-            <div className="flex justify-center w-[70%] sm:w-[80%] sm:max-h-[200px] rounded" key={product.id}>
-                <img src={'/layout/images/no-image.png'} alt="Course image" className="w-full object-cover shadow-2 border-round" />
-                {/* <div ></div> */}
+            <img
+                src={image}
+                alt="Course image"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                onError={(e) => ((e.target as HTMLImageElement).src = '/layout/images/no-image.png')}
+            />
+        );
+    };
+
+    const OpenCourse = ({ course }: { course: CourseCategoryOption; index: number }) => {
+        const audience = course?.audience_type?.name;
+        const author = !media
+            ? [course?.user?.last_name, course?.user?.name, course?.user?.father_name].filter(Boolean).join(' ')
+            : [course?.user?.last_name, course?.user?.name && course?.user?.name[0] + '.', course?.user?.father_name && course?.user?.father_name[0] + '.'].filter(Boolean).join(' ');
+        const initials = `${course?.user?.last_name?.[0] || ''}${course?.user?.name?.[0] || ''}`.toUpperCase();
+
+        return (
+            <div
+                onClick={() => course.status && handleCourseShow(course?.id)}
+                className={`group relative bg-white w-full h-full border border-slate-100 rounded-2xl overflow-hidden shadow-[0_2px_10px_rgba(33,34,95,0.06)] transition-all duration-300 hover:shadow-[0_14px_34px_rgba(8,169,230,0.18)] hover:-translate-y-1 hover:border-[var(--mainBorder)] flex flex-col ${
+                    course.status ? 'cursor-pointer' : ''
+                }`}
+            >
+                {/* image */}
+                <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
+                    {imageBodyTemplate(course)}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+                    {audience === 'open' || audience === 'wallet' ? (
+                        <div
+                            className={`absolute top-3 left-3 flex gap-1 items-center text-[0.72rem] font-semibold text-white rounded-full px-2.5 py-1 shadow-md ${
+                                audience === 'open' ? 'bg-[var(--greenColor)]' : 'bg-[var(--amberColor)]'
+                            }`}
+                        >
+                            <i className={course?.audience_type?.icon} style={{ fontSize: '11px' }}></i>
+                            <span>{audience === 'open' ? 'Бесплатный' : 'Платный'}</span>
+                        </div>
+                    ) : null}
+
+                    {course?.is_featured ? (
+                        <div className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-full bg-white/95 shadow-md" title="Рекомендован департаментом">
+                            <i className="pi pi-verified text-[var(--greenColor)]" style={{ fontSize: '15px' }}></i>
+                        </div>
+                    ) : null}
+                </div>
+
+                {/* body */}
+                <div className="flex flex-col gap-2 p-4 flex-1">
+                    {course?.category?.title ? (
+                        <span className="self-start text-[0.7rem] font-medium uppercase tracking-wide text-[var(--mainColor)] bg-[var(--mainColor)]/10 rounded-md px-2 py-0.5 max-w-full truncate">
+                            {course?.category.title}
+                        </span>
+                    ) : null}
+
+                    <h4 className="m-0 text-[1rem] leading-snug font-bold text-[var(--titleColor)] line-clamp-2 break-words group-hover:text-[var(--mainColor)] transition-colors">{course?.title}</h4>
+
+                    {course?.description ? <p className="m-0 text-[0.82rem] leading-relaxed text-slate-500 line-clamp-2 break-words">{course?.description}</p> : null}
+
+                    {/* footer */}
+                    <div className="mt-auto pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+                        <div className="flex items-center gap-2 min-w-0">
+                            <div className="shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-[var(--mainColor)] to-[var(--titleColor)] text-white text-[0.7rem] font-bold flex items-center justify-center">
+                                {initials || <i className="pi pi-user" style={{ fontSize: '12px' }}></i>}
+                            </div>
+                            <span className="text-[0.8rem] text-[var(--titleColor)] truncate author_font" title={author}>
+                                {author}
+                            </span>
+                        </div>
+                        <div className="shrink-0 flex items-center gap-1 text-[0.7rem] text-slate-400">
+                            <i className="pi pi-calendar" style={{ fontSize: '10px' }}></i>
+                            <MyDateTime createdAt={course?.created_at} options={options} />
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     };
 
-    const OpenCourse = ({ course, index }: { course: CourseCategoryOption; index: number }) => {
+    const coursesSkeleton = (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+            {Array.from({ length: 4 }).map((_, i) => (
+                <div key={i} className="rounded-2xl overflow-hidden bg-white border border-slate-100">
+                    <GroupSkeleton count={1} size={{ width: '100%', height: '320px' }} />
+                </div>
+            ))}
+        </div>
+    );
+
+    const CourseSection = ({ title, icon, courses }: { title: string; icon: string; courses: CourseCategoryOption[] }) => {
+        if (!courses?.length) return null;
         return (
-            <div key={course?.id} className="group max-h-[420px] min-h-[360px] bg-white w-full sm:min-w-[280px] sm:max-w-[280px] border border-slate-100 shadow-sm rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 flex flex-col gap-3">
-                <div className="relative p-3 pb-0">
-                    <div className="flex justify-center items-center rounded-xl overflow-hidden bg-slate-50">{imageBodyTemplate(course, index)}</div>
-                    <div
-                        className={`absolute top-3 right-3 sm:flex gap-1 items-center text-[0.75rem] text-white rounded-full px-2 py-1 shadow ${course?.audience_type?.name === 'open' ? 'bg-[var(--greenColor)]' : course?.audience_type?.name === 'wallet' ? 'bg-[var(--amberColor)]' : ''
-                            }`}
-                    >
-                        <i className={course?.audience_type?.icon} style={{ fontSize: '13px' }}></i>
-                        <i className="text-[0.75rem]">{course?.audience_type?.name === 'open' ? 'Бесплатный' : course?.audience_type?.name === 'wallet' ? 'Платный' : ''}</i>
-                    </div>
-                </div>
-
-                <div className="flex justify-center flex-col px-3">
-                    {course.status ? (
-                        <b
-                            onClick={() => handleCourseShow(course?.id)}
-                            className="cursor-pointer w-full sm:max-w-[350px] break-words text-[var(--mainColor)] underline underline-offset-4 decoration-[var(--mainColor)]/40 hover:decoration-[var(--mainColor)]"
-                        >
-                            {course?.title}
-                        </b>
-                    ) : (
-                        <b
-                            className="cursor-pointer w-full sm:max-w-[350px] break-words text-[var(--mainColor)] underline underline-offset-4 decoration-[var(--mainColor)]/40 hover:decoration-[var(--mainColor)]"
-                        >
-                            {course?.title}
-                        </b>
-                    )}
-
-                    <div className="max-h-[40px] overflow-hidden text-ellipsis block mt-1">
-                        <small className="max-w-[220px] overflow-hidden text-nowrap text-ellipsis block text-slate-600">{course?.description}</small>
-                    </div>
-                </div>
-
-                <div className='flex items-center flex-wrap gap-2 justify-between px-3'>
-                    {
-                        course?.category?.title ?
-                            <div className='px-2 py-1 bg-[var(--redWeakColor)]/60 rounded-full border border-[var(--redWeakColor)]'>
-                                <p className='text-[0.75rem] max-w-[260px] break-words text-[var(--titleColor)]'>{course?.category.title}</p>
-                            </div>
-                            : ''
-                    }
-
-                    {
-                        course?.is_featured ?
-                            <i className='pi pi-verified text-[green] bg-green-50 border border-green-100 ml-2 p-1 rounded-full shadow-sm' title='Рекомендован департаментом'></i>
-                            : ''
-                    }
-                </div>
-
-                <div className="mt-auto px-3 pb-3">
-                    <div className="flex items-center justify-center text-[0.9rem] text-[var(--titleColor)] author_font">
-                        {/* <span className="">Автор: </span> */}
-                        <div className="flex gap-1 items-start max-w-[230px] break-words text-wrap flex-wrap">
-                            {!media ? (
-                                <>
-                                    <span>{course?.user?.last_name}</span>
-                                    <span>{course?.user?.name}</span>
-                                    <span>{course?.user?.father_name}</span>
-                                </>
-                            ) : (
-                                <>
-                                    <span>{course?.user?.last_name}</span>
-                                    <span>{course?.user?.name[0]}.</span>
-                                    <span>{course?.user?.father_name && course?.user?.father_name[0] + '.'}</span>
-                                </>
-                            )}
+            <section className="flex flex-col gap-5">
+                <div className="flex items-center justify-between gap-3 flex-wrap">
+                    <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-xl bg-[var(--mainColor)]/10 text-[var(--mainColor)] flex items-center justify-center">
+                            <i className={icon} style={{ fontSize: '18px' }}></i>
                         </div>
+                        <div>
+                            <h3 className="m-0 text-lg sm:text-2xl font-bold text-[var(--titleColor)]">{title}</h3>
+                            <div className="h-[3px] w-10 mt-1 rounded-full bg-gradient-to-r from-[var(--mainColor)] to-transparent"></div>
+                        </div>
+                        <span className="text-xs font-semibold text-slate-500 bg-slate-100 rounded-full px-2 py-0.5">{courses.length}</span>
                     </div>
-
-                    {/* data */}
-                    <div className="w-full flex justify-end text-[0.688rem] text-slate-500 order-1 sm:order-2 mt-2">
-                        <MyDateTime createdAt={course?.created_at} options={options} />
-                    </div>
+                    <Link href={'/openCourse/1'} className="group/link flex items-center gap-1 text-sm font-medium text-[var(--mainColor)] hover:text-[var(--titleColor)] transition-colors">
+                        <span>{translations.allOpenCourses}</span>
+                        <i className="pi pi-arrow-right transition-transform group-hover/link:translate-x-1" style={{ fontSize: '12px' }}></i>
+                    </Link>
                 </div>
-            </div>
+                {skeleton ? (
+                    coursesSkeleton
+                ) : (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+                        {courses.map((item, idx) => (
+                            <OpenCourse key={item?.id} course={item} index={idx} />
+                        ))}
+                    </div>
+                )}
+            </section>
         );
     };
 
@@ -263,7 +288,8 @@ export default function HomeClient() {
     }, [coursesValue]);
 
     useEffect(() => {
-        handleFetchNewCourse();
+        // открытые курсы временно отключены на главной
+        // handleFetchNewCourse();
         // handleFetchOpenCourse(pageState, '', '');
         setGlobalLoading(true);
         handleMainPageStatistics();
@@ -273,141 +299,85 @@ export default function HomeClient() {
         AOS.init();
     }, []);
 
+    const hasAnyCourses = newCourses?.length || bestCourses?.length || popularCourses?.length;
+
     return (
-        <>
-            <div className="absolute left-0 right-0 top-[96px] w-full home-bg min-h-[500px] max-h-[500px]"></div>
-            <div className="relative mt-[98px] px-2 py-[50px] z-[1]">
-                {/* <Link href={`/pdf/1757146212.pdf`}>{"Уроки"}</Link> */}
-                <div className="w-full">
-                    <div className="flex flex-column md:flex-row items-center justify-center overflow-hidden">
-                        <div className="w-full">
-                            <div className="w-full m-auto overflow-hidden text-[1rem] text-[var(--mainColor)] block mb-[15px]">
-                                <div className="relative flex">
-                                    <img
-                                        src={'/layout/images/shape1.png'}
-                                        data-aos="fade-up"
-                                        data-aos-delay="900"
-                                        data-aos-duration="1000"
-                                        data-aos-once="true"
-                                        alt="Фото"
-                                        className="hidden lg:block absolute top-[-100px] left-[-10px] animateContent"
-                                    />
-                                    <span className="w-full text-center" data-aos="fade-up" data-aos-delay="900" data-aos-duration="1000" data-aos-once="true">
-                                        {translations.convenientOnlineLearningSpace}
-                                    </span>
-                                </div>
-                                <h2 data-aos="fade-down" data-aos-delay="900" data-aos-duration="1000" data-aos-once="true" className="text-center text-[1.875rem] sm:text-[3rem]">
-                                    {translations.welcomeToDistanceLearningPortal}
-                                </h2>
-                                <div data-aos="fade-up" data-aos-delay="900" data-aos-duration="1000" data-aos-once="true" className="text-center text-[var(--titleColor)]">
-                                    {translations.weUniteUniversityProjects}
-                                    <ul className="list-disc m-auto my-4 max-w-[300px] flex flex-col items-start">
-                                        <li>{translations.openOnlineHome}</li>
-                                        <li>{translations.higherEducationPrograms}</li>
-                                    </ul>
-                                    {user ? (
-                                        <Link href={user.is_working ? '/course/1' : user.is_student ? '/teaching' : ''}>
-                                            <FancyLinkBtn btnWidth={'200px'} backround={'--mainColor'} effectBg={'--titleColor'} title={user.is_working ? translations.teacherBtn : user.is_student ? translations.studentBtn : ''} btnType={false} />
-                                        </Link>
-                                    ) : media ? (
-                                        <Link href={'/auth/login'}>
-                                            <FancyLinkBtn btnWidth={'200px'} backround={'--mainColor'} effectBg={'--titleColor'} title={translations.login} btnType={false} />
-                                        </Link>
-                                    ) : (
-                                        ''
-                                    )}
-                                </div>
-                            </div>
-                        </div>
+        <div className="relative w-full">
+            {/* ===== HERO ===== */}
+            <section className="relative left-1/2 w-screen -translate-x-1/2 mt-[96px] overflow-hidden">
+                {/* background */}
+                <div className="absolute inset-0 home-bg !opacity-100 pointer-events-none"></div>
+                <div className="absolute inset-0 bg-gradient-to-b from-white/85 via-white/75 to-white/55 pointer-events-none"></div>
+                <div className="absolute inset-x-0 bottom-0 h-[120px] bg-gradient-to-t from-[var(--titleColor)]/15 to-transparent pointer-events-none"></div>
+
+                <div className="relative z-[1] max-w-[1100px] mx-auto px-4 py-[56px] sm:py-[72px] flex flex-col items-center text-center">
+                    <div
+                        data-aos="fade-down"
+                        data-aos-duration="800"
+                        data-aos-once="true"
+                        className="flex items-center gap-3 text-[0.85rem] sm:text-[1rem] font-medium tracking-wide text-[var(--mainColor)]"
+                    >
+                        <span className="hidden sm:block h-[1px] w-[40px] bg-gradient-to-r from-transparent to-[var(--mainColor)]"></span>
+                        {translations.convenientOnlineLearningSpace}
+                        <span className="hidden sm:block h-[1px] w-[40px] bg-gradient-to-l from-transparent to-[var(--mainColor)]"></span>
                     </div>
+
+                    <h1
+                        data-aos="fade-up"
+                        data-aos-delay="150"
+                        data-aos-duration="900"
+                        data-aos-once="true"
+                        className="mt-4 mb-0 text-[1.8rem] sm:text-[2.6rem] lg:text-[3.1rem] leading-[1.15] font-bold tracking-tight text-[var(--titleColor)]"
+                    >
+                        {translations.welcomeToDistanceLearningPortal}
+                    </h1>
+
+                    <p data-aos="fade-up" data-aos-delay="300" data-aos-duration="900" data-aos-once="true" className="mt-4 mb-0 max-w-[640px] text-[0.95rem] sm:text-[1.05rem] leading-relaxed text-[var(--bodyColor)]">
+                        {translations.weUniteUniversityProjects}
+                    </p>
+
+                    <ul data-aos="fade-up" data-aos-delay="450" data-aos-duration="900" data-aos-once="true" className="list-none p-0 mt-5 mb-0 flex flex-col sm:flex-row items-center gap-[10px] sm:gap-[28px]">
+                        {[translations.openOnlineHome, translations.higherEducationPrograms].map((text) => (
+                            <li key={text} className="flex items-center gap-2 text-[0.95rem] text-[var(--mainColor)] sm:text-[1.05rem] font-bold text-[var(--titleColor)]">
+                                <i className="pi pi-check-circle text-[var(--mainColor)]" style={{ fontSize: '16px' }}></i>
+                                {text}
+                            </li>
+                        ))}
+                    </ul>
+
+                    {user || media ? (
+                        <div data-aos="fade-up" data-aos-delay="600" data-aos-duration="900" data-aos-once="true" className="mt-7">
+                            {user ? (
+                                <Link href={user.is_working ? '/course/1' : user.is_student ? '/teaching' : ''}>
+                                    <FancyLinkBtn btnWidth={'220px'} backround={'--mainColor'} effectBg={'--titleColor'} title={user.is_working ? translations.teacherBtn : user.is_student ? translations.studentBtn : ''} btnType={false} />
+                                </Link>
+                            ) : (
+                                <Link href={'/auth/login'}>
+                                    <FancyLinkBtn btnWidth={'220px'} backround={'--mainColor'} effectBg={'--titleColor'} title={translations.login} btnType={false} />
+                                </Link>
+                            )}
+                        </div>
+                    ) : null}
                 </div>
+            </section>
 
-                {/* Counter Statistics */}
-                <CounterBanner statisticValue={statistics} />
+            {/* ===== STATISTICS ===== */}
+            <CounterBanner statisticValue={statistics} />
 
-                <AppConfig/>
+            <AppConfig />
 
-                {/* open courses */}
+            <div className="relative z-[1] pt-[56px] sm:pt-[72px] pb-[56px] flex flex-col gap-14 sm:gap-20">
 
-                <div className={`flex flex-col gap-4 ${newCourses?.length || bestCourses?.length || popularCourses?.length ? 'main-bg' : ''}`}>
-                    {newCourses?.length > 0 ? (
-                        skeleton ? (
-                            <div className="flex flex-wrap gap-2 flex-col sm:flex-row justify-center">
-                                <GroupSkeleton count={1} size={{ width: '300px', height: '300px' }} />
-                                <GroupSkeleton count={1} size={{ width: '300px', height: '300px' }} />
-                                <GroupSkeleton count={1} size={{ width: '300px', height: '300px' }} />
-                                <GroupSkeleton count={1} size={{ width: '300px', height: '300px' }} />
-                                <GroupSkeleton count={1} size={{ width: '300px', height: '300px' }} />
-                            </div>
-                        ) : (
-                            <div className="m-auto">
-                                <h3 className="text-lg sm:text-xl text-center mb-4 font-bold">{translations.newCourses}</h3>
-                                <div className="w-full flex flex-wrap gap-4 mt-5 sm:m-0">
-                                    {newCourses?.map((item, idx) => {
-                                        return <OpenCourse key={item?.id} course={item} index={idx} />;
-                                    })}
-                                </div>
-                            </div>
-                        )
-                    ) : (
-                        ''
-                    )}
-
-                    {popularCourses?.length > 0 ? (
-                        skeleton ? (
-                            <div className="flex flex-wrap gap-2 flex-col sm:flex-row justify-center">
-                                <GroupSkeleton count={1} size={{ width: '300px', height: '300px' }} />
-                                <GroupSkeleton count={1} size={{ width: '300px', height: '300px' }} />
-                                <GroupSkeleton count={1} size={{ width: '300px', height: '300px' }} />
-                                <GroupSkeleton count={1} size={{ width: '300px', height: '300px' }} />
-                                <GroupSkeleton count={1} size={{ width: '300px', height: '300px' }} />
-                            </div>
-                        ) : (
-                            <div className="">
-                                <h3 className="text-lg sm:text-xl text-center mb-4 font-bold">{translations.popularCourses}</h3>
-                                <div className="w-full flex flex-wrap justify-center gap-4 mt-5 sm:m-0">
-                                    {popularCourses?.map((item, idx) => {
-                                        return <OpenCourse key={item?.id} course={item} index={idx} />;
-                                    })}
-                                </div>
-                            </div>
-                        )
-                    ) : (
-                        ''
-                    )}
-
-                    {bestCourses?.length > 0 ? (
-                        skeleton ? (
-                            <div className="flex flex-wrap gap-2 flex-col sm:flex-row justify-center">
-                                <GroupSkeleton count={1} size={{ width: '300px', height: '300px' }} />
-                                <GroupSkeleton count={1} size={{ width: '300px', height: '300px' }} />
-                                <GroupSkeleton count={1} size={{ width: '300px', height: '300px' }} />
-                                <GroupSkeleton count={1} size={{ width: '300px', height: '300px' }} />
-                                <GroupSkeleton count={1} size={{ width: '300px', height: '300px' }} />
-                            </div>
-                        ) : (
-                            <div className="">
-                                <h3 className="text-lg sm:text-xl text-center mb-4 font-bold">{translations.recommendedByDepartment}</h3>
-                                <div className="w-full flex flex-wrap justify-center gap-4 mt-5 sm:m-0">
-                                    {bestCourses?.map((item, idx) => {
-                                        return <OpenCourse key={item?.id} course={item} index={idx} />;
-                                    })}
-                                </div>
-                            </div>
-                        )
-                    ) : (
-                        ''
-                    )}
-
-                    {newCourses?.length || bestCourses?.length || popularCourses?.length ? (
-                        <Link href={'/openCourse/1'} className="font-sans cursor-pointer flex gap-1 items-center justify-end text-sm text-[var(--mainColor)]">
-                            <span className="underline">{translations.allOpenCourses}</span>
-                            <i className="pi pi-arrow-right font-sans" style={{ fontSize: '12px' }}></i>
-                        </Link>
-                    ) : (
-                        ''
-                    )}
-                </div>
+                {/* ===== OPEN COURSES (временно отключены) ===== */}
+                {/* {hasAnyCourses ? (
+                    <div className="flex flex-col gap-14">
+                        <CourseSection title={translations.newCourses} icon="pi pi-bolt" courses={newCourses} />
+                        <CourseSection title={translations.popularCourses} icon="pi pi-star" courses={popularCourses} />
+                        <CourseSection title={translations.recommendedByDepartment} icon="pi pi-verified" courses={bestCourses} />
+                    </div>
+                ) : skeleton ? (
+                    coursesSkeleton
+                ) : null}
 
                 <Sidebar visible={showVisisble} position="bottom" style={{ height: '90vh' }} onHide={() => setShowVisible(false)}>
                     {skeleton ? (
@@ -417,19 +387,22 @@ export default function HomeClient() {
                     ) : (
                         <b className="flex justify-center">{translations.dataNotAvailable}</b>
                     )}
-                </Sidebar>
+                </Sidebar> */}
 
-                {/* Oshgu Video */}
-                <div>
-                    <h2 className="text-[1.7rem] p-4 text-center">
-                        {translations.videoTourMainBuilding} <span className="text-[var(--mainColor)]">{translations.oshSU}</span>
-                    </h2>
-                </div>
-                <VideoPlay />
+                {/* ===== VIDEO ===== */}
+                <section className="flex flex-col items-center gap-6" data-aos="fade-up" data-aos-duration="800" data-aos-once="true">
+                    <div className="text-center">
+                        <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[var(--mainColor)] bg-[var(--mainColor)]/10 rounded-full px-3 py-1">
+                            <i className="pi pi-video" style={{ fontSize: '12px' }}></i>
+                            Video
+                        </span>
+                        <h2 className="mt-3 mb-0 text-[1.5rem] sm:text-[2rem] font-bold text-[var(--titleColor)]">
+                            {translations.videoTourMainBuilding} <span className="text-[var(--mainColor)]">{translations.oshSU}</span>
+                        </h2>
+                    </div>
+                    <VideoPlay />
+                </section>
             </div>
-        </>
+        </div>
     );
 }
-
-
-

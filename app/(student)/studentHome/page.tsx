@@ -1,47 +1,46 @@
 'use client';
 
-import useMediaQuery from '@/hooks/useMediaQuery';
 import { LayoutContext } from '@/layout/context/layoutcontext';
 import { fetchStudentActivity, fetchStudentStatistic } from '@/services/studentMain';
-import { ProgressSpinner } from 'primereact/progressspinner';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { Skeleton } from 'primereact/skeleton';
+import { useContext, useEffect, useState } from 'react';
 import ActivityPage from '@/app/components/Contribution';
 import { fetchStudentImg } from '@/services/student/studentpage';
-import MyDateTime from '@/app/components/MyDateTime';
-import { OptionsType } from '@/types/OptionsType';
 import { ContributionDay } from '@/types/ContributionDay';
 import Link from 'next/link';
 import { useLocalization } from '@/layout/context/localizationcontext';
 
+// NOTE: primeflex подключён глобально с !important (w-9, w-12, grid, order-* и т.п. конфликтуют с Tailwind),
+// поэтому для размеров/раскладки здесь используются произвольные значения Tailwind.
+
 interface StudentStatistic {
-    all_active_dates: number;
-    last_visit: string;
-    streak: number;
+    last_visit: string | null;
+    streak: number | string | null;
+    total_active_days: number | string | null;
 }
+
+// Бэкенд может вернуть дату как "YYYY-MM-DD HH:mm:ss" — Safari такой формат не парсит
+const parseDate = (value: string | null | undefined): Date | null => {
+    if (!value) return null;
+    const normalized = /^\d{4}-\d{2}-\d{2} \d/.test(value) ? value.replace(' ', 'T') : value;
+    const date = new Date(normalized);
+    return isNaN(date.getTime()) ? null : date;
+};
+
+const toNumber = (value: number | string | null | undefined): number | null => {
+    if (value === null || value === undefined || value === '') return null;
+    const num = Number(value);
+    return isNaN(num) ? null : num;
+};
 
 export default function StudentHome() {
     const { user, contextNotifications } = useContext(LayoutContext);
-    const ref = useRef<HTMLDivElement>(null);
-    const media = useMediaQuery('(max-width: 640px)');
     const { translations } = useLocalization();
 
-    const [loading, setLoading] = useState(false);
+    const [statsLoading, setStatsLoading] = useState(true);
     const [studentImg, setStudentImg] = useState<{ image_url: string; id: string } | null>(null);
     const [studentStatistic, setStudentStatistic] = useState<StudentStatistic | null>(null);
     const [contribution, setContribution] = useState<ContributionDay[] | null>(null);
-    const [telegramData, setTelegramData] = useState<{ direct_link: string; qr_code_base64: string } | null>(null);
-    const [showTelegramDialog, setShowTelegramDialog] = useState(false);
-
-    const options: OptionsType = {
-        year: '2-digit',
-        month: 'short', // 'long', 'short', 'numeric'
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false, // 24-часовой формат
-        timeZone: 'UTC'
-    };
 
     const handleFetchStudentImg = async () => {
         const data = await fetchStudentImg();
@@ -51,10 +50,12 @@ export default function StudentHome() {
     };
 
     const handleFetchStudentStatistic = async () => {
+        setStatsLoading(true);
         const data = await fetchStudentStatistic();
         if (data && data?.success) {
             setStudentStatistic(data?.data);
         }
+        setStatsLoading(false);
     };
 
     const handleFetchStudentActivity = async () => {
@@ -65,103 +66,151 @@ export default function StudentHome() {
     };
 
     useEffect(() => {
-        if (media) {
-            if (ref.current) {
-                ref.current.scrollLeft = ref.current.scrollWidth;
-            }
-        }
-    }, [media]);
-
-    useEffect(() => {
         if (user?.is_student) {
-            // handleFetchLessons();
             handleFetchStudentImg();
             handleFetchStudentStatistic();
             handleFetchStudentActivity();
         }
     }, [user]);
 
-    if (loading) {
-        return (
-            <div className="flex justify-center items-center h-[calc(100vh-10rem)]">
-                <ProgressSpinner />
-            </div>
-        );
-    }
+    const lastVisit = parseDate(studentStatistic?.last_visit);
+    const streak = toNumber(studentStatistic?.streak);
+    const totalActiveDays = toNumber(studentStatistic?.total_active_days);
+    const notificationsCount = contextNotifications?.length || 0;
+
+    const lastVisitDate = lastVisit
+        ? lastVisit.toLocaleDateString('ru-RU', {
+              day: '2-digit',
+              month: 'short',
+              ...(lastVisit.getFullYear() !== new Date().getFullYear() ? { year: 'numeric' } : {})
+          })
+        : '—';
+    const lastVisitTime = lastVisit ? lastVisit.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }) : null;
+
+    const stats = [
+        {
+            key: 'streak',
+            icon: 'pi pi-bolt',
+            color: '#f59e0b',
+            label: translations.daysVisitedStreak,
+            value: streak ?? '—',
+            hint: null
+        },
+        {
+            key: 'total',
+            icon: 'pi pi-calendar',
+            color: 'var(--greenColor)',
+            label: translations.daysVisitedTotal,
+            value: totalActiveDays ?? '—',
+            hint: null
+        },
+        {
+            key: 'lastVisit',
+            icon: 'pi pi-clock',
+            color: 'var(--mainColor)',
+            label: translations.lastVisit,
+            value: lastVisitDate,
+            hint: lastVisitTime
+        }
+    ];
 
     return (
-        <div className="flex flex-col gap-4">
-            {/* Top Section: Greeting and Stats */}
-            <div className="flex flex-col xl:flex-row gap-4">
-                {/* 1. Greeting Section */}
-                <div className="main-bg flex-1 flex flex-col justify-center p-2 sm:p-6 relative overflow-hidden min-h-[200px]">
-                    <div className="z-10 flex flex-col sm:flex-row items-center gap-2 sm:gap-3">
-                        <div className="relative group">
-                            {/* Контейнер-рамка */}
-                            <div className="w-44 h-45 rounded-2xl overflow-hidden border-2 border-white shadow-md ring-2 ring-gray-100 flex items-center justify-center bg-gray-50">
-                                <img
-                                    src={studentImg?.image_url?.length ? studentImg.image_url : '/layout/images/no-image.png'}
-                                    alt={translations.photo}
-                                    className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-110"
-                                />
-                            </div>
-                        </div>
-                        <div>
-                            <h1 className="text-2xl sm:text-3xl text-center font-bold text-[var(--titleColor)] mb-2">{translations.welcome}, {user?.name || translations.studentBtn}</h1>
-                            <div className="flex flex-col items-center gap-1">
-                                <p className="text-lg text-gray-600 m-0 text-center">
-                                    {user?.last_name} {user?.name} {user?.father_name}
-                                </p>
-                                <div className="flex items-center justify-center gap-1">
-                                    <span className="font-bold px-2 py-1 bg-[var(--greenColor)] text-white text-[13px]">{contextNotifications?.length}</span>
-                                    <span className="text-[13px]">{translations.notifications}</span>
-                                </div>
-                            </div>
-                            <Link className="text-center my-2 block sm:hidden" href={'/teaching'}>
-                                {translations.trainingPlan}
+        // Мобильный порядок: приветствие → активность → события.
+        // Десктоп (xl): приветствие + события в первой строке, активность на всю ширину ниже.
+        <div className="flex flex-col xl:flex-row xl:flex-wrap gap-[12px] sm:gap-[16px]">
+            {/* Приветствие */}
+            <div className="main-bg [order:1] xl:[flex:2_1_0%] relative overflow-hidden !p-3 sm:!p-6">
+                <div
+                    className="absolute inset-0 pointer-events-none"
+                    style={{ background: 'linear-gradient(135deg, rgba(8, 169, 230, 0.10) 0%, rgba(8, 169, 230, 0) 60%)' }}
+                />
+                <div className="hidden sm:block absolute -right-6 -bottom-10 opacity-10 pointer-events-none">
+                    <i className="pi pi-user text-[150px] text-[var(--mainColor)]"></i>
+                </div>
+
+                <div className="relative z-10 flex items-center gap-[12px] sm:gap-[24px]">
+                    <div className="w-[64px] h-[64px] sm:w-[160px] sm:h-[160px] shrink-0 rounded-xl sm:rounded-2xl overflow-hidden border-2 sm:border-4 border-white shadow-md ring-1 ring-gray-200 bg-gray-50">
+                        <img
+                            src={studentImg?.image_url?.length ? studentImg.image_url : '/layout/images/no-image.png'}
+                            alt={translations.photo}
+                            className="w-full h-full object-cover object-center transition-transform duration-300 hover:scale-105"
+                        />
+                    </div>
+
+                    <div className="flex flex-col items-start gap-3 sm:gap-[8px] min-w-0">
+                        <h1 className="text-lg sm:text-3xl font-bold text-[var(--titleColor)] m-0 leading-tight">
+                            {translations.welcome}, {user?.name || translations.studentBtn}
+                        </h1>
+                        <p className="hidden sm:block text-lg text-[var(--bodyColor)] m-0">
+                            {user?.last_name} {user?.name} {user?.father_name}
+                        </p>
+
+                        <div className="flex flex-wrap items-center gap-[6px] sm:gap-[8px] sm:mt-[4px]">
+                            <Link
+                                href="/notifications"
+                                className="flex items-center gap-[6px] px-[10px] py-[4px] sm:px-[12px] sm:py-[6px] rounded-full bg-white border border-gray-200 text-xs sm:text-sm text-[var(--titleColor)] hover:border-[var(--mainColor)] transition-colors"
+                            >
+                                <i className="pi pi-bell text-[var(--mainColor)]"></i>
+                                <span className="hidden sm:inline">{translations.notifications}</span>
+                                <span className="min-w-[20px] h-[20px] px-[6px] flex items-center justify-center rounded-full bg-[var(--greenColor)] text-white text-xs font-bold">
+                                    {notificationsCount}
+                                </span>
+                            </Link>
+                            <Link
+                                href="/teaching"
+                                className="flex items-center gap-[6px] px-[10px] py-[4px] sm:px-[12px] sm:py-[6px] rounded-full bg-[var(--mainColor)] text-white text-xs sm:text-sm hover:opacity-90 transition-opacity"
+                            >
+                                <i className="pi pi-book"></i>
+                                <span>{translations.trainingPlan}</span>
                             </Link>
                         </div>
                     </div>
-                    {/* Decorative background element */}
-                    <div className="absolute right-0 bottom-0 opacity-10 pointer-events-none">
-                        <i className="pi pi-user text-[120px] sm:text-[150px] text-[var(--mainColor)] transform translate-x-10 translate-y-10"></i>
-                    </div>
-                </div>
-
-                {/* 2. Stats Section */}
-                <div className="main-bg flex flex-col gap-2 px-2 pb-2 sm:px-6 sm:pb-6 sm:pt-2 min-h-[200px]">
-                    <div className="flex flex-col justify-center mt-4">
-                        <h3 className="font-bold">{translations.upcomingEvents}</h3>
-                        <div>
-                            <p>{translations.noUpcomingEvents}</p>
-                        </div>
-                    </div>
                 </div>
             </div>
 
-            {/* {lessonsData && Object.keys(lessonsData).length > 0 ? ( */}
-            <div>
-                {/* activity */}
-                <div ref={ref} className="w-full main-bg p-2">
-                    <h2 style={{ marginBottom: 20 }} className="text-md sm:text-lg flex items-center justify-center gap-2">
-                        <span>{translations.activity}</span>
-                    </h2>
-                    <ActivityPage value={contribution} />
-
-                    <div className="flex flex-col sm:flex-row sm:items-end gap-3 m-2">
-                        <div className="flex items-start flex-col gap-1 font-bold">
-                            <span className="text-[var(--mainColor)]">{<MyDateTime options={options} createdAt={studentStatistic?.last_visit || ''} />}</span>
-                            <span className="text-sm">{translations.lastVisit}</span>
-                        </div>
-                        <div className="flex items-start flex-col gap-1 font-bold">
-                            <span className="text-[var(--mainColor)] text-lg">{studentStatistic?.streak}</span>
-                            <span className="text-sm">{translations.daysVisitedStreak}</span>
-                        </div>
-                        <div className="flex items-start flex-col gap-1 font-bold">
-                            <span className="text-[var(--mainColor)] text-lg">{studentStatistic?.all_active_dates}</span>
-                            <span className="text-sm">{translations.daysVisitedTotal}</span>
-                        </div>
+            {/* Активность: статистика посещений + тепловая карта */}
+            <div className="main-bg [order:2] xl:[order:3] xl:[flex-basis:100%] !p-3 sm:!p-6">
+                <div className="flex items-start gap-[10px] mb-[12px]">
+                    <span className="w-[36px] h-[36px] shrink-0 rounded-xl flex items-center justify-center" style={{ background: 'rgba(46, 192, 46, 0.14)' }}>
+                        <i className="pi pi-chart-bar text-[var(--greenColor)]"></i>
+                    </span>
+                    <div className="flex flex-col min-w-0">
+                        <h2 className="text-lg font-bold text-[var(--titleColor)] m-0 leading-tight">{translations.activity}</h2>
+                        <span className="text-xs sm:text-sm text-[var(--bodyColor)]">{translations.activityHint}</span>
                     </div>
+                </div>
+
+                <div className="flex rounded-xl bg-[#f6f9fb] border border-gray-100 mb-[12px] divide-x divide-gray-200">
+                    {stats.map((stat) => (
+                        <div key={stat.key} className="flex-1 min-w-0 flex flex-col items-center text-center px-[6px] py-[10px] sm:py-[14px]">
+                            {statsLoading ? (
+                                <Skeleton width="3.5rem" height="1.5rem" className="mb-1" />
+                            ) : (
+                                <div className="flex items-center gap-[6px]">
+                                    <i className={`${stat.icon} text-sm sm:text-base`} style={{ color: stat.color }}></i>
+                                    <span className="text-lg sm:text-2xl font-bold text-[var(--titleColor)] leading-tight whitespace-nowrap">{stat.value}</span>
+                                </div>
+                            )}
+                            {stat.hint && !statsLoading && <span className="text-xs text-[var(--bodyColor)] leading-tight">{stat.hint}</span>}
+                            <span className="text-[11px] sm:text-sm text-[var(--bodyColor)] leading-tight mt-[2px]">{stat.label}</span>
+                        </div>
+                    ))}
+                </div>
+
+                <ActivityPage value={contribution} />
+            </div>
+
+            {/* Предстоящие события */}
+            <div className="main-bg [order:3] xl:[order:2] xl:[flex:1_1_0%] !p-3 sm:!p-6 flex flex-col">
+                <div className="flex items-center gap-[8px] mb-[12px]">
+                    <span className="w-[36px] h-[36px] shrink-0 rounded-xl flex items-center justify-center" style={{ background: 'rgba(8, 169, 230, 0.12)' }}>
+                        <i className="pi pi-calendar-clock text-[var(--mainColor)]"></i>
+                    </span>
+                    <h3 className="text-lg font-bold text-[var(--titleColor)] m-0">{translations.upcomingEvents}</h3>
+                </div>
+                <div className="flex-1 flex flex-col items-center justify-center text-center gap-[8px] py-[16px] rounded-xl border border-dashed border-gray-200">
+                    <i className="pi pi-inbox text-3xl text-gray-300"></i>
+                    <p className="m-0 text-sm text-[var(--bodyColor)]">{translations.noUpcomingEvents}</p>
                 </div>
             </div>
         </div>

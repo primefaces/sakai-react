@@ -20,10 +20,11 @@ import { ProgressSpinner } from 'primereact/progressspinner';
 import React, { useContext, useEffect, useState } from 'react';
 import { useLocalization } from '@/layout/context/localizationcontext';
 import { useLocalizedData } from '@/hooks/useLocalizedData';
-import SubTitle from '@/app/components/titles/SubTitle';
-import MainTitle from '@/app/components/titles/MainTitle';
+import RoleSwitch from '@/app/components/roles/RoleSwitch';
+import UserAvatar from '@/app/components/roles/UserAvatar';
 
 // types
+
 interface Role {
     id: number;
     title: string;
@@ -213,25 +214,29 @@ export default function Roles() {
         if (shablonData) {
             return shablonData.map((item: any) => {
                 return (
-                    <div key={item?.id} className="main-bg w-full flex flex-col gap-1 justify-start">
-                        <div className="flex gap-1 items-center">
-                            <b className="text-[14px] text-[var(--mainColor)]">
-                                {item.last_name} {item.name} {item.father_name}
-                            </b>
+                    <div key={item?.id} className="w-full flex flex-col gap-[10px] p-[14px] rounded-[16px] bg-white border border-[#eef2f6] shadow-[0_1px_3px_rgba(0,0,0,0.05)]">
+                        <div className="flex gap-[10px] items-center pb-[10px] border-b border-[#f1f5f9]">
+                            <UserAvatar user={item} />
+                            <div className="flex flex-col min-w-0">
+                                <b className="text-[14px] leading-snug text-[var(--titleColor)] break-words">
+                                    {item.last_name} {item.name} {item.father_name}
+                                </b>
+                                {item?.myedu_id && <span className="text-[12px] text-[var(--text-color-secondary)]">MyEdu ID: {item.myedu_id}</span>}
+                            </div>
                         </div>
 
                         {roles?.map((role, idx) => {
                             const userRole = item?.roles?.find((r: { id: number }) => r.id === role.id);
                             const isActive = Boolean(userRole?.pivot?.active);
                             return (
-                                <div key={role?.id} className="text-center flex justify-between items-start">
+                                <div key={role?.id} className="flex justify-between items-center gap-[10px]">
                                     {/*<span className="text-sm">{idx % 2 === 0 ? translations.administrator : translations.department}</span>*/}
-                                    <span className="text-sm">{role?.title}</span>
+                                    <span className={`text-[13px] ${isActive ? 'font-semibold text-[var(--titleColor)]' : 'text-[var(--bodyColor)]'}`}>{role?.title}</span>
 
                                     <div className="flex justify-center items-center">
                                         {!isActive ? (
-                                            <button
-                                                className={`theme-toggle ${forDisabled && 'opacity-50'}`}
+                                            <RoleSwitch
+                                                isActive={false}
                                                 disabled={forDisabled}
                                                 // onClick={() => handleControlUsersRole(item?.id, roles[idx]?.id, true, roleState)}
                                                 onClick={() => {
@@ -241,18 +246,10 @@ export default function Roles() {
                                                     setUser_id(item?.id);
                                                     setActive(true);
                                                 }}
-                                                aria-pressed="false"
-                                                // onClick={() => console.log(user?.roles, roles[idx])} aria-pressed="false"
-                                            >
-                                                <span className="right">
-                                                    <span className="option option-left" aria-hidden></span>
-                                                    <span className="option option-right" aria-hidden></span>
-                                                    <span className="knob" aria-hidden></span>
-                                                </span>
-                                            </button>
+                                            />
                                         ) : (
-                                            <button
-                                                className={`theme-toggle ${forDisabled && 'opacity-50'}`}
+                                            <RoleSwitch
+                                                isActive={true}
                                                 disabled={forDisabled}
                                                 // onClick={() => handleControlUsersRole(item?.id, roles[idx]?.id, false, roleState)}
                                                 onClick={() => {
@@ -262,33 +259,7 @@ export default function Roles() {
                                                     setUser_id(item?.id);
                                                     setActive(true);
                                                 }}
-                                                aria-pressed="false"
-                                                // onClick={() => console.log(user, roles[idx])} aria-pressed="false"
-                                            >
-                                                <span className="track">
-                                                    <span className="option option-left" aria-hidden></span>
-
-                                                    <span className="option option-right" aria-hidden>
-                                                        <svg
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            width="24"
-                                                            height="24"
-                                                            fill="none"
-                                                            stroke="green"
-                                                            strokeWidth="2"
-                                                            strokeLinecap="round"
-                                                            strokeLinejoin="round"
-                                                            viewBox="0 0 24 24"
-                                                            aria-label="Опубликовано"
-                                                        >
-                                                            <circle cx="12" cy="12" r="10"></circle>
-                                                            <path d="M9 12l2 2 4-4"></path>
-                                                        </svg>
-                                                    </span>
-
-                                                    <span className="knob" aria-hidden></span>
-                                                </span>
-                                            </button>
+                                            />
                                         )}
                                     </div>
                                 </div>
@@ -415,17 +386,62 @@ export default function Roles() {
 
     if (contentNull) return <NotFound titleMessage={translations.noData} />;
 
+    // только для отображения в диалоге
+    const dialogUser = users?.find((u) => u.id === user_id);
+    const dialogRole = roles?.find((r) => r.id === role_id);
+
+    const permissionOptions: { key: keyof RoleState; label: string; icon: string }[] = [
+        { key: 'create', label: translations.create, icon: 'pi pi-plus-circle' },
+        { key: 'update', label: translations.change, icon: 'pi pi-pencil' },
+        { key: 'delete', label: translations.delete, icon: 'pi pi-trash' },
+        { key: 'show', label: translations.view, icon: 'pi pi-eye' }
+    ];
+
     return (
         <div className="flex flex-col gap-4">
             {skeleton ? (
                 <GroupSkeleton count={5} size={{ width: '100%', height: '3rem' }} />
             ) : (
-                <div className="overflow-x-auto scrollbar-thin">
-                    <div className="main-bg mb-2">
-                        <MainTitle>{translations.adminTitle}</MainTitle>
-                        <div className="flex flex-col sm:flex-row gap-2 mb-2">
-                            <div className="flex gap-3 items-center">
-                                <div className={`flex items-center ${!selectedRole_idType?.role_id ? 'opacity-45 pointer-events-none' : ''}`}>
+                <div className="overflow-x-auto scrollbar-thin flex flex-col gap-[16px]">
+                    <div className="rounded-[16px] bg-white border border-[#eef2f6] shadow-[0_1px_3px_rgba(0,0,0,0.05)] p-[14px] sm:p-[18px]">
+                        <div className="flex items-center gap-[10px] mb-[14px]">
+                            <h3 className="text-[20px] sm:text-[22px] leading-tight font-bold m-0">{translations.adminTitle}</h3>
+                            {pagination.total > 0 && (
+                                <span className="inline-flex items-center gap-[5px] px-[10px] py-[3px] rounded-full bg-[#f1f5f9] text-[12px] font-semibold text-[var(--bodyColor)]">
+                                    <i className="pi pi-users text-[11px]"></i>
+                                    {pagination.total}
+                                </span>
+                            )}
+                        </div>
+
+                        <div className="flex flex-col lg:flex-row lg:items-center gap-[10px]">
+                            {/* поиск */}
+                            <div className="flex items-center relative flex-1 min-w-0">
+                                <i className="pi pi-search absolute left-[12px] z-[1] text-[13px] text-[var(--text-color-secondary)] pointer-events-none"></i>
+                                <InputText placeholder={translations.search} value={search} onChange={(e) => setSearch(e.target.value)} className="w-full h-[40px] text-[14px]" style={{ paddingLeft: 36, borderRadius: 10 }} />
+                                <div className="absolute right-[10px]">{miniProgressSpinner && <ProgressSpinner style={{ width: '15px', height: '15px' }} strokeWidth="8" fill="white" className="!stroke-green-500" animationDuration=".5s" />}</div>
+                            </div>
+
+                            <div className="flex flex-col sm:flex-row sm:items-center gap-[10px]">
+                                {/* myedu id */}
+                                <div className="flex items-center relative sm:w-[150px]">
+                                    <InputText type="number" placeholder={translations.myeduIdPlaceholder} className="w-full h-[40px] text-[14px]" style={{ borderRadius: 10 }} onChange={(e) => setMyedu_id(e.target.value)} />
+                                    <div className="absolute right-[10px]">{myeduProgressSpinner && <ProgressSpinner style={{ width: '15px', height: '15px' }} strokeWidth="8" fill="white" className="!stroke-green-500" animationDuration=".5s" />}</div>
+                                </div>
+
+                                {/* роль */}
+                                <Dropdown
+                                    value={selectedRole_idType}
+                                    onChange={(e: DropdownChangeEvent) => setSelectedRole_idType(e.value)}
+                                    options={cities}
+                                    optionLabel="name"
+                                    placeholder="..."
+                                    className="sm:w-[200px] h-[40px] items-center text-sm"
+                                    style={{ borderRadius: 10 }}
+                                />
+
+                                {/* только активные */}
+                                <div className={`flex items-center gap-[4px] h-[40px] transition-opacity ${!selectedRole_idType?.role_id ? 'opacity-45 pointer-events-none' : ''}`}>
                                     <label className="custom-radio p-0">
                                         <input
                                             type="checkbox"
@@ -438,21 +454,9 @@ export default function Roles() {
                                         />
                                         <span className="checkbox-mark"></span>
                                     </label>
-                                    <p>{translations.active}</p>
-                                </div>
-                                <div>
-                                    <Dropdown value={selectedRole_idType} onChange={(e: DropdownChangeEvent) => setSelectedRole_idType(e.value)} options={cities} optionLabel="name" placeholder="..." className="w-[160px] sm:w-full text-sm" />
+                                    <p className="m-0 text-[14px] text-[var(--bodyColor)] whitespace-nowrap">{translations.active}</p>
                                 </div>
                             </div>
-                            <div className="w-full flex justify-center sm:justify-start items-center gap-1">
-                                <InputText type="number" placeholder={translations.myeduIdPlaceholder} className="w-full sm:max-w-[120px] h-[48px]" onChange={(e) => setMyedu_id(e.target.value)} />
-                                <div>{myeduProgressSpinner && <ProgressSpinner style={{ width: '15px', height: '15px' }} strokeWidth="8" fill="white" className="!stroke-green-500" animationDuration=".5s" />}</div>
-                            </div>
-                        </div>
-
-                        <div className="flex items-center relative mb-2">
-                            <InputText placeholder={translations.search} value={search} onChange={(e) => setSearch(e.target.value)} className="w-full p-inputtext-sm p-inputtext-rounded" />
-                            <div className="absolute right-1">{miniProgressSpinner && <ProgressSpinner style={{ width: '15px', height: '15px' }} strokeWidth="8" fill="white" className="!stroke-green-500" animationDuration=".5s" />}</div>
                         </div>
                     </div>
 
@@ -465,17 +469,33 @@ export default function Roles() {
                         //     rows={5}
                         //     emptyMessage="Нет данных для отображения"
                         // />
-                        <div className="flex flex-col gap-2">{itemTemplate(users)}</div>
+                        <div className="flex flex-col gap-[10px]">{itemTemplate(users)}</div>
                     ) : (
-                        <div className="main-bg overflow-x-auto scrollbar-thin flex flex-col gap-2">
-                            <DataTable value={users || []} dataKey="id" emptyMessage="..." breakpoint="960px" key={JSON.stringify(forDisabled)} rows={5} className=" min-w-[640px] overflow-x-auto">
-                                <Column header={() => <div className="text-[14px]">#</div>} body={(_, { rowIndex }) => rowIndex + 1} />
+                        <div className="rounded-[16px] bg-white border border-[#eef2f6] shadow-[0_1px_3px_rgba(0,0,0,0.05)] p-[12px] sm:p-[16px] overflow-x-auto scrollbar-thin flex flex-col gap-[12px]">
+                            <DataTable value={users || []} dataKey="id" emptyMessage="..." breakpoint="960px" key={JSON.stringify(forDisabled)} rows={5} className="modern-table min-w-[640px] overflow-x-auto text-sm">
+                                <Column
+                                    header="#"
+                                    style={{ width: '48px', textAlign: 'center' }}
+                                    body={(_, { rowIndex }) => <span className="text-[12px] font-semibold text-[var(--text-color-secondary)]">{(pagination.currentPage - 1) * pagination.perPage + rowIndex + 1}</span>}
+                                />
 
                                 <Column
-                                    header={() => <div className="text-[14px]">{translations.fullName}</div>}
+                                    header={translations.fullName}
                                     body={(rowData: any) => (
-                                        <div className="text-[14px]">
-                                            {rowData.last_name} {rowData.name} {rowData.father_name}
+                                        <div className="flex items-center gap-[10px] min-w-[220px]">
+                                            <UserAvatar user={rowData} />
+                                            <div className="flex flex-col min-w-0">
+                                                <span className="text-[14px] font-semibold leading-snug text-[var(--titleColor)]">
+                                                    {rowData.last_name} {rowData.name} {rowData.father_name}
+                                                </span>
+                                                {(rowData?.myedu_id || rowData?.email) && (
+                                                    <span className="text-[12px] text-[var(--text-color-secondary)] truncate">
+                                                        {rowData?.myedu_id && <>ID: {rowData.myedu_id}</>}
+                                                        {rowData?.myedu_id && rowData?.email && ' · '}
+                                                        {rowData?.email}
+                                                    </span>
+                                                )}
+                                            </div>
                                         </div>
                                     )}
                                 />
@@ -483,7 +503,8 @@ export default function Roles() {
                                     return (
                                         <Column
                                             key={role?.id}
-                                            header={() => <div className="text-[14px]">{getLocalized(role, 'name') || role.title}</div>}
+                                            header={() => <div className="w-full text-center">{getLocalized(role, 'name') || role.title}</div>}
+                                            style={{ textAlign: 'center' }}
                                             body={(user) => {
                                                 const userRole = user?.roles?.find((r: { id: number }) => r.id === role.id);
 
@@ -493,8 +514,8 @@ export default function Roles() {
                                                     <div className="text-center">
                                                         <div className="flex justify-center items-center">
                                                             {!isActive ? (
-                                                                <button
-                                                                    className={`theme-toggle ${forDisabled && 'opacity-50'}`}
+                                                                <RoleSwitch
+                                                                    isActive={false}
                                                                     disabled={forDisabled}
                                                                     // onClick={() => handleControlUsersRole(user?.id, roles[idx]?.id, true)}
                                                                     onClick={() => {
@@ -504,18 +525,10 @@ export default function Roles() {
                                                                         setUser_id(user?.id);
                                                                         setActive(true);
                                                                     }}
-                                                                    aria-pressed="false"
-                                                                    // onClick={() => console.log(user?.roles, roles[idx])} aria-pressed="false"
-                                                                >
-                                                                    <span className="right">
-                                                                        <span className="option option-left" aria-hidden></span>
-                                                                        <span className="option option-right" aria-hidden></span>
-                                                                        <span className="knob" aria-hidden></span>
-                                                                    </span>
-                                                                </button>
+                                                                />
                                                             ) : (
-                                                                <button
-                                                                    className={`theme-toggle ${forDisabled && 'opacity-50'}`}
+                                                                <RoleSwitch
+                                                                    isActive={true}
                                                                     disabled={forDisabled}
                                                                     // onClick={() => handleControlUsersRole(user?.id, roles[idx]?.id, false)}
                                                                     onClick={() => {
@@ -525,33 +538,7 @@ export default function Roles() {
                                                                         setUser_id(user?.id);
                                                                         setActive(false);
                                                                     }}
-                                                                    aria-pressed="false"
-                                                                    // onClick={() => console.log(user, roles[idx])} aria-pressed="false"
-                                                                >
-                                                                    <span className="track">
-                                                                        <span className="option option-left" aria-hidden></span>
-
-                                                                        <span className="option option-right" aria-hidden>
-                                                                            <svg
-                                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                                width="24"
-                                                                                height="24"
-                                                                                fill="none"
-                                                                                stroke="green"
-                                                                                strokeWidth="2"
-                                                                                strokeLinecap="round"
-                                                                                strokeLinejoin="round"
-                                                                                viewBox="0 0 24 24"
-                                                                                aria-label="Опубликовано"
-                                                                            >
-                                                                                <circle cx="12" cy="12" r="10"></circle>
-                                                                                <path d="M9 12l2 2 4-4"></path>
-                                                                            </svg>
-                                                                        </span>
-
-                                                                        <span className="knob" aria-hidden></span>
-                                                                    </span>
-                                                                </button>
+                                                                />
                                                             )}
                                                         </div>
                                                     </div>
@@ -562,7 +549,12 @@ export default function Roles() {
                                 })}
                             </DataTable>
 
-                            <div className={`shadow-[0px_-11px_5px_-6px_rgba(0,_0,_0,_0.1)]`}>
+                            <div className="flex flex-col sm:flex-row items-center justify-between gap-[8px]">
+                                {pagination.total > 0 && pagination.perPage > 0 && (
+                                    <span className="text-[13px] text-[var(--text-color-secondary)]">
+                                        {(pagination.currentPage - 1) * pagination.perPage + 1}–{Math.min(pagination.currentPage * pagination.perPage, pagination.total)} / <b className="text-[var(--titleColor)]">{pagination.total}</b>
+                                    </span>
+                                )}
                                 <Paginator
                                     first={(pagination.currentPage - 1) * pagination.perPage}
                                     rows={pagination.perPage}
@@ -570,6 +562,7 @@ export default function Roles() {
                                     onPageChange={(e) => handlePageChange(e.page + 1)}
                                     // template="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink"
                                     template={media ? 'FirstPageLink PrevPageLink NextPageLink LastPageLink' : 'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink'}
+                                    className="courses-paginator bg-transparent p-0"
                                 />
                             </div>
                         </div>
@@ -586,86 +579,50 @@ export default function Roles() {
                         footer={categoryFooterContent}
                     >
                         {
-                            <div className="flex flex-col gap-1">
-                                <div className="flex items-center gap-2">
-                                    <label className="custom-radio">
-                                        <input
-                                            type="checkbox"
-                                            className={`customCheckbox`}
-                                            checked={roleState?.create}
-                                            onChange={(e) => {
-                                                setRoleState((prev) => {
-                                                    return {
-                                                        ...prev,
-                                                        create: !prev?.create
-                                                    };
-                                                });
-                                            }}
-                                        />
-                                        <span className="checkbox-mark ml-3" style={{ fontSize: '16px' }}>
-                                            {translations.create}
-                                        </span>
-                                    </label>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <label className="custom-radio">
-                                        <input
-                                            type="checkbox"
-                                            className={`customCheckbox`}
-                                            checked={roleState?.update}
-                                            onChange={(e) => {
-                                                setRoleState((prev) => {
-                                                    return {
-                                                        ...prev,
-                                                        update: !prev?.update
-                                                    };
-                                                });
-                                            }}
-                                        />
-                                        <span className="checkbox-mark ml-3" style={{ fontSize: '16px' }}>
-                                            {translations.change}
-                                        </span>
-                                    </label>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <label className="custom-radio">
-                                        <input
-                                            type="checkbox"
-                                            className={`customCheckbox`}
-                                            checked={roleState?.delete}
-                                            onChange={(e) => {
-                                                setRoleState((prev) => {
-                                                    return {
-                                                        ...prev,
-                                                        delete: !prev?.delete
-                                                    };
-                                                });
-                                            }}
-                                        />
-                                        <span className="checkbox-mark ml-3" style={{ fontSize: '16px' }}>
-                                            {translations.delete}
-                                        </span>
-                                    </label>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <label className="custom-radio">
-                                        <input
-                                            type="checkbox"
-                                            className={`customCheckbox`}
-                                            checked={roleState?.show}
-                                            onChange={(e) => {
-                                                setRoleState((prev) => {
-                                                    return {
-                                                        ...prev,
-                                                        show: !prev?.show
-                                                    };
-                                                });
-                                            }}
-                                        />
-                                        <span className="checkbox-mark ml-3" style={{ fontSize: '16px' }}>
-                                            {translations.view}
-                                        </span>
-                                    </label>
+                            <div className="flex flex-col gap-[12px]">
+                                {(dialogUser || dialogRole) && (
+                                    <div className="flex items-center gap-[10px] p-[10px] rounded-[12px] bg-[#f8fafc] border border-[#eef2f6]">
+                                        {dialogUser && <UserAvatar user={dialogUser} />}
+                                        <div className="flex flex-col min-w-0">
+                                            {dialogUser && (
+                                                <b className="text-[14px] text-[var(--titleColor)] leading-snug">
+                                                    {dialogUser.last_name} {dialogUser.name} {dialogUser.father_name}
+                                                </b>
+                                            )}
+                                            {dialogRole && (
+                                                <span className="inline-flex items-center gap-[4px] text-[12px] text-[var(--mainColor)] font-semibold">
+                                                    <i className="pi pi-shield text-[11px]"></i>
+                                                    {getLocalized(dialogRole, 'name') || dialogRole.title}
+                                                </span>
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
+                                <div className="[display:grid] grid-cols-1 sm:grid-cols-2 gap-[8px]">
+                                    {permissionOptions.map((perm) => (
+                                        <label
+                                            key={perm.key}
+                                            className={`custom-radio flex items-center gap-[10px] px-[12px] py-[10px] rounded-[12px] border transition-colors duration-200 ${
+                                                roleState?.[perm.key] ? 'border-[var(--mainColor)] bg-[var(--mainColor)]/5' : 'border-[#e2e8f0] bg-white hover:border-[var(--mainBorder)]'
+                                            }`}
+                                        >
+                                            <input
+                                                type="checkbox"
+                                                className={`customCheckbox`}
+                                                checked={roleState?.[perm.key]}
+                                                onChange={(e) => {
+                                                    setRoleState((prev) => {
+                                                        return {
+                                                            ...prev,
+                                                            [perm.key]: !prev?.[perm.key]
+                                                        };
+                                                    });
+                                                }}
+                                            />
+                                            <i className={`${perm.icon} text-[14px] ${roleState?.[perm.key] ? 'text-[var(--mainColor)]' : 'text-[var(--text-color-secondary)]'}`}></i>
+                                            <span className="checkbox-mark text-[14px] font-medium text-[var(--titleColor)]">{perm.label}</span>
+                                        </label>
+                                    ))}
                                 </div>
                             </div>
                         }

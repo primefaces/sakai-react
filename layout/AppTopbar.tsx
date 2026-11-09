@@ -50,6 +50,28 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
         }
     ];
 
+    const mobileProfileCard = (
+        <div className="flex items-center gap-3 px-3 py-2">
+            <div className="shrink-0 w-[38px] h-[38px] rounded-full bg-gradient-to-br from-[var(--mainColor)] to-[var(--titleColor)] text-white text-[13px] font-bold flex items-center justify-center">
+                {`${user?.last_name?.[0] || ''}${user?.name?.[0] || ''}`.toUpperCase()}
+            </div>
+            <div className="flex flex-col gap-1 min-w-0">
+                <span className="text-[var(--titleColor)] text-[14px] font-semibold leading-tight truncate">
+                    {user?.last_name} {user?.name}
+                </span>
+                {user?.myedu_id && (
+                    <small
+                        onClick={() => handleCopyClick(String(user.myedu_id))}
+                        className={`self-start cursor-pointer flex items-center gap-1 px-2 py-[2px] rounded-md text-[11px] transition-colors ${copyClickState ? copyBtnClassName : 'bg-[var(--mainBgColor)] text-[var(--bodyColor)]'}`}
+                    >
+                        <i className={copyClickState ? 'pi pi-check' : 'pi pi-copy'} style={{ fontSize: '10px' }}></i>
+                        {!copyClickState ? <span>ID: {user.myedu_id}</span> : <span className="min-w-[60px]">ID: Copy</span>}
+                    </small>
+                )}
+            </div>
+        </div>
+    );
+
     const mobileMenu = [
         user
             ? {
@@ -58,19 +80,7 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
                   items: [
                       {
                           label: '',
-                          template: (
-                              <div className="flex items-center gap-2 text-sm ml-4 mr-1 flex-wrap">
-                                  <div className="flex gap-1">
-                                      <span className="text-[var(--titleColor)] text-[13px]">{user?.last_name}</span>
-                                      <span className="text-[var(--titleColor)] text-[13px]">{user?.name}</span>
-                                  </div>
-                                  {user?.myedu_id && (
-                                      <small onClick={() => handleCopyClick(String(user.myedu_id))} className={`cursor-pointer p-1 rounded ${copyClickState ? copyBtnClassName : 'bg-[var(--mainBgColor)]'}`}>
-                                          {!copyClickState ? <span>ID: {user.myedu_id}</span> : <span className="min-w-[60px]">ID: Copy</span>}
-                                      </small>
-                                  )}
-                              </div>
-                          )
+                          template: mobileProfileCard
                       },
                       {
                           label: translations.logout,
@@ -96,58 +106,32 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
         {
             label: translations.notification,
             icon: (
-                <div className="p-overlay-badge">
-                    <i className="pi pi-bell p-menuitem-icon" style={{ fontSize: '1.5rem' }}></i>
-                    {/* Условное отображение красного кружка (бэйджа) */}
+                <span className="relative flex items-center">
+                    <i className="pi pi-bell p-menuitem-icon"></i>
                     {notification?.length > 0 && (
-                        // <div className='w-full relative'>
-                        <span className="absolute w-[10px] h-[10px] right-[10px] top-[5px] bg-[var(--amberColor)] rounded-full "></span>
-                        // </div>
+                        <span className="absolute -top-[7px] -right-[9px] min-w-[16px] h-[16px] px-[4px] rounded-full bg-[var(--amberColor)] text-white text-[10px] font-semibold leading-[16px] text-center">
+                            {notification.length}
+                        </span>
                     )}
-                </div>
+                </span>
             ),
             items: [
                 {
                     label: '',
                     template: (
-                        <div className="max-h-[200px] overflow-y-auto">
+                        <div className="max-h-[260px] overflow-y-auto">
                             <Notification notification={notification} />
                         </div>
                     )
                 }
             ]
-        },
-        {
-            // label: 'Старый Mooc',
-            icon: '',
-            items: [],
-            template: (
-                <div>
-                    <Link href={'https.oldmooc.oshsu.kg/'} target="_blank" className="flex text-[12px] text-[var(--bodyColor)]! py-1 hover:text-white! justify-center">
-                        {translations.oldMooc}
-                    </Link>
-                </div>
-            ),
-            url: 'https.oldmooc.oshsu.kg/'
         }
     ];
 
     const mobileStudentMenu = user ? [
                 {
                     label: '',
-                    template: (
-                        <div className="flex items-center gap-2 text-sm ml-4 mr-1 flex-wrap">
-                            <div className="flex gap-1">
-                                <span className="text-[var(--titleColor)] text-[13px]">{user?.last_name}</span>
-                                <span className="text-[var(--titleColor)] text-[13px]">{user?.name}</span>
-                            </div>
-                            {user?.myedu_id && (
-                                <small onClick={() => handleCopyClick(String(user.myedu_id))} className={`cursor-pointer p-1 rounded ${copyClickState ? copyBtnClassName : 'bg-[var(--mainBgColor)]'}`}>
-                                    {!copyClickState ? <span>ID: {user.myedu_id}</span> : <span className="min-w-[60px]">ID: Copy</span>}
-                                </small>
-                            )}
-                        </div>
-                    )
+                    template: mobileProfileCard
                 },
                 {
                     label: translations.logout,
@@ -273,7 +257,7 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
                 <div className="flex items-center gap-4">
                     {media ? (
                         <div className="relative">
-                            <div className="absolute w-[10px] h-[10px] right-[10px] top-[5px] bg-[var(--amberColor)] rounded-full"></div>
+                            {notification?.length > 0 && <div className="absolute z-[1] w-[9px] h-[9px] right-[8px] top-[6px] bg-[var(--amberColor)] rounded-full ring-2 ring-white pointer-events-none"></div>}
                             <div className="max-h-[100px] overflow-hidden">
                                 <Tiered
                                     title={{ name: '', font: 'pi pi-ellipsis-v' }}
@@ -301,13 +285,7 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
                         </div>
                     ) : (
                         <div className={`flex items-center gap-3 ${!media ? 'order-2' : 'order-3'} `}>
-                            <Link className="text-[var(--titleColor)] text-sm hover:text-[var(--mainColor)]" href={'https://oldmooc.oshsu.kg/'} target="_blank">
-                                {translations.oldMooc}
-                            </Link>
-
-                            <div className={'border-l-1 border-[var(--borderBottomColor)] pl-3'}>
-                                <LocalizationSwift />
-                            </div>
+                            <LocalizationSwift />
                         </div>
                     )}
 

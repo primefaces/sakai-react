@@ -1,4 +1,4 @@
-'uce slient';
+'use client';
 
 import { LayoutContext } from '@/layout/context/layoutcontext';
 import { mainNotification } from '@/types/mainNotification';
@@ -62,21 +62,27 @@ export default function Notification({ notification }: { notification: mainNotif
         return findPathResult;
     };
 
+    const typeIcon = (type?: string) => (type === 'practical' ? 'pi pi-file-edit' : type === 'view' ? 'pi pi-eye' : 'pi pi-bell');
+
     const groupingSection = (item: NotificationGroupUi) => {
         return (
-            <div key={item?.id} className="flex gap-1 items-center px-2 py-1">
-                <b
-                    className="cursor-pointer text-[var(--mainColor)] hover:underline"
-                    onMouseDown={stop}
-                    onClick={(e) => {
-                        stop(e);
-                        const forNotification = notificationTypeGrouping(item?.type?.type);
-                        setMainNotification(forNotification);
-                        setGroupingFl(true);
-                    }}
-                >
-                    {item?.type?.title}
-                </b>
+            <div
+                key={item?.id}
+                className="cursor-pointer flex items-center gap-3 px-3 py-[10px] rounded-xl hover:bg-[#f1f9fd] transition-colors"
+                onMouseDown={stop}
+                onClick={(e) => {
+                    stop(e);
+                    const forNotification = notificationTypeGrouping(item?.type?.type);
+                    setMainNotification(forNotification);
+                    setGroupingFl(true);
+                }}
+            >
+                <span className="shrink-0 w-[32px] h-[32px] rounded-lg bg-[var(--mainColor)]/10 text-[var(--mainColor)] flex items-center justify-center">
+                    <i className={typeIcon(item?.type?.type)} style={{ fontSize: '14px' }}></i>
+                </span>
+                <b className="flex-1 text-[0.85rem] font-semibold text-[var(--titleColor)]">{item?.type?.title}</b>
+                <span className="text-[11px] font-semibold text-[var(--mainColor)] bg-[var(--mainColor)]/10 rounded-full px-2 py-[1px]">{notification.filter((n) => n?.type?.type === item?.type?.type).length}</span>
+                <i className="pi pi-angle-right text-slate-400" style={{ fontSize: '12px' }}></i>
             </div>
         );
     };
@@ -104,38 +110,39 @@ export default function Notification({ notification }: { notification: mainNotif
         }
     }, []);
 
+    const allBtn = (onClick: (e: any) => void) => (
+        <button
+            type="button"
+            onMouseDown={stop}
+            onClick={onClick}
+            className="cursor-pointer flex items-center gap-1 text-[0.75rem] font-medium text-[var(--mainColor)] bg-[var(--mainColor)]/10 hover:bg-[var(--mainColor)]/20 rounded-full px-[10px] py-[3px] transition-colors"
+        >
+            <i className="pi pi-list" style={{ fontSize: '0.65rem' }}></i>
+            <span>Все</span>
+        </button>
+    );
+
     return (
-        <div className={`flex flex-col justify-center p-2 gap-1`}>
+        <div className="flex flex-col gap-1 p-1">
             {groupNotificationVisible ? (
-                <div className="flex items-center gap-1 justify-between p-2">
-                    <h3 className="m-0 p-0 font-bold text-[0.813rem] sm:text-[1.063]">Список сообщений </h3>
-                    <div className="cursor-pointer flex items-center gap-1 justify-between text-[0.75rem] sm:text-[0.875rem]">
-                        <i
-                            className="pi pi-times flex justify-end"
-                            style={{ fontSize: '0.75rem' }}
-                            onClick={(e) => {
-                                stop(e);
-                                setGroupNotificationVisible(false);
-                            }}
-                        ></i>
-                        <span>Все</span>
-                    </div>
+                <div className="flex items-center justify-between gap-2 px-2 pt-1 pb-2 border-b border-slate-100 mb-1">
+                    <h3 className="m-0 p-0 font-bold text-[0.85rem] text-[var(--titleColor)]">Список сообщений</h3>
+                    {allBtn((e) => {
+                        stop(e);
+                        setGroupNotificationVisible(false);
+                    })}
                 </div>
             ) : (
                 ''
             )}
 
             {groupingFl && (
-                <div
-                    className="cursor-pointer flex items-center justify-end gap-1 text-[0.75rem] sm:text-[0.875rem]"
-                    onClick={(e) => {
+                <div className="flex items-center justify-end px-1 pb-1">
+                    {allBtn((e) => {
                         stop(e);
                         setMainNotification(notification);
                         setGroupingFl(false);
-                    }}
-                >
-                    <i className="pi pi-times flex justify-end" style={{ fontSize: '0.75rem' }}></i>
-                    <span>Все</span>
+                    })}
                 </div>
             )}
 
@@ -145,33 +152,49 @@ export default function Notification({ notification }: { notification: mainNotif
                 mainNotification?.map((item) => {
                     const path = findPath(item);
                     return (
-                        <div key={item?.id} className={`w-full flex flex-col justify-center shadow p-2 gap-1 sm:gap-2`}>
-                            <div className="w-full flex justify-between">
-                                <Link onClick={() => setContextNotificationId(item?.id)} className="cursor-pointer underline" href={path}>
-                                    <b className="text-[var(--mainColor)] text-[0.75rem] sm:text-[0.875rem]">{item?.type?.title}</b>
-                                </Link>
-                                <span className="text-sm w-[11px] h-[11px] sm:w-[13px] sm:h-[13px] rounded-full bg-[var(--amberColor)]"></span>
-                            </div>
+                        <Link
+                            key={item?.id}
+                            href={path}
+                            onClick={() => setContextNotificationId(item?.id)}
+                            className="group relative w-full flex items-start gap-3 p-3 rounded-xl bg-white border border-slate-100 hover:border-[var(--mainBorder)] hover:bg-[#f7fcfe] transition-colors"
+                        >
+                            <span className="shrink-0 w-[34px] h-[34px] rounded-full bg-[var(--mainColor)]/10 text-[var(--mainColor)] flex items-center justify-center">
+                                <i className={typeIcon(item?.type?.type)} style={{ fontSize: '14px' }}></i>
+                            </span>
 
-                            {/* student message */}
-                            {user?.is_student && item?.type?.type === 'practical' && (
-                                <b className="text-[0.813rem] max-w-[350px] text-nowrap overflow-hidden text-ellipsis" title={item?.title}>
-                                    {item?.title}
-                                </b>
-                            )}
-                            <p className="m-0 text-[0.688rem] sm:text-[0.75rem]">
-                                {item?.from_user?.last_name} {item?.from_user?.name}
-                            </p>
-                            <div className="w-full relative flex">
-                                <p className="absolute right-0 -top-1 sm:-top-3 text-[9px] sm:text-[10px] m-0">
-                                    <MyDateTime createdAt={item?.created_at} options={options} />
-                                </p>
+                            <div className="flex-1 min-w-0 flex flex-col gap-[2px]">
+                                <div className="flex items-center justify-between gap-2">
+                                    <b className="text-[var(--titleColor)] group-hover:text-[var(--mainColor)] text-[0.82rem] sm:text-[0.875rem] font-semibold truncate transition-colors">{item?.type?.title}</b>
+                                    <span className="shrink-0 w-[8px] h-[8px] rounded-full bg-[var(--amberColor)]"></span>
+                                </div>
+
+                                {/* student message */}
+                                {user?.is_student && item?.type?.type === 'practical' && (
+                                    <span className="text-[0.8rem] text-[var(--bodyColor)] truncate" title={item?.title}>
+                                        {item?.title}
+                                    </span>
+                                )}
+
+                                <div className="flex items-center justify-between gap-2 mt-[2px]">
+                                    <span className="flex items-center gap-1 text-[0.72rem] text-slate-500 truncate">
+                                        <i className="pi pi-user" style={{ fontSize: '0.65rem' }}></i>
+                                        {item?.from_user?.last_name} {item?.from_user?.name}
+                                    </span>
+                                    <span className="shrink-0 text-[10px] text-slate-400">
+                                        <MyDateTime createdAt={item?.created_at} options={options} />
+                                    </span>
+                                </div>
                             </div>
-                        </div>
+                        </Link>
                     );
                 })
             ) : (
-                <p className="text-center text-[0.813rem]">Сообщений нет</p>
+                <div className="flex flex-col items-center gap-2 py-5 text-slate-400">
+                    <span className="w-[44px] h-[44px] rounded-full bg-slate-100 flex items-center justify-center">
+                        <i className="pi pi-bell-slash" style={{ fontSize: '18px' }}></i>
+                    </span>
+                    <p className="m-0 text-[0.813rem]">Сообщений нет</p>
+                </div>
             )}
         </div>
     );

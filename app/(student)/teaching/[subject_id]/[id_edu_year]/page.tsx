@@ -1,7 +1,7 @@
 'use client';
 
 import StudentInfoCard from '@/app/components/lessons/StudentInfoCard';
-import { NotFound } from '@/app/components/NotFound';
+import FacultyHeader, { FacultyEmpty, facultyCardClass } from '@/app/components/faculty/FacultyHeader';
 import GroupSkeleton from '@/app/components/skeleton/GroupSkeleton';
 import useErrorMessage from '@/hooks/useErrorMessage';
 import { LayoutContext } from '@/layout/context/layoutcontext';
@@ -13,7 +13,6 @@ import { ProgressSpinner } from 'primereact/progressspinner';
 import React, { useContext, useEffect, useState } from 'react';
 import { useLocalization } from '@/layout/context/localizationcontext';
 import { useLocalizedData } from '@/hooks/useLocalizedData';
-import MainTitle from '@/app/components/titles/MainTitle';
 
 export default function StudentLesson() {
     // types
@@ -227,6 +226,169 @@ export default function StudentLesson() {
         }
     }, [main_id]);
 
+    const studyTypeLabel = (type?: string) => (type === 'Лк' ? 'Лекция' : type === 'Лб' ? 'Лабораторные занятия' : '');
+
+    // шаги урока: форум всегда в конце
+    const sortSteps = (steps: lessonType['steps']) =>
+        steps
+            ?.filter((step) => step.content)
+            .sort((a, b) => {
+                const isAForum = a?.type?.name === 'forum';
+                const isBForum = b?.type?.name === 'forum';
+                if (isAForum && !isBForum) return 1;
+                if (!isAForum && isBForum) return -1;
+                return 0;
+            });
+
+    const themeHeader = (lesson: lessonType, idx: number) => {
+        const count = lesson?.steps ? lesson.steps.filter((s) => s.content).length : null;
+
+        return (
+            <div className="flex items-center gap-[12px] w-full min-w-0">
+                <span className="flex items-center justify-center shrink-0 w-[34px] h-[34px] rounded-[10px] bg-[#f1f5f9] text-[0.8125rem] font-bold text-[var(--bodyColor)]">
+                    {lesson?.active ? idx + 1 : <i className="pi pi-lock text-[0.75rem]"></i>}
+                </span>
+                <div className="flex flex-col gap-[2px] min-w-0 flex-1">
+                    <span className="text-[0.6875rem] uppercase tracking-[0.04em] font-semibold text-[var(--text-color-secondary)]">
+                        {translations.theme} {idx + 1}
+                    </span>
+                    <span className="text-[0.875rem] sm:text-[0.9375rem] font-semibold text-[var(--titleColor)] leading-snug break-words">{lesson.title}</span>
+                    {!lesson?.active && (
+                        <span className="inline-flex flex-wrap items-center gap-[4px] text-[0.75rem] text-[var(--text-color-secondary)]">
+                            <i className="pi pi-calendar text-[0.6875rem]"></i>
+                            {translations.availableFrom} {lesson?.from} - {lesson?.to}
+                        </span>
+                    )}
+                </div>
+                {count !== null && count > 0 && (
+                    <span
+                        className="inline-flex items-center gap-[4px] shrink-0 px-[8px] py-[3px] rounded-full bg-[var(--mainColor)]/10 text-[0.6875rem] font-semibold text-[var(--mainColor)] whitespace-nowrap"
+                        title={translations.materials}
+                    >
+                        <i className="pi pi-file text-[0.625rem]"></i>
+                        {count}
+                    </span>
+                )}
+            </div>
+        );
+    };
+
+    const lessonContent = (course: CourseType, lesson: lessonType) => {
+        if (lesson?.isLoadingSteps) {
+            return <GroupSkeleton count={3} size={{ width: '100%', height: '3.5rem' }} />;
+        }
+
+        const sortedSteps = sortSteps(lesson?.steps);
+        if (!sortedSteps || sortedSteps.length === 0) {
+            return (
+                <div className="flex items-center gap-[8px] p-[12px] rounded-[12px] bg-[#f8fafc] text-[0.8125rem] text-[var(--text-color-secondary)]">
+                    <i className="pi pi-info-circle text-[0.8125rem]"></i>
+                    {translations.noData}
+                </div>
+            );
+        }
+
+        return (
+            <div className="flex flex-col gap-[8px]">
+                {sortedSteps.map(
+                    (
+                        item: {
+                            id: number;
+                            chills: boolean;
+                            type: { name: string; logo: string };
+                            content: { id: number; title: string; description: string; url: string; document: string; document_path: string };
+                            id_parent?: number | null;
+                            score: number;
+                            my_score: number | null;
+                        },
+                        idx: number
+                    ) => (
+                        <div
+                            key={item.id}
+                            className="fade-up px-[10px] py-[8px] sm:px-[12px] sm:py-[8px] rounded-[12px] border border-[#eef2f6] bg-white hover:bg-[#f8fbfd] transition-colors"
+                            style={{ animationDelay: `${Math.min(idx, 12) * 35}ms` }}
+                        >
+                            <StudentInfoCard
+                                type={item.type.name}
+                                icon={item.type.logo}
+                                title={item.content?.title}
+                                description={item.content?.description || ''}
+                                documentUrl={{ document: item.content?.document, document_path: item.content?.document_path }}
+                                link={item.content?.url}
+                                stepId={item.id}
+                                streams={course}
+                                lesson={lesson.id}
+                                subjectId={String(subject_id)}
+                                chills={item?.chills}
+                                fetchProp={() => {
+                                    handleTabChange(courses, course.id, accordionIndex, true);
+                                }}
+                                contentId={item?.content?.id}
+                                id_parent={item?.id_parent || null}
+                                forumValueAdd={() => {
+                                    const forumValues = { description: item?.content.title || '', userInfo: { userName: course?.user?.name, userLastName: course?.user?.last_name } };
+                                    setForumValues(forumValues);
+                                    localStorage.setItem('forumValues', JSON.stringify(forumValues));
+                                }}
+                                lessonItem={item}
+                                id_edu_year={id_edu_year}
+                            />
+                        </div>
+                    )
+                )}
+            </div>
+        );
+    };
+
+    const courseCard = (course: CourseType) => {
+        const studyType = studyTypeLabel(course?.connections[0]?.subject_type);
+        const teacher = [course?.user?.last_name, course?.user?.name, course?.user?.father_name].filter(Boolean).join(' ');
+
+        return (
+            <div key={course.id} className={`${facultyCardClass} p-[10px] sm:p-[16px] flex flex-col gap-[12px]`}>
+                <div className="flex items-start gap-[12px] px-[2px]">
+                    <span className="hidden sm:flex items-center justify-center shrink-0 w-[44px] h-[44px] rounded-[12px] bg-[var(--mainColor)]/10 text-[var(--mainColor)]">
+                        <i className="pi pi-book text-[1.125rem]"></i>
+                    </span>
+                    <div className="flex flex-col gap-[6px] min-w-0">
+                        <span className="text-[0.6875rem] uppercase tracking-[0.04em] font-semibold text-[var(--text-color-secondary)]">{translations.courseName}</span>
+                        <h3 className="text-[1rem] sm:text-[1.125rem] leading-snug font-bold text-[var(--titleColor)] m-0 break-words">{getLocalized(course, 'title') || course?.title}</h3>
+                        <div className="flex flex-wrap items-center gap-[6px]">
+                            {teacher && (
+                                <span className="inline-flex items-center gap-[6px] px-[10px] py-[4px] rounded-full bg-[#f1f5f9] text-[0.75rem] text-[var(--bodyColor)]" title={translations.teacher}>
+                                    <i className="pi pi-user text-[0.6875rem]"></i>
+                                    {teacher}
+                                </span>
+                            )}
+                            {studyType && (
+                                <span className="inline-flex items-center gap-[6px] px-[10px] py-[4px] rounded-full bg-[var(--mainColor)]/10 text-[0.75rem] font-semibold text-[var(--mainColor)]" title={translations.studyType}>
+                                    <i className="pi pi-tag text-[0.6875rem]"></i>
+                                    {studyType}
+                                </span>
+                            )}
+                        </div>
+                    </div>
+                </div>
+
+                <Accordion
+                    className="modern-accordion"
+                    activeIndex={activeIndexes[course.id]}
+                    onTabChange={(e) => {
+                        setContextLastStepVisit({ course_id: course.id, index: e.index });
+                        handleTabChange(courses, course.id, e, true);
+                    }}
+                    multiple={false}
+                >
+                    {course?.lessons.map((lesson, idx) => (
+                        <AccordionTab key={lesson.id} header={themeHeader(lesson, idx)} disabled={!lesson?.active} className={!lesson?.active ? 'opacity-60' : ''}>
+                            {lessonContent(course, lesson)}
+                        </AccordionTab>
+                    ))}
+                </Accordion>
+            </div>
+        );
+    };
+
     if (mainProgressSpinner)
         return (
             <div className="main-bg flex justify-center items-center h-[100vh]">
@@ -235,156 +397,17 @@ export default function StudentLesson() {
         );
 
     return (
-        <div className="main-bg">
-            {hasLessons ? (
-                <NotFound titleMessage={translations.dataTemporarilyUnavailable} />
+        <div className="flex flex-col gap-[12px] sm:gap-[16px]">
+            <FacultyHeader icon="pi pi-book" title={translations.courses} count={courses?.length} backHref="/teaching" />
+
+            {hasLessons || hasThemes ? (
+                <FacultyEmpty icon="pi pi-exclamation-circle" text={translations.dataTemporarilyUnavailable} />
+            ) : skeleton ? (
+                <GroupSkeleton count={2} size={{ width: '100%', height: '10rem' }} />
+            ) : Array.isArray(courses) && courses.length > 0 ? (
+                courses.map((course) => courseCard(course))
             ) : (
-                <>
-                    {/*<h1 className="text-xl sm:text-2xl shadow-[0_2px_1px_0px_rgba(0,0,0,0.1)] pb-1">{translations.courses}</h1>*/}
-                    <MainTitle>{translations.courses}</MainTitle>
-
-                    {skeleton ? (
-                        <div className="w-full">
-                            <GroupSkeleton count={1} size={{ width: '100%', height: '10rem' }} />
-                        </div>
-                    ) : hasThemes ? (
-                        <NotFound titleMessage={translations.dataTemporarilyUnavailable} />
-                    ) : (
-                        Array.isArray(courses) &&
-                        courses?.map((course) => {
-                            return (
-                                <div key={course.id} className="flex flex-col gap-4 shadow-sm rounded my-4 py-2 px-1">
-                                    <div className="flex flex-col gap-2">
-                                        <h3 className="m-0  text-md break-words">
-                                            <span className="text-[var(--mainColor)]">{translations.courseName}:</span> {getLocalized(course, 'title') || course?.title}
-                                        </h3>
-                                        <h3 className="m-0 text-md ">
-                                            <span className="text-[var(--mainColor)]">{translations.teacher}:</span> {course?.user.last_name} {course?.user.name}{' '}
-                                            {course?.user.father_name ? course?.user.father_name[0] && course?.user.father_name : ''}
-                                        </h3>
-                                        {course?.connections[0]?.subject_type && (
-                                            <h3 className="m-0 text-md ">
-                                                <span className="text-[var(--mainColor)]">{translations.studyType}:</span>{' '}
-                                                {course?.connections[0]?.subject_type === 'Лк' ? 'Лекция' : course?.connections[0]?.subject_type === 'Лб' ? 'Лабораторные занятия' : ''}
-                                            </h3>
-                                        )}
-                                    </div>
-                                    <div>
-                                        <Accordion
-                                            key={`${course.id}`}
-                                            activeIndex={activeIndexes[course.id]}
-                                            className="my-accardion-icon"
-                                            onTabChange={(e) => {
-                                                setContextLastStepVisit({ course_id: course.id, index: e.index });
-                                                handleTabChange(courses, course.id, e, true);
-                                            }}
-                                            multiple={false}
-                                        >
-                                            {course?.lessons.map((lesson, idx) => {
-                                                const contentPresence = lesson?.steps?.filter((content) => content.content);
-                                                const sortedSteps = contentPresence?.sort((a, b) => {
-                                                    const isAForum = a?.type?.name === 'forum';
-                                                    const isBForum = b?.type?.name === 'forum';
-
-                                                    if (isAForum && !isBForum) {
-                                                        return 1; // 'a' (форум) идет после 'b'
-                                                    }
-                                                    if (!isAForum && isBForum) {
-                                                        return -1; // 'b' (форум) идет после 'a'
-                                                    }
-                                                    return 0; // Сохраняем относительный порядок
-                                                });
-
-                                                return (
-                                                    <AccordionTab
-                                                        header={
-                                                            <>
-                                                                <span>
-                                                                    {idx + 1}. {translations.theme}: {lesson.title}
-                                                                </span>
-                                                                {!lesson?.active && (
-                                                                    <div className="w-full flex justify-end items-center gap-1 mt-1 sm:m-o">
-                                                                        <small>{translations.availableFrom}</small>
-                                                                        <small>
-                                                                            {lesson?.from} - {lesson?.to}
-                                                                        </small>
-                                                                    </div>
-                                                                )}
-                                                            </>
-                                                        }
-                                                        key={lesson.id}
-                                                        className={`w-full p-accordion my-accardion-icon ${!lesson?.active ? 'opacity-50 pointer-events-none' : ''}`}
-                                                        style={{ width: '100%', backgroundColor: 'white' }}
-                                                    >
-                                                        <div className="flex flex-col gap-2">
-                                                            {/* Используем lesson.steps, который был обновлен в handleTabChange */}
-                                                            {lesson?.isLoadingSteps ? (
-                                                                <ProgressSpinner style={{ width: '50px', height: '50px' }} />
-                                                            ) : sortedSteps && sortedSteps?.length > 0 ? (
-                                                                sortedSteps.map(
-                                                                    (
-                                                                        item: {
-                                                                            id: number;
-                                                                            chills: boolean;
-                                                                            type: { name: string; logo: string };
-                                                                            content: { id: number; title: string; description: string; url: string; document: string; document_path: string };
-                                                                            id_parent?: number | null;
-                                                                            score: number;
-                                                                            my_score: number | null;
-                                                                        },
-                                                                        idx
-                                                                    ) => {
-                                                                        if (item.content == null) {
-                                                                            return null;
-                                                                        }
-
-                                                                        return (
-                                                                            <div key={item.id} className={`${idx > 0 ? 'my-border-top' : ''}`}>
-                                                                                <StudentInfoCard
-                                                                                    type={item.type.name}
-                                                                                    icon={item.type.logo}
-                                                                                    title={item.content?.title}
-                                                                                    description={item.content?.description || ''}
-                                                                                    documentUrl={{ document: item.content?.document, document_path: item.content?.document_path }}
-                                                                                    link={item.content?.url}
-                                                                                    stepId={item.id}
-                                                                                    streams={course}
-                                                                                    lesson={lesson.id}
-                                                                                    subjectId={String(subject_id)}
-                                                                                    chills={item?.chills}
-                                                                                    fetchProp={() => {
-                                                                                        handleTabChange(courses, course.id, accordionIndex, true);
-                                                                                    }}
-                                                                                    contentId={item?.content?.id}
-                                                                                    id_parent={item?.id_parent || null}
-                                                                                    forumValueAdd={() => {
-                                                                                        setForumValues({ description: item?.content.title || '', userInfo: { userName: course?.user?.name, userLastName: course?.user?.last_name } });
-                                                                                        localStorage.setItem(
-                                                                                            'forumValues',
-                                                                                            JSON.stringify({ description: item?.content.title || '', userInfo: { userName: course?.user?.name, userLastName: course?.user?.last_name } })
-                                                                                        );
-                                                                                    }}
-                                                                                    lessonItem={item}
-                                                                                    id_edu_year={id_edu_year}
-                                                                                />
-                                                                            </div>
-                                                                        );
-                                                                    }
-                                                                )
-                                                            ) : (
-                                                                <p className="text-center text-sm">{translations.noData}</p>
-                                                            )}
-                                                        </div>
-                                                    </AccordionTab>
-                                                );
-                                            })}
-                                        </Accordion>
-                                    </div>
-                                </div>
-                            );
-                        })
-                    )}
-                </>
+                <FacultyEmpty icon="pi pi-inbox" text={translations.noData} />
             )}
         </div>
     );

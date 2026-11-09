@@ -474,8 +474,9 @@ export const deleteForum = async (lesson_id: number, forum_d: number, type_id: n
 };
 
 export const fetchDepartamentSteps = async (lesson_id: number, id_kafedra: number) => {
+    const id_edu_year = new Date().getFullYear() % 100;
     try {
-        const res = await axiosInstance.get(`/v1/teacher/controls/department/course/views?lesson_id=${lesson_id}&id_kafedra=${id_kafedra}`);
+        const res = await axiosInstance.get(`/v1/teacher/controls/department/course/views?lesson_id=${lesson_id}&id_kafedra=${id_kafedra}&id_edu_year=${id_edu_year}`);
         const data = await res.data;
 
         return data;
@@ -514,8 +515,6 @@ export const stepSequenceUpdate = async (lesson_id: number | null, steps: { id: 
 };
 
 export const generateQuiz = async (lesson_id: number, step_id: number | string) => {
-    console.log(step_id);
-
     try {
         const res = await axiosInstance.get(`/v1/teacher/lessons/generate-quiz?lesson_id=${lesson_id}&step_id=${step_id}`);
         const data = await res.data;

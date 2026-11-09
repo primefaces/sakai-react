@@ -17,6 +17,7 @@ import { Dropdown } from 'primereact/dropdown';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { LayoutContext } from '@/layout/context/layoutcontext';
 import { useLocalization } from '@/layout/context/localizationcontext';
+import { InputText } from 'primereact/inputtext';
 
 interface Student extends RoleUserType {
     speciality: {
@@ -106,83 +107,95 @@ export default function StudentsPage() {
         router.push(`/roles/students/${page}/reductor?${search ? `search=${search}` : ''}`);
     };
 
-    const studentsMobile = (student: any, key:number) => (
-        <div className="p-2 w-full" key={key}>
-            <div key={student.id}>
-                <div className="bg-white rounded-lg shadow-md p-4 border-l-4 border-blue-500">
-                    <div className="flex justify-between items-start mb-3">
-                        <div className="font-bold text-[#1e293b] leading-tight">
-                            <Link href={`/roles/students/1/${student?.id}`} className="text-[#1e293b] cursor-pointer flex flex-wrap gap-1 underline">
-                                <span>{student?.last_name}</span>
-                                <span>{student?.name}</span>
-                                <span>{student?.father_name}</span>
-                            </Link>
-                        </div>
-                        <span className="bg-slate-100 text-slate-600 text-[0.625rem] font-bold px-2 py-1 rounded-full border border-slate-200 shrink-0 ml-2">{student.myedu_id}</span>
-                    </div>
+    // общие стили
+    const cardClass = 'rounded-[16px] bg-white border border-[#eef2f6] shadow-[0_1px_3px_rgba(0,0,0,0.05)]';
 
-                    <div className="text-xs text-slate-500 mb-4">
-                        <span className="block uppercase font-semibold text-[0.625rem] text-slate-400 mb-1">Специальность:</span>
-                        {student.speciality ? student.speciality?.name_ru : ''}
-                    </div>
-                    <Link
-                        href={`/roles/students/1/${student?.id}`}
-                        className="flex gap-1 cursor-pointer w-full bg-[var(--mainColor)] hover:opacity-90 text-white px-4 py-3 rounded-lg items-center justify-center text-sm font-medium transition-all active:scale-[0.98]"
-                    >
-                        <i className="pi pi-book text-white text-sm"></i>
-                        <button>Просмотреть работы</button>
-                    </Link>
-                </div>
+    const studentName = (student: any) => (
+        <Link href={`/roles/students/1/${student?.id}`} className="flex items-center gap-[10px] min-w-0 group">
+            <span className="text-[0.875rem] font-semibold leading-snug text-[var(--titleColor)] group-hover:text-[var(--mainColor)] transition-colors break-words">
+                {student?.last_name} {student?.name} {student?.father_name}
+            </span>
+        </Link>
+    );
+
+    const myeduChip = (id: any) =>
+        id ? (
+            <span className="inline-flex items-center gap-[4px] px-[9px] py-[3px] rounded-full bg-[#f1f5f9] text-[0.75rem] font-semibold text-[var(--bodyColor)] whitespace-nowrap">
+                <i className="pi pi-id-card text-[0.6875rem]"></i>
+                {id}
+            </span>
+        ) : null;
+
+    const studentsMobile = (student: any, key: number) => (
+        <div key={key} className={`${cardClass} w-full flex flex-col gap-[10px] p-[14px]`}>
+            <div className="flex justify-between items-start gap-[8px] pb-[10px] border-b border-[#f1f5f9]">
+                {studentName(student)}
+                {myeduChip(student.myedu_id)}
             </div>
+
+            {student.speciality?.name_ru && (
+                <div className="flex items-start gap-[8px] text-[0.8125rem] text-[var(--bodyColor)]">
+                    <i className="pi pi-briefcase text-[0.75rem] text-[var(--text-color-secondary)] mt-[3px]"></i>
+                    <span className="leading-snug">{student.speciality.name_ru}</span>
+                </div>
+            )}
+
+            <Link
+                href={`/roles/students/1/${student?.id}`}
+                className="flex items-center justify-center gap-[6px] w-full h-[38px] rounded-[10px] bg-[var(--mainColor)] text-white text-[0.8125rem] font-semibold shadow-[0_4px_10px_-4px_rgba(8,169,230,0.6)] active:scale-[0.98] transition-transform"
+            >
+                <i className="pi pi-book text-[0.75rem]"></i>
+                {translations.checkingWork}
+            </Link>
         </div>
     );
 
-    function EditorPanel() {
-        return (
-            <div>
-                {/* --- МОБИЛЬНАЯ ВЕРСИЯ (Список карточек) --- */}
-                <div className="w-full">
-                    <div className="grid grid-cols-1 justify-content-center gap-2 md:hidden">{students.map((student) => studentsMobile(student, student?.id))}</div>
+    const editorPanel = (
+        <div className="flex flex-col gap-[12px]">
+            {empty ? (
+                <div className={`${cardClass} flex flex-col items-center justify-center gap-[8px] py-[40px] text-center`}>
+                    <span className="flex items-center justify-center w-[52px] h-[52px] rounded-full bg-[#f1f5f9] text-[var(--text-color-secondary)]">
+                        <i className="pi pi-user-minus text-[1.375rem]"></i>
+                    </span>
+                    <span className="text-[0.875rem] text-[var(--text-color-secondary)]">{translations.studentsNotFound}</span>
                 </div>
+            ) : loading ? (
+                <div className={`${cardClass} flex justify-center items-center min-h-[320px]`}>
+                    <ProgressSpinner style={{ width: '50px', height: '50px' }} />
+                </div>
+            ) : (
+                <>
+                    {/* --- МОБИЛЬНАЯ ВЕРСИЯ (Список карточек) --- */}
+                    <div className="flex flex-col gap-[10px] md:hidden">{students.map((student) => studentsMobile(student, student?.id))}</div>
 
-                {empty ? (
-                    <b className="main-bg flex justify-center">{translations.studentsNotFound}</b>
-                ) : loading ? (
-                    <div className="flex items-center gap-3 mb-4 justify-center">
-                        <ProgressSpinner style={{ width: '50px', height: '50px' }} />
-                    </div>
-                ) : (
-                    <>
-                        <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-x-scroll scrollbar-thin hidden md:block">
-                            <table className="w-full text-left border-collapse">
+                    {/* --- ДЕСКТОП (таблица) --- */}
+                    <div className={`${cardClass} hidden md:block p-[16px]`}>
+                        <div className="overflow-x-auto scrollbar-thin border border-[#eef2f6] rounded-[14px]">
+                            <table className="w-full min-w-[720px] text-left border-collapse">
                                 <thead>
-                                    <tr className="border-b border-slate-100 text-slate-500 text-sm font-medium">
-                                        <th className="py-4 pl-3 font-semibold">{translations.fullNameStudent}</th>
-                                        <th className="py-4 px-6 font-semibold">{translations.personalShortNumber}</th>
-                                        <th className="py-4 px-6 font-semibold">{translations.speciality}</th>
-                                        <th className="py-4 px-6 font-semibold">{translations.actions}</th>
+                                    <tr className="bg-[#f8fafc] border-b border-[#eef2f6] text-[0.6875rem] uppercase tracking-[0.04em] text-[var(--text-color-secondary)]">
+                                        <th className="py-[12px] px-[16px] w-[48px] text-center font-semibold">#</th>
+                                        <th className="py-[12px] px-[16px] font-semibold">{translations.fullNameStudent}</th>
+                                        <th className="py-[12px] px-[16px] font-semibold whitespace-nowrap">{translations.personalShortNumber}</th>
+                                        <th className="py-[12px] px-[16px] font-semibold">{translations.speciality}</th>
+                                        <th className="py-[12px] px-[20px] font-semibold text-right">{translations.actions}</th>
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-slate-50">
-                                    {students.map((student) => (
-                                        <tr key={student.id} className="hover:bg-slate-50/50 transition-colors">
-                                            <td className="py-4 pl-3 font-bold">
-                                                <Link href={`/roles/students/1/${student?.id}`} className="text-[#1e293b] cursor-pointer flex gap-1 underline">
-                                                      <span>{student?.last_name}</span>
-                                                      <span>{student?.name}</span>
-                                                      <span>{student?.father_name}</span>
-                                                </Link>
-                                            </td>
-                                            <td className="py-4 px-6">
-                                                <span className="bg-slate-100 text-slate-600 text-[0.625rem] font-bold px-2 py-1 rounded-full border border-slate-200">{student.myedu_id}</span>
-                                            </td>
-                                            <td className="py-4 px-6 text-slate-600 text-sm">{student.speciality ? student.speciality?.name_ru : ''}</td>
-                                            <td className="py-4 px-6 text-right">
-                                                <Link href={`/roles/students/1/${student?.id}`}>
-                                                    <button className="cursor-pointer bg-[var(--mainColor)] hover:opacity-90 text-[var(--whiteColor)] px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-medium transition-all shadow-sm">
-                                                        <i className="pi pi-book text-[var(--whiteColor)] text-sm"></i>
-                                                        {translations.checkingWork}
-                                                    </button>
+                                <tbody>
+                                    {students.map((student, idx) => (
+                                        <tr key={student.id} className="border-b border-[#f1f5f9] last:border-b-0 hover:bg-[#f8fbfd] transition-colors">
+                                            <td className="py-[18px] px-[16px] text-center text-[0.75rem] font-semibold text-[var(--text-color-secondary)]">{(pagination.currentPage - 1) * pagination.perPage + idx + 1}</td>
+                                            <td className="py-[18px] px-[16px]">{studentName(student)}</td>
+                                            <td className="py-[18px] px-[16px]">{myeduChip(student.myedu_id)}</td>
+                                            <td className="py-[18px] px-[16px] text-[0.8125rem] text-[var(--bodyColor)] max-w-[320px]">{student.speciality ? student.speciality?.name_ru : ''}</td>
+                                            <td className="py-[18px] px-[20px] text-right">
+                                                <Link
+                                                    href={`/roles/students/1/${student?.id}`}
+                                                    className="inline-flex items-center gap-[6px] h-[34px] px-[12px] rounded-[10px] bg-[var(--mainColor)]/10 text-[var(--mainColor)] text-[0.8125rem] font-semibold whitespace-nowrap hover:bg-[var(--mainColor)] hover:text-white transition-colors duration-200"
+                                                >
+                                                    <i className="pi pi-book text-[0.75rem]"></i>
+                                                    {translations.checkingWork}
+                                                    <i className="pi pi-arrow-right text-[0.6875rem]"></i>
                                                 </Link>
                                             </td>
                                         </tr>
@@ -190,11 +203,13 @@ export default function StudentsPage() {
                                 </tbody>
                             </table>
                         </div>
-                        {/* Футер таблицы */}
-                        <p className="mt-4 text-sm text-slate-500">
-                            {translations.viewStudents}: {students.length} {translations.from} {students.length}
-                        </p>
+                    </div>
 
+                    {/* Футер таблицы */}
+                    <div className="flex flex-col sm:flex-row items-center justify-between gap-[8px]">
+                        <span className="text-[0.8125rem] text-[var(--text-color-secondary)]">
+                            {translations.viewStudents}: <b className="text-[var(--titleColor)]">{students.length}</b> {translations.from} <b className="text-[var(--titleColor)]">{pagination.total}</b>
+                        </span>
                         <Paginator
                             first={(pagination.currentPage - 1) * pagination.perPage}
                             rows={pagination.perPage}
@@ -202,27 +217,33 @@ export default function StudentsPage() {
                             onPageChange={(e) => handlePageChange(e.page + 1)}
                             // template="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink"
                             template={media ? 'FirstPageLink PrevPageLink NextPageLink LastPageLink' : 'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink'}
+                            className="courses-paginator bg-transparent p-0"
                         />
-                    </>
-                )}
-            </div>
-        );
-    }
+                    </div>
+                </>
+            )}
+        </div>
+    );
 
     const instructionSection = (
-        <div className="bg-[#eff6ff] border border-[#dbeafe] rounded-xl p-4 mb-4 flex gap-3">
-            <i className="pi pi-info text-[#2563eb] shrink-0 mt-0.5 pi pi-info-circle text-xl"></i>
-            <div className="text-sm text-[#1e40af] leading-relaxed">
-                <p className="font-semibold mb-1">{translations.reductorInstruction}</p>
-                <p>{translations.reductorWorkingInstruction}</p>
+        <div className="flex items-start gap-[12px] p-[14px] rounded-[16px] bg-[var(--mainColor)]/5 border border-[var(--mainColor)]/20">
+            <span className="flex items-center justify-center shrink-0 w-[34px] h-[34px] rounded-[10px] bg-[var(--mainColor)]/10 text-[var(--mainColor)]">
+                <i className="pi pi-info-circle text-[0.9375rem]"></i>
+            </span>
+            <div className="flex-1 text-[0.8125rem] leading-relaxed text-[var(--bodyColor)]">
+                <p className="m-0 mb-[2px] font-semibold text-[var(--titleColor)]">{translations.reductorInstruction}</p>
+                <p className="m-0">{translations.reductorWorkingInstruction}</p>
             </div>
-            <i
+            <button
+                type="button"
                 onClick={() => {
                     localStorage.setItem('hideInstruction', 'true');
                     setHideInstructon(false);
                 }}
-                className="pi pi-times cursor-pointer"
-            ></i>
+                className="flex items-center justify-center shrink-0 w-[28px] h-[28px] rounded-full text-[var(--text-color-secondary)] hover:bg-white hover:text-[var(--titleColor)] transition-colors"
+            >
+                <i className="pi pi-times text-[0.75rem]"></i>
+            </button>
         </div>
     );
 
@@ -333,78 +354,83 @@ export default function StudentsPage() {
     }, []);
 
     return (
-        <div className="bg-white p-4 rounded-2xl shadow-md">
-            <div className="min-h-screen font-sans text-[#1e293b]">
-                {/* Заголовок */}
-                <div className="flex items-center gap-4 p-5 bg-white border border-slate-200 rounded-xl shadow-sm mb-2">
-                    <div className="flex items-center justify-center w-14 h-14 bg-blue-50 text-blue-600 rounded-xl shadow-sm">
-                        <i className="pi pi-users text-2xl"></i>
-                    </div>
-                    <div>
-                        <h1 className="m-0 text-2xl font-bold text-slate-800 tracking-tight">{translations.reductorPanel}</h1>
-                        <p className="text-slate-500 text-sm mt-1 font-medium">{translations.studentControl}</p>
+        <div className="flex flex-col gap-[16px]">
+            {/* Заголовок и фильтры */}
+            <div className={`${cardClass} p-[14px] sm:p-[18px]`}>
+                <div className="flex items-center gap-[12px] mb-[24px]">
+                    <span className="flex items-center justify-center shrink-0 w-[44px] h-[44px] rounded-[12px] bg-[var(--mainColor)]/10 text-[var(--mainColor)]">
+                        <i className="pi pi-users text-[1.125rem]"></i>
+                    </span>
+                    <div className="flex flex-col gap-[4px] min-w-0">
+                        <div className="flex items-center gap-[10px]">
+                            <h3 className="text-[1.25rem] sm:text-[1.375rem] leading-tight font-bold m-0">{translations.reductorPanel}</h3>
+                            {pagination.total > 0 && (
+                                <span className="inline-flex items-center gap-[5px] px-[10px] py-[3px] rounded-full bg-[#f1f5f9] text-[0.75rem] font-semibold text-[var(--bodyColor)]">
+                                    <i className="pi pi-users text-[0.6875rem]"></i>
+                                    {pagination.total}
+                                </span>
+                            )}
+                        </div>
+                        <span className="text-[0.8125rem] text-[var(--text-color-secondary)]">{translations.studentControl}</span>
                     </div>
                 </div>
 
-                {/* Блок инструкции */}
-                {hideInstruction && instructionSection}
-
-                {/* filter */}
-                <div className="main-bg flex flex-col gap-1 my-1">
-                    <div className=" flex sm:items-center gap-2 flex-col sm:flex-row mb-2">
-                        <div className="sm:max-w-[60%] overflow-hidden flex flex-col items-start gap-2">
-                            <b className="px-1 inline">{translations.selectFaculty}</b>
-                            <div className="sm:max-w-[60%] overflow-hidden flex juctify-center items-start">
-                                <Dropdown
-                                    value={timeMode}
-                                    optionLabel="name_ru"
-                                    itemTemplate={facultiItemeTemplate}
-                                    options={timeModeOptions}
-                                    onChange={(e) => setTimeMode(e.value)}
-                                    placeholder={translations.selectFaculty}
-                                    className="text-wrap word-break sm:text-nowrap sm:max-w-full"
-                                />
-                            </div>
+                <div className="flex flex-col gap-[10px]">
+                    <div className="[display:grid] grid-cols-1 md:grid-cols-2 gap-[10px]">
+                        {/* факультет */}
+                        <div className="flex flex-col gap-[6px] min-w-0">
+                            <Dropdown
+                                value={timeMode}
+                                optionLabel="name_ru"
+                                itemTemplate={facultiItemeTemplate}
+                                options={timeModeOptions}
+                                onChange={(e) => setTimeMode(e.value)}
+                                placeholder={translations.selectFaculty}
+                                className="w-full h-[40px] items-center text-sm"
+                                style={{ borderRadius: 10 }}
+                            />
                         </div>
 
-                        <div className="sm:max-w-[60%] overflow-hidden flex flex-col gap-2">
-                            <b className="px-1">{translations.selectSpeciality}</b>
-                            <div className="sm:max-w-[60%] overflow-hidden flex juctify-center items-start">
-                                <Dropdown
-                                    value={speciality}
-                                    optionLabel="name_ru"
-                                    options={specialityOptions}
-                                    itemTemplate={specialityItemeTemplate}
-                                    onChange={(e) => {
-                                        setSpecialyty(e.value);
-                                        setContextFilterState((prev: any) => ({
-                                            ...prev,
-                                            speciality_id: e.value?.id ?? null
-                                        }));
-                                    }}
-                                    placeholder={translations.selectSpeciality}
-                                    className={`${!specialityOptions ? 'pointer-events-none opacity-50' : ''} w-full text-sm`}
-                                />
-                            </div>
+                        {/* специальность */}
+                        <div className="flex flex-col gap-[6px] min-w-0">
+                            <Dropdown
+                                value={speciality}
+                                optionLabel="name_ru"
+                                options={specialityOptions}
+                                itemTemplate={specialityItemeTemplate}
+                                onChange={(e) => {
+                                    setSpecialyty(e.value);
+                                    setContextFilterState((prev: any) => ({
+                                        ...prev,
+                                        speciality_id: e.value?.id ?? null
+                                    }));
+                                }}
+                                placeholder={translations.selectSpeciality}
+                                className={`${!specialityOptions ? 'pointer-events-none opacity-50' : ''} w-full h-[40px] items-center text-sm`}
+                                style={{ borderRadius: 10 }}
+                            />
                         </div>
                     </div>
-                </div>
 
-                {/* Поиск */}
-                <div className="relative flex border border-slate-200 rounded-xl py-2 sm:py-3 pl-3 items-center gap-3 w-full bg-white mb-4 shadow-sm focus:border-blue-500 focus:ring-blue-500/20 transition-all">
-                    <i className="pi pi-search text-sm"></i>
-                    <input value={search} onChange={(e) => setSearch(e.target.value)} type="text" placeholder={translations.searchByFullName + translations.orMyeduId} className="w-full pr-4 outline-none" />
-                    <div className="absolute right-1">{progressSpinner && <ProgressSpinner style={{ width: '15px', height: '15px' }} strokeWidth="8" fill="white" className="!stroke-green-500" animationDuration=".5s" />}</div>
-                </div>
-
-                {error ? (
-                    <div className="mb-4 flex justify-center">
-                        <NotFound titleMessage={translations.dataNotAvailable} />
+                    {/* Поиск */}
+                    <div className="flex items-center relative w-full">
+                        <i className="pi pi-search absolute left-[12px] z-[1] text-[0.8125rem] text-[var(--text-color-secondary)] pointer-events-none"></i>
+                        <InputText value={search} onChange={(e) => setSearch(e.target.value)} placeholder={translations.searchByFullName + translations.orMyeduId} className="w-full h-[40px] text-[0.875rem]" style={{ paddingLeft: 36, borderRadius: 10 }} />
+                        <div className="absolute right-[10px]">{progressSpinner && <ProgressSpinner style={{ width: '15px', height: '15px' }} strokeWidth="8" fill="white" className="!stroke-green-500" animationDuration=".5s" />}</div>
                     </div>
-                ) : (
-                    <EditorPanel />
-                )}
+                </div>
             </div>
+
+            {/* Блок инструкции */}
+            {hideInstruction && instructionSection}
+
+            {error ? (
+                <div className="flex justify-center">
+                    <NotFound titleMessage={translations.dataNotAvailable} />
+                </div>
+            ) : (
+                editorPanel
+            )}
         </div>
     );
 }
