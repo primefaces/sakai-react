@@ -305,7 +305,7 @@ export default function StudentLesson() {
                     ) => (
                         <div
                             key={item.id}
-                            className="fade-up px-[10px] py-[6px] sm:px-[12px] sm:py-[8px] rounded-[12px] border border-[#eef2f6] bg-white hover:bg-[#f8fbfd] transition-colors"
+                            className="fade-up px-[10px] py-[8px] sm:px-[12px] sm:py-[8px] rounded-[12px] border border-[#eef2f6] bg-white hover:bg-[#f8fbfd] transition-colors"
                             style={{ animationDelay: `${Math.min(idx, 12) * 35}ms` }}
                         >
                             <StudentInfoCard

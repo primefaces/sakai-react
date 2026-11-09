@@ -115,7 +115,7 @@ const StudentDetailPage = () => {
             <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-100">
                     <tr>
-                        <th scope="col" className="px-4 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th scope="col" className="max-w-[400px] px-4 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             {translations.courseName}
                         </th>
                         <th scope="col" className="px-4 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -137,7 +137,7 @@ const StudentDetailPage = () => {
                 <tbody className="bg-white divide-y divide-gray-200">
                     {courses.map((course) => (
                         <tr key={course?.id} className="hover:bg-gray-50 transition-colors duration-200">
-                            <td className="px-4 py-5 whitespace-nowrap">
+                            <td className="px-4 py-5 max-w-[400px] break-words">
                                 <div className="text-sm font-medium text-gray-900">{course?.title}</div>
                             </td>
                             <td className="px-4 py-5 whitespace-nowrap">

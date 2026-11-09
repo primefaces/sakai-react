@@ -286,14 +286,86 @@ export default function StudentInfoCard({
         </div>
     );
 
+    // ---------- Мобильная версия (< 640px): компактная строка ----------
+    const lessonHref = `/teaching/lessonView/${lesson}/${subjectId}/${streams && streams.connections[0]?.id_stream}/${stepId}/${id_edu_year}`;
+    const forumHref = stepId && id_parent && contentId ? `/students/forum/${stepId}/${id_parent}/${contentId}` : '#';
+
+    const typeMeta: Record<string, { color: string; label?: string }> = {
+        document: { color: 'var(--mainColor)' },
+        link: { color: 'var(--greenColor)' },
+        video: { color: 'var(--amberColor)' },
+        test: { color: '#c38598', label: translations.test },
+        practical: { color: '#a3c43a', label: translations.practicalTask },
+        forum: { color: '#6099a8', label: translations.leaveFeedbackOrQuestion }
+    };
+    const meta = typeMeta[type];
+    const hasScore = type === 'test' || type === 'practical';
+    const isForum = type === 'forum';
+
+    const mobileChillsBtn = () => {
+        const label = chills ? translations.completed : translations.markAsCompleted;
+        const cls = `shrink-0 w-[24px] h-[24px] rounded-full flex items-center justify-center border-[1.5px] transition-colors ${
+            chills ? 'bg-[var(--greenColor)] border-[var(--greenColor)] text-white' : 'bg-white border-[#d5dde6] text-[#b6c2cf] active:bg-[#f1f5f9]'
+        } ${progressSpinner ? 'opacity-50 pointer-events-none' : ''}`;
+        const inner = <i className={`pi ${progressSpinner ? 'pi-spin pi-spinner' : 'pi-check'} text-[0.625rem] font-bold`}></i>;
+
+        // тест и практика отмечаются на странице урока
+        return hasScore ? (
+            <Link href={lessonHref} onClick={() => setContextLastSubjectPageVisit(subjectId)} className={cls} title={label} aria-label={label}>
+                {inner}
+            </Link>
+        ) : (
+            <button type="button" disabled={progressSpinner} onClick={handleChills} className={cls} title={label} aria-label={label}>
+                {inner}
+            </button>
+        );
+    };
+
+    const mobileCard = meta && (
+        <div className="flex items-center gap-[10px] w-full min-w-0">
+            <span className="shrink-0 w-[34px] h-[34px] rounded-[10px] flex items-center justify-center text-white" style={{ background: meta.color }}>
+                <i className={`${icon} text-[0.875rem]`}></i>
+            </span>
+            <div className="flex flex-col gap-[3px] min-w-0 flex-1">
+                <Link
+                    href={isForum ? forumHref : lessonHref}
+                    onClick={() => {
+                        if (isForum && forumValueAdd) forumValueAdd();
+                        setContextLastSubjectPageVisit(subjectId);
+                    }}
+                    className="text-[0.875rem] font-medium leading-snug text-[var(--titleColor)] line-clamp-2 [overflow-wrap:anywhere]"
+                >
+                    {meta.label || title}
+                </Link>
+                {(hasScore || (chills && !isForum)) && (
+                    <div className="flex flex-wrap items-center gap-[6px] text-[0.6875rem]">
+                        {hasScore && (
+                            <span className="inline-flex items-center gap-[3px] px-[6px] py-[1px] rounded-full bg-[#f1f5f9] text-[var(--bodyColor)]">
+                                {translations.score}:
+                                <b className="text-[var(--mainColor)] font-semibold">
+                                    {lessonItem?.my_score || 0}/{lessonItem?.score || 0}
+                                </b>
+                            </span>
+                        )}
+                        {chills && !isForum && <span className="font-semibold text-[var(--greenColor)]">{translations.completed}</span>}
+                    </div>
+                )}
+            </div>
+            {!isForum && mobileChillsBtn()}
+        </div>
+    );
+
     return (
         <div className="w-full">
+            <div className="sm:hidden">{mobileCard}</div>
+            <div className="hidden sm:block">
             <div className="flex items-center">{type === 'document' && docCard}</div>
             <div className="flex items-center">{type === 'link' && linkCard}</div>
             <div className="flex items-center">{type === 'video' && videoCard}</div>
             <div className="flex items-center">{type === 'test' && testCard}</div>
             <div className="flex items-center">{type === 'practical' && practicaCard}</div>
             <div className="flex items-center">{type === 'forum' && forumCard}</div>
+            </div>
         </div>
     );
 }

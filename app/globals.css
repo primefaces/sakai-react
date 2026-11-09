@@ -1589,8 +1589,7 @@ html.loaded #preloader {
     }
 
     .modern-accordion .p-accordion-content {
-        padding-left: 10px;
-        padding-right: 10px;
+        padding: 8px !important;
     }
 }
 

@@ -144,10 +144,13 @@ const AppMenu = () => {
     addLocale('ru', ruLocale);
 
     const queryClient = useQueryClient();
+    // темы для меню нужны только на страницах своего курса; на страницах кафедры/открытых курсов
+    // course_id чужой, и запрос без id_kafedra возвращает пустые данные
+    const isOwnCoursePage = !pathname.includes('/faculty') && !pathname.includes('/openCourse') && !pathname.includes('/roles/departament');
     const { data: themesData } = useQuery({
         queryKey: ['themes', course_id],
         queryFn: () => fetchThemes(Number(course_id) || null, null),
-        enabled: !!course_id
+        enabled: !!course_id && isOwnCoursePage
     });
 
     const courseList:AppMenuItem[] = useMemo(() => {

@@ -699,23 +699,30 @@ export default function LessonTest() {
                     {translations.taskCompleted}
                 </div>
             ) : (
-                <div className="flex flex-col gap-[10px]">
-                    <span className="flex items-start gap-[8px] text-[0.875rem] text-[var(--titleColor)] font-semibold">
-                        <i className="pi pi-upload text-[var(--mainColor)] mt-[3px]"></i>
-                        {translations.taskInstruction}
-                    </span>
+                <div className="flex flex-col gap-[10px] p-[12px] sm:p-[14px] rounded-[14px] border border-[#e6f4fb] bg-[#f7fcff]">
+                    <div className="flex items-start gap-[10px]">
+                        <span className="flex items-center justify-center shrink-0 w-[28px] h-[28px] rounded-full bg-[var(--mainColor)] text-white">
+                            <i className="pi pi-upload text-[0.75rem]"></i>
+                        </span>
+                        <span className="text-[0.8125rem] sm:text-[0.875rem] leading-snug text-[var(--bodyColor)] pt-[4px]">{translations.taskInstruction}</span>
+                    </div>
                     <label
-                        className={`flex items-center gap-[12px] p-[14px] rounded-[12px] border-2 border-dashed cursor-pointer transition-colors ${
-                            docValue.file ? 'border-[var(--mainColor)] bg-[#f0faff]' : 'border-[#dbe3ea] bg-white hover:border-[var(--mainColor)]'
+                        className={`flex items-center gap-[12px] p-[12px] sm:p-[14px] rounded-[12px] border-2 border-dashed cursor-pointer transition-colors active:scale-[0.99] ${
+                            docValue.file ? 'border-[var(--greenColor)] bg-[#effaf0]' : 'border-[#cfe3ee] bg-white hover:border-[var(--mainColor)]'
                         }`}
                     >
-                        <span className="flex items-center justify-center shrink-0 w-[40px] h-[40px] rounded-[10px] bg-[var(--mainColor)]/10 text-[var(--mainColor)]">
+                        <span
+                            className={`flex items-center justify-center shrink-0 w-[40px] h-[40px] rounded-[10px] ${
+                                docValue.file ? 'bg-[var(--greenColor)] text-white' : 'bg-[var(--mainColor)]/10 text-[var(--mainColor)]'
+                            }`}
+                        >
                             <i className={docValue.file ? 'pi pi-file-pdf' : 'pi pi-cloud-upload'}></i>
                         </span>
-                        <span className="flex flex-col min-w-0">
+                        <span className="flex flex-col min-w-0 flex-1">
                             <span className="text-[0.875rem] font-semibold text-[var(--titleColor)] truncate">{docValue.file ? docValue.file.name : translations.choosePdfFile}</span>
                             <span className="text-[0.75rem] text-[var(--text-color-secondary)]">PDF · {translations.maxFileSize10mb}</span>
                         </span>
+                        {docValue.file && <i className="pi pi-check-circle shrink-0 text-[var(--greenColor)]"></i>}
                         <input
                             type="file"
                             accept="application/pdf"
@@ -745,14 +752,14 @@ export default function LessonTest() {
                         icon="pi pi-send"
                         loading={progressSpinner}
                         disabled={progressSpinner || !docValue.file}
-                        className="w-full sm:w-auto sm:self-start"
+                        className={`w-full sm:w-auto sm:self-start h-[44px] !rounded-[10px] ${!docValue.file ? '!bg-[#e2e8f0] !border-[#e2e8f0] !text-[#94a3b8] !opacity-100' : ''}`}
                         onClick={() => {
                             handleAddPractica();
                         }}
                     />
                 </div>
             )}
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto -mx-[2px] px-[2px]">
                 <AnswersTable report={steps} />
             </div>
         </div>

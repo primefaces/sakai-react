@@ -230,7 +230,9 @@ const StreamList = React.memo(function StreamList({
     };
 
     const handleFetchEduYear = async () => {
-        const data = await studentEduYear();
+        const res = await studentEduYear();
+        // studentEduYear при ошибке возвращает объект ошибки, а не массив
+        const data: EduYearType[] | null = Array.isArray(res) ? res : Array.isArray(res?.data) ? res.data : null;
         if (data) {
             setEduYearOpt(data);
             const date = formatEduYear();

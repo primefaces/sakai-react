@@ -29,7 +29,8 @@ export const fetchKafedra = async () => {
 
 export const fetchDepartament = async (id_kafedra: number | null) => {
     try {
-        const res = await axiosInstance.get(`/v1/teacher/controls?id_kafedra=${id_kafedra}`);
+        const id_edu_year = new Date().getFullYear() % 100;
+        const res = await axiosInstance.get(`/v1/teacher/controls?id_kafedra=${id_kafedra}&id_edu_year=${id_edu_year}`);
         const data = await res.data;
 
         return data;
@@ -41,7 +42,8 @@ export const fetchDepartament = async (id_kafedra: number | null) => {
 
 export const depCourseInfo = async (course_id:number | null, id_kafedra: number | null) => {
     try {
-        const res = await axiosInstance.get(`/v1/teacher/controls/department/course?course_id=${course_id}&id_kafedra=${id_kafedra}`);
+        const id_edu_year = new Date().getFullYear() % 100;
+        const res = await axiosInstance.get(`/v1/teacher/controls/department/course?course_id=${course_id}&id_kafedra=${id_kafedra}&id_edu_year=${id_edu_year}`);
         const data = await res.data;
 
         return data;
@@ -53,7 +55,8 @@ export const depCourseInfo = async (course_id:number | null, id_kafedra: number 
 
 export const depCourse = async (myedu_id:number | null, id_kafedra: number | null) => {
     try {
-        const res = await axiosInstance.get(`/v1/teacher/controls/department/courses?myedu_id=${myedu_id}&id_kafedra=${id_kafedra}`);
+        const id_edu_year = new Date().getFullYear() % 100;
+        const res = await axiosInstance.get(`/v1/teacher/controls/department/courses?myedu_id=${myedu_id}&id_kafedra=${id_kafedra}&id_edu_year=${id_edu_year}`);
         const data = await res.data;
 
         return data;
