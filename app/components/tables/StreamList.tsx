@@ -357,7 +357,11 @@ const StreamList = React.memo(function StreamList({
                 {item.connect_id && (
                     <div className="mt-[12px] flex justify-end">
                         <Link
-                            href={`/students/${courseValue?.id}/${item.connect_id}/${item.stream_id}`}
+                            href={{
+                                pathname:`/students/${courseValue?.id}/${item.connect_id}/${item.stream_id}`,
+                                query: {id_edu_year: eduYearSelected?.id}
+                            }}
+                            
                             className="inline-flex items-center gap-[6px] px-[12px] py-[6px] rounded-[10px] border border-[var(--mainColor)]/30 text-[var(--mainColor)] text-[0.8125rem] font-semibold transition hover:bg-[var(--mainColor)] hover:text-white"
                         >
                             <i className="pi pi-users text-[0.8125rem]"></i>

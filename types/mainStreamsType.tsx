@@ -16,4 +16,5 @@ export interface mainStreamsType {
     course_id?: number | null;
     id_extra_type: number | null;
     course: { title: string; description: string, created_at: string };
+    open_send: boolean;
 }

@@ -11,13 +11,13 @@ import { fetchScoreValues, fetchStreams, fetchStreamStudents, sendMyeduScore } f
 import { mainStreamsType } from '@/types/mainStreamsType';
 import { OptionsType } from '@/types/OptionsType';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useLocalizedData } from '@/hooks/useLocalizedData';
 
 export default function StudentList() {
@@ -31,8 +31,20 @@ export default function StudentList() {
         schedule: { active: boolean; expired: boolean; from: string; to: string };
     }
 
-    const { cource_id, connect_id, stream_id } = useParams();
+    interface StudentType {
+        id: number;
+        export: boolean;
+        score: number | null;
+        last_movement: string;
+        name: string;
+        father_name: string;
+        email: string;
+
+    }
+
+    const { cource_id, connect_id, edu_year, stream_id } = useParams();
     const media = useMediaQuery('(max-width: 640px)');
+    console.log(cource_id, connect_id, edu_year, stream_id);
 
     const [studentList, setStudentList] = useState([]);
     const [hasList, setHasList] = useState(false);
@@ -50,9 +62,13 @@ export default function StudentList() {
     const { getLocalized } = useLocalizedData();
     const showError = useErrorMessage();
 
+    const searchParams = useSearchParams();
+    const id_edu_year = searchParams.get('id_edu_year');
+    console.log(id_edu_year);
+    
     const options: OptionsType = {
         year: '2-digit',
-        month: '2-digit', // 'long', 'short', 'numeric'
+        month: '2-digit', // 'long', 'short', 'numeric'`
         day: '2-digit',
         hour: '2-digit',
         minute: '2-digit',
@@ -62,7 +78,8 @@ export default function StudentList() {
     // functions
     const handleFetchStreams = async () => {
         if (cource_id) {
-            const data = await fetchStreams(cource_id ? Number(cource_id) : null, 25);
+            const data = await fetchStreams(cource_id ? Number(cource_id) : null, id_edu_year ? Number(id_edu_year) : null);
+
             if (data) {
                 setStreams(data);
             } else {
@@ -96,16 +113,16 @@ export default function StudentList() {
         setSkeleton(false);
     };
 
-    const handleFetchScoreValues = async (id_extra_type: number | null,stream_id: number, student_id: number | null, score: number) => {
+    const handleFetchScoreValues = async (id_extra_type: number | null, stream_id: number, student_id: number | null, score: number | null) => {
         setStudentId(student_id);
         setStudentScore(score);
         setMyEduInfoVisible(true);
         setExportBtnSkeleton(true);
         const checkingExtraType = id_extra_type == null ? 0 : 1;
-        console.log(id_extra_type);
-        console.log(checkingExtraType);
+        // console.log(id_extra_type);
+        // console.log(checkingExtraType);
 
-        const data = await fetchScoreValues(checkingExtraType ,stream_id, student_id);
+        const data = await fetchScoreValues(checkingExtraType, stream_id, student_id);
         if (data) {
             const scoresArr: ScoreValueType[] = Object.values(data);
             if (scoresArr && scoresArr?.length > 0) {
@@ -214,6 +231,98 @@ export default function StudentList() {
         </div>
     );
 
+    // ===== Над компонентом =====
+    const SUCCESS_CLASS = 'bg-[#dcfce7] text-[var(--greenColor)]';
+    const WARNING_CLASS = 'bg-[#fef3c7] text-amber-500';
+    const ERROR_CLASS = 'bg-[#fee2e2] text-[var(--redColor)]';
+
+    const SPECIAL_MIN_SCORE = 1;
+    const SPECIAL_MAX_SCORE = 30;
+    const DEFAULT_MIN_SCORE = 30;
+
+
+    const isOpenSend = Boolean(stream?.open_send);
+
+    const getScoreState = (rowData: StudentType) => {
+        const score = rowData?.score ?? 0;
+        const isExported = Boolean(rowData?.export);
+
+        if (isOpenSend) {
+            // open_send = true: отправка от 1 до 30
+            const isInRange = score >= SPECIAL_MIN_SCORE && score <= SPECIAL_MAX_SCORE;
+
+            if (!isInRange) {
+                return { colorClass: ERROR_CLASS, showButton: false };
+            }
+
+            return {
+                colorClass: isExported ? SUCCESS_CLASS : WARNING_CLASS,
+                showButton: !isExported,
+            };
+        }
+
+        // open_send = false: отправка от 30
+        return {
+            colorClass: score >= DEFAULT_MIN_SCORE ? SUCCESS_CLASS : WARNING_CLASS,
+            showButton: !isExported && score >= DEFAULT_MIN_SCORE,
+        };
+    };
+
+    const moduleScoreContent = (rowData: StudentType) => {
+        const { colorClass, showButton } = getScoreState(rowData);
+
+        return (
+            <div className="flex justify-between items-center gap-2">
+                <b
+                    className={`inline-flex items-center justify-center min-w-[40px] px-[8px] py-[4px] rounded-[8px] text-[0.8125rem] ${colorClass}`}
+                >
+                    {rowData?.score}
+                </b>
+                {showButton && (
+                    <i
+                        onClick={() =>
+                            handleFetchScoreValues(
+                                stream?.id_extra_type || null,
+                                Number(stream_id),
+                                rowData?.id || null,
+                                rowData?.score
+                            )
+                        }
+                        className="cursor-pointer pi pi-upload bg-[var(--mainColor)] text-white p-[8px] px-[12px] rounded-[10px] shadow-[0_6px_14px_-6px_rgba(8,169,230,0.7)] transition hover:opacity-90 hover:-translate-y-[1px]"
+                        title={translations.saveToMyedu}
+                    ></i>
+                )}
+            </div>
+        );
+    };
+
+    // return (
+    //     // ... ваша разметка
+    //     <DataTable /* ваши пропсы */>
+    //         {/* ... другие колонки */}
+
+    //         <Column
+    //             header={translations.score}
+    //             body={(rowData: StudentType) => (
+    //                 <div className="flex items-center gap-2">
+    //                     {(rowData?.score ?? 0) > 0 ? (
+    //                         moduleScoreContent(rowData)
+    //                     ) : (
+    //                         <b
+    //                             className={`inline-flex items-center justify-center min-w-[40px] px-[8px] py-[4px] rounded-[8px] text-[0.8125rem] ${ERROR_CLASS}`}
+    //                         >
+    //                             {rowData?.score}
+    //                         </b>
+    //                     )}
+    //                 </div>
+    //             )}
+    //         />
+
+    //         {/* ... другие колонки */}
+    //     </DataTable>
+    // );
+
+
     useEffect(() => {
         handleFetchStreams();
         handleFetchStudents();
@@ -227,6 +336,15 @@ export default function StudentList() {
             }
         }
     }, [streams]);
+
+    // useEffect(()=> {
+    //     console.log('finish stream ',stream);
+    //     if(stream && stream?.open_send) {
+    //         openSendRef.current = stream.open_send;
+    //     } else if(stream && !stream?.open_send){
+    //         openSendRef.current = false;
+    //     }
+    // },[stream]);
 
     // UI: поиск и статистика (только отображение, на загрузку баллов не влияет)
     const [search, setSearch] = useState('');
@@ -399,24 +517,24 @@ export default function StudentList() {
                                         return (
                                             <div className="flex items-center gap-2" key={rowData?.id}>
                                                 {rowData?.score && rowData.score > 0 ? (
-                                                    <div className="flex justify-between items-center gap-2">
-                                                        <b
-                                                            className={`inline-flex items-center justify-center min-w-[40px] px-[8px] py-[4px] rounded-[8px] text-[0.8125rem] ${
-                                                                rowData.score > 30 ? 'bg-[#dcfce7] text-[var(--greenColor)]' : 'bg-[#fef3c7] text-amber-500'
-                                                            }`}
-                                                        >
-                                                            {rowData.score}
-                                                        </b>
-                                                        {!rowData?.export ? (
-                                                            <i
-                                                                onClick={() => handleFetchScoreValues(stream?.id_extra_type || null, Number(stream_id), rowData?.id || null, rowData?.score)}
-                                                                className="cursor-pointer pi pi-upload bg-[var(--mainColor)] text-white p-[8px] px-[12px] rounded-[10px] shadow-[0_6px_14px_-6px_rgba(8,169,230,0.7)] transition hover:opacity-90 hover:-translate-y-[1px]"
-                                                                title={translations.saveToMyedu}
-                                                            ></i>
-                                                        ) : (
-                                                            ''
-                                                        )}
-                                                    </div>
+                                                    // <div className="flex justify-between items-center gap-2">
+                                                    //     <b
+                                                    //         className={`inline-flex items-center justify-center min-w-[40px] px-[8px] py-[4px] rounded-[8px] text-[0.8125rem] ${rowData.score > 30 ? 'bg-[#dcfce7] text-[var(--greenColor)]' : 'bg-[#fef3c7] text-amber-500'
+                                                    //             }`}
+                                                    //     >
+                                                    //         {rowData.score}
+                                                    //     </b>
+                                                    //     {!rowData?.export ? (
+                                                    //         <i
+                                                    //             onClick={() => handleFetchScoreValues(stream?.id_extra_type || null, Number(stream_id), rowData?.id || null, rowData?.score)}
+                                                    //             className="cursor-pointer pi pi-upload bg-[var(--mainColor)] text-white p-[8px] px-[12px] rounded-[10px] shadow-[0_6px_14px_-6px_rgba(8,169,230,0.7)] transition hover:opacity-90 hover:-translate-y-[1px]"
+                                                    //             title={translations.saveToMyedu}
+                                                    //         ></i>
+                                                    //     ) : (
+                                                    //         ''
+                                                    //     )}
+                                                    // </div>
+                                                    moduleScoreContent(rowData)
                                                 ) : (
                                                     <b className={'inline-flex items-center justify-center min-w-[40px] px-[8px] py-[4px] rounded-[8px] bg-[#fee2e2] text-[var(--redColor)] text-[0.8125rem]'}>{rowData?.score}</b>
                                                 )}
@@ -448,11 +566,13 @@ export default function StudentList() {
                                         <div className="flex items-center gap-2 text-white" key={rowData?.id}>
                                             {rowData?.last_movement && (
                                                 <Link
+                                                    className='text-white'
                                                     href={{
-                                                        pathname: `/students/${cource_id}/${connect_id}/${stream_id}/${rowData?.id}/optional/optional/optional`
+                                                        pathname: `/students/${cource_id}/${connect_id}/${stream_id}/${rowData?.id}/optional/optional/optional`,
+                                                        // query: {id_edu_year: id_edu_year}
                                                     }}
                                                 >
-                                                    <Button label={translations.dataLabel} icon="pi pi-chart-bar" size="small" outlined className="rounded-[10px]" />
+                                                    <Button label={translations.dataLabel} icon="pi pi-chart-bar" size="small" outlined className="rounded-[10px] text-white" />
                                                 </Link>
                                             )}
                                         </div>
