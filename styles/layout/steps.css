@@ -1,0 +1,11 @@
+.step-type-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+}   
+@media screen and (max-width: 640px) {
+    .step-type-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+}
